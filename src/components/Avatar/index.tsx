@@ -4,9 +4,7 @@ import * as React from 'react'
 import * as AvatarPrimitive from '@radix-ui/react-avatar'
 
 import { cn } from '@/utils/helper'
-import { UserDataType } from '@/api/auth/schema'
-import { BusinessProfileType } from '@/api/business/schema'
-import { EmployeeType } from '@/api/employee/schema'
+import { ProfileType } from '@/api/profile/schema'
 
 const Avatar = React.forwardRef<
     React.ElementRef<typeof AvatarPrimitive.Root>,
@@ -60,7 +58,7 @@ interface AvatarImageProps {
 }
 
 export const AvatarComponent: React.FC<{
-    user: UserDataType | BusinessProfileType | EmployeeType | null
+    user: ProfileType | null
     selectedImage?: SelectedImage[]
 }> = ({ user, selectedImage }) => {
     const getImageSource = (): string | undefined => {

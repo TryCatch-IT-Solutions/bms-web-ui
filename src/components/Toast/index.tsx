@@ -2,11 +2,11 @@ import * as React from 'react'
 import * as ToastPrimitives from '@radix-ui/react-toast'
 import { cva, type VariantProps } from 'class-variance-authority'
 import { X } from 'lucide-react'
-import Checkmark from '@/assets/private/checkmark.svg'
-import warning from '@/assets/private/warning_white.svg'
-import './index.css';
-import { cn } from '@/utils/helper'
+import Checkmark from '@/assets/common/checkmark.svg'
+import warning from '@/assets/common/warning_white.svg'
+import './index.css'
 import { useLocation } from 'react-router-dom'
+import { cn } from '@/utils/helper'
 
 const ToastProvider = ToastPrimitives.Provider
 
@@ -24,9 +24,10 @@ const ToastViewport = React.forwardRef<
     />
 ))
 ToastViewport.displayName = ToastPrimitives.Viewport.displayName
-const BaseCommon = 'flex items-center w-fit h-[44px] py-[12px] pl-[36px] pr-[80px] ml-auto-extra-margin -mb-[50px]';
-const BaseStyle = `${BaseCommon} border bg-background text-foreground`;
-const BaseDestructive = `${BaseCommon} destructive group border-destructive border-[0px] bg-destructive text-destructive-foreground pl-[35px]`;
+const BaseCommon =
+    'flex items-center w-fit h-[44px] py-[12px] pl-[36px] pr-[80px] ml-auto-extra-margin -mb-[50px]'
+const BaseStyle = `${BaseCommon} border bg-background text-foreground`
+const BaseDestructive = `${BaseCommon} destructive group border-destructive border-[0px] bg-destructive text-destructive-foreground pl-[35px]`
 
 const toastVariants = cva(
     'group pointer-events-auto relative flex w-full items-center justify-between space-x-4 overflow-hidden rounded-md border p-6 pr-8 shadow-lg transition-all data-[swipe=cancel]:translate-x-0 data-[swipe=end]:translate-x-[var(--radix-toast-swipe-end-x)] data-[swipe=move]:translate-x-[var(--radix-toast-swipe-move-x)] data-[swipe=move]:transition-none data-[state=open]:animate-in data-[state=closed]:animate-out data-[swipe=end]:animate-out data-[state=closed]:fade-out-80 data-[state=closed]:slide-out-to-right-full data-[state=open]:slide-in-from-top-full data-[state=open]:sm:slide-in-from-bottom-full',
@@ -34,9 +35,12 @@ const toastVariants = cva(
         variants: {
             variant: {
                 default: `${BaseStyle}`,
-                crew_interface: 'fixed bottom-20 left-1/2 transform -translate-x-1/2 w-full max-w-[1024px] z-20 px-1 text-xs bg-white text-zentive-green-dark py-1',
-                customer_interface: 'flex align-center w-screen px-4 z-20 text-xs bg-white text-zentive-green-dark py-1',
-                crew_interface_destructive: 'fixed bottom-20 left-1/2 transform -translate-x-1/2 w-full max-w-[1024px] z-20 px-1 text-xs bg-destructive text-white py-1',
+                crew_interface:
+                    'fixed bottom-20 left-1/2 transform -translate-x-1/2 w-full max-w-[1024px] z-20 px-1 text-xs bg-white text-zentive-green-dark py-1',
+                customer_interface:
+                    'flex align-center w-screen px-4 z-20 text-xs bg-white text-zentive-green-dark py-1',
+                crew_interface_destructive:
+                    'fixed bottom-20 left-1/2 transform -translate-x-1/2 w-full max-w-[1024px] z-20 px-1 text-xs bg-destructive text-white py-1',
                 destructive: `${BaseDestructive}`,
             },
         },
@@ -58,9 +62,23 @@ const Toast = React.forwardRef<
             {...props}
         >
             {variant === 'destructive' ? (
-                <img src={warning} alt="warning" className={cn("absolute h-[15px] w-[15px] -ml-[12px]", pathname.startsWith('/crew') && 'hidden')} />
+                <img
+                    src={warning}
+                    alt='warning'
+                    className={cn(
+                        'absolute h-[15px] w-[15px] -ml-[12px]',
+                        pathname.startsWith('/crew') && 'hidden',
+                    )}
+                />
             ) : (
-                <img src={Checkmark} alt="Checkmark" className={cn("absolute h-[17px] w-[17px] -ml-[15px]", pathname.startsWith('/crew') && 'hidden')} />
+                <img
+                    src={Checkmark}
+                    alt='Checkmark'
+                    className={cn(
+                        'absolute h-[17px] w-[17px] -ml-[15px]',
+                        pathname.startsWith('/crew') && 'hidden',
+                    )}
+                />
             )}
             {props.children}
         </ToastPrimitives.Root>

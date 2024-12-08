@@ -1,9 +1,7 @@
 import * as React from 'react'
 import { Label } from '../Label'
+import { useFormField } from '../Form'
 import { cn } from '@/utils/helper'
-import { useFormField } from '../Forms'
-import InputMask from 'react-input-mask'
-import { useMemo } from 'react'
 
 export type CustomInputTypes = 'full-date' | 'card' | 'dates' | 'otp'
 
@@ -17,24 +15,6 @@ export type InputProps = React.InputHTMLAttributes<HTMLInputElement> & {
 const Input = React.forwardRef<HTMLInputElement, InputProps>(
     ({ className, placeholder, type, value, isCurrency = false, ...props }, ref) => {
         const { invalid } = useFormField()
-
-        const toMask = ['card', 'tel', 'dates', 'otp', 'full-date']
-        const mask = useMemo(() => {
-            switch (type) {
-                case 'date':
-                    return '99/99/9999'
-                case 'card':
-                    return '9999 9999 9999 9999'
-                case 'tel':
-                    return props.maxLength === 11 ? '999-999-9999' : ''
-                case 'dates':
-                    return '99-99'
-                case 'otp':
-                    return '9  9  9  9  9  9'
-                default:
-                    return '999999999'
-            }
-        }, [])
 
         const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
             if (type === 'number' && props.isNumberRestricted) {
@@ -51,51 +31,30 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
 
         return (
             <div className='relative'>
-                {toMask.includes(type) ? (
-                    <InputMask
-                        mask={mask}
+                <>
+                    {isCurrency && !!value && (
+                        <p className='absolute transform -translate-y-1/2 top-[47%] pl-3'>$</p>
+                    )}
+
+                    <input
                         type={type}
                         className={cn(
-                            type === 'date'
-                                ? 'text-center'
-                                : 'peer flex h-[45px] w-full rounded-sm border border-zentive-gray-medium placeholder:text-transparent bg-transparent px-3 text-sm shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium focus-visible:outline-none disabled:cursor-not-allowed disabled:bg-[#ebebeb] disabled:text-zentive-gray-medium',
+                            'peer flex h-[45px] w-full text-base rounded-sm border border-zentive-gray-medium placeholder:text-transparent bg-transparent px-3 shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium focus-visible:outline-none disabled:cursor-not-allowed disabled:bg-[#ebebeb] disabled:text-zentive-gray-medium',
                             invalid
-                                ? 'border border-destructive'
+                                ? 'border-zentive-red-dark'
                                 : 'focus:border focus:border-zentive-green-dark',
+                            type === 'date' && !value && 'text-transparent focus:text-inherit',
                             className,
+                            isCurrency ? 'pl-5' : '',
                         )}
                         placeholder={placeholder}
                         onKeyDown={handleKeyDown}
+                        ref={ref}
                         value={value || ''}
                         {...props}
                         {...(props.maxLength && { maxLength: undefined })}
                     />
-                ) : (
-                    <>
-                        {isCurrency && !!value && (
-                            <p className='absolute transform -translate-y-1/2 top-[47%] pl-3'>$</p>
-                        )}
-
-                        <input
-                            type={type}
-                            className={cn(
-                                'peer flex h-[45px] w-full text-base rounded-sm border border-zentive-gray-medium placeholder:text-transparent bg-transparent px-3 shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium focus-visible:outline-none disabled:cursor-not-allowed disabled:bg-[#ebebeb] disabled:text-zentive-gray-medium',
-                                invalid
-                                    ? 'border-zentive-red-dark'
-                                    : 'focus:border focus:border-zentive-green-dark',
-                                type === 'date' && !value && 'text-transparent focus:text-inherit',
-                                className,
-                                isCurrency ? 'pl-5' : '',
-                            )}
-                            placeholder={placeholder}
-                            onKeyDown={handleKeyDown}
-                            ref={ref}
-                            value={value || ''}
-                            {...props}
-                            {...(props.maxLength && { maxLength: undefined })}
-                        />
-                    </>
-                )}
+                </>
 
                 <Label
                     className={cn(
@@ -105,7 +64,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
                         !value && 'peer-focus:split-color bg-white',
                         //
                         invalid
-                            ? 'text-destructive split-color bg-red-200'
+                            ? 'text-destructive split-color'
                             : 'peer-focus:text-zentive-green-dark',
                         props.disabled && 'split-color-disabled',
                     )}

@@ -1,0 +1,75 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="60"
+  height="62" viewBox="0 0 60 62">
+  <defs>
+    <linearGradient id="linear-gradient" x1="0.5" x2="0.5" y2="1" gradientUnits="objectBoundingBox">
+      <stop offset="0" stop-color="#254284" />
+      <stop offset="0.5" stop-color="#6796ff" />
+      <stop offset="1" stop-color="#439fdc" />
+    </linearGradient>
+    <linearGradient id="linear-gradient-2" x1="0.5" y1="-0.041" x2="0.5" y2="0.958"
+      gradientUnits="objectBoundingBox">
+      <stop offset="0" stop-color="#f6ffef" />
+      <stop offset="0.3" stop-color="#ebebeb" />
+      <stop offset="0.41" stop-color="#f5f5f5" />
+      <stop offset="0.54" stop-color="#ebebeb" />
+      <stop offset="0.67" stop-color="#f6ffef" />
+      <stop offset="0.8" stop-color="#ebebeb" />
+      <stop offset="1" stop-color="#becbcc" />
+    </linearGradient>
+    <linearGradient id="linear-gradient-3" x1="0.178" y1="-0.93" x2="1.26" y2="-0.002"
+      gradientUnits="objectBoundingBox">
+      <stop offset="0" stop-color="#254284" />
+      <stop offset="0.2" stop-color="#5887f1" />
+      <stop offset="0.8" stop-color="#439fdc" />
+      <stop offset="1" stop-color="#4ca2dd" />
+    </linearGradient>
+    <linearGradient id="linear-gradient-4" x1="1.111" y1="-0.93" x2="2.192" y2="-0.002"
+      gradientUnits="objectBoundingBox">
+      <stop offset="0" stop-color="#254284" />
+      <stop offset="0.2" stop-color="#5887f1" />
+      <stop offset="0.8" stop-color="#439fdc" />
+      <stop offset="1" stop-color="#439fdc" />
+    </linearGradient>
+    <linearGradient id="linear-gradient-5" x1="0.5" y1="-1.275" x2="0.5" y2="-0.275"
+      gradientUnits="objectBoundingBox">
+      <stop offset="0" stop-color="#83265a" />
+      <stop offset="0.037" stop-color="#254284" />
+      <stop offset="1" stop-color="#254284" />
+    </linearGradient>
+    <linearGradient id="linear-gradient-6" x1="0.146" y1="1.797" x2="0.854" y2="1.09"
+      gradientUnits="objectBoundingBox">
+      <stop offset="0" stop-color="#42c0ff" />
+      <stop offset="0.32" stop-color="#30adf1" />
+      <stop offset="0.98" stop-color="#017dd0" />
+      <stop offset="1" stop-color="#007ccf" />
+    </linearGradient>
+  </defs>
+  <g id="Group_53" data-name="Group 53" transform="translate(-652.435 -250.077)">
+    <g id="Group_52" data-name="Group 52">
+      <g id="Group_51" data-name="Group 51">
+        <path id="Path_320" data-name="Path 320"
+          d="M69.513,26.215V53.751a6.316,6.316,0,0,1-6.422,6.2H16.022a6.316,6.316,0,0,1-6.422-6.2V26.215L35.022,1.76a6.569,6.569,0,0,1,9.057,0L67.234,24.024Z"
+          transform="translate(642.836 250.127)" fill="url(#linear-gradient)" />
+        <path id="Path_321" data-name="Path 321"
+          d="M57.3,58.9h36.95a6.263,6.263,0,0,1,6.4,6.114v35.31a6.263,6.263,0,0,1-6.4,6.114H57.3a6.263,6.263,0,0,1-6.4-6.114V65A6.254,6.254,0,0,1,57.3,58.9Z"
+          transform="translate(606.73 200.469)" fill="url(#linear-gradient-2)" />
+        <path id="Path_322" data-name="Path 322"
+          d="M286.564,224.1v29.068a6.546,6.546,0,0,1-6.543,6.543H256.037L256,254.664Z"
+          transform="translate(425.871 52.366)" fill="url(#linear-gradient-3)" />
+        <path id="Path_323" data-name="Path 323"
+          d="M8.9,224.1v29.068a6.546,6.546,0,0,0,6.543,6.543H39.427l.037-5.047Z"
+          transform="translate(643.535 52.366)" fill="url(#linear-gradient-4)" />
+        <path id="Path_324" data-name="Path 324"
+          d="M81.016,312.857a6.4,6.4,0,0,1-3.868,1.9l-47.919.025a6.39,6.39,0,0,1-4.329-1.93l23.523-24a6.336,6.336,0,0,1,9.07,0Z"
+          transform="translate(629.515 -2.709)" fill="url(#linear-gradient-5)" />
+        <g id="Badge" transform="translate(671.538 261.729)">
+          <circle id="Ellipse_41" data-name="Ellipse 41" cx="10.897" cy="10.897" r="10.897"
+            transform="translate(0 0)" fill="url(#linear-gradient-6)" />
+          <path id="Path_325" data-name="Path 325"
+            d="M210.645,136.877H198.288a1.088,1.088,0,1,1,0-2.177h12.357a1.088,1.088,0,1,1,0,2.177Zm1.089,2.536a1.09,1.09,0,0,0-1.089-1.088H198.288a1.088,1.088,0,1,0,0,2.177h12.357A1.075,1.075,0,0,0,211.734,139.413Zm-5.813,3.637a1.09,1.09,0,0,0-1.089-1.088h-6.543a1.088,1.088,0,1,0,0,2.177h6.543A1.082,1.082,0,0,0,205.92,143.049Z"
+            transform="translate(-193.576 -128.528)" fill="#fff" />
+        </g>
+      </g>
+    </g>
+  </g>
+</svg>

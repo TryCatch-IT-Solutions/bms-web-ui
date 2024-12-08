@@ -1,261 +1,73 @@
-@import url("https://fonts.cdnfonts.com/css/source-sans-pro");
+@import url('https://fonts.cdnfonts.com/css/source-sans-pro');
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 @layer base {
-  :root {
-    --base-font-size: 1rem;
+    :root {
+        --base-font-size: 1rem;
 
-    --background: 0 0% 100%;
-    --foreground: 240 10% 3.9%;
+        --background: 0 0% 100%;
+        --foreground: 240 10% 3.9%;
 
-    --muted: 240 4.8% 95.9%;
-    --muted-foreground: 240 3.8% 46.1%;
+        --muted: 240 4.8% 95.9%;
+        --muted-foreground: 240 3.8% 46.1%;
 
-    --popover: 0 0% 100%;
-    --popover-foreground: 240 10% 3.9%;
+        --popover: 0 0% 100%;
+        --popover-foreground: 240 10% 3.9%;
 
-    --card: 0 0% 100%;
-    --card-foreground: 240 10% 3.9%;
+        --card: 0 0% 100%;
+        --card-foreground: 240 10% 3.9%;
 
-    --border: 240 5.9% 90%;
-    --input: 240 5.9% 90%;
+        --border: 240 5.9% 90%;
+        --input: 240 5.9% 90%;
 
-    --primary: 240 5.9% 10%;
-    --primary-foreground: 0 0% 98%;
+        --primary: 240 5.9% 10%;
+        --primary-foreground: 0 0% 98%;
 
-    --secondary: 0% 0% 0%;
-    --secondary-foreground: 0% 0% 100%;
+        --secondary: 0% 0% 0%;
+        --secondary-foreground: 0% 0% 100%;
 
-    --accent: 240 4.8% 95.9%;
-    --accent-foreground: 240 5.9% 10%;
+        --accent: 240 4.8% 95.9%;
+        --accent-foreground: 240 5.9% 10%;
 
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 0 0% 98%;
+        --destructive: 0 84.2% 60.2%;
+        --destructive-foreground: 0 0% 98%;
 
-    --ring: 240 5% 64.9%;
+        --ring: 240 5% 64.9%;
 
-    --radius: 0.5rem;
-  }
+        --radius: 0.5rem;
+    }
 
-  .dark {
-    --background: 240 10% 3.9%;
-    --foreground: 0 0% 98%;
+    .dark {
+        --background: 240 10% 3.9%;
+        --foreground: 0 0% 98%;
 
-    --muted: 240 3.7% 15.9%;
-    --muted-foreground: 240 5% 64.9%;
+        --muted: 240 3.7% 15.9%;
+        --muted-foreground: 240 5% 64.9%;
 
-    --popover: 240 10% 3.9%;
-    --popover-foreground: 0 0% 98%;
+        --popover: 240 10% 3.9%;
+        --popover-foreground: 0 0% 98%;
 
-    --card: 240 10% 3.9%;
-    --card-foreground: 0 0% 98%;
+        --card: 240 10% 3.9%;
+        --card-foreground: 0 0% 98%;
 
-    --border: 240 3.7% 15.9%;
-    --input: 240 3.7% 15.9%;
+        --border: 240 3.7% 15.9%;
+        --input: 240 3.7% 15.9%;
 
-    --primary: 0 0% 98%;
-    --primary-foreground: 240 5.9% 10%;
+        --primary: 0 0% 98%;
+        --primary-foreground: 240 5.9% 10%;
 
-    --secondary: 240 3.7% 15.9%;
-    --secondary-foreground: 0 0% 98%;
+        --secondary: 240 3.7% 15.9%;
+        --secondary-foreground: 0 0% 98%;
 
-    --accent: 240 3.7% 15.9%;
-    --accent-foreground: 0 0% 98%;
+        --accent: 240 3.7% 15.9%;
+        --accent-foreground: 0 0% 98%;
 
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 0 85.7% 97.3%;
+        --destructive: 0 62.8% 30.6%;
+        --destructive-foreground: 0 85.7% 97.3%;
 
-    --ring: 240 3.7% 15.9%;
-  }
+        --ring: 240 3.7% 15.9%;
+    }
 }
-
-@layer base {
-  html {
-    @apply antialiased;
-  }
-  html,
-  body {
-    @apply h-screen font-sans-pro;
-  }
-  input[type="number"]::-webkit-inner-spin-button,
-  input[type="number"]::-webkit-outer-spin-button {
-    -webkit-appearance: none;
-    margin: 0;
-  }
-}
-
-@layer utilities {
-  .transform-label {
-    @apply -translate-y-[2.15rem] text-sm px-1;
-  }
-}
-
-.header-lg {
-  @apply text-[24px] font-bold leading-[24px];
-}
-
-.header-md {
-  @apply text-[20px] font-bold leading-[24px];
-}
-
-.header-sm {
-  @apply text-[18px] font-bold leading-[21px];
-}
-
-.header-xs {
-  @apply text-[16px] font-bold leading-[20px];
-}
-
-.header-xxs {
-  @apply text-[15px] font-bold leading-[20px];
-}
-
-.carousel .slide {
-  @apply pr-4;
-}
-
-.border-input {
-  @apply border-[#D6D6D6];
-}
-
-/* Targeting WebKit browsers */
-input:-webkit-autofill,
-input:-webkit-autofill:hover,
-input:-webkit-autofill:focus,
-input:-webkit-autofill:active {
-  -webkit-box-shadow: 0 0 0 30px white inset !important;
-  -webkit-text-fill-color: black !important;
-}
-
-/* For the transition of the color */
-/* input:-webkit-autofill {
-    transition: background-color 5000s ease-in-out 0s;
-} */
-
-.input-date:in-range::-webkit-datetime-edit-year-field,
-.input-date:in-range::-webkit-datetime-edit-month-field,
-.input-date:in-range::-webkit-datetime-edit-day-field,
-.input-date:in-range::-webkit-datetime-edit-text {
-  @apply invisible;
-}
-.input-date::-webkit-calendar-picker-indicator {
-  @apply invisible;
-}
-
-input:-webkit-autofill ~ .floating-label {
-  @apply transform-label;
-}
-
-a[href^="https://maps.google.com/maps"],
-.gm-style-cc {
-  display: none !important;
-}
-
-/* react paginate */
-
-/* Pagination Styles */
-ul.react-paginate {
-  @apply flex justify-end list-none pb-5 w-full;
-}
-
-ul.react-paginate li {
-  @apply mx-1;
-}
-
-ul.react-paginate li a {
-  @apply rounded px-2 py-1 border border-gray-300 cursor-pointer bg-white;
-}
-
-ul.react-paginate li.previous a,
-ul.react-paginate li.next a,
-ul.react-paginate li.break a {
-  @apply bg-zentive-green-dark;
-}
-
-ul.react-paginate li.selected a {
-  @apply bg-zentive-green-dark text-white min-w-[32px];
-}
-
-ul.react-paginate li.disabled a {
-  @apply text-gray-500;
-}
-
-ul.react-paginate li.disable,
-ul.react-paginate li.disabled a {
-  @apply cursor-default;
-}
-
-.no-scrollbar::-webkit-scrollbar {
-  display: none;
-}
-
-.no-scrollbar {
-  scrollbar-width: none;
-  -ms-overflow-style: none;
-}
-
-/* react paginate */
-
-.split-color {
-  background: linear-gradient(
-    to bottom,
-    transparent 0%,
-    transparent 55%,
-    white 55%,
-    white 100%
-  );
-}
-
-.split-color-disabled {
-  background: linear-gradient(
-    to bottom,
-    transparent 0%,
-    transparent 55%,
-    #ebebeb 55%,
-    #ebebeb 100%
-  );
-}
-
-/* table green scrollbar */
-.green-scrollbar::-webkit-scrollbar {
-  width: 10px;
-  height: 6px;
-}
-
-.green-scrollbar::-webkit-scrollbar-thumb {
-  background: #3b671a;
-  border-radius: 4px;
-  cursor: pointer;
-}
-
-/* table gray scrollbar */
-.gray-scrollbar::-webkit-scrollbar {
-  width: 6px;
-  height: 2px;
-}
-
-.gray-scrollbar::-webkit-scrollbar-thumb {
-  background: #707070;
-  border-radius: 6px;
-}
-
-/* table white scrollbar */
-.white-scrollbar::-webkit-scrollbar {
-  width: 5px;
-}
-.white-scrollbar::-webkit-scrollbar-thumb {
-  background: #ffffff;
-  border-radius: 4px;
-}
-
-.button-outline {
-  @apply inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 border border-zentive-green-dark text-zentive-green-dark bg-background shadow-sm hover:bg-accent hover:text-accent-foreground h-11 px-4 py-2;
-}
-
-.button-default {
-  @apply inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-zentive-green-dark text-primary-foreground shadow rounded-md font-semibold text-base hover:bg-zentive-green-dark/90 h-11 px-4 py-2;
-}
-

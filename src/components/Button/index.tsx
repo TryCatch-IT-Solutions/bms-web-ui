@@ -1,7 +1,6 @@
 import * as React from 'react'
 import { Slot } from '@radix-ui/react-slot'
 import { cva, type VariantProps } from 'class-variance-authority'
-
 import { cn } from '@/utils/helper'
 
 const buttonVariants = cva(
@@ -10,17 +9,17 @@ const buttonVariants = cva(
         variants: {
             variant: {
                 default:
-                    'bg-zentive-green-dark text-primary-foreground shadow rounded-md font-semibold text-base hover:bg-zentive-green-dark/90 ',
+                    'bg-bms-primary text-primary-foreground shadow rounded-md font-semibold text-base hover:bg-bms-primary/90 ',
                 destructive:
-                    'bg-zentive-red-dark text-destructive-foreground shadow-sm hover:bg-zentive-red-dark/90',
+                    'bg-bms-primary text-destructive-foreground shadow-sm hover:bg-bms-primary/90',
                 outline:
-                    'border border-zentive-green-dark text-zentive-green-dark bg-background shadow-sm font-semibold text-base hover:bg-accent hover:text-accent-foreground',
+                    'border border-bms-primary text-bms-primary bg-background shadow-sm font-semibold text-base hover:bg-accent hover:text-accent-foreground',
                 outlineTwo:
                     'border border-zentive-blue-dark text-zentive-blue-dark bg-background shadow-sm hover:bg-zentive-blue-dark hover:text-white',
                 secondary:
-                    'bg-white text-zentive-green-dark shadow-sm hover:bg-zentive-green-dark hover:text-white font-semibold border border-zentive-green-dark border-3',
+                    'bg-white text-bms-primary shadow-sm hover:bg-bms-primary hover:text-white font-semibold border border-bms-primary border-3',
                 ghost: 'hover:bg-accent hover:text-accent-foreground',
-                link: 'text-zentive-green-dark underline-offset-4 hover:underline',
+                link: 'text-bms-primary underline-offset-4 hover:underline',
             },
             size: {
                 default: 'h-11 px-4 py-2',

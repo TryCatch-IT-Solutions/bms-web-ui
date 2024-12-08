@@ -1,6 +1,5 @@
-import * as React from 'react'
-
 import { cn } from '@/utils/helper'
+import * as React from 'react'
 
 const Card = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElement>>(
     ({ className, ...props }, ref) => (
@@ -56,7 +55,11 @@ CardContent.displayName = 'CardContent'
 
 const CardFooter = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElement>>(
     ({ className, ...props }, ref) => (
-        <div ref={ref} className={cn('flex items-center p-6 pt-0', className)} {...props} />
+        <div
+            ref={ref}
+            className={cn('flex items-center p-5 bg-bms-gray-100', className)}
+            {...props}
+        />
     ),
 )
 CardFooter.displayName = 'CardFooter'

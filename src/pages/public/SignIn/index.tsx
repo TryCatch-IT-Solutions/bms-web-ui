@@ -1,26 +1,14 @@
-import { useLocation } from 'react-router-dom'
-import { cn } from '@/utils/helper'
-import SignInForm from './SiginInForm'
+import { Card } from '@/components/Card'
+import { SignInForm } from './SignInForm'
 
-
-const SignIn = () => {
-    const { pathname } = useLocation()
-
+export const SignIn: React.FC = () => {
     return (
-        <div
-            className={cn(
-                'flex justify-center items-center z-0',
-                pathname === '/sign-in' ? 'sign-in-bg' : 'crew-sign-in-bg',
-            )}
-        >
-           
+        <div className='flex justify-center items-center h-[50vw]'>
             <div className='sign-in-overlay w-140 h-160'>
-                <SignInForm />
+                <Card className='p-10'>
+                    <SignInForm />
+                </Card>
             </div>
-            
-
         </div>
     )
 }
-
-export default SignIn
