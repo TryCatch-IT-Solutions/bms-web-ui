@@ -1,0 +1,4 @@
+.ml-auto-extra-margin {
+    margin-left: auto;
+    transform: translateX(-27px); /* Adjust for added space */
+  }
