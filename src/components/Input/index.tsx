@@ -39,10 +39,10 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
                     <input
                         type={type}
                         className={cn(
-                            'peer flex h-[45px] w-full text-base rounded-sm border border-zentive-gray-medium placeholder:text-transparent bg-transparent px-3 shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium focus-visible:outline-none disabled:cursor-not-allowed disabled:bg-[#ebebeb] disabled:text-zentive-gray-medium',
+                            'peer flex h-[45px] w-full text-base rounded-sm border border-bms-gray-medium placeholder:text-transparent bg-transparent px-3 shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium focus-visible:outline-none disabled:cursor-not-allowed disabled:bg-[#ebebeb] disabled:text-bms-gray-medium',
                             invalid
-                                ? 'border-zentive-red-dark'
-                                : 'focus:border focus:border-zentive-green-dark',
+                                ? 'border-bms-primary'
+                                : 'focus:border focus:border-bms-gray-500',
                             type === 'date' && !value && 'text-transparent focus:text-inherit',
                             className,
                             isCurrency ? 'pl-5' : '',
@@ -58,14 +58,12 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
 
                 <Label
                     className={cn(
-                        'floating-label absolute left-3 top-1/2 -translate-y-1/2 text-base text-zentive-gray-medium duration-100 ease-linear peer-focus:-translate-y-[2.15rem] peer-focus:text-sm peer-focus:px-1 pointer-events-none',
+                        'floating-label absolute left-3 top-1/2 -translate-y-1/2 text-base text-bms-gray-medium duration-100 ease-linear peer-focus:-translate-y-[2.15rem] peer-focus:text-sm peer-focus:px-1 pointer-events-none',
                         // with value
                         value && 'split-color text-sm -translate-y-[2.15rem] px-1',
                         !value && 'peer-focus:split-color bg-white',
                         //
-                        invalid
-                            ? 'text-destructive split-color'
-                            : 'peer-focus:text-zentive-green-dark',
+                        invalid ? 'text-destructive split-color' : 'peer-focus:text-bms-gray-500',
                         props.disabled && 'split-color-disabled',
                     )}
                 >
