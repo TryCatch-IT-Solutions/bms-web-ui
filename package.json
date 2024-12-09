@@ -5,7 +5,7 @@
     "type": "module",
     "scripts": {
         "dev": "vite --host --port 4000",
-        "build": "tsc && NODE_OPTIONS='--max-old-space-size=8192' vite build",
+        "build": "cross-env NODE_OPTIONS=--max-old-space-size=8192 tsc && vite build",
         "preview": "vite preview",
         "lint": "eslint src/**/*.{js,jsx,ts,tsx,json}",
         "lint:fix": "eslint --fix src/**/*.{js,jsx,ts,tsx,json}",
@@ -121,6 +121,7 @@
         "@typescript-eslint/parser": "^6.14.0",
         "@vitejs/plugin-react-swc": "^3.5.0",
         "autoprefixer": "^10.4.16",
+        "cross-env": "^7.0.3",
         "eslint": "^8.55.0",
         "eslint-plugin-react-hooks": "^4.6.0",
         "eslint-plugin-react-refresh": "^0.4.5",
