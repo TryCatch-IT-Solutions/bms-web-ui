@@ -10,12 +10,7 @@ const PrivateRoutes: RouteObject = {
     children: [
         {
             path: '/dashboard',
-            children: [
-                {
-                    element: <></>,
-                    index: true,
-                },
-            ],
+            element: <></>,
         },
     ],
 }
