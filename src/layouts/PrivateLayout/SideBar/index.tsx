@@ -44,7 +44,7 @@ export const navigationItems: NavigationProps[] = [
             },
             {
                 name: 'Register',
-                href: '#',
+                href: '/user/register',
                 allowedRoles: [ROLE.USER],
             },
         ],

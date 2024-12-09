@@ -27,4 +27,19 @@ export const USER_STATUS = {
     INACTIVE: 'INA',
 } as const
 
+export const ROLE_VALUES = Object.values(ROLE).map((role) => ({
+    value: role,
+    label: role.charAt(0) + role.slice(1).toLowerCase(), // Capitalize first letter for display
+}))
+
+export const GENDER_OPTIONS = [
+    { value: 'male', label: 'Male' },
+    { value: 'female', label: 'Female' },
+]
+
+export const TEMP_GROUP = [
+    { value: 1, label: 'Group 1' },
+    { value: 2, label: 'Group 2' },
+]
+
 export const LAPTOP_MAX_WIDTH = 1425

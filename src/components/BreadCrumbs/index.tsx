@@ -9,7 +9,7 @@ interface BreadCrumbsProps {
 export const BreadCrumbs: React.FC<BreadCrumbsProps> = ({ origin, title, id }) => {
     return (
         <div className='py-10'>
-            <p className='font-semibold text-3xl text-gray-600'>{title}</p>
+            <p className='font-semibold text-2xl text-gray-600'>{title}</p>
             <p className='flex flex-row items-center text-base text-gray-500'>
                 {origin}
                 <span>

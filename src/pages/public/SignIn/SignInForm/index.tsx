@@ -1,5 +1,5 @@
 import { FC } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { signInSchema, SignInType } from '@/api/auth/schema'
 import { Form, FormControl, FormField, FormItem, FormMessage, FormTitle } from '@/components/Form'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -13,6 +13,8 @@ export const SignInForm: FC = () => {
         mode: 'onSubmit',
         resolver: zodResolver(signInSchema),
     })
+
+    const navigate = useNavigate()
 
     const {
         formState: { errors },
@@ -79,7 +81,11 @@ export const SignInForm: FC = () => {
                         </FormItem>
                     )}
                 />
-                <Button className='w-100 mt-3 hover:bg-zentive-green-medium' type='submit'>
+                <Button
+                    className='w-100 mt-3 hover:bg-zentive-green-medium'
+                    type='submit'
+                    onClick={() => navigate('/dashboard')}
+                >
                     Sign In
                 </Button>
                 <div className='flex items-center justify-centerw-100 mt-[24px]'>

@@ -1,4 +1,6 @@
 import PrivateLayout from '@/layouts/PrivateLayout'
+import { CreateUser } from '@/pages/private/Users/CreateUser'
+import { EditUser } from '@/pages/private/Users/EditUser'
 import { UserList } from '@/pages/private/Users/UserList'
 import { RouteObject } from 'react-router-dom'
 
@@ -19,6 +21,14 @@ const PrivateRoutes: RouteObject = {
                 {
                     path: 'list',
                     element: <UserList />,
+                },
+                {
+                    path: 'register',
+                    element: <CreateUser />,
+                },
+                {
+                    path: 'edit',
+                    element: <EditUser />,
                 },
             ],
         },
