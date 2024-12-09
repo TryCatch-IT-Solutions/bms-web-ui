@@ -1,4 +1,3 @@
-import daiLogo from '@/assets/dai-logo.png'
 import { atom } from 'jotai'
 import { useState } from 'react'
 import { HiOutlineUsers } from 'react-icons/hi'
@@ -7,7 +6,6 @@ import { HiOutlineClock } from 'react-icons/hi2'
 import { HiDevicePhoneMobile } from 'react-icons/hi2'
 import { HiUserGroup } from 'react-icons/hi2'
 import { useMediaQuery } from 'react-responsive'
-import { useNavigate } from 'react-router-dom'
 import { MenuChildren } from './MenuChild/index'
 import { IconType } from 'react-icons/lib/cjs/iconBase'
 import { ROLE } from '@/constants'
@@ -34,14 +32,14 @@ export const navigationItems: NavigationProps[] = [
         allowedRoles: [ROLE.ADMIN, ROLE.USER],
     },
     {
-        name: 'User Management',
+        name: 'Users',
         icon: HiOutlineUsers,
         href: '#',
         allowedRoles: [ROLE.ADMIN, ROLE.USER],
         children: [
             {
                 name: 'Users',
-                href: '#',
+                href: '/user/list',
                 allowedRoles: [ROLE.USER],
             },
             {
@@ -52,7 +50,7 @@ export const navigationItems: NavigationProps[] = [
         ],
     },
     {
-        name: 'Group Management',
+        name: 'Groups',
         icon: HiUserGroup,
         href: '#',
         allowedRoles: [ROLE.ADMIN, ROLE.USER],
@@ -62,10 +60,15 @@ export const navigationItems: NavigationProps[] = [
                 href: '#',
                 allowedRoles: [ROLE.USER],
             },
+            {
+                name: 'Create Group',
+                href: '#',
+                allowedRoles: [ROLE.USER],
+            },
         ],
     },
     {
-        name: 'Device Management',
+        name: 'Device',
         icon: HiDevicePhoneMobile,
         href: '#',
         allowedRoles: [ROLE.ADMIN, ROLE.USER],
@@ -75,14 +78,47 @@ export const navigationItems: NavigationProps[] = [
                 href: '#',
                 allowedRoles: [ROLE.USER],
             },
+            {
+                name: 'Add Device',
+                href: '#',
+                allowedRoles: [ROLE.USER],
+            },
         ],
     },
     {
-        name: 'Time Entries',
+        name: 'Employees',
         icon: HiOutlineClock,
         href: '#',
         allowedRoles: [ROLE.ADMIN, ROLE.USER],
         children: [
+            {
+                name: 'Employee List',
+                href: '#',
+                allowedRoles: [ROLE.USER],
+            },
+            {
+                name: 'Time Entries',
+                href: '#',
+                allowedRoles: [ROLE.USER],
+            },
+        ],
+    },
+    {
+        name: 'Logs',
+        icon: HiOutlineClock,
+        href: '#',
+        allowedRoles: [ROLE.ADMIN, ROLE.USER],
+        children: [
+            {
+                name: 'Employee List',
+                href: '#',
+                allowedRoles: [ROLE.USER],
+            },
+            {
+                name: 'Create Employee',
+                href: '#',
+                allowedRoles: [ROLE.USER],
+            },
             {
                 name: 'Time Entries',
                 href: '#',
@@ -96,49 +132,28 @@ export const navAtom = atom<boolean>(false)
 
 export const Sidebar = () => {
     const [currentTab, setCurrentTab] = useState(0)
-    const navigate = useNavigate()
 
     const xl_vw_already = useMediaQuery({ maxWidth: 1425 })
 
     return (
         <>
             {!xl_vw_already && (
-                <div className='hidden lg:flex lg:flex-col lg:fixed lg:inset-y-0 lg:shadow-lg lg:w-72 lg:shadow-gray-300'>
-                    <div
-                        className={
-                            'flex grow flex-col gap-y-5 overflow-y-auto pb-4 border-gray-200 bg-white'
-                        }
+                <div className='lg:flex lg:flex-col lg:fixed lg:inset-y-0 lg:shadow-lg lg:w-72 lg:shadow-gray-300'>
+                    <nav
+                        className='w-72 flex-auto space-y-2 bg-white overflow-auto no-scrollbar mt-20'
+                        aria-label='Sidebar'
                     >
-                        <div className='flex item-center justify-center mt-3'>
-                            <button
-                                onClick={() => {
-                                    navigate('/dashboard')
-                                    setCurrentTab(0)
-                                }}
-                            >
-                                <img
-                                    src={daiLogo}
-                                    alt='Zentive Logo'
-                                    className='h-[44px] w-[125px] cursor-pointer'
+                        {navigationItems?.map((item, index) => (
+                            <div key={`${item?.name}-${index}`}>
+                                <MenuChildren
+                                    index={index}
+                                    isOpen={index === currentTab}
+                                    item={item}
+                                    setCurrentTab={setCurrentTab}
                                 />
-                            </button>
-                        </div>
-                        <nav
-                            className='w-72 flex-auto space-y-2 bg-white overflow-auto no-scrollbar'
-                            aria-label='Sidebar'
-                        >
-                            {navigationItems?.map((item, index) => (
-                                <div key={`${item?.name}-${index}`}>
-                                    <MenuChildren
-                                        index={index}
-                                        isOpen={index === currentTab}
-                                        item={item}
-                                        setCurrentTab={setCurrentTab}
-                                    />
-                                </div>
-                            ))}
-                        </nav>
-                    </div>
+                            </div>
+                        ))}
+                    </nav>
                 </div>
             )}
         </>

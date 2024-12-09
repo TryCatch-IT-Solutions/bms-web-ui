@@ -17,4 +17,14 @@ export const SELECT_VALID_STREET_ADDRESS =
 export const ROLE = {
     ADMIN: 'ADMIN' as string,
     USER: 'USER' as string,
+    GROUP_ADMIN: 'GROUP_ADMIN' as string,
 } as const
+
+export const USER_STATUS = {
+    DELETED: 'DEL',
+    TERMINATED: 'TER',
+    ACTIVATED: 'ACT',
+    INACTIVE: 'INA',
+} as const
+
+export const LAPTOP_MAX_WIDTH = 1425

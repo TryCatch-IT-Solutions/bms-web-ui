@@ -49,6 +49,8 @@ module.exports = {
                         700: '#374151',
                         800: '#1f2937',
                         900: '#111827',
+                        medium: '#707070',
+                        dark: '#646464',
                     },
                     link: '#dc2626',
                     primary: '#e80006', // Custom primary red
