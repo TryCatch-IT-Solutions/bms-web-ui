@@ -74,7 +74,7 @@ const Items = ({ index, item, open, setCurrentTab }: ItemProps) => {
 
     const navItemTextStyle =
         ((path(item, pathname) && !open) || (open && path(item, pathname)) || isSamePathname) &&
-        'text-white'
+        'text-bms-link'
 
     return (
         <Disclosure.Button
