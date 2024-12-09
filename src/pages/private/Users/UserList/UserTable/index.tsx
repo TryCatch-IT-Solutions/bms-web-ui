@@ -1,4 +1,3 @@
-import { Card, CardContent } from '@/components/Card'
 import { Checkbox } from '@/components/Checkbox'
 import { TableHeader, TableRow, TableHead, TableBody, TableCell, Table } from '@/components/Table'
 import { cn } from '@/utils/helper'
