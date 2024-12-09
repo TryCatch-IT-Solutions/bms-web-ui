@@ -69,7 +69,7 @@ const Items = ({ index, item, open, setCurrentTab }: ItemProps) => {
     // if navigation item has children AND close AND path(item, pathname)
     const navItemHoverStyle =
         isSamePathname || path(item, pathname)
-            ? 'group-hover:text-white whitespace-nowrap'
+            ? 'group-hover:text-bms-link whitespace-nowrap'
             : 'group-hover:text-zentive-green-dark whitespace-nowrap'
 
     const navItemTextStyle =
