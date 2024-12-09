@@ -5,8 +5,12 @@ import { BreadCrumbs } from '@/components/BreadCrumbs'
 import SearchBar from '@/components/SearchBar'
 import { Button } from '@/components/Button'
 import { Trash2Icon } from 'lucide-react'
+import { useState } from 'react'
+import DeleteUserModal from './DeleteUserModal'
 
 export const UserList: React.FC = () => {
+    const [open, setOpen] = useState<boolean>(false)
+
     const onSearchChange = (val: string) => {
         console.log(val)
     }
@@ -17,7 +21,11 @@ export const UserList: React.FC = () => {
             <div className='mb-5 flex flex-row justify-between'>
                 <SearchBar placeHolder='Search User' onSearchChange={() => onSearchChange} />
                 <div className='flex flex-row gap-5'>
-                    <Button variant='outline' className='flex flex-row gap-1'>
+                    <Button
+                        variant='outline'
+                        className='flex flex-row gap-1'
+                        onClick={() => setOpen(true)}
+                    >
                         Delete
                         <Trash2Icon className='h-4' />
                     </Button>
@@ -30,6 +38,7 @@ export const UserList: React.FC = () => {
                     <UserTable />
                 </CardContent>
             </Card>
+            <DeleteUserModal open={open} setOpen={setOpen} />
         </div>
     )
 }
