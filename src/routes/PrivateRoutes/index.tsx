@@ -1,4 +1,5 @@
 import PrivateLayout from '@/layouts/PrivateLayout'
+import { GroupList } from '@/pages/private/Groups/GroupList'
 import { CreateUser } from '@/pages/private/Users/CreateUser'
 import { EditUser } from '@/pages/private/Users/EditUser'
 import { UserList } from '@/pages/private/Users/UserList'
@@ -29,6 +30,15 @@ const PrivateRoutes: RouteObject = {
                 {
                     path: 'edit',
                     element: <EditUser />,
+                },
+            ],
+        },
+        {
+            path: '/group',
+            children: [
+                {
+                    path: 'list',
+                    element: <GroupList />,
                 },
             ],
         },
