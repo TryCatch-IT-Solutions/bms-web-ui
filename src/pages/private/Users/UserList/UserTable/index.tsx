@@ -1,7 +1,7 @@
 import { Checkbox } from '@/components/Checkbox'
 import { TableHeader, TableRow, TableHead, TableBody, TableCell, Table } from '@/components/Table'
 import { cn } from '@/utils/helper'
-import { useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 
 const tableHeader = [
     { name: 'Account Number' },
@@ -18,6 +18,10 @@ const tableHeader = [
 
 export const UserTable: React.FC = () => {
     const navigate = useNavigate()
+
+    const handleRowClick = () => {
+        navigate('/user/edit')
+    }
 
     return (
         <Table className='table-auto whitespace-normal w-full'>
@@ -38,23 +42,22 @@ export const UserTable: React.FC = () => {
             <TableBody>
                 <TableRow
                     key={0}
-                    className='text-start text-base text-bms-gray-dark'
-                    onClick={() => navigate('/user/edit')}
+                    className='text-start text-base text-bms-gray-dark cursor-pointer'
                 >
                     <TableCell className='font-semibold text-bms-link flex flex-row items-center gap-1'>
-                        <Checkbox /> 0001
+                        <Checkbox /> <Link to={'/user/edit'}>0001</Link>
                     </TableCell>
-                    <TableCell>Jane</TableCell>
-                    <TableCell>Doe</TableCell>
-                    <TableCell>jane.doe@gmail.com</TableCell>
-                    <TableCell>+639452558852</TableCell>
-                    <TableCell>
+                    <TableCell onClick={handleRowClick}>Jane</TableCell>
+                    <TableCell onClick={handleRowClick}>Doe</TableCell>
+                    <TableCell onClick={handleRowClick}>jane.doe@gmail.com</TableCell>
+                    <TableCell onClick={handleRowClick}>+639452558852</TableCell>
+                    <TableCell onClick={handleRowClick}>
                         <p className='w-40 truncate'>#038 Binukawan, Bagac, Bataan 2107</p>
                     </TableCell>
-                    <TableCell>May 26, 1997</TableCell>
-                    <TableCell>27</TableCell>
-                    <TableCell>Si Nanay mo</TableCell>
-                    <TableCell>Si tatay ko</TableCell>
+                    <TableCell onClick={handleRowClick}>May 26, 1997</TableCell>
+                    <TableCell onClick={handleRowClick}>27</TableCell>
+                    <TableCell onClick={handleRowClick}>Si Nanay mo</TableCell>
+                    <TableCell onClick={handleRowClick}>Si tatay ko</TableCell>
                 </TableRow>
             </TableBody>
         </Table>

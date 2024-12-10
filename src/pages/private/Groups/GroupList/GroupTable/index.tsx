@@ -1,12 +1,21 @@
 import { Checkbox } from '@/components/Checkbox'
 import { TableHeader, TableRow, TableHead, TableBody, TableCell, Table } from '@/components/Table'
 import { cn } from '@/utils/helper'
-import { useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 
-const tableHeader = [{ name: 'Group ID' }, { name: 'Name' }]
+const tableHeader = [
+    { name: 'Group ID' },
+    { name: 'Name' },
+    { name: 'Device ID' },
+    { name: 'Device Model' },
+]
 
 export const GroupTable: React.FC = () => {
     const navigate = useNavigate()
+
+    const handleRowClick = () => {
+        navigate('/group/edit')
+    }
 
     return (
         <Table className='table-auto whitespace-normal w-full'>
@@ -27,13 +36,16 @@ export const GroupTable: React.FC = () => {
             <TableBody>
                 <TableRow
                     key={0}
-                    className='text-start text-base text-bms-gray-dark'
-                    onClick={() => navigate('/user/edit')}
+                    className='text-start text-base text-bms-gray-dark cursor-pointer'
                 >
                     <TableCell className='font-semibold text-bms-link flex flex-row items-center gap-1'>
-                        <Checkbox /> 0001
+                        <Checkbox /> <Link to={'/group/edit'}>0001</Link>
                     </TableCell>
-                    <TableCell>Jane</TableCell>
+                    <TableCell onClick={handleRowClick}>Jane</TableCell>
+                    <TableCell onClick={handleRowClick} className='text-bms-primary'>
+                        DEV-004
+                    </TableCell>
+                    <TableCell onClick={handleRowClick}>2024 Model</TableCell>
                 </TableRow>
             </TableBody>
         </Table>
