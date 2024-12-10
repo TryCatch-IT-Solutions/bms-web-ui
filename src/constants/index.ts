@@ -16,8 +16,7 @@ export const SELECT_VALID_STREET_ADDRESS =
 
 export const ROLE = {
     ADMIN: 'ADMIN' as string,
-    USER: 'USER' as string,
-    GROUP_ADMIN: 'GROUP_ADMIN' as string,
+    GROUP_ADMIN: 'GROUP ADMIN' as string,
 } as const
 
 export const USER_STATUS = {
@@ -40,6 +39,16 @@ export const GENDER_OPTIONS = [
 export const TEMP_GROUP = [
     { value: 1, label: 'Group 1' },
     { value: 2, label: 'Group 2' },
+]
+
+export const TEMP_DEVICE = [
+    { value: 1, label: 'Device 1' },
+    { value: 2, label: 'Device 2' },
+]
+
+export const TEMP_GROUP_ADMIN = [
+    { value: 1, label: 'Admin 1' },
+    { value: 2, label: 'Admin 2' },
 ]
 
 export const LAPTOP_MAX_WIDTH = 1425

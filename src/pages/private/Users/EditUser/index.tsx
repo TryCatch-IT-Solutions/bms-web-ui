@@ -210,28 +210,6 @@ export const EditUser: React.FC = () => {
                                 <div className='w-1/3'>
                                     <FormField
                                         control={userForm.control}
-                                        name='groupId'
-                                        render={({ field }) => (
-                                            <FormItem>
-                                                <FormControl>
-                                                    <Dropdown
-                                                        className='mt-[16px] w-[100%] bg-white'
-                                                        placeholder='Group'
-                                                        options={TEMP_GROUP}
-                                                        value={field.value}
-                                                        onChange={field.onChange} // Use field.onChange to update form
-                                                    />
-                                                </FormControl>
-                                                <FormMessage>
-                                                    {errors?.groupId?.message}
-                                                </FormMessage>
-                                            </FormItem>
-                                        )}
-                                    />
-                                </div>
-                                <div className='w-1/3'>
-                                    <FormField
-                                        control={userForm.control}
                                         name='birthDate'
                                         render={({ field }) => (
                                             <FormItem>
