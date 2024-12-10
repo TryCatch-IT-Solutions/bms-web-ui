@@ -1,5 +1,4 @@
 import * as React from 'react'
-import { Label } from '../Label'
 import { useFormField } from '../Form'
 import { cn } from '@/utils/helper'
 

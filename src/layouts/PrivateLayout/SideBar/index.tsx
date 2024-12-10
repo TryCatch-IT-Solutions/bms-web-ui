@@ -57,12 +57,12 @@ export const navigationItems: NavigationProps[] = [
         children: [
             {
                 name: 'Groups',
-                href: '#',
+                href: '/group/list',
                 allowedRoles: [ROLE.USER],
             },
             {
                 name: 'Create Group',
-                href: '#',
+                href: '/group/create',
                 allowedRoles: [ROLE.USER],
             },
         ],
