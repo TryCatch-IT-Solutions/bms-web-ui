@@ -10,11 +10,11 @@ import { useToast } from '@/hooks/useToast'
 import { profileSchema, ProfileType } from '@/api/profile/schema'
 import { BreadCrumbs } from '@/components/BreadCrumbs'
 import { Dropdown } from '@/components/DropdownInput'
-import { GENDER_OPTIONS, ROLE_VALUES, USER_STATUS } from '@/constants'
+import { GENDER_OPTIONS, USER_STATUS } from '@/constants'
 import PhoneNumberInput from '@/components/PhoneNumberInput'
 import { useEffect } from 'react'
 
-export const CreateUser: React.FC = () => {
+export const CreateEmployee: React.FC = () => {
     const navigate = useNavigate()
 
     const { toast } = useToast()
@@ -43,7 +43,7 @@ export const CreateUser: React.FC = () => {
 
     return (
         <div className='content'>
-            <BreadCrumbs title='Register User' origin='Users' />
+            <BreadCrumbs title='Create Employee' origin='Employees' />
             <Form {...userForm}>
                 <form
                     autoComplete='on'
@@ -190,26 +190,6 @@ export const CreateUser: React.FC = () => {
                                 <div className='w-1/3 max-w-[32.5%]'>
                                     <FormField
                                         control={userForm.control}
-                                        name='role'
-                                        render={({ field }) => (
-                                            <FormItem>
-                                                <FormControl>
-                                                    <Dropdown
-                                                        className='mt-[16px] w-[100%] bg-white'
-                                                        placeholder='Role'
-                                                        options={ROLE_VALUES}
-                                                        {...field}
-                                                    />
-                                                </FormControl>
-                                                <FormMessage>{errors?.role?.message}</FormMessage>
-                                            </FormItem>
-                                        )}
-                                    />
-                                </div>
-
-                                <div className='w-1/3 max-w-[32.5%]'>
-                                    <FormField
-                                        control={userForm.control}
                                         name='birthDate'
                                         render={({ field }) => (
                                             <FormItem>
@@ -228,9 +208,7 @@ export const CreateUser: React.FC = () => {
                                         )}
                                     />
                                 </div>
-                            </div>
 
-                            <div className='flex flex-row gap-3 items-center justify-start'>
                                 <div className='w-1/3'>
                                     <FormField
                                         control={userForm.control}
@@ -274,7 +252,9 @@ export const CreateUser: React.FC = () => {
                                         )}
                                     />
                                 </div>
+                            </div>
 
+                            <div className='flex flex-row gap-3 items-center justify-start'>
                                 <div className='w-1/3'>
                                     <FormField
                                         control={userForm.control}
@@ -296,9 +276,7 @@ export const CreateUser: React.FC = () => {
                                         )}
                                     />
                                 </div>
-                            </div>
 
-                            <div className='flex flex-row gap-3 items-center justify-start'>
                                 <div className='w-1/3'>
                                     <FormField
                                         control={userForm.control}
@@ -342,7 +320,9 @@ export const CreateUser: React.FC = () => {
                                         )}
                                     />
                                 </div>
+                            </div>
 
+                            <div className='flex flex-row gap-3 items-center justify-start'>
                                 <div className='w-1/3'>
                                     <FormField
                                         control={userForm.control}

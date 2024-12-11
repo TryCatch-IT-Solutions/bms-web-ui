@@ -1,4 +1,7 @@
 import PrivateLayout from '@/layouts/PrivateLayout'
+import { CreateEmployee } from '@/pages/private/Employees/CreateEmployee'
+import { EditEmployee } from '@/pages/private/Employees/EditEmployee'
+import { EmployeeList } from '@/pages/private/Employees/EmployeeList'
 import { CreateGroup } from '@/pages/private/Groups/CreateGroup'
 import { EditGroup } from '@/pages/private/Groups/EditGroup'
 import { GroupList } from '@/pages/private/Groups/GroupList'
@@ -49,6 +52,23 @@ const PrivateRoutes: RouteObject = {
                 {
                     path: 'edit',
                     element: <EditGroup />,
+                },
+            ],
+        },
+        {
+            path: '/employee',
+            children: [
+                {
+                    path: 'list',
+                    element: <EmployeeList />,
+                },
+                {
+                    path: 'create',
+                    element: <CreateEmployee />,
+                },
+                {
+                    path: 'edit',
+                    element: <EditEmployee />,
                 },
             ],
         },
