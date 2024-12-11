@@ -11,11 +11,14 @@ import { useMediaQuery } from 'react-responsive'
 import { useLocation, useNavigate } from 'react-router-dom'
 
 import daiLogo from '@/assets/dai-logo.png'
+import { useAuth } from '@/hooks/useAuth'
 
 export const Topbar = () => {
     const navigate = useNavigate()
 
     const { pathname } = useLocation()
+
+    const { signOut } = useAuth()
 
     const xl_vw_already = useMediaQuery({ maxWidth: 1425 })
 
@@ -88,7 +91,7 @@ export const Topbar = () => {
                                             </div>
                                         </button>
 
-                                        <button onClick={() => console.log('logout')} type='button'>
+                                        <button onClick={() => signOut()} type='button'>
                                             <div className='p-3 flex items-center cursor-pointer text-sm rounded-b-md bg-zentive-gray-bg hover:bg-gray-300 hover:text-black hover:font-semibold transition-all'>
                                                 <FiLogOut className='mr-3 w-5 h-5 text-zentive-red-dark' />
                                                 <p className='flex-1 text-left'> Logout </p>

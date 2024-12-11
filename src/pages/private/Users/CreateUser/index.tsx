@@ -1,27 +1,29 @@
-import { ForgotPasswordType } from '@/api/auth/schema'
 import { Form, FormControl, FormField, FormItem, FormMessage } from '@/components/Form'
-import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 import { Input } from '@/components/Input'
 import { Button } from '@/components/Button'
 import { Card, CardContent, CardFooter } from '@/components/Card'
 import { useNavigate } from 'react-router-dom'
 import { useToast } from '@/hooks/useToast'
-import { profileSchema, ProfileType } from '@/api/profile/schema'
+import { createUserSchema, CreateUserType } from '@/api/profile/schema'
 import { BreadCrumbs } from '@/components/BreadCrumbs'
 import { Dropdown } from '@/components/DropdownInput'
-import { GENDER_OPTIONS, ROLE_VALUES, TEMP_GROUP, USER_STATUS } from '@/constants'
+import { GENDER_OPTIONS, ROLE_VALUES, USER_STATUS } from '@/constants'
 import PhoneNumberInput from '@/components/PhoneNumberInput'
 import { useEffect } from 'react'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
+import { createUser } from '@/api/profile'
+import { logZodResolver } from '@/utils/helper'
+import { PasswordInput } from '@/components/PasswordInput'
 
 export const CreateUser: React.FC = () => {
     const navigate = useNavigate()
-
     const { toast } = useToast()
+    const queryClient = useQueryClient()
 
-    const userForm = useForm<ProfileType>({
+    const userForm = useForm<CreateUserType>({
         mode: 'onChange',
-        resolver: zodResolver(profileSchema),
+        resolver: logZodResolver(createUserSchema),
     })
 
     const {
@@ -29,12 +31,22 @@ export const CreateUser: React.FC = () => {
         formState: { errors, isValid },
     } = userForm
 
-    const onSubmit = (data: ForgotPasswordType) => {
-        console.log(data)
-        toast({
-            description: 'User created successfully',
-        })
-        navigate(`/user/list`)
+    const { mutate: createUserMu } = useMutation({
+        mutationFn: createUser,
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: ['usersList'] })
+            navigate(`/user/list`)
+        },
+        onError: () => {
+            toast({
+                description: 'Failed to create user',
+                variant: 'destructive',
+            })
+        },
+    })
+
+    const onSubmit = (data: CreateUserType) => {
+        createUserMu(data)
     }
 
     useEffect(() => {
@@ -57,7 +69,7 @@ export const CreateUser: React.FC = () => {
                                 <div className='w-1/3'>
                                     <FormField
                                         control={userForm.control}
-                                        name='firstName'
+                                        name='first_name'
                                         render={({ field }) => (
                                             <FormItem>
                                                 <FormControl>
@@ -69,7 +81,7 @@ export const CreateUser: React.FC = () => {
                                                     />
                                                 </FormControl>
                                                 <FormMessage>
-                                                    {errors?.firstName?.message}
+                                                    {errors?.first_name?.message}
                                                 </FormMessage>
                                             </FormItem>
                                         )}
@@ -79,7 +91,7 @@ export const CreateUser: React.FC = () => {
                                 <div className='w-1/3'>
                                     <FormField
                                         control={userForm.control}
-                                        name='middleName'
+                                        name='middle_name'
                                         render={({ field }) => (
                                             <FormItem>
                                                 <FormControl>
@@ -92,7 +104,7 @@ export const CreateUser: React.FC = () => {
                                                     />
                                                 </FormControl>
                                                 <FormMessage>
-                                                    {errors?.middleName?.message}
+                                                    {errors?.middle_name?.message}
                                                 </FormMessage>
                                             </FormItem>
                                         )}
@@ -101,7 +113,7 @@ export const CreateUser: React.FC = () => {
                                 <div className='w-1/3'>
                                     <FormField
                                         control={userForm.control}
-                                        name='lastName'
+                                        name='last_name'
                                         render={({ field }) => (
                                             <FormItem>
                                                 <FormControl>
@@ -113,7 +125,7 @@ export const CreateUser: React.FC = () => {
                                                     />
                                                 </FormControl>
                                                 <FormMessage>
-                                                    {errors?.lastName?.message}
+                                                    {errors?.last_name?.message}
                                                 </FormMessage>
                                             </FormItem>
                                         )}
@@ -145,7 +157,7 @@ export const CreateUser: React.FC = () => {
                                 <div className='w-1/3'>
                                     <FormField
                                         control={userForm.control}
-                                        name='phoneNumber'
+                                        name='phone_number'
                                         render={({ field }) => (
                                             <FormItem>
                                                 <FormControl>
@@ -159,7 +171,7 @@ export const CreateUser: React.FC = () => {
                                                     />
                                                 </FormControl>
                                                 <FormMessage>
-                                                    {errors?.phoneNumber?.message}
+                                                    {errors?.phone_number?.message}
                                                 </FormMessage>
                                             </FormItem>
                                         )}
@@ -210,7 +222,7 @@ export const CreateUser: React.FC = () => {
                                 <div className='w-1/3 max-w-[32.5%]'>
                                     <FormField
                                         control={userForm.control}
-                                        name='birthDate'
+                                        name='birth_date'
                                         render={({ field }) => (
                                             <FormItem>
                                                 <FormControl>
@@ -222,7 +234,7 @@ export const CreateUser: React.FC = () => {
                                                     />
                                                 </FormControl>
                                                 <FormMessage>
-                                                    {errors?.birthDate?.message}
+                                                    {errors?.birth_date?.message}
                                                 </FormMessage>
                                             </FormItem>
                                         )}
@@ -346,7 +358,7 @@ export const CreateUser: React.FC = () => {
                                 <div className='w-1/3'>
                                     <FormField
                                         control={userForm.control}
-                                        name='zipCode'
+                                        name='zip_code'
                                         render={({ field }) => (
                                             <FormItem>
                                                 <FormControl>
@@ -358,7 +370,102 @@ export const CreateUser: React.FC = () => {
                                                     />
                                                 </FormControl>
                                                 <FormMessage>
-                                                    {errors?.zipCode?.message}
+                                                    {errors?.zip_code?.message}
+                                                </FormMessage>
+                                            </FormItem>
+                                        )}
+                                    />
+                                </div>
+                            </div>
+
+                            <div className='flex flex-row gap-3 items-center justify-start'>
+                                <div className='w-1/3 max-w-[32.5%]'>
+                                    <FormField
+                                        control={userForm.control}
+                                        name='emergency_contact_name'
+                                        render={({ field }) => (
+                                            <FormItem>
+                                                <FormControl>
+                                                    <Input
+                                                        className='mt-[16px] w-[100%] bg-white'
+                                                        placeholder='Emergency Contact Name'
+                                                        type='text'
+                                                        {...field}
+                                                    />
+                                                </FormControl>
+                                                <FormMessage>
+                                                    {errors?.municipality?.message}
+                                                </FormMessage>
+                                            </FormItem>
+                                        )}
+                                    />
+                                </div>
+
+                                <div className='w-1/3 max-w-[32.5%]'>
+                                    <FormField
+                                        control={userForm.control}
+                                        name='emergency_contact_no'
+                                        render={({ field }) => (
+                                            <FormItem>
+                                                <FormControl>
+                                                    <PhoneNumberInput
+                                                        inputProps={{
+                                                            name: 'Emergency Contact Number',
+                                                            placeholder: 'Contact Number',
+                                                        }}
+                                                        className='mt-[16px] w-[100%] bg-white'
+                                                        {...field}
+                                                    />
+                                                </FormControl>
+                                                <FormMessage>
+                                                    {errors?.province?.message}
+                                                </FormMessage>
+                                            </FormItem>
+                                        )}
+                                    />
+                                </div>
+                            </div>
+
+                            <div className='flex flex-row gap-3 items-center justify-start'>
+                                <div className='w-1/3 max-w-[32.5%]'>
+                                    <FormField
+                                        control={userForm.control}
+                                        name='password'
+                                        render={({ field }) => (
+                                            <FormItem>
+                                                <FormControl>
+                                                    <PasswordInput
+                                                        hasConfirmPassword
+                                                        className='mt-[16px] w-[100%] bg-white'
+                                                        placeholder='Password'
+                                                        type='password'
+                                                        {...field}
+                                                    />
+                                                </FormControl>
+                                                <FormMessage>
+                                                    {errors?.password?.message}
+                                                </FormMessage>
+                                            </FormItem>
+                                        )}
+                                    />
+                                </div>
+
+                                <div className='w-1/3 max-w-[32.5%]'>
+                                    <FormField
+                                        control={userForm.control}
+                                        name='confirmPassword'
+                                        render={({ field }) => (
+                                            <FormItem>
+                                                <FormControl>
+                                                    <PasswordInput
+                                                        className='mt-[16px] w-[100%] bg-white'
+                                                        placeholder='Confirm Password'
+                                                        type='password'
+                                                        {...field}
+                                                    />
+                                                </FormControl>
+                                                <FormMessage>
+                                                    {errors?.confirmPassword?.message}
                                                 </FormMessage>
                                             </FormItem>
                                         )}

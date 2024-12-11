@@ -10,7 +10,6 @@ import DeleteUserModal from './DeleteUserModal'
 
 export const UserList: React.FC = () => {
     const [open, setOpen] = useState<boolean>(false)
-
     const onSearchChange = (val: string) => {
         console.log(val)
     }

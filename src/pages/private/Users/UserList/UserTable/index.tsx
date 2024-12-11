@@ -1,6 +1,10 @@
+import { getUsers } from '@/api/profile'
+import { ProfileType } from '@/api/profile/schema'
 import { Checkbox } from '@/components/Checkbox'
 import { TableHeader, TableRow, TableHead, TableBody, TableCell, Table } from '@/components/Table'
+import AppSkeletonLoadingState from '@/components/TableLoadingState'
 import { cn } from '@/utils/helper'
+import { useQuery } from '@tanstack/react-query'
 import { Link, useNavigate } from 'react-router-dom'
 
 const tableHeader = [
@@ -11,13 +15,15 @@ const tableHeader = [
     { name: 'Contact Number' },
     { name: 'Address' },
     { name: 'Birth Date' },
-    { name: 'Age' },
-    { name: 'Person to Contact' },
-    { name: 'Emergency Contact' },
 ]
 
 export const UserTable: React.FC = () => {
     const navigate = useNavigate()
+
+    const { data: users, isLoading } = useQuery({
+        queryKey: ['usersList'],
+        queryFn: getUsers,
+    })
 
     const handleRowClick = () => {
         navigate('/user/edit')
@@ -40,25 +46,35 @@ export const UserTable: React.FC = () => {
                 </TableRow>
             </TableHeader>
             <TableBody>
-                <TableRow
-                    key={0}
-                    className='text-start text-base text-bms-gray-dark cursor-pointer'
-                >
-                    <TableCell className='font-semibold text-bms-link flex flex-row items-center gap-1'>
-                        <Checkbox /> <Link to={'/user/edit'}>0001</Link>
-                    </TableCell>
-                    <TableCell onClick={handleRowClick}>Jane</TableCell>
-                    <TableCell onClick={handleRowClick}>Doe</TableCell>
-                    <TableCell onClick={handleRowClick}>jane.doe@gmail.com</TableCell>
-                    <TableCell onClick={handleRowClick}>+639452558852</TableCell>
-                    <TableCell onClick={handleRowClick}>
-                        <p className='w-40 truncate'>#038 Binukawan, Bagac, Bataan 2107</p>
-                    </TableCell>
-                    <TableCell onClick={handleRowClick}>May 26, 1997</TableCell>
-                    <TableCell onClick={handleRowClick}>27</TableCell>
-                    <TableCell onClick={handleRowClick}>Si Nanay mo</TableCell>
-                    <TableCell onClick={handleRowClick}>Si tatay ko</TableCell>
-                </TableRow>
+                {isLoading && (
+                    <TableRow
+                        key={0}
+                        className='text-start text-base text-bms-gray-dark cursor-pointer'
+                    >
+                        <AppSkeletonLoadingState />
+                    </TableRow>
+                )}
+                {users?.map((u: ProfileType) => (
+                    <TableRow
+                        key={0}
+                        className='text-start text-base text-bms-gray-dark cursor-pointer'
+                    >
+                        <TableCell className='font-semibold text-bms-link flex flex-row items-center gap-1'>
+                            <Checkbox /> <Link to={'/user/edit'}>{u.id}</Link>
+                        </TableCell>
+                        <TableCell onClick={handleRowClick}>{u.first_name}</TableCell>
+                        <TableCell onClick={handleRowClick}>{u.last_name}</TableCell>
+                        <TableCell onClick={handleRowClick}>{u.email}</TableCell>
+                        <TableCell onClick={handleRowClick}>{u.phone_number}</TableCell>
+                        <TableCell onClick={handleRowClick}>
+                            <p className='w-40 truncate'>
+                                {u.address1} {u.address2 ? u.address2 + ',' : ','} {u.municipality}{' '}
+                                ,{u.province}
+                            </p>
+                        </TableCell>
+                        <TableCell onClick={handleRowClick}>{u.birth_date}</TableCell>
+                    </TableRow>
+                ))}
             </TableBody>
         </Table>
     )

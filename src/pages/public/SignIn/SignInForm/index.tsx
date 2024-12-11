@@ -7,8 +7,16 @@ import { useForm } from 'react-hook-form'
 import { Input } from '@/components/Input'
 import { PasswordInput } from '@/components/PasswordInput'
 import { Button } from '@/components/Button'
+import { useMutation } from '@tanstack/react-query'
+import { signIn } from '@/api/auth'
+import { useSetAtom } from 'jotai'
+import { tokenAtom, userAtom } from '@/store/user'
+import { axiosInstance } from '@/api/axiosInstance'
 
 export const SignInForm: FC = () => {
+    const setUser = useSetAtom(userAtom)
+    const setToken = useSetAtom(tokenAtom)
+
     const signInForm = useForm<SignInType>({
         mode: 'onSubmit',
         resolver: zodResolver(signInSchema),
@@ -20,6 +28,28 @@ export const SignInForm: FC = () => {
         formState: { errors },
     } = signInForm
 
+    const { mutate: signInMu } = useMutation({
+        mutationFn: signIn,
+        onSuccess: (res) => {
+            setUser(res.user)
+            setToken(res.token)
+
+            axiosInstance.interceptors.request.use(async (config) => {
+                const accessToken = localStorage.getItem('tokenAtom')
+                if (accessToken) {
+                    config.headers.Authorization = `Bearer ${res.token}` // Remove quotes if present
+                }
+
+                return config
+            })
+
+            navigate('/dashboard')
+        },
+        onError: (err) => {
+            console.log(err)
+        },
+    })
+
     const handleInputChange = () => {
         if (signInForm.formState.errors.email) {
             signInForm.clearErrors('email')
@@ -27,7 +57,7 @@ export const SignInForm: FC = () => {
     }
 
     const handleSubmit = (data: SignInType) => {
-        console.log(data)
+        signInMu(data)
     }
 
     return (
@@ -81,11 +111,7 @@ export const SignInForm: FC = () => {
                         </FormItem>
                     )}
                 />
-                <Button
-                    className='w-100 mt-3 hover:bg-zentive-green-medium'
-                    type='submit'
-                    onClick={() => navigate('/dashboard')}
-                >
+                <Button className='w-100 mt-3 hover:bg-zentive-green-medium' type='submit'>
                     Sign In
                 </Button>
                 <div className='flex items-center justify-centerw-100 mt-[24px]'>
