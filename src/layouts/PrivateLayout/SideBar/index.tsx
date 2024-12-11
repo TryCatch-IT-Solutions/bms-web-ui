@@ -92,13 +92,18 @@ export const navigationItems: NavigationProps[] = [
         allowedRoles: [ROLE.ADMIN, ROLE.GROUP_ADMIN],
         children: [
             {
+                name: 'Create Employee',
+                href: '/employee/create',
+                allowedRoles: [ROLE.GROUP_ADMIN],
+            },
+            {
                 name: 'Employee List',
-                href: '#',
+                href: '/employee/list',
                 allowedRoles: [ROLE.GROUP_ADMIN],
             },
             {
                 name: 'Time Entries',
-                href: '#',
+                href: '/employee/time-entry',
                 allowedRoles: [ROLE.GROUP_ADMIN],
             },
         ],
