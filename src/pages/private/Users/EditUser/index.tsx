@@ -10,7 +10,7 @@ import { useToast } from '@/hooks/useToast'
 import { profileSchema, ProfileType } from '@/api/profile/schema'
 import { BreadCrumbs } from '@/components/BreadCrumbs'
 import { Dropdown } from '@/components/DropdownInput'
-import { GENDER_OPTIONS, ROLE_VALUES, TEMP_GROUP, USER_STATUS } from '@/constants'
+import { GENDER_OPTIONS, ROLE_VALUES, USER_STATUS } from '@/constants'
 import PhoneNumberInput from '@/components/PhoneNumberInput'
 import { useEffect } from 'react'
 
