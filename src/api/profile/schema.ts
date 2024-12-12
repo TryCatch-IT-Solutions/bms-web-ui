@@ -57,9 +57,18 @@ export const createUserSchema = profileSchema
             confirmPassword: z.string().min(8, { message: 'Confirm password is required' }).trim(),
         }),
     )
-    .refine((data) => data.password === data.confirmPassword, {
-        message: 'Passwords must match',
-        path: ['confirmPassword'], // Error shown on `confirmPassword`
+    .superRefine((data, ctx) => {
+        if (
+            data.password &&
+            data.confirmPassword &&
+            data.password.trim() !== data.confirmPassword.trim()
+        ) {
+            ctx.addIssue({
+                code: 'custom',
+                path: ['confirmPassword'],
+                message: 'Passwords do not match',
+            })
+        }
     })
 
 export type ProfileType = z.infer<typeof profileSchema>

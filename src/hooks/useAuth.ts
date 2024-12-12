@@ -14,14 +14,14 @@ export const useAuth = () => {
         mutationFn: signOut,
         onSuccess: () => {
             // Clear any local user data if needed
-            console.log('here')
             localStorage.clear()
-
             // Redirect to the login page or any other desired route
             navigate('/sign-in')
         },
-        onError: (error) => {
-            console.error('Sign out failed:', error)
+        onError: () => {
+            localStorage.clear()
+            // Redirect to the login page or any other desired route
+            navigate('/sign-in')
         },
     })
 

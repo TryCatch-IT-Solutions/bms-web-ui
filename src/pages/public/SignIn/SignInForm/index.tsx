@@ -25,25 +25,32 @@ export const SignInForm: FC = () => {
     const navigate = useNavigate()
 
     const {
-        formState: { errors },
+        setError,
+        formState: { errors, isValid },
     } = signInForm
 
     const { mutate: signInMu } = useMutation({
         mutationFn: signIn,
         onSuccess: (res) => {
-            setUser(res.user)
-            setToken(res.token)
+            if (res.token) {
+                setUser(res.user)
+                setToken(res.token)
 
-            axiosInstance.interceptors.request.use(async (config) => {
-                const accessToken = localStorage.getItem('tokenAtom')
-                if (accessToken) {
-                    config.headers.Authorization = `Bearer ${res.token}` // Remove quotes if present
-                }
+                axiosInstance.interceptors.request.use(async (config) => {
+                    const accessToken = localStorage.getItem('tokenAtom')
+                    if (accessToken) {
+                        config.headers.Authorization = `Bearer ${res.token}` // Remove quotes if present
+                    }
 
-                return config
-            })
+                    return config
+                })
 
-            navigate('/dashboard')
+                navigate('/dashboard')
+            } else {
+                setError('password', {
+                    message: 'Invalid Login Credentials',
+                })
+            }
         },
         onError: (err) => {
             console.log(err)
@@ -111,7 +118,11 @@ export const SignInForm: FC = () => {
                         </FormItem>
                     )}
                 />
-                <Button className='w-100 mt-3 hover:bg-zentive-green-medium' type='submit'>
+                <Button
+                    disabled={!isValid}
+                    className='w-100 mt-10 hover:bg-zentive-green-medium'
+                    type='submit'
+                >
                     Sign In
                 </Button>
                 <div className='flex items-center justify-centerw-100 mt-[24px]'>

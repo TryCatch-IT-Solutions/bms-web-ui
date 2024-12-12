@@ -12,3 +12,9 @@ export const signOut = async () => {
 
     return response
 }
+
+export const verifyToken = async () => {
+    const response = await axiosInstance.get('/api/verify-token')
+
+    return response.data
+}

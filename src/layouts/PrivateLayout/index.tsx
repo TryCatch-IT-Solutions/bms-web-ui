@@ -10,6 +10,7 @@ import { tokenAtom } from '@/store/user'
 import { useQuery } from '@tanstack/react-query'
 import { useEffect } from 'react'
 import { useAuth } from '@/hooks/useAuth'
+import { verifyToken } from '@/api/auth'
 
 const PrivateLayout = () => {
     const xl_vw_already = useMediaQuery({ maxWidth: LAPTOP_MAX_WIDTH })
@@ -17,23 +18,24 @@ const PrivateLayout = () => {
 
     const { signOut } = useAuth()
 
-    const getToken = () => {
-        return !!token
-    }
-
-    const { data: isTokenValid, isLoading } = useQuery({
+    const {
+        data: isTokenValid,
+        status,
+        isLoading,
+    } = useQuery({
         queryKey: ['tokenKey', token],
-        queryFn: getToken,
-        enabled: !!token,
-        refetchInterval: 10000,
+        queryFn: verifyToken,
+        enabled: !!token && token !== null,
         refetchIntervalInBackground: true,
+        refetchOnWindowFocus: true,
+        refetchOnMount: 'always',
     })
 
     useEffect(() => {
-        if (!isTokenValid && !isLoading && isTokenValid !== undefined) {
+        if ((!isTokenValid && !isLoading && isTokenValid !== undefined) || token === null) {
             signOut() // Explicitly call the sign-out function
         }
-    }, [isTokenValid]) // Trigger the effect when isTokenValid changes
+    }, [isTokenValid, status]) // Trigger the effect when isTokenValid changes
 
     return (
         <div>
