@@ -9,6 +9,10 @@ export const WEBSITE_URL = import.meta.env.PROD
     ? import.meta.env.VITE_PROD_WEBSITE_URL
     : import.meta.env.VITE_DEV_WEBSITE_URL
 
+export const ENCRYPT_KEY = import.meta.env.PROD
+    ? import.meta.env.VITE_PROD_ENCRYPT_KEY
+    : import.meta.env.VITE_DEV_ENCRYPT_KEY
+
 export const axiosInstance = axios.create({
     baseURL: API_URL,
     headers: {

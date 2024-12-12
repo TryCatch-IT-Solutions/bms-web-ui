@@ -112,8 +112,9 @@ export const UserTable: React.FC = () => {
                             </TableCell>
                             <TableCell onClick={() => handleRowClick(u?.id)}>
                                 <p className='w-40 truncate'>
-                                    {u.address1} {u.address2 ? u.address2 + ',' : ','}{' '}
-                                    {u.municipality} ,{u.province}
+                                    {u.address1}
+                                    {u.address2 ? u.address2 + ', ' : ', '}
+                                    {u.barangay}, {u.municipality}, {u.province}
                                 </p>
                             </TableCell>
                             <TableCell onClick={() => handleRowClick(u?.id)}>

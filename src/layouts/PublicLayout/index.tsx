@@ -13,12 +13,9 @@ const PublicLayout = () => {
     const path = location.pathname
 
     const { data: isTokenValid, isLoading } = useQuery({
-        queryKey: ['tokenKey', token],
+        queryKey: ['publicTokenKey', token],
         queryFn: verifyToken,
-        enabled: !!token,
-        refetchIntervalInBackground: true,
-        refetchOnWindowFocus: true,
-        refetchOnMount: 'always',
+        retry: 2,
     })
 
     useEffect(() => {

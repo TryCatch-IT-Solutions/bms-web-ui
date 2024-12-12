@@ -23,31 +23,26 @@ export const authSchema = z.object({
 
 export const updatePasswordSchema = z
     .object({
-        currentPassword: z
+        email: z.string(),
+        password: z
             .string()
-            .min(1, { message: 'Current password is required' })
-            .min(8, { message: 'Current password must be at least 8 characters long' }),
-        newPassword: z
-            .string()
-            .min(8, { message: 'New password must be at least 8 characters long' })
+            .min(8, { message: 'New password is required' })
+            .trim()
             .regex(uppercaseRegex, {
-                message: 'New password must include at least one uppercase letter',
+                message: 'Must include at least one uppercase letter',
             })
             .regex(specialRegex, {
-                message: 'New password must include at least one special character',
+                message: 'Must include at least one special character',
             })
-            .regex(numericRegex, { message: 'New password must include at least one number' })
+            .regex(numericRegex, { message: 'Must include at least one number' })
             .regex(lowercaseRegex, {
-                message: 'New password must include at least one lowercase letter',
+                message: 'Must include at least one lowercase letter',
             }),
-        confirmPassword: z.string().min(1, { message: 'Confirm password is required' }),
+        confirmPassword: z.string().min(8, { message: 'Confirm password is required' }).trim(),
+        token: z.string(),
     })
     .superRefine((data, ctx) => {
-        if (
-            data.newPassword &&
-            data.confirmPassword &&
-            data.newPassword.trim() !== data.confirmPassword.trim()
-        ) {
+        if (data.password && data.password.trim() !== data.confirmPassword.trim()) {
             ctx.addIssue({
                 code: 'custom',
                 path: ['confirmPassword'],
@@ -71,6 +66,12 @@ export const signInResponseSchema = z.object({
     token: z.string(),
 })
 
+export const createNewPasswordSchema = z.object({
+    password: z.string(),
+    token: z.string(),
+})
+
 export type SignInType = z.infer<typeof signInSchema>
 export type SignInResponseType = z.infer<typeof signInResponseSchema>
 export type ForgotPasswordType = z.infer<typeof forgotPasswordSchema>
+export type UpdatePasswordType = z.infer<typeof updatePasswordSchema>

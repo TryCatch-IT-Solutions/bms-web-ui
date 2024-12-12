@@ -28,11 +28,7 @@ export const Topbar = () => {
     return (
         <div className='sticky text-zentive-gray-semi-medium top-0 z-40 flex h-16 shrink-0 items-center gap-x-4 border-b border-gray-200 bg-white px-4 shadow-sm sm:gap-x-6 sm:px-6 lg:px-8'>
             {xl_vw_already && pathname !== '/customer-portal/create-password' && (
-                <button
-                    type='button'
-                    className='-m-2.5 p-2.5 text-gray-700 flex'
-                    // onClick={() => setSidebarOpen(true)}
-                >
+                <button type='button' className='-m-2.5 p-2.5 text-gray-700 flex'>
                     <span className='sr-only'>Open sidebar</span>
                     <FaBars className='w-6 h-6' />
                 </button>
@@ -42,7 +38,7 @@ export const Topbar = () => {
                 <div className='flex item-center justify-center'>
                     <button
                         onClick={() => {
-                            navigate('/')
+                            navigate('/dashboard')
                         }}
                     >
                         <img src={daiLogo} alt='BMS Logo' className='h-14 w-54 cursor-pointer' />

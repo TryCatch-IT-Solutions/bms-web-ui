@@ -31,7 +31,13 @@ export const PhoneNumberInput = forwardRef((props: PhoneNumberInputProps, forwar
     const handleOnChange = (phoneNumber: Value) => {
         if (phoneNumber) {
             const parsedPhoneNumber = parsePhoneNumber(phoneNumber)
-            props.onChange(parsedPhoneNumber ? parsedPhoneNumber.format('E.164') : phoneNumber)
+            const formattedNumber = parsedPhoneNumber
+                ? parsedPhoneNumber.format('E.164')
+                : phoneNumber
+
+            props.onChange(
+                formattedNumber.startsWith('+') ? formattedNumber : `+${formattedNumber}`,
+            )
         } else {
             props.onChange('')
         }
