@@ -27,8 +27,8 @@ export const UserStatusTabs: React.FC = () => {
                     {`Active (0)`}
                 </TabsTrigger>
                 <TabsTrigger
-                    onClick={() => onSwitchTab(USER_STATUS.DELETED)}
-                    value={USER_STATUS.DELETED}
+                    onClick={() => onSwitchTab(USER_STATUS.INACTIVE)}
+                    value={USER_STATUS.INACTIVE}
                     className={
                         'w-1/2 h-[54px] text-lg text-bms-gray-dark data-[state=active]:text-bms-link data-[state=active]: border-bms-link data-[state=active]:font-bold data-[state=active]:border-b-4 data-[state=active]:bg-white sm:truncate ...'
                     }

@@ -1,3 +1,4 @@
+import { userIdsToDeleteAtom } from '@/store/user'
 import { getUsers } from '@/api/profile'
 import { ProfileType } from '@/api/profile/schema'
 import { Checkbox } from '@/components/Checkbox'
@@ -5,8 +6,11 @@ import { Pagination } from '@/components/Pagination'
 import { PaginationType } from '@/components/Pagination/schema'
 import { TableHeader, TableRow, TableHead, TableBody, TableCell, Table } from '@/components/Table'
 import AppSkeletonLoadingState from '@/components/TableLoadingState'
+import { ROLE } from '@/constants'
+import { userSelectedStatusAtom } from '@/store/user'
 import { cn } from '@/utils/helper'
 import { useQuery } from '@tanstack/react-query'
+import { useAtom, useAtomValue } from 'jotai'
 import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 
@@ -24,17 +28,30 @@ export const UserTable: React.FC = () => {
     const [pagination, setPagination] = useState<PaginationType>({
         current_page: 1,
         per_page: 20,
+        itemsPerPage: 20,
     })
+
+    const selectedStatus = useAtomValue(userSelectedStatusAtom)
+    const [userIdsToDelete, setUserIdsToDelete] = useAtom(userIdsToDeleteAtom)
 
     const navigate = useNavigate()
 
     const { data: users, isLoading } = useQuery({
-        queryKey: ['usersList', pagination],
-        queryFn: () => getUsers(pagination),
+        queryKey: ['usersList', pagination, selectedStatus],
+        queryFn: () => getUsers(pagination, [selectedStatus], [ROLE.superadmin, ROLE.groupadmin]),
     })
 
     const handleRowClick = (id: number) => {
         navigate(`/user/edit/${id}`)
+    }
+
+    const handleCheckboxChange = (userId: number, isChecked: boolean) => {
+        setUserIdsToDelete((prev) => {
+            const updatedUserIds = isChecked
+                ? [...(prev?.users ?? []), userId] // Add userId if checked
+                : (prev?.users ?? []).filter((id) => id !== userId) // Remove userId if unchecked
+            return { users: updatedUserIds } // Return updated object with 'user' key
+        })
     }
 
     return (
@@ -60,7 +77,9 @@ export const UserTable: React.FC = () => {
                             key={0}
                             className='text-start text-base text-bms-gray-dark cursor-pointer'
                         >
-                            <AppSkeletonLoadingState />
+                            <TableCell rowSpan={7}>
+                                <AppSkeletonLoadingState />
+                            </TableCell>
                         </TableRow>
                     )}
                     {users?.content?.map((u: ProfileType) => (
@@ -69,7 +88,17 @@ export const UserTable: React.FC = () => {
                             className='text-start text-base text-bms-gray-dark cursor-pointer'
                         >
                             <TableCell className='font-semibold text-bms-link flex flex-row items-center gap-1'>
-                                <Checkbox /> <Link to={'/user/edit'}>{u.id}</Link>
+                                <Checkbox
+                                    checked={userIdsToDelete?.users?.includes(u.id)} // Check if the user ID is selected
+                                    onClick={
+                                        () =>
+                                            handleCheckboxChange(
+                                                u.id,
+                                                !userIdsToDelete?.users?.includes(u.id),
+                                            ) // Toggle user ID selection
+                                    }
+                                />
+                                <Link to={'/user/edit'}>{u.id}</Link>
                             </TableCell>
                             <TableCell onClick={() => handleRowClick(u?.id)}>
                                 {u.first_name}

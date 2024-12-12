@@ -100,7 +100,7 @@ export const CreateUser: React.FC = () => {
                                                         placeholder='Middle Name'
                                                         type='email'
                                                         onChange={field.onChange}
-                                                        value={field.value}
+                                                        value={field.value ?? ''}
                                                     />
                                                 </FormControl>
                                                 <FormMessage>
@@ -276,7 +276,7 @@ export const CreateUser: React.FC = () => {
                                                         className='mt-[16px] w-[100%] bg-white'
                                                         placeholder='Address 2'
                                                         type='email'
-                                                        {...field}
+                                                        value={field.value ?? ''}
                                                     />
                                                 </FormControl>
                                                 <FormMessage>

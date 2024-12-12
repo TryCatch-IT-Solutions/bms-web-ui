@@ -15,20 +15,25 @@ export const SELECT_VALID_STREET_ADDRESS =
     'Please type and select a valid Street Address from the dropdown'
 
 export const ROLE = {
-    ADMIN: 'ADMIN' as string,
-    GROUP_ADMIN: 'GROUP ADMIN' as string,
+    superadmin: 'superadmin' as string,
+    groupadmin: 'groupadmin' as string,
+    employee: 'employee' as string,
+} as const
+
+export const ROLE_LABELS = {
+    superadmin: 'Super Admin' as string,
+    groupadmin: 'Group Admin' as string,
+    employee: 'Employee' as string,
 } as const
 
 export const USER_STATUS = {
-    DELETED: 'DEL',
-    TERMINATED: 'TER',
-    ACTIVATED: 'ACT',
-    INACTIVE: 'INA',
+    ACTIVATED: 'active',
+    INACTIVE: 'inactive',
 } as const
 
-export const ROLE_VALUES = Object.values(ROLE).map((role) => ({
-    value: role,
-    label: role.charAt(0) + role.slice(1).toLowerCase(), // Capitalize first letter for display
+export const ROLE_VALUES = Object.entries(ROLE_LABELS).map(([key, label]) => ({
+    value: key, // Use the key as the value
+    label: label, // Use the value as the label
 }))
 
 export const GENDER_OPTIONS = [
@@ -46,7 +51,7 @@ export const TEMP_DEVICE = [
     { value: 2, label: 'Device 2' },
 ]
 
-export const TEMP_GROUP_ADMIN = [
+export const TEMP_groupadmin = [
     { value: 1, label: 'Admin 1' },
     { value: 2, label: 'Admin 2' },
 ]

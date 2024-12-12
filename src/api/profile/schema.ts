@@ -15,7 +15,7 @@ export const profileSchema = z
         id: z.number(),
         first_name: stringValidator('First Name', { isRequired: true }),
         last_name: stringValidator('Last Name', { isRequired: true }),
-        middle_name: z.string().optional(),
+        middle_name: z.string().optional().nullable(),
         role: stringValidator('Role', { isRequired: true }),
         group_id: z.number().nullish().optional(),
         address1: stringValidator('Address ', { isRequired: true }),
@@ -79,7 +79,12 @@ export const userListSchema = z.object({
     meta: paginationSchema,
 })
 
+export const bulkUserUpdateStatusSchema = z.object({
+    users: z.array(z.number()),
+})
+
 export type ProfileType = z.infer<typeof profileSchema>
 export type UserListType = z.infer<typeof userListSchema>
 export type CreateUserType = z.infer<typeof createUserSchema>
 export type EditUserType = z.infer<typeof editUserSchema>
+export type BulkUserUpdateStatusType = z.infer<typeof bulkUserUpdateStatusSchema>

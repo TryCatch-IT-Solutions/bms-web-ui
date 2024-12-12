@@ -15,6 +15,7 @@ import { editUser, getUserById } from '@/api/profile'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { useEffect } from 'react'
 import AppSkeletonLoadingState from '@/components/TableLoadingState'
+import { logZodResolver } from '@/utils/helper'
 
 export const EditUser: React.FC = () => {
     const navigate = useNavigate()
@@ -33,7 +34,7 @@ export const EditUser: React.FC = () => {
 
     const userForm = useForm<EditUserType>({
         mode: 'onChange',
-        resolver: zodResolver(profileSchema),
+        resolver: logZodResolver(profileSchema),
         defaultValues: {
             email: user?.email,
             first_name: user?.first_name,
@@ -66,13 +67,15 @@ export const EditUser: React.FC = () => {
                 description: 'User updated successfully',
                 duration: 2000,
             })
+
+            queryClient.invalidateQueries({ queryKey: ['usersList'] })
+
+            navigate(`/user/list`)
         },
     })
 
     const onSubmit = (data: EditUserType) => {
         updateUserMu(data)
-        queryClient.invalidateQueries({ queryKey: ['usersList'] })
-        navigate(`/user/list`)
     }
 
     useEffect(() => {
@@ -135,7 +138,7 @@ export const EditUser: React.FC = () => {
                                                             placeholder='Middle Name'
                                                             type='email'
                                                             onChange={field.onChange}
-                                                            value={field.value}
+                                                            value={field.value ?? ''}
                                                         />
                                                     </FormControl>
                                                     <FormMessage>
@@ -459,7 +462,7 @@ export const EditUser: React.FC = () => {
                                                         />
                                                     </FormControl>
                                                     <FormMessage>
-                                                        {errors?.province?.message}
+                                                        {errors?.phone_number?.message}
                                                     </FormMessage>
                                                 </FormItem>
                                             )}
