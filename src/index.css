@@ -79,3 +79,48 @@
         @apply text-bms-gray-dark;
     }
 }
+
+/* react paginate */
+
+/* Pagination Styles */
+ul.react-paginate {
+    @apply flex justify-end list-none pb-5 w-full;
+}
+
+ul.react-paginate li {
+    @apply mx-1;
+}
+
+ul.react-paginate li a {
+    @apply rounded px-2 py-1 border border-gray-300 cursor-pointer bg-white;
+}
+
+ul.react-paginate li.previous a,
+ul.react-paginate li.next a,
+ul.react-paginate li.break a {
+    @apply bg-bms-primary;
+}
+
+ul.react-paginate li.selected a {
+    @apply bg-bms-primary text-white min-w-[32px];
+}
+
+ul.react-paginate li.disabled a {
+    @apply text-gray-500;
+}
+
+ul.react-paginate li.disable,
+ul.react-paginate li.disabled a {
+    @apply cursor-default;
+}
+
+.no-scrollbar::-webkit-scrollbar {
+    display: none;
+}
+
+.no-scrollbar {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+
+/* react paginate */

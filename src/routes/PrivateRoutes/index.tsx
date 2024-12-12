@@ -33,7 +33,7 @@ const PrivateRoutes: RouteObject = {
                     element: <CreateUser />,
                 },
                 {
-                    path: 'edit',
+                    path: 'edit/:id',
                     element: <EditUser />,
                 },
             ],

@@ -8,23 +8,24 @@ import {
 } from '@/utils/regex'
 import { z } from 'zod'
 import { baseModelSchema } from '../base/schema'
+import { paginationSchema } from '@/components/Pagination/schema'
 
 export const profileSchema = z
     .object({
         id: z.number(),
         first_name: stringValidator('First Name', { isRequired: true }),
         last_name: stringValidator('Last Name', { isRequired: true }),
-        middle_name: stringValidator('Middle Name', { isRequired: true }),
+        middle_name: z.string().optional(),
         role: stringValidator('Role', { isRequired: true }),
-        group_id: z.number().min(1, 'Group is Required').optional(),
+        group_id: z.number().nullish().optional(),
         address1: stringValidator('Address ', { isRequired: true }),
-        address2: z.string().optional(),
+        address2: z.string().optional().nullable(),
         barangay: stringValidator('Barangay', { isRequired: true }),
         municipality: stringValidator('Municipality', { isRequired: true }),
         province: stringValidator('Province', { isRequired: true }),
         zip_code: stringValidator('Zip Code', { isRequired: true }),
         birth_date: stringValidator('Birth Date', { isRequired: true }),
-        is_synced: z.boolean().optional(),
+        is_synced: z.number().optional(),
         gender: stringValidator('Gender', { isRequired: true }),
         phone_number: phoneNumberValidator,
         status: z.string(),
@@ -35,6 +36,8 @@ export const profileSchema = z
             .email({ message: 'Invalid email address' }),
     })
     .merge(baseModelSchema)
+
+export const editUserSchema = profileSchema.omit({ group_id: true, status: true })
 
 export const createUserSchema = profileSchema
     .omit({ id: true, group_id: true })
@@ -71,5 +74,12 @@ export const createUserSchema = profileSchema
         }
     })
 
+export const userListSchema = z.object({
+    content: z.array(profileSchema),
+    meta: paginationSchema,
+})
+
 export type ProfileType = z.infer<typeof profileSchema>
+export type UserListType = z.infer<typeof userListSchema>
 export type CreateUserType = z.infer<typeof createUserSchema>
+export type EditUserType = z.infer<typeof editUserSchema>
