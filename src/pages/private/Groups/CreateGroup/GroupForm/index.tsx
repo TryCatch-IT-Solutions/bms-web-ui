@@ -3,7 +3,7 @@ import { Button } from '@/components/Button'
 import { Dropdown } from '@/components/DropdownInput'
 import { Form, FormControl, FormField, FormItem, FormMessage } from '@/components/Form'
 import { Input } from '@/components/Input'
-import { TEMP_DEVICE, TEMP_GROUP_ADMIN } from '@/constants'
+import { TEMP_DEVICE, TEMP_groupadmin } from '@/constants'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 import { GroupMemberTable } from './GroupMemberTable'
@@ -91,7 +91,7 @@ export const GroupForm: React.FC = () => {
                                     <Dropdown
                                         className='mt-[16px] w-[100%] bg-white'
                                         placeholder='Group Admin'
-                                        options={TEMP_GROUP_ADMIN}
+                                        options={TEMP_groupadmin}
                                         value={field.value} // Directly use field.value (which is a number)
                                         onChange={(e) => field.onChange(e)} // Pass the selected value (number) directly
                                     />
@@ -104,7 +104,7 @@ export const GroupForm: React.FC = () => {
 
                 <div className='flex flex-row items-center justify-between mt-5'>
                     <div className='w-[30rem]'>
-                        <Dropdown options={TEMP_GROUP_ADMIN} />
+                        <Dropdown options={TEMP_groupadmin} />
                     </div>
                     <div className='flex flex-row gap-5'>
                         <Button variant='outline' className='flex flex-row gap-2'>

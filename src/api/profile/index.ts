@@ -1,13 +1,29 @@
 import { PaginationType } from '@/components/Pagination/schema'
 import { axiosInstance } from '../axiosInstance'
-import { CreateUserType, EditUserType, ProfileType, UserListType } from './schema'
+import {
+    BulkUserUpdateStatusType,
+    CreateUserType,
+    EditUserType,
+    ProfileType,
+    UserListType,
+} from './schema'
 
-export const getUsers = async (p: PaginationType): Promise<UserListType> => {
-    const response = await axiosInstance.get(`/api/users?current_page=${p.current_page}`)
+export const getUsers = async (
+    p: PaginationType,
+    status: string[],
+    role: string[],
+): Promise<UserListType> => {
+    const response = await axiosInstance.get(`/api/users`, {
+        params: {
+            page: p.current_page,
+            limit: p.itemsPerPage,
+            roles: role,
+            status: status,
+        },
+    })
 
     return response.data
 }
-
 export const createUser = async (data: CreateUserType) => {
     const response = await axiosInstance.post('/api/register', data)
 
@@ -22,6 +38,12 @@ export const getUserById = async (id: number): Promise<ProfileType> => {
 
 export const editUser = async (data: EditUserType) => {
     const response = await axiosInstance.post(`/api/user/${data.id}`, data)
+
+    return response.data
+}
+
+export const bulkUserUpdateStatus = async (data: BulkUserUpdateStatusType) => {
+    const response = await axiosInstance.post('/api/users/delete', data)
 
     return response.data
 }

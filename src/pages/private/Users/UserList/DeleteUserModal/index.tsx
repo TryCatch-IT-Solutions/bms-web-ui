@@ -3,6 +3,11 @@ import { Dispatch, SetStateAction } from 'react'
 import { Button } from '@/components/Button'
 import { Modal } from '@/components/Modal'
 import { toast } from '@/hooks/useToast'
+import { useAtom } from 'jotai'
+import { userIdsToDeleteAtom } from '@/store/user'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
+import { bulkUserUpdateStatus } from '@/api/profile'
+import { BulkUserUpdateStatusType } from '@/api/profile/schema'
 
 interface DeleteUserModalProps {
     open: boolean
@@ -10,25 +15,39 @@ interface DeleteUserModalProps {
 }
 
 const DeleteUserModal: React.FC<DeleteUserModalProps> = ({ open, setOpen }) => {
-    const handleSave = () => {
-        setOpen(false)
-        toast({
-            description: 'Accounts Deleted Successfully',
-            variant: 'default',
-        })
+    const [userIdsToDelete, setUserIdsToDelete] = useAtom(userIdsToDeleteAtom)
+
+    const queryClient = useQueryClient()
+
+    const { mutate: deleteUsersMu } = useMutation({
+        mutationFn: () => bulkUserUpdateStatus(userIdsToDelete as BulkUserUpdateStatusType),
+        onSuccess: () => {
+            toast({
+                description: 'Accounts Deleted Successfully',
+                variant: 'default',
+            })
+
+            queryClient.invalidateQueries({ queryKey: ['usersList'] })
+            setUserIdsToDelete(null)
+            setOpen(false)
+        },
+    })
+
+    const handleSubmit = () => {
+        console.log('tertes')
+        deleteUsersMu() // Actually calling the mutation function
     }
+
     return (
         <Modal
             isOpen={open}
             isHideCloseButton
-            onClose={() => {
-                setOpen(false)
-            }}
+            onClose={() => setOpen(false)}
             title=''
             titleClassName=''
             containerClassName='max-w-[600px]'
         >
-            <div className=''>
+            <div>
                 <div className='flex gap-5 px-10'>
                     <div className='flex justify-center items-center bg-zentive-red-light h-16 w-16 rounded-full'>
                         <HiOutlineExclamationTriangle className='yx-5 text-red-500 h-10 w-10' />
@@ -55,8 +74,9 @@ const DeleteUserModal: React.FC<DeleteUserModalProps> = ({ open, setOpen }) => {
                         Cancel
                     </Button>
                     <Button
-                        onClick={handleSave}
+                        onClick={handleSubmit}
                         className='w-97 h-11 text-base font-semibold bg-bms-primary'
+                        type='button'
                     >
                         Yes, please
                     </Button>
