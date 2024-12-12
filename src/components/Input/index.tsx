@@ -39,7 +39,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
                     <input
                         type={type}
                         className={cn(
-                            'peer flex h-[45px] w-full text-base rounded-sm border border-bms-gray-medium placeholder:text-transparent bg-transparent px-3 shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium focus-visible:outline-none disabled:cursor-not-allowed disabled:bg-[#ebebeb] disabled:text-bms-gray-medium',
+                            'peer flex h-[45px] w-full text-base rounded-sm border border-bms-gray-300 placeholder:text-transparent bg-transparent px-3 shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium focus-visible:outline-none disabled:cursor-not-allowed disabled:bg-[#ebebeb] disabled:text-bms-gray-medium',
                             invalid
                                 ? 'border-bms-primary'
                                 : 'focus:border focus:border-bms-gray-500',
@@ -60,7 +60,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
                     className={cn(
                         'floating-label absolute left-3 top-1/2 -translate-y-1/2 text-base text-bms-gray-medium duration-100 ease-linear peer-focus:-translate-y-[2.15rem] peer-focus:text-sm peer-focus:px-1 pointer-events-none',
                         // with value
-                        value && 'split-color text-sm -translate-y-[2.15rem] px-1',
+                        value && 'split-color text-sm -translate-y-[2.15rem] px-1 bg-white',
                         !value && 'peer-focus:split-color bg-white',
                         //
                         invalid ? 'text-destructive split-color' : 'peer-focus:text-bms-gray-500',

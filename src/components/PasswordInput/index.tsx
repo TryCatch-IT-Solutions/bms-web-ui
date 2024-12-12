@@ -60,12 +60,12 @@ const PasswordInput = React.forwardRef<HTMLInputElement, InputProps>(
                         >
                             <Icon className='w-5' fill='black' />
                         </button>
+
+                        {(criteria || hasConfirmPassword) && value !== '' ? (
+                            <PasswordCriteria className={criteriaClassname} values={value} />
+                        ) : null}
                     </div>
                 </div>
-
-                {criteria || hasConfirmPassword ? (
-                    <PasswordCriteria className={criteriaClassname} values={value} />
-                ) : null}
             </div>
         )
     },
@@ -77,7 +77,7 @@ export const PasswordCriteria = (props: PasswordCriteriaProps) => {
     const { className, values = '' } = props
     const { t } = useTranslation('sign-in')
     return (
-        <div aria-hidden={true} className={cn('mt-2 text-sm', className)}>
+        <div aria-hidden={true} className={cn('mt-5 text-sm absolute', className)}>
             <ul className='space-y-3 list-none mt-3' aria-live='assertive'>
                 {passwordRegex?.map((data, index) => {
                     return (

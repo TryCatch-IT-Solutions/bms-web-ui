@@ -33,7 +33,7 @@ export const EmployeeStatusBar: React.FC = () => {
                         'w-1/2 h-[54px] text-lg text-bms-gray-dark data-[state=active]:text-bms-link data-[state=active]: border-bms-link data-[state=active]:font-bold data-[state=active]:border-b-4 data-[state=active]:bg-white sm:truncate ...'
                     }
                 >
-                    {`Deleted (0)`}
+                    {`Archived (0)`}
                 </TabsTrigger>
             </TabsList>
         </Tabs>

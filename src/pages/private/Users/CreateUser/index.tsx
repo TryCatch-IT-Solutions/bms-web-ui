@@ -427,7 +427,7 @@ export const CreateUser: React.FC = () => {
                             </div>
 
                             <div className='flex flex-row gap-3 items-center justify-start'>
-                                <div className='w-1/3 max-w-[32.5%]'>
+                                <div className='w-1/3 max-w-[32.5%] mb-[12rem]'>
                                     <FormField
                                         control={userForm.control}
                                         name='password'
@@ -438,7 +438,6 @@ export const CreateUser: React.FC = () => {
                                                         hasConfirmPassword
                                                         className='mt-[16px] w-[100%] bg-white'
                                                         placeholder='Password'
-                                                        type='password'
                                                         {...field}
                                                     />
                                                 </FormControl>
@@ -450,7 +449,7 @@ export const CreateUser: React.FC = () => {
                                     />
                                 </div>
 
-                                <div className='w-1/3 max-w-[32.5%]'>
+                                <div className='w-1/3 max-w-[32.5%] mb-[12rem]'>
                                     <FormField
                                         control={userForm.control}
                                         name='confirmPassword'
@@ -460,7 +459,6 @@ export const CreateUser: React.FC = () => {
                                                     <PasswordInput
                                                         className='mt-[16px] w-[100%] bg-white'
                                                         placeholder='Confirm Password'
-                                                        type='password'
                                                         {...field}
                                                     />
                                                 </FormControl>

@@ -158,7 +158,7 @@ const FormMessage = React.forwardRef<
         <p
             ref={ref}
             id={formMessageId}
-            className={cn('text-base text-destructive absolute bottom-0', className)}
+            className={cn('text-base text-destructive absolute', className)}
             {...props}
         >
             {pathname.startsWith('/crew') || pathname.startsWith('/reset-password')
