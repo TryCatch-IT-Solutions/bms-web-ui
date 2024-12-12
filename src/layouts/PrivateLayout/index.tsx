@@ -33,7 +33,7 @@ const PrivateLayout = () => {
 
     useEffect(() => {
         if ((!isTokenValid && !isLoading && isTokenValid !== undefined) || token === null) {
-            signOut() // Explicitly call the sign-out function
+            // signOut()
         }
     }, [isTokenValid, status]) // Trigger the effect when isTokenValid changes
 

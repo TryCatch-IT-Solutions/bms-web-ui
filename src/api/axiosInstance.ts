@@ -20,6 +20,7 @@ axiosInstance.interceptors.request.use(async (config) => {
     const accessToken = localStorage.getItem('tokenAtom')
     if (accessToken) {
         // Remove quotes, if any, from the token
+        config.headers['Content-Type'] = 'application/json'
         config.headers.Authorization = `Bearer ${accessToken.replace(/"/g, '')}`
     }
     return config
