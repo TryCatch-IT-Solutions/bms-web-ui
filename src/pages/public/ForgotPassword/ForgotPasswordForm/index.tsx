@@ -8,6 +8,8 @@ import { Button } from '@/components/Button'
 import { Card, CardContent, CardFooter, CardTitle } from '@/components/Card'
 import { useNavigate } from 'react-router-dom'
 import { encryptString } from '@/utils/crypto'
+import { useMutation } from '@tanstack/react-query'
+import { forgotPassword } from '@/api/auth'
 
 export const ForgotPasswordForm: FC = () => {
     const navigate = useNavigate()
@@ -18,7 +20,7 @@ export const ForgotPasswordForm: FC = () => {
     })
 
     const {
-        formState: { errors },
+        formState: { errors, isValid },
     } = fpForm
 
     const handleInputChange = () => {
@@ -27,10 +29,19 @@ export const ForgotPasswordForm: FC = () => {
         }
     }
 
+    const { mutate: forgotPasswordMu, isPending } = useMutation({
+        mutationFn: forgotPassword,
+        onSuccess: (_data, variables) => {
+            const encryptedEmail = encryptString(variables.email) // Access the original email
+            navigate(`/forgot-password-verification?email=${encryptedEmail}`)
+        },
+        onError: (error) => {
+            console.log('error', error.message)
+        },
+    })
+
     const onSubmit = (data: ForgotPasswordType) => {
-        console.log(data)
-        const encryptedEmail = encryptString(data.email)
-        navigate(`/forgot-password-verification?email=${encryptedEmail}`)
+        forgotPasswordMu(data)
     }
 
     return (
@@ -73,7 +84,7 @@ export const ForgotPasswordForm: FC = () => {
                         <Button variant='outline' className='w-1/2' onClick={() => navigate('/')}>
                             Back
                         </Button>
-                        <Button type='submit' className='w-1/2'>
+                        <Button type='submit' className='w-1/2' disabled={isPending || !isValid}>
                             Reset Password
                         </Button>
                     </CardFooter>

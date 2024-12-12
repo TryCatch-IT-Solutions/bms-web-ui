@@ -1,5 +1,5 @@
 import { axiosInstance } from '../axiosInstance'
-import { SignInResponseType, SignInType } from './schema'
+import { ForgotPasswordType, SignInResponseType, SignInType, UpdatePasswordType } from './schema'
 
 export const signIn = async (data: SignInType): Promise<SignInResponseType> => {
     const response = await axiosInstance.post('/api/login', data)
@@ -15,6 +15,21 @@ export const signOut = async () => {
 
 export const verifyToken = async () => {
     const response = await axiosInstance.get('/api/verify-token')
+
+    return response.data
+}
+
+export const createNewPassword = async (data: UpdatePasswordType) => {
+    const response = await axiosInstance.post(
+        `/api/reset-password?token=${data.token}&email=${data.email}`,
+        data,
+    )
+
+    return response.data
+}
+
+export const forgotPassword = async (data: ForgotPasswordType) => {
+    const response = await axiosInstance.post('/api/forgot-password', data)
 
     return response.data
 }

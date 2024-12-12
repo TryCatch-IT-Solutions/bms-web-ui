@@ -5,6 +5,7 @@ import { Input } from '../Input'
 import { useTranslation } from 'react-i18next'
 import { passwordRegex } from '@/utils/regex'
 import { cn } from '@/utils/helper'
+import { useLocation } from 'react-router-dom'
 
 export type InputProps = React.InputHTMLAttributes<HTMLInputElement> & {
     value?: string
@@ -76,8 +77,20 @@ PasswordInput.displayName = 'InputPassword'
 export const PasswordCriteria = (props: PasswordCriteriaProps) => {
     const { className, values = '' } = props
     const { t } = useTranslation('sign-in')
+    const location = useLocation()
+
+    // Check if the current URL is reset-password
+    const isResetPasswordPage = location.pathname === '/reset-password'
+
     return (
-        <div aria-hidden={true} className={cn('mt-5 text-sm absolute', className)}>
+        <div
+            aria-hidden={true}
+            className={cn(
+                'mt-5 text-sm',
+                isResetPasswordPage ? '' : 'absolute', // Remove 'absolute' if on reset-password page
+                className,
+            )}
+        >
             <ul className='space-y-3 list-none mt-3' aria-live='assertive'>
                 {passwordRegex?.map((data, index) => {
                     return (

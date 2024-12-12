@@ -57,7 +57,7 @@ export const EditEmployee: React.FC = () => {
                                 <div className='w-1/3'>
                                     <FormField
                                         control={userForm.control}
-                                        name='firstName'
+                                        name='first_name'
                                         render={({ field }) => (
                                             <FormItem>
                                                 <FormControl>
@@ -69,7 +69,7 @@ export const EditEmployee: React.FC = () => {
                                                     />
                                                 </FormControl>
                                                 <FormMessage>
-                                                    {errors?.firstName?.message}
+                                                    {errors?.first_name?.message}
                                                 </FormMessage>
                                             </FormItem>
                                         )}
@@ -79,20 +79,20 @@ export const EditEmployee: React.FC = () => {
                                 <div className='w-1/3'>
                                     <FormField
                                         control={userForm.control}
-                                        name='middleName'
+                                        name='middle_name'
                                         render={({ field }) => (
                                             <FormItem>
                                                 <FormControl>
                                                     <Input
                                                         className='mt-[16px] w-[100%] bg-white'
                                                         placeholder='Middle Name'
-                                                        type='email'
+                                                        type='text'
                                                         onChange={field.onChange}
-                                                        value={field.value}
+                                                        value={field.value ?? ''}
                                                     />
                                                 </FormControl>
                                                 <FormMessage>
-                                                    {errors?.middleName?.message}
+                                                    {errors?.middle_name?.message}
                                                 </FormMessage>
                                             </FormItem>
                                         )}
@@ -101,7 +101,7 @@ export const EditEmployee: React.FC = () => {
                                 <div className='w-1/3'>
                                     <FormField
                                         control={userForm.control}
-                                        name='lastName'
+                                        name='last_name'
                                         render={({ field }) => (
                                             <FormItem>
                                                 <FormControl>
@@ -113,7 +113,7 @@ export const EditEmployee: React.FC = () => {
                                                     />
                                                 </FormControl>
                                                 <FormMessage>
-                                                    {errors?.lastName?.message}
+                                                    {errors?.last_name?.message}
                                                 </FormMessage>
                                             </FormItem>
                                         )}
@@ -145,7 +145,7 @@ export const EditEmployee: React.FC = () => {
                                 <div className='w-1/3'>
                                     <FormField
                                         control={userForm.control}
-                                        name='phoneNumber'
+                                        name='phone_number'
                                         render={({ field }) => (
                                             <FormItem>
                                                 <FormControl>
@@ -159,7 +159,7 @@ export const EditEmployee: React.FC = () => {
                                                     />
                                                 </FormControl>
                                                 <FormMessage>
-                                                    {errors?.phoneNumber?.message}
+                                                    {errors?.phone_number?.message}
                                                 </FormMessage>
                                             </FormItem>
                                         )}
@@ -190,7 +190,7 @@ export const EditEmployee: React.FC = () => {
                                 <div className='w-1/3 max-w-[32.5%]'>
                                     <FormField
                                         control={userForm.control}
-                                        name='birthDate'
+                                        name='birth_date'
                                         render={({ field }) => (
                                             <FormItem>
                                                 <FormControl>
@@ -202,7 +202,7 @@ export const EditEmployee: React.FC = () => {
                                                     />
                                                 </FormControl>
                                                 <FormMessage>
-                                                    {errors?.birthDate?.message}
+                                                    {errors?.birth_date?.message}
                                                 </FormMessage>
                                             </FormItem>
                                         )}
@@ -242,7 +242,7 @@ export const EditEmployee: React.FC = () => {
                                                         className='mt-[16px] w-[100%] bg-white'
                                                         placeholder='Address 2'
                                                         type='email'
-                                                        {...field}
+                                                        value={field.value ?? ''}
                                                     />
                                                 </FormControl>
                                                 <FormMessage>
@@ -326,7 +326,7 @@ export const EditEmployee: React.FC = () => {
                                 <div className='w-1/3'>
                                     <FormField
                                         control={userForm.control}
-                                        name='zipCode'
+                                        name='zip_code'
                                         render={({ field }) => (
                                             <FormItem>
                                                 <FormControl>
@@ -338,7 +338,7 @@ export const EditEmployee: React.FC = () => {
                                                     />
                                                 </FormControl>
                                                 <FormMessage>
-                                                    {errors?.zipCode?.message}
+                                                    {errors?.zip_code?.message}
                                                 </FormMessage>
                                             </FormItem>
                                         )}

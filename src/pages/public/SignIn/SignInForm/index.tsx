@@ -29,7 +29,7 @@ export const SignInForm: FC = () => {
         formState: { errors, isValid },
     } = signInForm
 
-    const { mutate: signInMu } = useMutation({
+    const { mutate: signInMu, isPending } = useMutation({
         mutationFn: signIn,
         onSuccess: (res) => {
             if (res.token) {
@@ -119,7 +119,7 @@ export const SignInForm: FC = () => {
                     )}
                 />
                 <Button
-                    disabled={!isValid}
+                    disabled={!isValid || isPending}
                     className='w-100 mt-10 hover:bg-zentive-green-medium'
                     type='submit'
                 >

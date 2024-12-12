@@ -7,7 +7,7 @@ import { LAPTOP_MAX_WIDTH } from '@/constants'
 import { useMediaQuery } from 'react-responsive'
 import { useAtomValue } from 'jotai'
 import { tokenAtom } from '@/store/user'
-import { useQuery } from '@tanstack/react-query'
+import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { useEffect } from 'react'
 import { useAuth } from '@/hooks/useAuth'
 import { verifyToken } from '@/api/auth'
@@ -18,24 +18,25 @@ const PrivateLayout = () => {
 
     const { signOut } = useAuth()
 
-    const {
-        data: isTokenValid,
-        status,
-        isLoading,
-    } = useQuery({
-        queryKey: ['tokenKey', token],
+    const queryClient = useQueryClient()
+
+    const { data: isTokenValid, isLoading } = useQuery({
+        queryKey: ['privateTokenKey', token],
         queryFn: verifyToken,
-        enabled: !!token && token !== null,
         refetchIntervalInBackground: true,
         refetchOnWindowFocus: true,
         refetchOnMount: 'always',
     })
 
     useEffect(() => {
-        if ((!isTokenValid && !isLoading && isTokenValid !== undefined) || token === null) {
-            // signOut()
+        if (
+            (!isTokenValid && !isLoading && isTokenValid !== undefined) ||
+            (!isLoading && isTokenValid === undefined)
+        ) {
+            queryClient.invalidateQueries({ queryKey: ['publicTokenKey'] })
+            signOut()
         }
-    }, [isTokenValid, status]) // Trigger the effect when isTokenValid changes
+    }, [isTokenValid, status, isLoading]) // Trigger the effect when isTokenValid changes
 
     return (
         <div>

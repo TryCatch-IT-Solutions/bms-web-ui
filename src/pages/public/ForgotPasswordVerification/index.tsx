@@ -6,6 +6,7 @@ import { NavLink, useNavigate } from 'react-router-dom'
 import emailLogo from '@/assets/common/email.svg'
 import { decryptString } from '@/utils/crypto'
 import { useMutation } from '@tanstack/react-query'
+import { forgotPassword } from '@/api/auth'
 
 export const ForgotPasswordVerification: React.FC = () => {
     const { displayText, isTimerActive, triggerCountdown } = useResendTimer()
@@ -17,14 +18,11 @@ export const ForgotPasswordVerification: React.FC = () => {
 
     const navigate = useNavigate()
 
-    const sendForgotPasswordConfirmation = (email: string): Promise<boolean> => {
-        console.log(email)
-        // Simulating async behavior for the confirmation
-        return Promise.resolve(true) // or some actual async operation
-    }
-
     const { mutate: resetPasswordMu } = useMutation({
-        mutationFn: () => sendForgotPasswordConfirmation(decryptedEmail),
+        mutationFn: () =>
+            forgotPassword({
+                email: decryptedEmail ?? '',
+            }),
         onSuccess: () => {
             toast({
                 description: 'Reset password link sent',
