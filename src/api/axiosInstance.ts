@@ -2,7 +2,7 @@ import axios from 'axios'
 import { z } from 'zod'
 
 export const API_URL = import.meta.env.PROD
-    ? import.meta.env.VITE_API_PROD_API_URL
+    ? import.meta.env.VITE_PROD_API_URL
     : import.meta.env.VITE_DEV_API_URL
 
 export const WEBSITE_URL = import.meta.env.PROD
