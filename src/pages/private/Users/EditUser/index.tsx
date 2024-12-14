@@ -320,6 +320,7 @@ export const EditUser: React.FC = () => {
                                                             placeholder='Address 2'
                                                             type='text'
                                                             value={field.value ?? ''}
+                                                            onChange={field.onChange}
                                                         />
                                                     </FormControl>
                                                     <FormMessage>
