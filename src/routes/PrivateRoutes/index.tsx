@@ -1,6 +1,7 @@
 import PrivateLayout from '@/layouts/PrivateLayout'
 import { CreateDevice } from '@/pages/private/Devices/CreateDevice'
 import { DeviceList } from '@/pages/private/Devices/DeviceList'
+import { EditDevice } from '@/pages/private/Devices/EditDevice'
 import { CreateEmployee } from '@/pages/private/Employees/CreateEmployee'
 import { EditEmployee } from '@/pages/private/Employees/EditEmployee'
 import { EmployeeList } from '@/pages/private/Employees/EmployeeList'
@@ -10,7 +11,7 @@ import { GroupList } from '@/pages/private/Groups/GroupList'
 import { CreateUser } from '@/pages/private/Users/CreateUser'
 import { EditUser } from '@/pages/private/Users/EditUser'
 import { UserList } from '@/pages/private/Users/UserList'
-import { path } from '@/utils/path'
+import { UserProfile } from '@/pages/private/Users/UserProfile'
 import { RouteObject } from 'react-router-dom'
 
 // TO DO: append child paths to /dashboard for the sidebar navigation.
@@ -38,6 +39,10 @@ const PrivateRoutes: RouteObject = {
                 {
                     path: 'edit/:id',
                     element: <EditUser />,
+                },
+                {
+                    path: 'my-profile',
+                    element: <UserProfile />,
                 },
             ],
         },
@@ -85,6 +90,10 @@ const PrivateRoutes: RouteObject = {
                 {
                     path: 'list',
                     element: <DeviceList />,
+                },
+                {
+                    path: 'edit/:id',
+                    element: <EditDevice />,
                 },
             ],
         },

@@ -3,9 +3,9 @@ import { useForm } from 'react-hook-form'
 import { Input } from '@/components/Input'
 import { Button } from '@/components/Button'
 import { Card, CardContent, CardFooter } from '@/components/Card'
-import { useNavigate, useParams } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import { useToast } from '@/hooks/useToast'
-import { profileSchema, EditUserType } from '@/api/profile/schema'
+import { profileSchema, EditUserType, ProfileType } from '@/api/profile/schema'
 import { BreadCrumbs } from '@/components/BreadCrumbs'
 import { Dropdown } from '@/components/DropdownInput'
 import { GENDER_OPTIONS, ROLE_VALUES } from '@/constants'
@@ -13,27 +13,26 @@ import PhoneNumberInput from '@/components/PhoneNumberInput'
 import { editUser, getUserById } from '@/api/profile'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { useEffect } from 'react'
-import { logZodResolver } from '@/utils/helper'
 import Spinner from '@/components/Spinner'
+import { userAtom } from '@/store/user'
+import { useAtom } from 'jotai'
+import { zodResolver } from '@hookform/resolvers/zod'
 
-export const EditUser: React.FC = () => {
+export const UserProfile: React.FC = () => {
     const navigate = useNavigate()
     const { toast } = useToast()
-    const { id } = useParams()
+    const [currentProfile, setCurrentProfile] = useAtom(userAtom)
 
-    const numericId = Number(id)
+    const { data: user, isLoading } = useQuery({
+        queryKey: ['userCurrentProfile', currentProfile?.id],
+        queryFn: () => getUserById(currentProfile?.id ?? 0),
+    })
 
     const queryClient = useQueryClient()
 
-    const { data: user, isLoading } = useQuery({
-        queryKey: ['editUserProfile', id],
-        queryFn: () => getUserById(numericId ?? 0),
-        enabled: !!id,
-    })
-
     const userForm = useForm<EditUserType>({
         mode: 'onChange',
-        resolver: logZodResolver(profileSchema),
+        resolver: zodResolver(profileSchema),
         defaultValues: {
             email: user?.email,
             first_name: user?.first_name,
@@ -62,14 +61,11 @@ export const EditUser: React.FC = () => {
     const { mutate: updateUserMu } = useMutation({
         mutationFn: editUser,
         onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: ['userCurrentProfile'] })
             toast({
                 description: 'User updated successfully',
                 duration: 2000,
             })
-
-            queryClient.invalidateQueries({ queryKey: ['usersList'] })
-
-            navigate(`/user/list`)
         },
     })
 
@@ -83,13 +79,14 @@ export const EditUser: React.FC = () => {
 
     useEffect(() => {
         if (user) {
+            setCurrentProfile(user as ProfileType)
             userForm.reset(user)
         }
     }, [user])
 
     return (
         <div className='content'>
-            <BreadCrumbs title='Edit User' origin='Users' />
+            <BreadCrumbs title='My Profile' origin='Users' />
 
             <Form {...userForm}>
                 <form
@@ -251,6 +248,7 @@ export const EditUser: React.FC = () => {
                                             <FormField
                                                 control={userForm.control}
                                                 name='role'
+                                                disabled
                                                 render={({ field }) => (
                                                     <FormItem>
                                                         <FormControl>

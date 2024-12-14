@@ -1,6 +1,8 @@
+import { getUserStatusCount } from '@/api/profile'
 import { USER_STATUS } from '@/constants'
 import { userSelectedStatusAtom } from '@/store/user'
 import { Tabs, TabsList, TabsTrigger } from '@radix-ui/react-tabs'
+import { useQuery } from '@tanstack/react-query'
 import { useSetAtom } from 'jotai'
 
 export const UserStatusTabs: React.FC = () => {
@@ -10,9 +12,14 @@ export const UserStatusTabs: React.FC = () => {
         setSelected(status)
     }
 
+    const { data: userCount } = useQuery({
+        queryKey: ['userStatusCount'],
+        queryFn: getUserStatusCount,
+    })
+
     return (
         <Tabs
-            defaultValue={'ACT'}
+            defaultValue={USER_STATUS.ACTIVATED}
             onValueChange={(val) => setSelected(val)}
             className='bg-white rounded-md w-full'
         >
@@ -24,7 +31,7 @@ export const UserStatusTabs: React.FC = () => {
                         'w-1/2 h-[54px] text-lg text-bms-gray-dark data-[state=active]:text-bms-link data-[state=active]: border-bms-link data-[state=active]:font-bold data-[state=active]:border-b-4 data-[state=active]:bg-white sm:truncate ...'
                     }
                 >
-                    {`Active (0)`}
+                    {`Active (${userCount?.active ?? 0})`}
                 </TabsTrigger>
                 <TabsTrigger
                     onClick={() => onSwitchTab(USER_STATUS.INACTIVE)}
@@ -33,7 +40,7 @@ export const UserStatusTabs: React.FC = () => {
                         'w-1/2 h-[54px] text-lg text-bms-gray-dark data-[state=active]:text-bms-link data-[state=active]: border-bms-link data-[state=active]:font-bold data-[state=active]:border-b-4 data-[state=active]:bg-white sm:truncate ...'
                     }
                 >
-                    {`Archived (0)`}
+                    {`Archived (${userCount?.inactive ?? 0})`}
                 </TabsTrigger>
             </TabsList>
         </Tabs>

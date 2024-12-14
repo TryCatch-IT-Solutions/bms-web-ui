@@ -83,8 +83,14 @@ export const bulkUserUpdateStatusSchema = z.object({
     users: z.array(z.number()),
 })
 
+export const userStatusCountSchema = z.object({
+    active: z.number(),
+    inactive: z.number(),
+})
+
 export type ProfileType = z.infer<typeof profileSchema>
 export type UserListType = z.infer<typeof userListSchema>
 export type CreateUserType = z.infer<typeof createUserSchema>
 export type EditUserType = z.infer<typeof editUserSchema>
 export type BulkUserUpdateStatusType = z.infer<typeof bulkUserUpdateStatusSchema>
+export type UserStatusCountType = z.infer<typeof userStatusCountSchema>

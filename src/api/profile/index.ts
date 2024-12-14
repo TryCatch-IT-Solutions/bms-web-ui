@@ -6,6 +6,7 @@ import {
     EditUserType,
     ProfileType,
     UserListType,
+    UserStatusCountType,
 } from './schema'
 
 export const getUsers = async (
@@ -45,6 +46,12 @@ export const editUser = async (data: EditUserType) => {
 
 export const bulkUserUpdateStatus = async (data: BulkUserUpdateStatusType) => {
     const response = await axiosInstance.post('/api/users/delete', data)
+
+    return response.data
+}
+
+export const getUserStatusCount = async (): Promise<UserStatusCountType> => {
+    const response = await axiosInstance.get('/api/users/count')
 
     return response.data
 }

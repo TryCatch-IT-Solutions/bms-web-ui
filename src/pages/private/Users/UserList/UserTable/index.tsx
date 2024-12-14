@@ -77,7 +77,7 @@ export const UserTable: React.FC = () => {
                             key={0}
                             className='text-start text-base text-bms-gray-dark cursor-pointer'
                         >
-                            <TableCell rowSpan={7}>
+                            <TableCell colSpan={7}>
                                 <AppSkeletonLoadingState />
                             </TableCell>
                         </TableRow>

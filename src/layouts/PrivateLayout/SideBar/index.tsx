@@ -1,4 +1,4 @@
-import { atom } from 'jotai'
+import { atom, useAtomValue } from 'jotai'
 import { useState } from 'react'
 import { HiOutlineUsers } from 'react-icons/hi'
 import { HiOutlineHome } from 'react-icons/hi2'
@@ -9,6 +9,8 @@ import { useMediaQuery } from 'react-responsive'
 import { MenuChildren } from './MenuChild/index'
 import { IconType } from 'react-icons/lib/cjs/iconBase'
 import { ROLE } from '@/constants'
+import { userAtom } from '@/store/user'
+import { getAllowedNavigationItems } from '@/utils/navigation'
 
 export type NavigationProps = {
     name: string
@@ -35,17 +37,17 @@ export const navigationItems: NavigationProps[] = [
         name: 'Users',
         icon: HiOutlineUsers,
         href: '#',
-        allowedRoles: [ROLE.superadmin, ROLE.groupadmin],
+        allowedRoles: [ROLE.superadmin],
         children: [
             {
                 name: 'Users',
                 href: '/user/list',
-                allowedRoles: [ROLE.groupadmin],
+                allowedRoles: [ROLE.superadmin],
             },
             {
                 name: 'Register',
                 href: '/user/register',
-                allowedRoles: [ROLE.groupadmin],
+                allowedRoles: [ROLE.superadmin],
             },
         ],
     },
@@ -58,30 +60,30 @@ export const navigationItems: NavigationProps[] = [
             {
                 name: 'Groups',
                 href: '/group/list',
-                allowedRoles: [ROLE.groupadmin],
+                allowedRoles: [ROLE.superadmin, ROLE.groupadmin],
             },
             {
                 name: 'Create Group',
                 href: '/group/create',
-                allowedRoles: [ROLE.groupadmin],
+                allowedRoles: [ROLE.superadmin, ROLE.groupadmin],
             },
         ],
     },
     {
-        name: 'Device',
+        name: 'Devices',
         icon: HiDevicePhoneMobile,
         href: '#',
-        allowedRoles: [ROLE.superadmin, ROLE.groupadmin],
+        allowedRoles: [ROLE.superadmin],
         children: [
             {
                 name: 'Devices',
                 href: '/device/list',
-                allowedRoles: [ROLE.groupadmin],
+                allowedRoles: [ROLE.superadmin],
             },
             {
                 name: 'Add Device',
                 href: '/device/create',
-                allowedRoles: [ROLE.groupadmin],
+                allowedRoles: [ROLE.superadmin],
             },
         ],
     },
@@ -117,17 +119,17 @@ export const navigationItems: NavigationProps[] = [
             {
                 name: 'Employee List',
                 href: '#',
-                allowedRoles: [ROLE.groupadmin],
+                allowedRoles: [ROLE.superadmin, ROLE.groupadmin],
             },
             {
                 name: 'Create Employee',
                 href: '#',
-                allowedRoles: [ROLE.groupadmin],
+                allowedRoles: [ROLE.superadmin, ROLE.groupadmin],
             },
             {
                 name: 'Time Entries',
                 href: '#',
-                allowedRoles: [ROLE.groupadmin],
+                allowedRoles: [ROLE.superadmin, ROLE.groupadmin],
             },
         ],
     },
@@ -136,9 +138,12 @@ export const navigationItems: NavigationProps[] = [
 export const navAtom = atom<boolean>(false)
 
 export const Sidebar = () => {
+    const user = useAtomValue(userAtom)
     const [currentTab, setCurrentTab] = useState(0)
 
     const xl_vw_already = useMediaQuery({ maxWidth: 1425 })
+
+    const allowedNavigationItems = getAllowedNavigationItems(navigationItems, user?.role)
 
     return (
         <>
@@ -148,7 +153,7 @@ export const Sidebar = () => {
                         className='w-72 flex-auto space-y-2 bg-white overflow-auto no-scrollbar mt-20'
                         aria-label='Sidebar'
                     >
-                        {navigationItems?.map((item, index) => (
+                        {allowedNavigationItems?.map((item, index) => (
                             <div key={`${item?.name}-${index}`}>
                                 <MenuChildren
                                     index={index}
