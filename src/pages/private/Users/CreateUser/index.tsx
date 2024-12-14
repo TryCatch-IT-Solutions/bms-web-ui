@@ -277,6 +277,7 @@ export const CreateUser: React.FC = () => {
                                                         placeholder='Address 2'
                                                         type='email'
                                                         value={field.value ?? ''}
+                                                        onChange={field.onChange}
                                                     />
                                                 </FormControl>
                                                 <FormMessage>
