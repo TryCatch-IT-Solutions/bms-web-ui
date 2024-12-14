@@ -4,7 +4,7 @@ import { Fragment, useState } from 'react'
 import { HiXMark } from 'react-icons/hi2'
 import { MenuChildren } from '..'
 import { navAtom, navigationItems } from '../..'
-import zentiveLogo from '@/assets/common/Zentive_Horizontal_Logo@3x.png'
+import daiLogo from '@/assets/dai-logo.png'
 import { useNavigate } from 'react-router-dom'
 import { useMediaQuery } from 'react-responsive'
 import { cn } from '@/utils/helper'
@@ -82,7 +82,7 @@ const MobileMenu = () => {
                                                 navigate('/dashboard')
                                                 setCurrentTab(0)
                                             }}
-                                            src={zentiveLogo}
+                                            src={daiLogo}
                                             alt='Zentive Logo'
                                             className='h-[44px] w-[125px]'
                                         />

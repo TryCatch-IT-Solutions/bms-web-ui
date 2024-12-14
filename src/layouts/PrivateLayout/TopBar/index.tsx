@@ -12,13 +12,14 @@ import { useLocation, useNavigate } from 'react-router-dom'
 
 import daiLogo from '@/assets/dai-logo.png'
 import { useAuth } from '@/hooks/useAuth'
-import { useAtomValue } from 'jotai'
+import { useAtom, useAtomValue } from 'jotai'
 import { userAtom } from '@/store/user'
+import { navAtom } from '../SideBar'
 
 export const Topbar = () => {
     const navigate = useNavigate()
     const user = useAtomValue(userAtom)
-
+    const [sidebarOpen, setSidebarOpen] = useAtom(navAtom)
     const { pathname } = useLocation()
 
     const { signOut } = useAuth()
@@ -28,7 +29,11 @@ export const Topbar = () => {
     return (
         <div className='sticky text-zentive-gray-semi-medium top-0 z-40 flex h-16 shrink-0 items-center gap-x-4 border-b border-gray-200 bg-white px-4 shadow-sm sm:gap-x-6 sm:px-6 lg:px-8'>
             {xl_vw_already && pathname !== '/customer-portal/create-password' && (
-                <button type='button' className='-m-2.5 p-2.5 text-gray-700 flex'>
+                <button
+                    type='button'
+                    className='-m-2.5 p-2.5 text-gray-700 flex'
+                    onClick={() => setSidebarOpen(!sidebarOpen)}
+                >
                     <span className='sr-only'>Open sidebar</span>
                     <FaBars className='w-6 h-6' />
                 </button>
