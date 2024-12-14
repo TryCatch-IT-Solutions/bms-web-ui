@@ -79,12 +79,12 @@ export const PhoneNumberInput = forwardRef((props: PhoneNumberInputProps, forwar
             />
             <Label
                 className={cn(
-                    'floating-label absolute left-12 top-1/2 -translate-y-1/2 text-base text-bms-gray-medium duration-100 ease-linear peer-has-[:focus]:left-3 peer-has-[:focus]:-translate-y-[2.15rem] peer-has-[:focus]:text-sm peer-has-[:focus]:px-1 split-color pointer-events-none',
+                    'floating-label bg-white absolute left-12 top-1/2 -translate-y-1/2 text-base text-bms-gray-medium duration-100 ease-linear peer-has-[:focus]:left-3 peer-has-[:focus]:-translate-y-[2.15rem] peer-has-[:focus]:text-sm peer-has-[:focus]:px-1 split-color pointer-events-none',
 
                     // with value
                     props.value && ' text-sm -translate-y-[2.15rem] left-3 px-1',
                     //
-                    invalid ? 'text-zentive-red-dark' : 'peer-has-[:focus]:text-zentive-green-dark',
+                    invalid ? 'text-bms-primary' : 'peer-has-[:focus]:text-bms-gray-medium',
                     props?.disabled && 'split-color-disabled',
                 )}
             >
