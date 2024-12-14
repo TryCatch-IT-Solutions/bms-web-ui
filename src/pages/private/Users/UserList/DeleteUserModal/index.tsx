@@ -1,5 +1,5 @@
 import { HiOutlineExclamationTriangle } from 'react-icons/hi2'
-import { Dispatch, SetStateAction } from 'react'
+import { Dispatch, SetStateAction, useState } from 'react'
 import { Button } from '@/components/Button'
 import { Modal } from '@/components/Modal'
 import { toast } from '@/hooks/useToast'
@@ -16,6 +16,7 @@ interface DeleteUserModalProps {
 
 const DeleteUserModal: React.FC<DeleteUserModalProps> = ({ open, setOpen }) => {
     const [userIdsToDelete, setUserIdsToDelete] = useAtom(userIdsToDeleteAtom)
+    const [disabled, setDisabled] = useState<boolean>(false)
 
     const queryClient = useQueryClient()
 
@@ -28,14 +29,16 @@ const DeleteUserModal: React.FC<DeleteUserModalProps> = ({ open, setOpen }) => {
             })
 
             queryClient.invalidateQueries({ queryKey: ['usersList'] })
+            queryClient.invalidateQueries({ queryKey: ['userStatusCount'] })
             setUserIdsToDelete(null)
             setOpen(false)
         },
     })
 
     const handleSubmit = () => {
-        console.log('tertes')
+        setDisabled(true)
         deleteUsersMu() // Actually calling the mutation function
+        setDisabled(false)
     }
 
     return (
@@ -70,6 +73,7 @@ const DeleteUserModal: React.FC<DeleteUserModalProps> = ({ open, setOpen }) => {
                         variant='ghost'
                         className='w-97 h-11 text-base font-semibold bg-white text-bms-primary ring-bms-primary border border-bms-primary'
                         onClick={() => setOpen(false)}
+                        disabled={disabled}
                     >
                         Cancel
                     </Button>
@@ -77,6 +81,7 @@ const DeleteUserModal: React.FC<DeleteUserModalProps> = ({ open, setOpen }) => {
                         onClick={handleSubmit}
                         className='w-97 h-11 text-base font-semibold bg-bms-primary'
                         type='button'
+                        disabled={disabled}
                     >
                         Yes, please
                     </Button>

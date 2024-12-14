@@ -145,7 +145,7 @@ export const CreateDeviceForm: React.FC = () => {
                         <Button
                             variant='outline'
                             className='w-1/5'
-                            onClick={() => navigate('/user/list')}
+                            onClick={() => navigate('/device/list')}
                         >
                             Cancel
                         </Button>

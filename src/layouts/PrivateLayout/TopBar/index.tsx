@@ -83,11 +83,12 @@ export const Topbar = () => {
                                     <button
                                         type='button'
                                         className='border-b-2 border-zentive-gray-bg'
+                                        onClick={() => navigate('/user/my-profile')}
                                     >
                                         <div className='p-3 flex items-center cursor-pointer text-sm hover:bg-zentive-gray-bg hover:text-black hover:font-semibold transition-all'>
                                             <CiSettings className='mr-3 w-6 h-6' />
                                             <div className='flex-1 text-left'>
-                                                <p> Settings </p>
+                                                <p> My Profile </p>
                                             </div>
                                         </div>
                                     </button>
