@@ -11,6 +11,7 @@ import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { useEffect } from 'react'
 import { useAuth } from '@/hooks/useAuth'
 import { verifyToken } from '@/api/auth'
+import MobileMenu from './SideBar/MenuChild/MobileMenu'
 
 const PrivateLayout = () => {
     const xl_vw_already = useMediaQuery({ maxWidth: LAPTOP_MAX_WIDTH })
@@ -42,6 +43,7 @@ const PrivateLayout = () => {
         <div>
             <Toaster />
             <Topbar />
+            <MobileMenu />
             <Sidebar />
             <main className={cn('bg-zentive-gray-bg', !xl_vw_already ? 'lg:pl-72' : '')}>
                 <div className='px-4 sm:px-6 lg:px-8'>
