@@ -39,7 +39,6 @@ export const CreateUser: React.FC = () => {
             navigate(`/user/list`)
         },
         onError: (err: any) => {
-            console.log(err)
             toast({
                 description: err?.response?.data?.message,
                 variant: 'destructive',
