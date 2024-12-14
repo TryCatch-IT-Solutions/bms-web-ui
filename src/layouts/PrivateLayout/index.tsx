@@ -29,14 +29,14 @@ const PrivateLayout = () => {
     })
 
     useEffect(() => {
-        if (
-            (!isTokenValid && !isLoading && isTokenValid !== undefined) ||
-            (!isLoading && isTokenValid === undefined)
-        ) {
+        const shouldSignOut =
+            !isLoading && (isTokenValid === undefined || !isTokenValid || token === null)
+
+        if (shouldSignOut) {
             queryClient.invalidateQueries({ queryKey: ['publicTokenKey'] })
             signOut()
         }
-    }, [isTokenValid, status, isLoading]) // Trigger the effect when isTokenValid changes
+    }, [isTokenValid, isLoading, token])
 
     return (
         <div>
