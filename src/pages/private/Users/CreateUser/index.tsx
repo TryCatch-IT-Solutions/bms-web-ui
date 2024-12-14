@@ -27,6 +27,7 @@ export const CreateUser: React.FC = () => {
     })
 
     const {
+        setError,
         setValue,
         formState: { errors, isValid },
     } = userForm
@@ -37,16 +38,23 @@ export const CreateUser: React.FC = () => {
             queryClient.invalidateQueries({ queryKey: ['usersList'] })
             navigate(`/user/list`)
         },
-        onError: () => {
+        onError: (err: any) => {
+            console.log(err)
             toast({
-                description: 'Failed to create user',
+                description: err?.response?.data?.message,
                 variant: 'destructive',
             })
         },
     })
 
     const onSubmit = (data: CreateUserType) => {
-        createUserMu(data)
+        if (data.phone_number === data.emergency_contact_no) {
+            setError('emergency_contact_no', {
+                message: 'Cannot be the same as user phone number',
+            })
+        } else {
+            createUserMu(data)
+        }
     }
 
     useEffect(() => {
