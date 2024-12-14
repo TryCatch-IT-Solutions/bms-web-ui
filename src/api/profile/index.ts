@@ -24,6 +24,7 @@ export const getUsers = async (
 
     return response.data
 }
+
 export const createUser = async (data: CreateUserType) => {
     const response = await axiosInstance.post('/api/register', data)
 

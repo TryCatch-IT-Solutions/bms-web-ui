@@ -75,12 +75,12 @@ export const navigationItems: NavigationProps[] = [
         children: [
             {
                 name: 'Devices',
-                href: '#',
+                href: '/device/list',
                 allowedRoles: [ROLE.groupadmin],
             },
             {
                 name: 'Add Device',
-                href: '#',
+                href: '/device/create',
                 allowedRoles: [ROLE.groupadmin],
             },
         ],
