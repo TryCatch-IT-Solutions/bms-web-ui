@@ -34,7 +34,7 @@ export const MenuChildren = (props: IMenu) => {
                         item={props.item}
                         setCurrentTab={props.setCurrentTab}
                     />
-                    {props.item.children && props.isOpen && (
+                    {props?.item?.children && props.isOpen && (
                         <Transition
                             show={path(props.item, pathname) || props.isOpen}
                             appear={true}

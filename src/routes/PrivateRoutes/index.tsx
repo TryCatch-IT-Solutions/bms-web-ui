@@ -12,7 +12,7 @@ import { CreateUser } from '@/pages/private/Users/CreateUser'
 import { EditUser } from '@/pages/private/Users/EditUser'
 import { UserList } from '@/pages/private/Users/UserList'
 import { UserProfile } from '@/pages/private/Users/UserProfile'
-import { RouteObject } from 'react-router-dom'
+import { Outlet, RouteObject } from 'react-router-dom'
 
 // TO DO: append child paths to /dashboard for the sidebar navigation.
 // e.g. /dashboard/customers, /schedule, /finance-managmement, etc..
@@ -23,11 +23,20 @@ const PrivateRoutes: RouteObject = {
     children: [
         {
             path: '/dashboard',
-            element: <></>,
+            children: [
+                {
+                    element: <></>,
+                    index: true,
+                },
+            ],
         },
         {
             path: '/user',
             children: [
+                {
+                    element: <Outlet />,
+                    index: true,
+                },
                 {
                     path: 'list',
                     element: <UserList />,

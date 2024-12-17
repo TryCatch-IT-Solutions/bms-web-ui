@@ -10,10 +10,6 @@ export const getAllowedNavigationItems = (
 ): NavigationProps[] => {
     const filteredNavigationItems = navigationItems
         ?.map((item) => {
-            if (item.allowedRoles.includes(roleName) && RESTRICTED_TABS.includes(item.name)) {
-                return null
-            }
-
             const filteredChildren = item.children?.filter((child) => {
                 if (RESTRICTED_PAGES.includes(child.name) && roleName !== ROLE.superadmin) {
                     return null

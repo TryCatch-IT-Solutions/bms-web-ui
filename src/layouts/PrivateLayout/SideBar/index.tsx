@@ -65,7 +65,7 @@ export const navigationItems: NavigationProps[] = [
             {
                 name: 'Create Group',
                 href: '/group/create',
-                allowedRoles: [ROLE.superadmin, ROLE.groupadmin],
+                allowedRoles: [ROLE.superadmin],
             },
         ],
     },
@@ -96,17 +96,17 @@ export const navigationItems: NavigationProps[] = [
             {
                 name: 'Create Employee',
                 href: '/employee/create',
-                allowedRoles: [ROLE.groupadmin],
+                allowedRoles: [ROLE.groupadmin, ROLE.superadmin],
             },
             {
                 name: 'Employee List',
                 href: '/employee/list',
-                allowedRoles: [ROLE.groupadmin],
+                allowedRoles: [ROLE.groupadmin, ROLE.superadmin],
             },
             {
                 name: 'Time Entries',
                 href: '/employee/time-entry',
-                allowedRoles: [ROLE.groupadmin],
+                allowedRoles: [ROLE.groupadmin, ROLE.superadmin],
             },
         ],
     },
@@ -140,9 +140,7 @@ export const navAtom = atom<boolean>(false)
 export const Sidebar = () => {
     const user = useAtomValue(userAtom)
     const [currentTab, setCurrentTab] = useState(0)
-
     const xl_vw_already = useMediaQuery({ maxWidth: 1425 })
-
     const allowedNavigationItems = getAllowedNavigationItems(navigationItems, user?.role)
 
     return (
