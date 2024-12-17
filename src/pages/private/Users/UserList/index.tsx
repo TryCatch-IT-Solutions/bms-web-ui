@@ -8,15 +8,17 @@ import { Trash2Icon } from 'lucide-react'
 import { useState } from 'react'
 import DeleteUserModal from './DeleteUserModal'
 import { useAtomValue } from 'jotai'
-import { userIdsToDeleteAtom } from '@/store/user'
+import { userIdsToDeleteAtom, userSelectedStatusAtom } from '@/store/user'
+import { USER_STATUS } from '@/constants'
 
 export const UserList: React.FC = () => {
     const [open, setOpen] = useState<boolean>(false)
+    const selectedUserStatus = useAtomValue(userSelectedStatusAtom)
+    const userIdsToDelete = useAtomValue(userIdsToDeleteAtom)
+
     const onSearchChange = (val: string) => {
         console.log(val)
     }
-
-    const userIdsToDelete = useAtomValue(userIdsToDeleteAtom)
 
     return (
         <div className='content'>
@@ -30,7 +32,7 @@ export const UserList: React.FC = () => {
                         onClick={() => setOpen(true)}
                         disabled={userIdsToDelete === null || userIdsToDelete.users.length === 0}
                     >
-                        Delete
+                        {selectedUserStatus === USER_STATUS.ACTIVATED ? 'Delete' : 'Restore'}
                         <Trash2Icon className='h-4' />
                     </Button>
                     <Button>Filter</Button>
