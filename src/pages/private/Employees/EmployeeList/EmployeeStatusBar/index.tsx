@@ -1,10 +1,10 @@
 import { USER_STATUS } from '@/constants'
-import { userSelectedStatusAtom } from '@/store/user'
+import { employeeSelectedStatusAtom } from '@/store/user'
 import { Tabs, TabsList, TabsTrigger } from '@radix-ui/react-tabs'
 import { useSetAtom } from 'jotai'
 
 export const EmployeeStatusBar: React.FC = () => {
-    const setSelected = useSetAtom(userSelectedStatusAtom)
+    const setSelected = useSetAtom(employeeSelectedStatusAtom)
 
     const onSwitchTab = (status: string) => {
         setSelected(status)

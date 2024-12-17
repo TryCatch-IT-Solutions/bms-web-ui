@@ -84,7 +84,7 @@ const PrivateRoutes: RouteObject = {
                     element: <CreateEmployee />,
                 },
                 {
-                    path: 'edit',
+                    path: 'edit/:id',
                     element: <EditEmployee />,
                 },
             ],
