@@ -89,7 +89,7 @@ export const EditEmployee: React.FC = () => {
 
     return (
         <div className='content'>
-            <BreadCrumbs title='Edit User' origin='Users' />
+            <BreadCrumbs title='Edit Employee' origin='Employees' id={Number(id) ?? 0} />
 
             <Form {...userForm}>
                 <form
@@ -485,7 +485,7 @@ export const EditEmployee: React.FC = () => {
                                 <Button
                                     variant='outline'
                                     className='w-1/5'
-                                    onClick={() => navigate('/user/list')}
+                                    onClick={() => navigate('/employee/list')}
                                 >
                                     Cancel
                                 </Button>

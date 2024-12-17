@@ -1,4 +1,4 @@
-import { userIdsToDeleteAtom } from '@/store/user'
+import { userIdsToDeleteAtom, usersToExportAtom } from '@/store/user'
 import { getUsers } from '@/api/profile'
 import { ProfileType } from '@/api/profile/schema'
 import { Checkbox } from '@/components/Checkbox'
@@ -10,7 +10,7 @@ import { ROLE } from '@/constants'
 import { userSelectedStatusAtom } from '@/store/user'
 import { cn } from '@/utils/helper'
 import { useQuery } from '@tanstack/react-query'
-import { useAtom, useAtomValue } from 'jotai'
+import { useAtom, useAtomValue, useSetAtom } from 'jotai'
 import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 
@@ -33,6 +33,7 @@ export const UserTable: React.FC = () => {
 
     const selectedStatus = useAtomValue(userSelectedStatusAtom)
     const [userIdsToDelete, setUserIdsToDelete] = useAtom(userIdsToDeleteAtom)
+    const setUsersToExport = useSetAtom(usersToExportAtom)
 
     const navigate = useNavigate()
 
@@ -45,12 +46,27 @@ export const UserTable: React.FC = () => {
         navigate(`/user/edit/${id}`)
     }
 
-    const handleCheckboxChange = (userId: number, isChecked: boolean) => {
+    const handleCheckboxChange = (user: ProfileType, isChecked: boolean) => {
         setUserIdsToDelete((prev) => {
             const updatedUserIds = isChecked
-                ? [...(prev?.users ?? []), userId] // Add userId if checked
-                : (prev?.users ?? []).filter((id) => id !== userId) // Remove userId if unchecked
+                ? [...(prev?.users ?? []), user?.id] // Add userId if checked
+                : (prev?.users ?? []).filter((id) => id !== user?.id) // Remove userId if unchecked
             return { users: updatedUserIds } // Return updated object with 'user' key
+        })
+
+        const userToAddOrRemove = users?.content?.find((prevuser) => prevuser.id === user?.id)
+
+        setUsersToExport((prevExportData: any) => {
+            const updatedContent = isChecked
+                ? [...(prevExportData?.content ?? []), userToAddOrRemove] // Add the full user profile to export data
+                : (prevExportData?.content ?? []).filter(
+                      (prevuser: ProfileType) => prevuser.id !== user.id,
+                  ) // Remove user profile from export data
+
+            return {
+                ...prevExportData,
+                content: updatedContent, // Update content with the new list of users
+            }
         })
     }
 
@@ -93,7 +109,7 @@ export const UserTable: React.FC = () => {
                                     onClick={
                                         () =>
                                             handleCheckboxChange(
-                                                u.id,
+                                                u,
                                                 !userIdsToDelete?.users?.includes(u.id),
                                             ) // Toggle user ID selection
                                     }

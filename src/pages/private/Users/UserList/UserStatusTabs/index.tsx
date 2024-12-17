@@ -1,15 +1,19 @@
 import { getUserStatusCount } from '@/api/profile'
 import { USER_STATUS } from '@/constants'
-import { userSelectedStatusAtom } from '@/store/user'
+import { userIdsToDeleteAtom, userSelectedStatusAtom, usersToExportAtom } from '@/store/user'
 import { Tabs, TabsList, TabsTrigger } from '@radix-ui/react-tabs'
 import { useQuery } from '@tanstack/react-query'
 import { useSetAtom } from 'jotai'
 
 export const UserStatusTabs: React.FC = () => {
     const setSelected = useSetAtom(userSelectedStatusAtom)
+    const setToDelete = useSetAtom(userIdsToDeleteAtom)
+    const setToExport = useSetAtom(usersToExportAtom)
 
     const onSwitchTab = (status: string) => {
         setSelected(status)
+        setToDelete(null)
+        setToExport(null)
     }
 
     const { data: userCount } = useQuery({

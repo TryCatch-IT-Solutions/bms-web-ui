@@ -6,10 +6,10 @@ import { PaginationType } from '@/components/Pagination/schema'
 import { TableHeader, TableRow, TableHead, TableBody, TableCell, Table } from '@/components/Table'
 import AppSkeletonLoadingState from '@/components/TableLoadingState'
 import { ROLE } from '@/constants'
-import { employeeSelectedStatusAtom, employeesToDeleteAtom } from '@/store/user'
+import { employeeExportAtom, employeeSelectedStatusAtom, employeesToDeleteAtom } from '@/store/user'
 import { cn } from '@/utils/helper'
 import { useQuery } from '@tanstack/react-query'
-import { useAtom, useAtomValue } from 'jotai'
+import { useAtom, useAtomValue, useSetAtom } from 'jotai'
 import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 
@@ -32,6 +32,7 @@ export const EmployeeTable: React.FC = () => {
 
     const selectedStatus = useAtomValue(employeeSelectedStatusAtom)
     const [userIdsToDelete, setUserIdsToDelete] = useAtom(employeesToDeleteAtom)
+    const setEmployeeExportAtom = useSetAtom(employeeExportAtom)
 
     const navigate = useNavigate()
 
@@ -50,6 +51,19 @@ export const EmployeeTable: React.FC = () => {
                 ? [...(prev?.users ?? []), userId] // Add userId if checked
                 : (prev?.users ?? []).filter((id) => id !== userId) // Remove userId if unchecked
             return { users: updatedUserIds } // Return updated object with 'user' key
+        })
+
+        const userToAddOrRemove = users?.content?.find((user) => user.id === userId)
+
+        setEmployeeExportAtom((prevExportData: any) => {
+            const updatedContent = isChecked
+                ? [...(prevExportData?.content ?? []), userToAddOrRemove] // Add the full user profile to export data
+                : (prevExportData?.content ?? []).filter((user: ProfileType) => user.id !== userId) // Remove user profile from export data
+
+            return {
+                ...prevExportData,
+                content: updatedContent, // Update content with the new list of users
+            }
         })
     }
 

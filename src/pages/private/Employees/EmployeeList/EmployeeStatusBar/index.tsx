@@ -1,18 +1,22 @@
 import { USER_STATUS } from '@/constants'
-import { employeeSelectedStatusAtom } from '@/store/user'
+import { employeeExportAtom, employeeSelectedStatusAtom, employeesToDeleteAtom } from '@/store/user'
 import { Tabs, TabsList, TabsTrigger } from '@radix-ui/react-tabs'
 import { useSetAtom } from 'jotai'
 
 export const EmployeeStatusBar: React.FC = () => {
     const setSelected = useSetAtom(employeeSelectedStatusAtom)
+    const setToExport = useSetAtom(employeeExportAtom)
+    const setToDelete = useSetAtom(employeesToDeleteAtom)
 
     const onSwitchTab = (status: string) => {
         setSelected(status)
+        setToExport(null)
+        setToDelete(null)
     }
 
     return (
         <Tabs
-            defaultValue={'ACT'}
+            defaultValue={USER_STATUS.ACTIVATED}
             onValueChange={(val) => setSelected(val)}
             className='bg-white rounded-md w-full'
         >
