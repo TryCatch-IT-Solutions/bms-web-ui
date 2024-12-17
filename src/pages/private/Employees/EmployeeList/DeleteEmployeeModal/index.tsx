@@ -1,8 +1,14 @@
 import { HiOutlineExclamationTriangle } from 'react-icons/hi2'
-import { Dispatch, SetStateAction } from 'react'
+import { Dispatch, SetStateAction, useState } from 'react'
 import { Button } from '@/components/Button'
 import { Modal } from '@/components/Modal'
 import { toast } from '@/hooks/useToast'
+import { USER_STATUS } from '@/constants'
+import { employeeSelectedStatusAtom, employeesToDeleteAtom } from '@/store/user'
+import { useAtom, useAtomValue } from 'jotai'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
+import { BulkUserUpdateStatusType } from '@/api/profile/schema'
+import { bulkDeleteUserStatus, bulkRestoreUserStatus } from '@/api/profile'
 
 interface DeleteEmployeeModalProps {
     open: boolean
@@ -10,13 +16,52 @@ interface DeleteEmployeeModalProps {
 }
 
 const DeleteEmployeeModal: React.FC<DeleteEmployeeModalProps> = ({ open, setOpen }) => {
-    const handleSave = () => {
-        setOpen(false)
-        toast({
-            description: 'Accounts Deleted Successfully',
-            variant: 'default',
-        })
+    const [userIdsToDelete, setUserIdsToDelete] = useAtom(employeesToDeleteAtom)
+    const [disabled, setDisabled] = useState<boolean>(false)
+    const selectedUserStatus = useAtomValue(employeeSelectedStatusAtom)
+
+    const queryClient = useQueryClient()
+
+    const { mutate: deleteUsersMu } = useMutation({
+        mutationFn: () => bulkDeleteUserStatus(userIdsToDelete as BulkUserUpdateStatusType),
+        onSuccess: () => {
+            toast({
+                description: 'Accounts Deleted Successfully',
+                variant: 'default',
+            })
+
+            queryClient.invalidateQueries({ queryKey: ['employeeList'] })
+            queryClient.invalidateQueries({ queryKey: ['userStatusCount'] })
+            setUserIdsToDelete(null)
+            setOpen(false)
+        },
+    })
+
+    const { mutate: restoreUsersMu } = useMutation({
+        mutationFn: () => bulkRestoreUserStatus(userIdsToDelete as BulkUserUpdateStatusType),
+        onSuccess: () => {
+            toast({
+                description: 'Accounts Restored Successfully',
+                variant: 'default',
+            })
+
+            queryClient.invalidateQueries({ queryKey: ['employeeList'] })
+            queryClient.invalidateQueries({ queryKey: ['userStatusCount'] })
+            setUserIdsToDelete(null)
+            setOpen(false)
+        },
+    })
+
+    const handleSubmit = () => {
+        setDisabled(true)
+        if (selectedUserStatus === USER_STATUS.ACTIVATED) {
+            deleteUsersMu()
+        } else {
+            restoreUsersMu()
+        }
+        setDisabled(false)
     }
+
     return (
         <Modal
             isOpen={open}
@@ -51,12 +96,14 @@ const DeleteEmployeeModal: React.FC<DeleteEmployeeModalProps> = ({ open, setOpen
                         variant='ghost'
                         className='w-97 h-11 text-base font-semibold bg-white text-bms-primary ring-bms-primary border border-bms-primary'
                         onClick={() => setOpen(false)}
+                        disabled={disabled}
                     >
                         Cancel
                     </Button>
                     <Button
-                        onClick={handleSave}
+                        onClick={handleSubmit}
                         className='w-97 h-11 text-base font-semibold bg-bms-primary'
+                        disabled={disabled}
                     >
                         Yes, please
                     </Button>

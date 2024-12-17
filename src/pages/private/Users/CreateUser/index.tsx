@@ -35,6 +35,9 @@ export const CreateUser: React.FC = () => {
     const { mutate: createUserMu } = useMutation({
         mutationFn: createUser,
         onSuccess: () => {
+            toast({
+                description: 'User Registered Successfully',
+            })
             queryClient.invalidateQueries({ queryKey: ['usersList'] })
             navigate(`/user/list`)
         },
