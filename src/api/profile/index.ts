@@ -44,8 +44,14 @@ export const editUser = async (data: EditUserType) => {
     return response.data
 }
 
-export const bulkUserUpdateStatus = async (data: BulkUserUpdateStatusType) => {
+export const bulkDeleteUserStatus = async (data: BulkUserUpdateStatusType) => {
     const response = await axiosInstance.post('/api/users/delete', data)
+
+    return response.data
+}
+
+export const bulkRestoreUserStatus = async (data: BulkUserUpdateStatusType) => {
+    const response = await axiosInstance.post('/api/users/restore', data)
 
     return response.data
 }
