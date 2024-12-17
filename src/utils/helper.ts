@@ -19,3 +19,22 @@ export const logZodResolver = (schema: ZodSchema) => {
         return result
     }
 }
+
+export const convertImageToBase64 = (imagePath: string): Promise<string> => {
+    return new Promise((resolve, reject) => {
+        const img = new Image()
+        img.src = imagePath
+        img.onload = () => {
+            const canvas = document.createElement('canvas')
+            canvas.width = img.width
+            canvas.height = img.height
+            const ctx = canvas.getContext('2d')
+            ctx?.drawImage(img, 0, 0, img.width, img.height)
+            const base64String = canvas.toDataURL('image/png') // Change format if needed
+            resolve(base64String)
+        }
+        img.onerror = (error) => {
+            reject(error)
+        }
+    })
+}

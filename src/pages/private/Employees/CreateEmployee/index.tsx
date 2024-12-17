@@ -467,7 +467,7 @@ export const CreateEmployee: React.FC = () => {
                             <Button
                                 variant='outline'
                                 className='w-1/5'
-                                onClick={() => navigate('/user/list')}
+                                onClick={() => navigate('/employee/list')}
                             >
                                 Cancel
                             </Button>
