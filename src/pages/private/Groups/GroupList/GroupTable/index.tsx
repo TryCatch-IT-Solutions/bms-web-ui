@@ -4,7 +4,7 @@ import { TableHeader, TableRow, TableHead, TableBody, TableCell, Table } from '@
 import AppSkeletonLoadingState from '@/components/TableLoadingState'
 import { cn } from '@/utils/helper'
 import { useQuery } from '@tanstack/react-query'
-import { Link, useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 
 const tableHeader = [
     { name: 'Group ID' },
