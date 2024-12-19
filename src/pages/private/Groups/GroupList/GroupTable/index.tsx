@@ -1,7 +1,10 @@
+import { getGroups } from '@/api/group'
 import { Checkbox } from '@/components/Checkbox'
 import { TableHeader, TableRow, TableHead, TableBody, TableCell, Table } from '@/components/Table'
+import AppSkeletonLoadingState from '@/components/TableLoadingState'
 import { cn } from '@/utils/helper'
-import { Link, useNavigate } from 'react-router-dom'
+import { useQuery } from '@tanstack/react-query'
+import { useNavigate } from 'react-router-dom'
 
 const tableHeader = [
     { name: 'Group ID' },
@@ -16,6 +19,11 @@ export const GroupTable: React.FC = () => {
     const handleRowClick = () => {
         navigate('/group/edit')
     }
+
+    const { data: groups, isLoading } = useQuery({
+        queryKey: ['groupList'],
+        queryFn: getGroups,
+    })
 
     return (
         <Table className='table-auto whitespace-normal w-full'>
@@ -34,19 +42,25 @@ export const GroupTable: React.FC = () => {
                 </TableRow>
             </TableHeader>
             <TableBody>
-                <TableRow
-                    key={0}
-                    className='text-start text-base text-bms-gray-dark cursor-pointer'
-                >
-                    <TableCell className='font-semibold text-bms-link flex flex-row items-center gap-1'>
-                        <Checkbox /> <Link to={'/group/edit'}>0001</Link>
-                    </TableCell>
-                    <TableCell onClick={handleRowClick}>Jane</TableCell>
-                    <TableCell onClick={handleRowClick} className='text-bms-primary'>
-                        DEV-004
-                    </TableCell>
-                    <TableCell onClick={handleRowClick}>2024 Model</TableCell>
-                </TableRow>
+                {isLoading ? (
+                    <AppSkeletonLoadingState />
+                ) : (
+                    groups?.content.map((g) => (
+                        <TableRow
+                            key={0}
+                            className='text-start text-base text-bms-gray-dark cursor-pointer'
+                        >
+                            <TableCell className='font-semibold text-bms-link flex flex-row items-center gap-1'>
+                                <Checkbox /> {g.id}
+                            </TableCell>
+                            <TableCell onClick={handleRowClick}>{g.name}</TableCell>
+                            <TableCell onClick={handleRowClick} className='text-bms-primary'>
+                                DEV-004
+                            </TableCell>
+                            <TableCell onClick={handleRowClick}>2024 Model</TableCell>
+                        </TableRow>
+                    ))
+                )}
             </TableBody>
         </Table>
     )
