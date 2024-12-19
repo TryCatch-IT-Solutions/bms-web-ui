@@ -9,44 +9,42 @@ import { ROLE } from '@/constants'
 import { PaginationType } from '@/components/Pagination/schema'
 import { Pagination } from '@/components/Pagination'
 import Spinner from '@/components/Spinner'
-import { useFormContext } from 'react-hook-form'
 import { CreateGroupType } from '@/api/group/schema'
+import { useFormContext } from 'react-hook-form'
 import { ProfileType } from '@/api/profile/schema'
 
-interface EmployeeListModalProps {
+interface AdminListModalProps {
     open: boolean
     setOpen: Dispatch<SetStateAction<boolean>>
 }
 
-const EmployeeListModal: React.FC<EmployeeListModalProps> = ({ open, setOpen }) => {
+const AdminListModal: React.FC<AdminListModalProps> = ({ open, setOpen }) => {
+    const [adminId, setAdminId] = useState<number>(0)
+    const [adminProfile, setAdminProfile] = useState<ProfileType | null>(null)
+
     const [pagination, setPagination] = useState<PaginationType>({
         current_page: 1,
         per_page: 20,
         itemsPerPage: 20,
     })
 
-    const [empIds, setEmpIds] = useState<number[]>([])
-    const [empProfiles, setEmpProfiles] = useState<ProfileType[]>([])
-
     const { setValue } = useFormContext<CreateGroupType>()
 
-    const handleCheckboxChange = (emp: ProfileType, checked: boolean) => {
-        setEmpIds((prev) =>
-            checked ? [...prev, emp.id] : prev.filter((empId) => empId !== emp.id),
-        )
-        setEmpProfiles((prev) => (checked ? [...prev, emp] : prev.filter((emp) => emp !== emp)))
-    }
-
     const handleSave = () => {
-        setValue('employees', empIds)
-        setValue('employee_profiles', empProfiles)
+        setValue('admin_profile', adminProfile as ProfileType)
+        setValue('group_admin', adminId)
         setOpen(false)
     }
 
     const { data: employees, isLoading } = useQuery({
-        queryKey: ['employeeList', pagination],
-        queryFn: () => getUsers(pagination, ['active'], [ROLE.employee]),
+        queryKey: ['groupAdminList', pagination],
+        queryFn: () => getUsers(pagination, ['active'], [ROLE.groupadmin]),
     })
+
+    const handleCheckClick = (e: ProfileType) => {
+        setAdminId(e.id)
+        setAdminProfile(e)
+    }
 
     return (
         <Modal
@@ -62,7 +60,7 @@ const EmployeeListModal: React.FC<EmployeeListModalProps> = ({ open, setOpen }) 
             <div className='flex flex-col gap-5'>
                 <div className='flex gap-5 px-10'>
                     <h1 className='text-left font-semibold text-2xl text-gray-900 mt-2.5'>
-                        Add Employee to Group
+                        Select Group Admin
                     </h1>
                 </div>
 
@@ -78,15 +76,13 @@ const EmployeeListModal: React.FC<EmployeeListModalProps> = ({ open, setOpen }) 
                         <Spinner variant='normal' className='h-10 w-10' />
                     ) : (
                         <ul className='flex flex-col gap-3'>
-                            {employees?.content?.map((emp) => (
-                                <li className='flex flex-row gap-2 items-center' key={emp.id}>
+                            {employees?.content?.map((e) => (
+                                <li className='flex flex-row gap-2 items-center'>
                                     <Checkbox
-                                        checked={empIds.includes(emp.id)}
-                                        onClick={() =>
-                                            handleCheckboxChange(emp, !empIds?.includes(emp.id))
-                                        }
+                                        checked={adminId === e.id}
+                                        onClick={() => handleCheckClick(e)}
                                     />
-                                    {emp.first_name} {emp.last_name}
+                                    {e.first_name} {e.last_name}
                                 </li>
                             ))}
                         </ul>
@@ -112,7 +108,7 @@ const EmployeeListModal: React.FC<EmployeeListModalProps> = ({ open, setOpen }) 
                         onClick={handleSave}
                         className='w-97 h-11 text-base font-semibold bg-bms-primary'
                     >
-                        Add Employees
+                        Add
                     </Button>
                 </div>
             </div>
@@ -120,4 +116,4 @@ const EmployeeListModal: React.FC<EmployeeListModalProps> = ({ open, setOpen }) 
     )
 }
 
-export default EmployeeListModal
+export default AdminListModal

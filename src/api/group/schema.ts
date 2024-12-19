@@ -1,29 +1,33 @@
 import { z } from 'zod'
 import { baseModelSchema } from '../base/schema'
 import { profileSchema } from '../profile/schema'
-import { deviceSchema } from '../device/schema'
+import { paginationSchema } from '@/components/Pagination/schema'
 
 export const groupSchema = z
     .object({
-        groupId: z.number(),
+        id: z.number(),
         name: z.string(),
-        members: z.array(profileSchema),
-        device: deviceSchema.optional(),
+        employees: z.array(z.number()),
+        group_admin: z.number(),
     })
     .merge(baseModelSchema)
 
 export const createGroupSchema = groupSchema
     .omit({
-        device: true,
-        members: true,
+        id: true,
     })
     .merge(
         z.object({
-            ids: z.array(z.number()),
-            deviceId: deviceSchema.pick({ id: true }),
-            groupAdminId: z.number(),
+            employee_profiles: z.array(profileSchema).optional(),
+            admin_profile: profileSchema.optional(),
         }),
     )
 
+export const gorupListSchema = z.object({
+    content: z.array(groupSchema),
+    meta: paginationSchema,
+})
+
 export type GroupType = z.infer<typeof groupSchema>
 export type CreateGroupType = z.infer<typeof createGroupSchema>
+export type GroupListType = z.infer<typeof gorupListSchema>
