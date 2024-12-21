@@ -39,6 +39,7 @@ export const CreateUser: React.FC = () => {
                 description: 'User Registered Successfully',
             })
             queryClient.invalidateQueries({ queryKey: ['usersList'] })
+            queryClient.invalidateQueries({ queryKey: ['userStatusCount'] })
             navigate(`/user/list`)
         },
         onError: (err: any) => {
