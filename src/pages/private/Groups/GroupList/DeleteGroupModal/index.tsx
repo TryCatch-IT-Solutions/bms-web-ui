@@ -3,6 +3,11 @@ import { Dispatch, SetStateAction } from 'react'
 import { Button } from '@/components/Button'
 import { Modal } from '@/components/Modal'
 import { toast } from '@/hooks/useToast'
+import { useAtom } from 'jotai'
+import { groupsToDeleteAtom } from '@/store/groups'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
+import { DeleteGroupType } from '@/api/group/schema'
+import { removeGroup } from '@/api/group'
 
 interface DeleteGroupModalProps {
     open: boolean
@@ -10,13 +15,31 @@ interface DeleteGroupModalProps {
 }
 
 const DeleteGroupModal: React.FC<DeleteGroupModalProps> = ({ open, setOpen }) => {
+    const [groupsToRemove, setGroupsToRemove] = useAtom(groupsToDeleteAtom)
+
+    const queryClient = useQueryClient()
+
+    const { mutate: removeGroupsMu } = useMutation<unknown, unknown, DeleteGroupType>({
+        mutationFn: removeGroup,
+        onSuccess: () => {
+            toast({
+                description: 'Accounts Deleted Successfully',
+                variant: 'default',
+            })
+
+            queryClient.invalidateQueries({ queryKey: ['groupList'] })
+
+            setOpen(false)
+
+            setGroupsToRemove(null)
+        },
+    })
+
     const handleSave = () => {
-        setOpen(false)
-        toast({
-            description: 'Accounts Deleted Successfully',
-            variant: 'default',
-        })
+        console.log('here')
+        removeGroupsMu(groupsToRemove as DeleteGroupType)
     }
+
     return (
         <Modal
             isOpen={open}

@@ -10,7 +10,6 @@ import { PaginationType } from '@/components/Pagination/schema'
 import { Pagination } from '@/components/Pagination'
 import Spinner from '@/components/Spinner'
 import { useFormContext } from 'react-hook-form'
-import { CreateGroupType } from '@/api/group/schema'
 import { ProfileType } from '@/api/profile/schema'
 
 interface EmployeeListModalProps {
@@ -28,7 +27,7 @@ const EmployeeListModal: React.FC<EmployeeListModalProps> = ({ open, setOpen }) 
     const [empIds, setEmpIds] = useState<number[]>([])
     const [empProfiles, setEmpProfiles] = useState<ProfileType[]>([])
 
-    const { setValue } = useFormContext<CreateGroupType>()
+    const { setValue } = useFormContext()
 
     const handleCheckboxChange = (emp: ProfileType, checked: boolean) => {
         setEmpIds((prev) =>
@@ -38,14 +37,14 @@ const EmployeeListModal: React.FC<EmployeeListModalProps> = ({ open, setOpen }) 
     }
 
     const handleSave = () => {
-        setValue('employees', empIds)
-        setValue('employee_profiles', empProfiles)
+        setValue('employees', empIds as number[])
+        setValue('employee_profiles', empProfiles as ProfileType[])
         setOpen(false)
     }
 
     const { data: employees, isLoading } = useQuery({
         queryKey: ['employeeList', pagination],
-        queryFn: () => getUsers(pagination, ['active'], [ROLE.employee]),
+        queryFn: () => getUsers(pagination, ['active'], [ROLE.employee], true),
     })
 
     return (

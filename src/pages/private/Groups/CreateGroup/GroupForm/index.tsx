@@ -23,8 +23,13 @@ export const GroupForm: React.FC = () => {
 
     const {
         handleSubmit,
-        formState: { errors, isValid },
+        watch,
+        formState: { errors },
     } = groupForm
+
+    const groupName = watch('name')
+    const empIds = watch('employees')
+    const adminId = watch('group_admin')
 
     const { mutate: createGroupMu } = useMutation({
         mutationFn: createGroup,
@@ -41,6 +46,13 @@ export const GroupForm: React.FC = () => {
     const onSubmit = (data: CreateGroupType) => {
         createGroupMu(data)
     }
+
+    const isValid =
+        groupName !== '' &&
+        groupName !== undefined &&
+        adminId !== undefined &&
+        adminId > 0 &&
+        empIds?.length > 0
 
     return (
         <Form {...groupForm}>

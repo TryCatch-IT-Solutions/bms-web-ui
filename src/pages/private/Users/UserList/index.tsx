@@ -1,6 +1,5 @@
 import { Card, CardContent } from '@/components/Card'
 import { UserStatusTabs } from './UserStatusTabs'
-import { UserTable } from './UserTable'
 import { BreadCrumbs } from '@/components/BreadCrumbs'
 import SearchBar from '@/components/SearchBar'
 import { Button } from '@/components/Button'
@@ -12,6 +11,7 @@ import { userIdsToDeleteAtom, userSelectedStatusAtom, usersToExportAtom } from '
 import { USER_STATUS } from '@/constants'
 import ExportDropdown from './ExportDropdown'
 import { UserListType } from '@/api/profile/schema'
+import { UserTable } from './UserTable'
 
 export const UserList: React.FC = () => {
     const [open, setOpen] = useState<boolean>(false)

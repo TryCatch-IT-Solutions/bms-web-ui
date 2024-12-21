@@ -39,7 +39,8 @@ export const UserTable: React.FC = () => {
 
     const { data: users, isLoading } = useQuery({
         queryKey: ['usersList', pagination, selectedStatus],
-        queryFn: () => getUsers(pagination, [selectedStatus], [ROLE.superadmin, ROLE.groupadmin]),
+        queryFn: () =>
+            getUsers(pagination, [selectedStatus], [ROLE.superadmin, ROLE.groupadmin], true),
     })
 
     const handleRowClick = (id: number) => {
