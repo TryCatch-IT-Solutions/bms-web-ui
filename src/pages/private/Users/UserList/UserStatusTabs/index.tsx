@@ -18,7 +18,7 @@ export const UserStatusTabs: React.FC = () => {
 
     const { data: userCount } = useQuery({
         queryKey: ['userStatusCount'],
-        queryFn: getUserStatusCount,
+        queryFn: () => getUserStatusCount(''),
     })
 
     return (

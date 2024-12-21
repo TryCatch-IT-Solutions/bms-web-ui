@@ -58,8 +58,8 @@ export const bulkRestoreUserStatus = async (data: BulkUserUpdateStatusType) => {
     return response.data
 }
 
-export const getUserStatusCount = async (): Promise<UserStatusCountType> => {
-    const response = await axiosInstance.get('/api/users/count')
+export const getUserStatusCount = async (page?: string): Promise<UserStatusCountType> => {
+    const response = await axiosInstance.get(`/api/users/count?page=${page}`)
 
     return response.data
 }

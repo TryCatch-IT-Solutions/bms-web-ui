@@ -39,6 +39,7 @@ export const CreateEmployee: React.FC = () => {
                 description: 'Employee Registered Successfully',
             })
             queryClient.invalidateQueries({ queryKey: ['employeeList'] })
+            queryClient.invalidateQueries({ queryKey: ['userStatusCount'] })
             navigate(`/employee/list`)
         },
         onError: (err: any) => {
