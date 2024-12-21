@@ -13,6 +13,7 @@ export const getUsers = async (
     p: PaginationType,
     status: string[],
     role: string[],
+    available: boolean,
 ): Promise<UserListType> => {
     const response = await axiosInstance.get(`/api/users`, {
         params: {
@@ -20,6 +21,7 @@ export const getUsers = async (
             limit: p.itemsPerPage,
             roles: role,
             status: status,
+            available: available,
         },
     })
 

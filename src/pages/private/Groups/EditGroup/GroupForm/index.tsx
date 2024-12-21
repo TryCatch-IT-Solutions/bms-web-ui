@@ -1,97 +1,187 @@
-import { groupSchema, CreateGroupType } from '@/api/group/schema'
+import { EditGroupType, editGroupSchema } from '@/api/group/schema'
 import { Button } from '@/components/Button'
-import { Dropdown } from '@/components/DropdownInput'
 import { Form, FormControl, FormField, FormItem, FormMessage } from '@/components/Form'
 import { Input } from '@/components/Input'
-import { TEMP_groupadmin } from '@/constants'
-import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 import { GroupMemberTable } from './GroupMemberTable'
 import { Trash2Icon } from 'lucide-react'
+
+import { useEffect, useState } from 'react'
+import { useNavigate, useParams } from 'react-router-dom'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
+import { getGroupByid, updateGroupName } from '@/api/group'
+import Spinner from '@/components/Spinner'
+import { ProfileType } from '@/api/profile/schema'
+import { useToast } from '@/hooks/useToast'
+import { AxiosError } from 'axios'
+import AdminListModal from './AdminListModal'
 import EmployeeListModal from './EmployeeListModal'
-import { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { Card, CardContent, CardHeader } from '@/components/Card'
+import { zodResolver } from '@hookform/resolvers/zod'
+import RemoveEmpToGroupModal from './RemoveEmpToGroupModal'
 
 export const GroupForm: React.FC = () => {
     const [open, setOpen] = useState<boolean>(false)
-
+    const [removeModal, setRemoveModal] = useState<boolean>(false)
+    const [groupAdminModal, setGroupAdminModal] = useState<boolean>(false)
+    const { id } = useParams()
+    const { toast } = useToast()
+    const queryClient = useQueryClient()
     const navigate = useNavigate()
 
-    const groupForm = useForm<CreateGroupType>({
-        mode: 'onChange',
-        resolver: zodResolver(groupSchema),
+    const { data: group, isLoading } = useQuery({
+        queryKey: ['editGroup', id],
+        queryFn: () => getGroupByid(Number(id)),
+    })
+
+    const groupForm = useForm<EditGroupType>({
+        mode: 'onSubmit',
+        resolver: zodResolver(editGroupSchema),
+        defaultValues: {
+            id: Number(id),
+            name: group?.name,
+            group_admin: group?.group_admin?.id,
+        },
     })
 
     const {
         handleSubmit,
-        formState: { errors },
+        watch,
+        setValue,
+        formState: { errors, isValid },
     } = groupForm
 
-    const onSubmit = (data: CreateGroupType) => {
-        console.log(data)
+    const adminProfile = watch('admin_profile')
+
+    const { mutate: updateGroupNameMu } = useMutation<unknown, AxiosError, EditGroupType>({
+        mutationFn: updateGroupName,
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: ['editGroup'] })
+            toast({
+                description: 'Group Name Updated Successfully',
+            })
+        },
+    })
+
+    const onSubmit = (data: EditGroupType) => {
+        updateGroupNameMu(data)
     }
 
-    return (
-        <Form {...groupForm}>
-            <form
-                autoComplete='on'
-                noValidate
-                className='w-full h-full max-w-[80%]'
-                onSubmit={handleSubmit(onSubmit)}
-            >
-                <div className='flex flex-row gap-5'>
-                    <div className='w-1/2'>
-                        <FormField
-                            control={groupForm.control}
-                            name='name'
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormControl>
-                                        <Input
-                                            className='mt-[16px] w-[100%] bg-white'
-                                            placeholder='Group Name'
-                                            type='text'
-                                            {...field}
-                                        />
-                                    </FormControl>
-                                    <FormMessage>{errors?.name?.message}</FormMessage>
-                                </FormItem>
-                            )}
-                        />
-                    </div>
-                </div>
+    useEffect(() => {
+        if (group) {
+            groupForm.reset({
+                id: Number(id),
+                name: group?.name,
+                group_admin: group?.group_admin?.id,
+            })
+            setValue('admin_profile', group.group_admin)
+        }
+    }, [group])
 
-                <div className='flex flex-row items-center justify-between mt-5'>
-                    <div className='w-[30rem]'>
-                        <Dropdown options={TEMP_groupadmin} />
-                    </div>
-                    <div className='flex flex-row gap-5'>
-                        <Button variant='outline' className='flex flex-row gap-2'>
-                            Remove
-                            <Trash2Icon className='w-5' />
-                        </Button>
-                        <Button
-                            onClick={() => setOpen(true)}
-                            variant='outline'
-                            className='flex flex-row gap-2'
+    return isLoading ? (
+        <Spinner variant='normal' className='h-[8rem] w-[8rem]' />
+    ) : (
+        <div className='flex flex-col gap-10'>
+            <Card>
+                <CardHeader>
+                    <p className='font-semibold text-xl text-bms-gray-medium'>Group Information</p>
+                </CardHeader>
+                <CardContent>
+                    <Form {...groupForm}>
+                        <form
+                            autoComplete='on'
+                            noValidate
+                            className='w-full h-full max-w-[50%]'
+                            onSubmit={handleSubmit(onSubmit)}
                         >
-                            Add Employee
-                        </Button>
+                            <div className='flex flex-col gap-5 items-start'>
+                                <div className='w-[100%]'>
+                                    <FormField
+                                        control={groupForm.control}
+                                        name='name'
+                                        render={({ field }) => (
+                                            <FormItem>
+                                                <FormControl>
+                                                    <Input
+                                                        className='mt-[16px] w-[100%] bg-white'
+                                                        placeholder='Group Name'
+                                                        type='text'
+                                                        {...field}
+                                                    />
+                                                </FormControl>
+                                                <FormMessage>{errors?.name?.message}</FormMessage>
+                                            </FormItem>
+                                        )}
+                                    />
+                                </div>
+
+                                <div className='flex flex-row gap-5 items-center mt-3'>
+                                    <p>Group Admin: </p>
+                                    <Button
+                                        className='bg-gray-500 hover:bg-gray-400'
+                                        onClick={() => setGroupAdminModal(true)}
+                                    >
+                                        {adminProfile
+                                            ? adminProfile.first_name +
+                                              ' ' +
+                                              adminProfile?.last_name
+                                            : 'Select Group Admin'}
+                                    </Button>
+                                </div>
+
+                                <div className='mt-3 w-full flex flex-row gap-5 items-end justify-end'>
+                                    <Button
+                                        type='button'
+                                        variant='outline'
+                                        onClick={() => navigate(-1)}
+                                    >
+                                        Cancel
+                                    </Button>
+
+                                    <Button type='submit' disabled={!isValid}>
+                                        Update Group
+                                    </Button>
+                                </div>
+                            </div>
+                        </form>
+                        <AdminListModal open={groupAdminModal} setOpen={setGroupAdminModal} />
+                    </Form>
+                </CardContent>
+            </Card>
+
+            <Card>
+                <CardHeader>
+                    <p className='font-semibold text-xl text-bms-gray-medium'>Employees</p>
+                </CardHeader>
+                <CardContent>
+                    <div className='mt-10 flex flex-col gap-5'>
+                        <div className='flex flex-row items-end justify-end mt-5'>
+                            <div className='flex flex-row gap-5'>
+                                <Button
+                                    onClick={() => setRemoveModal(true)}
+                                    variant='outline'
+                                    type='button'
+                                    className='flex flex-row gap-2'
+                                >
+                                    Remove
+                                    <Trash2Icon className='w-5' />
+                                </Button>
+                                <Button
+                                    onClick={() => setOpen(true)}
+                                    variant='outline'
+                                    className='flex flex-row gap-2'
+                                    type='button'
+                                >
+                                    Add Employee
+                                </Button>
+                            </div>
+                        </div>
+                        <GroupMemberTable employees={group?.employees as ProfileType[]} />
                     </div>
-                </div>
-
-                <div className='mt-5'>
-                    <GroupMemberTable />
-                </div>
-
-                <div className='flex flex-row gap-5 items-center justify-end mt-5'>
-                    <Button type='button' variant='outline' onClick={() => navigate('/group/list')}>
-                        Cancel
-                    </Button>
-                    <Button type='submit'>Create Group</Button>
-                </div>
-            </form>
-            <EmployeeListModal open={open} setOpen={setOpen} />
-        </Form>
+                    <EmployeeListModal open={open} setOpen={setOpen} />
+                    <RemoveEmpToGroupModal open={removeModal} setOpen={setRemoveModal} />
+                </CardContent>
+            </Card>
+        </div>
     )
 }

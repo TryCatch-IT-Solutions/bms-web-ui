@@ -67,7 +67,7 @@ const PrivateRoutes: RouteObject = {
                     element: <CreateGroup />,
                 },
                 {
-                    path: 'edit',
+                    path: 'edit/:id',
                     element: <EditGroup />,
                 },
             ],

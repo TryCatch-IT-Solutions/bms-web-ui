@@ -40,7 +40,7 @@ export const GroupMemberTable: React.FC = () => {
         const updatedEmps = emps?.filter((emp) => !empToRemove.includes(emp.id))
 
         setValue('employees', updatedEmpIds)
-        setValue('employee_profiles', updatedEmps)
+        setValue('employee_profiles', updatedEmps as ProfileType[])
 
         setEmpToRemove([])
     }
