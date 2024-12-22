@@ -106,6 +106,7 @@
     "devDependencies": {
         "@jridgewell/sourcemap-codec": "^1.4.15",
         "@tanstack/react-query-devtools": "^5.20.5",
+        "@trivago/prettier-plugin-sort-imports": "^5.2.0",
         "@types/crypto-js": "^4.2.2",
         "@types/jspdf": "^2.0.0",
         "@types/lodash": "^4.14.202",
