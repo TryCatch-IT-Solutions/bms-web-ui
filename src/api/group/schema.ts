@@ -64,7 +64,6 @@ export const editGroupSchema = groupSchema.pick({ name: true, id: true }).merge(
     z.object({
         admin_profile: z.object({
             id: z.number(),
-            group_id: z.number(),
             first_name: z.string(),
             last_name: z.string(),
         }),
