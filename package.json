@@ -7,7 +7,7 @@
         "dev": "vite --host --port 4000",
         "build": "cross-env NODE_OPTIONS=--max-old-space-size=8192 tsc && vite build",
         "preview": "vite preview",
-        "lint": "eslint src/**/*.{js,jsx,ts,tsx,json}",
+        "lint": "eslint src/ && prettier --check src/",
         "lint:fix": "eslint --fix src/**/*.{js,jsx,ts,tsx,json}",
         "format": "prettier --write src/**/*.{ts,tsx} --config ./.prettierrc"
     },
