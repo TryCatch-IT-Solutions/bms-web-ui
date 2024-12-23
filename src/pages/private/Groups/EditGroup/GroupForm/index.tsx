@@ -41,13 +41,13 @@ export const GroupForm: React.FC = () => {
             id: Number(id),
             name: group?.name,
             group_admin: group?.group_admin?.id,
+            admin_profile: group?.group_admin,
         },
     })
 
     const {
         handleSubmit,
         watch,
-        setValue,
         formState: { errors, isValid },
     } = groupForm
 
@@ -57,9 +57,11 @@ export const GroupForm: React.FC = () => {
         mutationFn: updateGroupName,
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: ['editGroup'] })
+            queryClient.invalidateQueries({ queryKey: ['groupList'] })
             toast({
                 description: 'Group Name Updated Successfully',
             })
+            navigate('/group/list')
         },
     })
 
@@ -67,14 +69,16 @@ export const GroupForm: React.FC = () => {
         updateGroupNameMu(data)
     }
 
+    console.log(errors)
+
     useEffect(() => {
         if (group) {
             groupForm.reset({
                 id: Number(id),
                 name: group?.name,
                 group_admin: group?.group_admin?.id,
+                admin_profile: group?.group_admin,
             })
-            setValue('admin_profile', group.group_admin)
         }
     }, [group])
 
@@ -120,6 +124,7 @@ export const GroupForm: React.FC = () => {
                                     <Button
                                         className='bg-gray-500 hover:bg-gray-400'
                                         onClick={() => setGroupAdminModal(true)}
+                                        type='button'
                                     >
                                         {adminProfile
                                             ? adminProfile.first_name +

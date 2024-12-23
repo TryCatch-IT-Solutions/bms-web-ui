@@ -10,11 +10,16 @@ import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { useNavigate } from 'react-router-dom'
+import GroupListModal from './GroupListModal'
+import { useAtom } from 'jotai'
+import { createDeviceGroupAtom } from '@/store/device'
 
 export const CreateDeviceForm: React.FC = () => {
+    const [open, setOpen] = useState<boolean>(false)
     const navigate = useNavigate()
     const queryClient = useQueryClient()
     const { toast } = useToast()
+    const [deviceGroupAtom, setDeviceGroupAtom] = useAtom(createDeviceGroupAtom)
 
     const [location, setLocation] = useState({
         latitude: 0.0,
@@ -57,6 +62,7 @@ export const CreateDeviceForm: React.FC = () => {
     }
 
     useEffect(() => {
+        setDeviceGroupAtom(null)
         // Check if geolocation is available
         if ('geolocation' in navigator) {
             // Get the current position
@@ -140,6 +146,12 @@ export const CreateDeviceForm: React.FC = () => {
                                 )}
                             />
                         </div>
+                        <div className='flex flex-row gap-5 items-center w-full justify-center w-full'>
+                            <p>Group: </p>
+                            <Button type='button' onClick={() => setOpen(true)}>
+                                {deviceGroupAtom !== null ? deviceGroupAtom.name : 'Select Group'}
+                            </Button>
+                        </div>
                     </CardContent>
                     <CardFooter className='flex flex-row gap-5 items-center justify-center'>
                         <Button
@@ -155,6 +167,7 @@ export const CreateDeviceForm: React.FC = () => {
                     </CardFooter>
                 </Card>
             </form>
+            <GroupListModal open={open} setOpen={setOpen} />
         </Form>
     )
 }
