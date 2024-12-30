@@ -1,9 +1,10 @@
 import { PaginationType } from '@/components/Pagination/schema'
-import { axiosInstance } from '../axiosInstance'
+import { API_URL, axiosInstance } from '../axiosInstance'
 import {
     BulkUserUpdateStatusType,
     CreateUserType,
     EditUserType,
+    ImportUserType,
     ProfileType,
     UserListType,
     UserStatusCountType,
@@ -64,4 +65,28 @@ export const getUserStatusCount = async (page?: string): Promise<UserStatusCount
     const response = await axiosInstance.get(`/api/users/count?page=${page}`)
 
     return response.data
+}
+
+export const importUsers = async (data: ImportUserType) => {
+    const formData = new FormData()
+
+    if (data.file && data.file instanceof File) {
+        formData.append('file', data.file)
+    } else {
+        console.error('Invalid file object:', data.file)
+        return
+    }
+
+    try {
+        const response = await axiosInstance.post('/api/users/import', formData, {
+            headers: {
+                'Content-Type': 'multipart/form-data',
+            },
+        })
+
+        return response.data.content
+    } catch (err) {
+        console.error('Failed to export employees via csv:', err)
+        throw err
+    }
 }

@@ -88,9 +88,14 @@ export const userStatusCountSchema = z.object({
     inactive: z.number(),
 })
 
+export const importUsersSchema = z.object({
+    file: z.instanceof(File),
+})
+
 export type ProfileType = z.infer<typeof profileSchema>
 export type UserListType = z.infer<typeof userListSchema>
 export type CreateUserType = z.infer<typeof createUserSchema>
 export type EditUserType = z.infer<typeof editUserSchema>
 export type BulkUserUpdateStatusType = z.infer<typeof bulkUserUpdateStatusSchema>
 export type UserStatusCountType = z.infer<typeof userStatusCountSchema>
+export type ImportUserType = z.infer<typeof importUsersSchema>
