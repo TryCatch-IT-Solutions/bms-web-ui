@@ -12,6 +12,7 @@ import { useAtomValue } from 'jotai'
 import { employeeExportAtom, employeeSelectedStatusAtom, employeesToDeleteAtom } from '@/store/user'
 import { USER_STATUS } from '@/constants'
 import { UserListType } from '@/api/profile/schema'
+import ImportDropdown from './ImportDropdown'
 
 export const EmployeeList: React.FC = () => {
     const [open, setOpen] = useState<boolean>(false)
@@ -29,6 +30,7 @@ export const EmployeeList: React.FC = () => {
             <div className='mb-5 flex flex-row justify-between'>
                 <SearchBar placeHolder='Search User' onSearchChange={() => onSearchChange} />
                 <div className='flex flex-row gap-5'>
+                    <ImportDropdown />
                     <ExportDropdown
                         isDisabled={
                             (setEmployeeExportAtom &&

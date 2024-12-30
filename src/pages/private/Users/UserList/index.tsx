@@ -12,6 +12,7 @@ import { USER_STATUS } from '@/constants'
 import ExportDropdown from './ExportDropdown'
 import { UserListType } from '@/api/profile/schema'
 import { UserTable } from './UserTable'
+import ImportDropdown from './ImportDropdown'
 
 export const UserList: React.FC = () => {
     const [open, setOpen] = useState<boolean>(false)
@@ -30,6 +31,7 @@ export const UserList: React.FC = () => {
                     onSearchChange={(e) => onSearchChange(e.target.value)}
                 />
                 <div className='flex flex-row gap-5'>
+                    <ImportDropdown />
                     <ExportDropdown
                         isDisabled={(usersToExport && usersToExport?.content.length === 0) ?? true}
                         employeeListData={usersToExport as UserListType}
