@@ -4,8 +4,11 @@ import { DeviceTable } from './DeviceTable'
 import SearchBar from '@/components/SearchBar'
 import { Button } from '@/components/Button'
 import { Trash2Icon } from 'lucide-react'
+import { useState } from 'react'
+import DeleteDeviceModal from './DeleteDeviceModal'
 
 export const DeviceList: React.FC = () => {
+    const [open, setOpen] = useState<boolean>(false)
     const onSearchChange = (val: string) => {
         console.log(val)
     }
@@ -19,7 +22,7 @@ export const DeviceList: React.FC = () => {
                     <Button
                         variant='outline'
                         className='flex flex-row gap-1'
-                        // onClick={() => setOpen(true)}
+                        onClick={() => setOpen(true)}
                     >
                         Delete
                         <Trash2Icon className='h-4' />
@@ -31,6 +34,7 @@ export const DeviceList: React.FC = () => {
                     <DeviceTable />
                 </CardContent>
             </Card>
+            <DeleteDeviceModal open={open} setOpen={setOpen} />
         </div>
     )
 }

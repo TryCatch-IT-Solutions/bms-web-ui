@@ -7,7 +7,7 @@ import { useQuery } from '@tanstack/react-query'
 import { PaginationType } from '@/components/Pagination/schema'
 import { Pagination } from '@/components/Pagination'
 import Spinner from '@/components/Spinner'
-import { useFormContext } from 'react-hook-form'
+import { UseFormReturn } from 'react-hook-form'
 import { getGroups } from '@/api/group'
 import { CreateDeviceType } from '@/api/device/schema'
 import { GroupType } from '@/api/group/schema'
@@ -17,9 +17,10 @@ import { createDeviceGroupAtom } from '@/store/device'
 interface GroupListModalProps {
     open: boolean
     setOpen: Dispatch<SetStateAction<boolean>>
+    control: UseFormReturn<CreateDeviceType>
 }
 
-const GroupListModal: React.FC<GroupListModalProps> = ({ open, setOpen }) => {
+const GroupListModal: React.FC<GroupListModalProps> = ({ open, setOpen, control }) => {
     const [groupId, setGroupId] = useState<number>(0)
     const [groupProfile, setGroupProfile] = useState<GroupType | null>(null)
     const setDeviceGroupAtom = useSetAtom(createDeviceGroupAtom)
@@ -30,7 +31,7 @@ const GroupListModal: React.FC<GroupListModalProps> = ({ open, setOpen }) => {
         itemsPerPage: 20,
     })
 
-    const { setValue } = useFormContext<CreateDeviceType>()
+    const { setValue } = control
 
     const handleSave = () => {
         setDeviceGroupAtom(groupProfile)

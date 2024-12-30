@@ -1,6 +1,7 @@
 import PrivateLayout from '@/layouts/PrivateLayout'
 import { CreateDevice } from '@/pages/private/Devices/CreateDevice'
 import { DeviceList } from '@/pages/private/Devices/DeviceList'
+import DeviceMapView from '@/pages/private/Devices/DeviceMapView'
 import { EditDevice } from '@/pages/private/Devices/EditDevice'
 import { CreateEmployee } from '@/pages/private/Employees/CreateEmployee'
 import { EditEmployee } from '@/pages/private/Employees/EditEmployee'
@@ -103,6 +104,10 @@ const PrivateRoutes: RouteObject = {
                 {
                     path: 'edit/:id',
                     element: <EditDevice />,
+                },
+                {
+                    path: 'map-view',
+                    element: <DeviceMapView />,
                 },
             ],
         },
