@@ -85,6 +85,11 @@ export const navigationItems: NavigationProps[] = [
                 href: '/device/create',
                 allowedRoles: [ROLE.superadmin],
             },
+            {
+                name: 'Map View',
+                href: '/device/map-view',
+                allowedRoles: [ROLE.superadmin],
+            },
         ],
     },
     {

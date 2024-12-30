@@ -19,15 +19,16 @@ export const UserList: React.FC = () => {
     const userIdsToDelete = useAtomValue(userIdsToDeleteAtom)
     const usersToExport = useAtomValue(usersToExportAtom)
 
-    const onSearchChange = (val: string) => {
-        console.log(val)
-    }
+    const onSearchChange = (val: string) => {}
 
     return (
         <div className='content'>
             <BreadCrumbs title='User List' origin='Users' />
             <div className='mb-5 flex flex-row justify-between'>
-                <SearchBar placeHolder='Search User' onSearchChange={() => onSearchChange} />
+                <SearchBar
+                    placeHolder='Search User'
+                    onSearchChange={(e) => onSearchChange(e.target.value)}
+                />
                 <div className='flex flex-row gap-5'>
                     <ExportDropdown
                         isDisabled={(usersToExport && usersToExport?.content.length === 0) ?? true}

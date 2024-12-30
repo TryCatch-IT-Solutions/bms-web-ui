@@ -5,8 +5,10 @@ import { Pagination } from '@/components/Pagination'
 import { PaginationType } from '@/components/Pagination/schema'
 import { TableHeader, TableRow, TableHead, TableBody, TableCell, Table } from '@/components/Table'
 import AppSkeletonLoadingState from '@/components/TableLoadingState'
+import { deleteDeviceAtom } from '@/store/device'
 import { cn } from '@/utils/helper'
 import { useQuery } from '@tanstack/react-query'
+import { useAtom } from 'jotai'
 import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 
@@ -24,19 +26,26 @@ export const DeviceTable: React.FC = () => {
         itemsPerPage: 20,
     })
 
+    const [devicesToDelete, setDevicesToDelete] = useAtom(deleteDeviceAtom)
+
     const navigate = useNavigate()
 
     const { data: devices, isLoading } = useQuery({
         queryKey: ['deviceList', pagination],
-        queryFn: getDeviceList,
+        queryFn: () => getDeviceList(pagination),
     })
 
     const handleRowClick = (id: number) => {
         navigate(`/device/edit/${id}`)
     }
 
-    const handleCheckboxChange = (userId: number, isChecked: boolean) => {
-        console.log(userId, isChecked)
+    const handleCheckboxChange = (deviceId: number, isChecked: boolean) => {
+        setDevicesToDelete((prev) => {
+            const updatedDeviceIds = isChecked
+                ? [...(prev?.devices ?? []), deviceId] // Add userId if checked
+                : (prev?.devices ?? []).filter((id) => id !== deviceId) // Remove userId if unchecked
+            return { devices: updatedDeviceIds } // Return updated object with 'user' key
+        })
     }
 
     return (
@@ -74,8 +83,13 @@ export const DeviceTable: React.FC = () => {
                         >
                             <TableCell className='font-semibold text-bms-link flex flex-row items-center gap-1'>
                                 <Checkbox
+                                    checked={devicesToDelete?.devices?.includes(d?.id)}
                                     onClick={
-                                        () => handleCheckboxChange(d.id, false) // Toggle user ID selection
+                                        () =>
+                                            handleCheckboxChange(
+                                                d.id,
+                                                !devicesToDelete?.devices?.includes(d?.id),
+                                            ) // Toggle user ID selection
                                     }
                                 />
                                 <Link to={'/user/edit'}>{d.id}</Link>

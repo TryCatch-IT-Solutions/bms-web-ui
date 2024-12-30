@@ -14,6 +14,7 @@ export const getUsers = async (
     status: string[],
     role: string[],
     available: boolean,
+    search: string,
 ): Promise<UserListType> => {
     const response = await axiosInstance.get(`/api/users`, {
         params: {
@@ -22,6 +23,7 @@ export const getUsers = async (
             roles: role,
             status: status,
             available: available,
+            search: search ?? null,
         },
     })
 

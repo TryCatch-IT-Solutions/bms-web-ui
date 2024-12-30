@@ -1,5 +1,6 @@
 import { axiosInstance } from '@/api/axiosInstance'
-import { CreateDeviceType, DeviceListType, DeviceType } from '@/api/device/schema'
+import { CreateDeviceType, DeleteDeviceType, DeviceListType, DeviceType } from '@/api/device/schema'
+import { PaginationType } from '@/components/Pagination/schema'
 
 export const createDevice = async (data: CreateDeviceType) => {
     const response = await axiosInstance.post('/api/devices/create', data)
@@ -7,10 +8,21 @@ export const createDevice = async (data: CreateDeviceType) => {
     return response.data
 }
 
-export const getDeviceList = async (): Promise<DeviceListType> => {
-    const response = await axiosInstance.get(`/api/devices`)
+export const getDeviceList = async (p: PaginationType): Promise<DeviceListType> => {
+    const response = await axiosInstance.get(`/api/devices`, {
+        params: {
+            page: p.current_page,
+            limit: p.itemsPerPage,
+        },
+    })
 
     return response.data
+}
+
+export const getDeviceMapView = async (): Promise<DeviceType[]> => {
+    const response = await axiosInstance.get(`/api/devices`)
+
+    return response.data.content
 }
 
 export const getDeviceById = async (id: number): Promise<DeviceType> => {
@@ -21,6 +33,12 @@ export const getDeviceById = async (id: number): Promise<DeviceType> => {
 
 export const updateDevice = async (data: DeviceType): Promise<DeviceType> => {
     const response = await axiosInstance.post(`/api/device/${data?.id}`, data)
+
+    return response.data
+}
+
+export const deleteDevices = async (data: DeleteDeviceType) => {
+    const response = await axiosInstance.post(`/api/devices/delete`, data)
 
     return response.data
 }

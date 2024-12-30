@@ -15,8 +15,13 @@ export const deviceListSchema = z.object({
     meta: paginationSchema,
 })
 
+export const deleteDeviceSchema = z.object({
+    devices: z.array(z.number()),
+})
+
 export const createDeviceSchema = deviceSchema.omit({ id: true })
 
 export type DeviceType = z.infer<typeof deviceSchema>
 export type CreateDeviceType = z.infer<typeof createDeviceSchema>
 export type DeviceListType = z.infer<typeof deviceListSchema>
+export type DeleteDeviceType = z.infer<typeof deleteDeviceSchema>
