@@ -1,5 +1,5 @@
-import { createDevice, getDeviceById } from '@/api/device'
-import { createDeviceSchema, CreateDeviceType } from '@/api/device/schema'
+import { updateDevice, getDeviceById } from '@/api/device'
+import { deviceSchema, DeviceType } from '@/api/device/schema'
 import { Button } from '@/components/Button'
 import { Card, CardContent, CardFooter } from '@/components/Card'
 import { Form, FormControl, FormField, FormItem, FormMessage } from '@/components/Form'
@@ -31,10 +31,11 @@ export const EditDeviceForm: React.FC = () => {
         queryFn: () => getDeviceById(Number(id) ?? 0),
     })
 
-    const deviceForm = useForm<CreateDeviceType>({
+    const deviceForm = useForm<DeviceType>({
         mode: 'onChange',
-        resolver: zodResolver(createDeviceSchema),
+        resolver: zodResolver(deviceSchema),
         defaultValues: {
+            id: device?.id,
             model: device?.model,
             serial_no: device?.serial_no,
         },
@@ -46,8 +47,8 @@ export const EditDeviceForm: React.FC = () => {
         formState: { isValid, errors },
     } = deviceForm
 
-    const { mutate: createDeviceMu } = useMutation({
-        mutationFn: createDevice,
+    const { mutate: updateDeviceMu } = useMutation({
+        mutationFn: updateDevice,
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: ['deviceList'] })
             navigate('/device/list')
@@ -65,8 +66,8 @@ export const EditDeviceForm: React.FC = () => {
         },
     })
 
-    const onSubmit = (data: CreateDeviceType) => {
-        createDeviceMu(data)
+    const onSubmit = (data: DeviceType) => {
+        updateDeviceMu(data)
     }
 
     useEffect(() => {
@@ -98,7 +99,11 @@ export const EditDeviceForm: React.FC = () => {
                 error: 'Geolocation is not supported by this browser.',
             })
         }
-    }, [])
+
+        if (device) {
+            deviceForm.reset(device)
+        }
+    }, [device])
 
     useEffect(() => {
         setValue('group_id', 1)

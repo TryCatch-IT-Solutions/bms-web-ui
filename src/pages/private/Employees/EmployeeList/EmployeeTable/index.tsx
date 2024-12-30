@@ -38,7 +38,7 @@ export const EmployeeTable: React.FC = () => {
 
     const { data: users, isLoading } = useQuery({
         queryKey: ['employeeList', pagination, selectedStatus],
-        queryFn: () => getUsers(pagination, [selectedStatus], [ROLE.employee], true),
+        queryFn: () => getUsers(pagination, [selectedStatus], [ROLE.employee], true, null),
     })
 
     const handleRowClick = (id: number) => {
