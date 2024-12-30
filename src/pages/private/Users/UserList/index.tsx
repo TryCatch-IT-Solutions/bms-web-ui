@@ -19,7 +19,9 @@ export const UserList: React.FC = () => {
     const userIdsToDelete = useAtomValue(userIdsToDeleteAtom)
     const usersToExport = useAtomValue(usersToExportAtom)
 
-    const onSearchChange = (val: string) => {}
+    const onSearchChange = (val: string) => {
+        console.log(val)
+    }
 
     return (
         <div className='content'>

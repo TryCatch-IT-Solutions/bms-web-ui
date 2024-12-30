@@ -38,7 +38,7 @@ const AdminListModal: React.FC<AdminListModalProps> = ({ open, setOpen }) => {
 
     const { data: employees, isLoading } = useQuery({
         queryKey: ['groupAdminList', pagination],
-        queryFn: () => getUsers(pagination, ['active'], [ROLE.groupadmin], true),
+        queryFn: () => getUsers(pagination, ['active'], [ROLE.groupadmin], true, null),
     })
 
     const handleCheckClick = (e: ProfileType) => {
