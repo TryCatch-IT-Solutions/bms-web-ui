@@ -18,3 +18,9 @@ export const getDeviceById = async (id: number): Promise<DeviceType> => {
 
     return response.data
 }
+
+export const updateDevice = async (data: DeviceType): Promise<DeviceType> => {
+    const response = await axiosInstance.post(`/api/device/${data?.id}`, data)
+
+    return response.data
+}

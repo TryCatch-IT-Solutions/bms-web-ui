@@ -31,8 +31,6 @@ export const DeviceTable: React.FC = () => {
         queryFn: getDeviceList,
     })
 
-    console.log(devices)
-
     const handleRowClick = (id: number) => {
         navigate(`/device/edit/${id}`)
     }
@@ -69,7 +67,7 @@ export const DeviceTable: React.FC = () => {
                             </TableCell>
                         </TableRow>
                     )}
-                    {devices?.data?.map((d: DeviceType) => (
+                    {devices?.content?.map((d: DeviceType) => (
                         <TableRow
                             key={d?.id}
                             className='text-start text-base text-bms-gray-dark cursor-pointer'

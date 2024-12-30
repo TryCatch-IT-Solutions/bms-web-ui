@@ -11,7 +11,7 @@ export const deviceSchema = z.object({
 })
 
 export const deviceListSchema = z.object({
-    data: z.array(deviceSchema),
+    content: z.array(deviceSchema),
     meta: paginationSchema,
 })
 
