@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction, useState } from 'react'
+import { Dispatch, SetStateAction, useEffect, useState } from 'react'
 import { Button } from '@/components/Button'
 import { Modal } from '@/components/Modal'
 import SearchBar from '@/components/SearchBar'
@@ -24,6 +24,7 @@ const EmployeeListModal: React.FC<EmployeeListModalProps> = ({ open, setOpen }) 
         itemsPerPage: 20,
     })
 
+    const [searchVal, setSearchVal] = useState<string>('')
     const [empIds, setEmpIds] = useState<number[]>([])
     const [empProfiles, setEmpProfiles] = useState<ProfileType[]>([])
 
@@ -43,16 +44,20 @@ const EmployeeListModal: React.FC<EmployeeListModalProps> = ({ open, setOpen }) 
     }
 
     const { data: employees, isLoading } = useQuery({
-        queryKey: ['employeeList', pagination],
-        queryFn: () => getUsers(pagination, ['active'], [ROLE.employee], true, null),
+        queryKey: ['createGroupemployeeList', pagination, searchVal],
+        queryFn: () => getUsers(pagination, ['active'], [ROLE.employee], true, searchVal),
     })
+
+    useEffect(() => {
+        setSearchVal('')
+    }, [open])
 
     return (
         <Modal
             isOpen={open}
             isHideCloseButton
             onClose={() => {
-                setOpen(false)
+                console.log('close')
             }}
             title=''
             titleClassName=''
@@ -67,7 +72,11 @@ const EmployeeListModal: React.FC<EmployeeListModalProps> = ({ open, setOpen }) 
 
                 <div className='px-10'>
                     <SearchBar
-                        onSearchChange={(val) => console.log(val)}
+                        onSearchChange={(e) => {
+                            setTimeout(() => {
+                                setSearchVal(e?.target?.value)
+                            }, 500)
+                        }}
                         placeHolder='Search Employee'
                     />
                 </div>
@@ -104,12 +113,14 @@ const EmployeeListModal: React.FC<EmployeeListModalProps> = ({ open, setOpen }) 
                         variant='ghost'
                         className='w-97 h-11 text-base font-semibold bg-white text-bms-primary ring-bms-primary border border-bms-primary'
                         onClick={() => setOpen(false)}
+                        type='button'
                     >
                         Cancel
                     </Button>
                     <Button
                         onClick={handleSave}
                         className='w-97 h-11 text-base font-semibold bg-bms-primary'
+                        type='button'
                     >
                         Add Employees
                     </Button>

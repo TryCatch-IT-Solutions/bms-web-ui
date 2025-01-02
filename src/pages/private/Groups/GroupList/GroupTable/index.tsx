@@ -129,7 +129,7 @@ export const GroupTable: React.FC = () => {
                                             {g.devices_count}
                                         </TableCell>
                                         <TableCell onClick={() => handleRowClick(g.id)}>
-                                            {g.group_admin.first_name} {g.group_admin.last_name}
+                                            {g?.group_admin?.first_name} {g?.group_admin?.last_name}
                                         </TableCell>
                                     </TableRow>
                                 ))
