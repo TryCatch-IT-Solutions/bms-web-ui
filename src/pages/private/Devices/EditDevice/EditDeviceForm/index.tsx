@@ -44,7 +44,7 @@ export const EditDeviceForm: React.FC = () => {
     const {
         handleSubmit,
         setValue,
-        formState: { isValid, errors },
+        formState: { isValid, errors, isDirty },
     } = deviceForm
 
     const { mutate: updateDeviceMu } = useMutation({
@@ -174,7 +174,11 @@ export const EditDeviceForm: React.FC = () => {
                                 >
                                     Cancel
                                 </Button>
-                                <Button type='submit' className='w-1/5' disabled={!isValid}>
+                                <Button
+                                    type='submit'
+                                    className='w-1/5'
+                                    disabled={!isValid || !isDirty}
+                                >
                                     Submit
                                 </Button>
                             </>

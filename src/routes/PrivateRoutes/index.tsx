@@ -9,6 +9,7 @@ import { EmployeeList } from '@/pages/private/Employees/EmployeeList'
 import { CreateGroup } from '@/pages/private/Groups/CreateGroup'
 import { EditGroup } from '@/pages/private/Groups/EditGroup'
 import { GroupList } from '@/pages/private/Groups/GroupList'
+import { ActivityLogs } from '@/pages/private/Logs/ActivityLogs'
 import { CreateUser } from '@/pages/private/Users/CreateUser'
 import { EditUser } from '@/pages/private/Users/EditUser'
 import { UserList } from '@/pages/private/Users/UserList'
@@ -108,6 +109,15 @@ const PrivateRoutes: RouteObject = {
                 {
                     path: 'map-view',
                     element: <DeviceMapView />,
+                },
+            ],
+        },
+        {
+            path: '/log',
+            children: [
+                {
+                    path: 'activity',
+                    element: <ActivityLogs />,
                 },
             ],
         },

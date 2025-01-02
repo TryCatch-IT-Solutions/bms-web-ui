@@ -69,8 +69,6 @@ export const GroupForm: React.FC = () => {
         updateGroupNameMu(data)
     }
 
-    console.log(errors)
-
     useEffect(() => {
         if (group) {
             groupForm.reset({

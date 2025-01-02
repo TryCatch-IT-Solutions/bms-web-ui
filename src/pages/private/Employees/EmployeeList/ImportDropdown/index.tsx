@@ -43,7 +43,7 @@ const ImportDropdown = () => {
                 </Menu.Button>
 
                 {isOpen && (
-                    <div className='mt-2 w-[150px] h-auto absolute right-0 z-10 origin-top-right rounded-md bg-white shadow-lg focus:outline-none'>
+                    <div className='mt-2 w-[200px] h-auto absolute right-0 z-10 origin-top-right rounded-md bg-white shadow-lg focus:outline-none'>
                         <div className='flex flex-col w-full rounded-md'>
                             <ImportUser />
                             <UsersCSVTemplate />

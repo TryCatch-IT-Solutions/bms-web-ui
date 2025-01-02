@@ -15,6 +15,7 @@ import { useAuth } from '@/hooks/useAuth'
 import { useAtom, useAtomValue } from 'jotai'
 import { userAtom } from '@/store/user'
 import { navAtom } from '../SideBar'
+import { ROLE_LABELS, ROLE_VALUES } from '@/constants'
 
 export const Topbar = () => {
     const navigate = useNavigate()
@@ -60,8 +61,11 @@ export const Topbar = () => {
                                     <p className='font-semibold'>
                                         {user?.first_name} {user?.last_name}
                                     </p>
-                                    <p className='mt-1 text-[#80A91D] text-xs capitalize'>
-                                        {user?.role}
+                                    <p className='mt-1 text-bms-primary/70 text-xs capitalize'>
+                                        {
+                                            ROLE_VALUES.find((role) => role.value === user?.role)
+                                                ?.label
+                                        }
                                     </p>
                                 </div>
 

@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction, useState } from 'react'
+import { Dispatch, SetStateAction, useEffect, useState } from 'react'
 import { Button } from '@/components/Button'
 import { Modal } from '@/components/Modal'
 import SearchBar from '@/components/SearchBar'
@@ -21,6 +21,7 @@ interface AdminListModalProps {
 const AdminListModal: React.FC<AdminListModalProps> = ({ open, setOpen }) => {
     const [adminId, setAdminId] = useState<number>(0)
     const [adminProfile, setAdminProfile] = useState<ProfileType | null>(null)
+    const [searchVal, setSearchVal] = useState<string>('')
 
     const [pagination, setPagination] = useState<PaginationType>({
         current_page: 1,
@@ -37,8 +38,8 @@ const AdminListModal: React.FC<AdminListModalProps> = ({ open, setOpen }) => {
     }
 
     const { data: employees, isLoading } = useQuery({
-        queryKey: ['groupAdminList', pagination],
-        queryFn: () => getUsers(pagination, ['active'], [ROLE.groupadmin], true, null),
+        queryKey: ['groupEditgroupAdminList', pagination, searchVal],
+        queryFn: () => getUsers(pagination, ['active'], [ROLE.groupadmin], true, searchVal),
     })
 
     const handleCheckClick = (e: ProfileType) => {
@@ -46,12 +47,16 @@ const AdminListModal: React.FC<AdminListModalProps> = ({ open, setOpen }) => {
         setAdminProfile(e)
     }
 
+    useEffect(() => {
+        setSearchVal('')
+    }, [open])
+
     return (
         <Modal
             isOpen={open}
             isHideCloseButton
             onClose={() => {
-                setOpen(false)
+                console.log('close')
             }}
             title=''
             titleClassName=''
@@ -66,7 +71,11 @@ const AdminListModal: React.FC<AdminListModalProps> = ({ open, setOpen }) => {
 
                 <div className='px-10'>
                     <SearchBar
-                        onSearchChange={(val) => console.log(val)}
+                        onSearchChange={(e) => {
+                            setTimeout(() => {
+                                setSearchVal(e?.target?.value)
+                            }, 500)
+                        }}
                         placeHolder='Search Employee'
                     />
                 </div>

@@ -1,16 +1,21 @@
 import { getDeviceList } from '@/api/device'
 import { DeviceType } from '@/api/device/schema'
+import { Button } from '@/components/Button'
+import { Card, CardContent } from '@/components/Card'
 import { Checkbox } from '@/components/Checkbox'
 import { Pagination } from '@/components/Pagination'
 import { PaginationType } from '@/components/Pagination/schema'
+import SearchBar from '@/components/SearchBar'
 import { TableHeader, TableRow, TableHead, TableBody, TableCell, Table } from '@/components/Table'
 import AppSkeletonLoadingState from '@/components/TableLoadingState'
 import { deleteDeviceAtom } from '@/store/device'
 import { cn } from '@/utils/helper'
 import { useQuery } from '@tanstack/react-query'
 import { useAtom } from 'jotai'
+import { Trash2Icon } from 'lucide-react'
 import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
+import DeleteDeviceModal from '../DeleteDeviceModal'
 
 const tableHeader = [
     { name: 'Device ID' },
@@ -27,12 +32,18 @@ export const DeviceTable: React.FC = () => {
     })
 
     const [devicesToDelete, setDevicesToDelete] = useAtom(deleteDeviceAtom)
+    const [searchVal, setSearchVal] = useState<string>('')
+
+    const [open, setOpen] = useState<boolean>(false)
+    const onSearchChange = (val: string) => {
+        setSearchVal(val)
+    }
 
     const navigate = useNavigate()
 
     const { data: devices, isLoading } = useQuery({
-        queryKey: ['deviceList', pagination],
-        queryFn: () => getDeviceList(pagination),
+        queryKey: ['deviceList', pagination, searchVal],
+        queryFn: () => getDeviceList(pagination, searchVal),
     })
 
     const handleRowClick = (id: number) => {
@@ -50,67 +61,90 @@ export const DeviceTable: React.FC = () => {
 
     return (
         <>
-            <Table className='table-auto whitespace-normal w-full'>
-                <TableHeader style={{ marginBottom: '10px' }}>
-                    <TableRow>
-                        {tableHeader.map((header, index) => (
-                            <TableHead
-                                key={index}
-                                className={cn(
-                                    'font-semibold text-bms-gray-medium text-base whitespace-nowrap',
-                                )}
-                            >
-                                {header.name}
-                            </TableHead>
-                        ))}
-                    </TableRow>
-                </TableHeader>
-                <TableBody>
-                    {isLoading && (
-                        <TableRow
-                            key={0}
-                            className='text-start text-base text-bms-gray-dark cursor-pointer'
-                        >
-                            <TableCell rowSpan={7}>
-                                <AppSkeletonLoadingState />
-                            </TableCell>
-                        </TableRow>
-                    )}
-                    {devices?.content?.map((d: DeviceType) => (
-                        <TableRow
-                            key={d?.id}
-                            className='text-start text-base text-bms-gray-dark cursor-pointer'
-                        >
-                            <TableCell className='font-semibold text-bms-link flex flex-row items-center gap-1'>
-                                <Checkbox
-                                    checked={devicesToDelete?.devices?.includes(d?.id)}
-                                    onClick={
-                                        () =>
-                                            handleCheckboxChange(
-                                                d.id,
-                                                !devicesToDelete?.devices?.includes(d?.id),
-                                            ) // Toggle user ID selection
-                                    }
-                                />
-                                <Link to={'/user/edit'}>{d.id}</Link>
-                            </TableCell>
-                            <TableCell onClick={() => handleRowClick(d?.id)}>
-                                {d.group_id}
-                            </TableCell>
-                            <TableCell onClick={() => handleRowClick(d?.id)}>{d.model}</TableCell>
-                            <TableCell onClick={() => handleRowClick(d?.id)}>
-                                {d.serial_no}
-                            </TableCell>
-                        </TableRow>
-                    ))}
-                </TableBody>
-            </Table>
-            <Pagination
-                pagination={pagination}
-                setPagination={setPagination}
-                total={devices?.meta.total ?? 0}
-                per_page={20}
-            />
+            <div className='mb-5 flex flex-row justify-between'>
+                <SearchBar
+                    placeHolder='Search Device'
+                    onSearchChange={(e) => onSearchChange(e?.target?.value)}
+                />
+                <div className='flex flex-row gap-5'>
+                    <Button
+                        variant='outline'
+                        className='flex flex-row gap-1'
+                        onClick={() => setOpen(true)}
+                    >
+                        Delete
+                        <Trash2Icon className='h-4' />
+                    </Button>
+                </div>
+            </div>
+            <Card>
+                <CardContent>
+                    <Table className='table-auto whitespace-normal w-full'>
+                        <TableHeader style={{ marginBottom: '10px' }}>
+                            <TableRow>
+                                {tableHeader.map((header, index) => (
+                                    <TableHead
+                                        key={index}
+                                        className={cn(
+                                            'font-semibold text-bms-gray-medium text-base whitespace-nowrap',
+                                        )}
+                                    >
+                                        {header.name}
+                                    </TableHead>
+                                ))}
+                            </TableRow>
+                        </TableHeader>
+                        <TableBody>
+                            {isLoading && (
+                                <TableRow
+                                    key={0}
+                                    className='text-start text-base text-bms-gray-dark cursor-pointer'
+                                >
+                                    <TableCell colSpan={7}>
+                                        <AppSkeletonLoadingState />
+                                    </TableCell>
+                                </TableRow>
+                            )}
+                            {devices?.content?.map((d: DeviceType) => (
+                                <TableRow
+                                    key={d?.id}
+                                    className='text-start text-base text-bms-gray-dark cursor-pointer'
+                                >
+                                    <TableCell className='font-semibold text-bms-link flex flex-row items-center gap-1'>
+                                        <Checkbox
+                                            checked={devicesToDelete?.devices?.includes(d?.id)}
+                                            onClick={
+                                                () =>
+                                                    handleCheckboxChange(
+                                                        d.id,
+                                                        !devicesToDelete?.devices?.includes(d?.id),
+                                                    ) // Toggle user ID selection
+                                            }
+                                        />
+                                        <Link to={'/user/edit'}>{d.id}</Link>
+                                    </TableCell>
+                                    <TableCell onClick={() => handleRowClick(d?.id)}>
+                                        {d.group_id}
+                                    </TableCell>
+                                    <TableCell onClick={() => handleRowClick(d?.id)}>
+                                        {d.model}
+                                    </TableCell>
+                                    <TableCell onClick={() => handleRowClick(d?.id)}>
+                                        {d.serial_no}
+                                    </TableCell>
+                                </TableRow>
+                            ))}
+                        </TableBody>
+                    </Table>
+                    <Pagination
+                        pagination={pagination}
+                        setPagination={setPagination}
+                        total={devices?.meta.total ?? 0}
+                        per_page={20}
+                    />
+                </CardContent>
+            </Card>
+            <DeleteDeviceModal open={open} setOpen={setOpen} />
         </>
     )
 }

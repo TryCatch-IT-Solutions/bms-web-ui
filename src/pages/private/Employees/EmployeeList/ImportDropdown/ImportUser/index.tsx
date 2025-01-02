@@ -56,7 +56,7 @@ const ImportUsers = () => {
                 onChange={handleFileInputChange}
             />
             <button
-                className='w-full h-8 hover:bg-[#00000029] text-left px-3'
+                className='w-[200px] h-[34px] text-[#191A0A] hover:bg-[#00000029] whitespace-nowrap block px-3 py-1 text-base text-left rounded-b-md'
                 onClick={handleClick}
             >
                 Import CSV

@@ -1,7 +1,7 @@
 import { atom, useAtomValue } from 'jotai'
 import { useState } from 'react'
 import { HiOutlineUsers } from 'react-icons/hi'
-import { HiOutlineHome } from 'react-icons/hi2'
+import { HiOutlineHome, HiOutlineUserGroup } from 'react-icons/hi2'
 import { HiOutlineClock } from 'react-icons/hi2'
 import { HiDevicePhoneMobile } from 'react-icons/hi2'
 import { HiUserGroup } from 'react-icons/hi2'
@@ -94,7 +94,7 @@ export const navigationItems: NavigationProps[] = [
     },
     {
         name: 'Employees',
-        icon: HiOutlineClock,
+        icon: HiOutlineUserGroup,
         href: '#',
         allowedRoles: [ROLE.superadmin, ROLE.groupadmin],
         children: [
@@ -122,18 +122,8 @@ export const navigationItems: NavigationProps[] = [
         allowedRoles: [ROLE.superadmin, ROLE.groupadmin],
         children: [
             {
-                name: 'Employee List',
-                href: '#',
-                allowedRoles: [ROLE.superadmin, ROLE.groupadmin],
-            },
-            {
-                name: 'Create Employee',
-                href: '#',
-                allowedRoles: [ROLE.superadmin, ROLE.groupadmin],
-            },
-            {
-                name: 'Time Entries',
-                href: '#',
+                name: 'Activity Logs',
+                href: '/log/activity',
                 allowedRoles: [ROLE.superadmin, ROLE.groupadmin],
             },
         ],

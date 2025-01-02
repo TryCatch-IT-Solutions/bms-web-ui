@@ -11,61 +11,62 @@ import { Dropdown } from '@/components/DropdownInput'
 import { GENDER_OPTIONS, ROLE_VALUES } from '@/constants'
 import PhoneNumberInput from '@/components/PhoneNumberInput'
 import { editUser, getUserById } from '@/api/profile'
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
+import { useMutation, useQuery } from '@tanstack/react-query'
 import { useEffect } from 'react'
+import { logZodResolver } from '@/utils/helper'
 import Spinner from '@/components/Spinner'
-import { userAtom } from '@/store/user'
 import { useAtom } from 'jotai'
-import { zodResolver } from '@hookform/resolvers/zod'
+import { userAtom } from '@/store/user'
 
 export const UserProfile: React.FC = () => {
     const navigate = useNavigate()
     const { toast } = useToast()
-    const [currentProfile, setCurrentProfile] = useAtom(userAtom)
+
+    const [userProfile, setUserProfile] = useAtom(userAtom)
 
     const { data: user, isLoading } = useQuery({
-        queryKey: ['userCurrentProfile', currentProfile?.id],
-        queryFn: () => getUserById(currentProfile?.id ?? 0),
+        queryKey: ['editUserProfile', userProfile],
+        queryFn: () => getUserById(userProfile?.id ?? 0),
+        enabled: !!userProfile,
     })
-
-    const queryClient = useQueryClient()
 
     const userForm = useForm<EditUserType>({
         mode: 'onChange',
-        resolver: zodResolver(profileSchema),
+        resolver: logZodResolver(profileSchema),
         defaultValues: {
-            email: user?.email,
-            first_name: user?.first_name,
-            last_name: user?.last_name,
-            middle_name: user?.middle_name,
-            role: user?.role,
-            address1: user?.address1,
-            address2: user?.address2,
-            barangay: user?.barangay,
-            municipality: user?.municipality,
-            province: user?.province,
-            zip_code: user?.zip_code,
-            birth_date: user?.birth_date,
-            gender: user?.gender,
-            phone_number: '+' + user?.phone_number,
-            emergency_contact_name: user?.emergency_contact_name,
-            emergency_contact_no: user?.emergency_contact_no,
+            email: '',
+            first_name: '',
+            last_name: '',
+            middle_name: '',
+            role: '',
+            address1: '',
+            address2: '',
+            barangay: '',
+            municipality: '',
+            province: '',
+            zip_code: '',
+            birth_date: '',
+            gender: '',
+            phone_number: '',
+            emergency_contact_name: '',
+            emergency_contact_no: '',
         },
     })
 
     const {
         setValue,
-        formState: { errors, isValid },
+        formState: { errors, isValid, isDirty },
     } = userForm
 
     const { mutate: updateUserMu } = useMutation({
         mutationFn: editUser,
         onSuccess: () => {
-            queryClient.invalidateQueries({ queryKey: ['userCurrentProfile'] })
             toast({
                 description: 'User updated successfully',
                 duration: 2000,
             })
+            setUserProfile(userForm.getValues() as ProfileType)
+            navigate(-1)
         },
     })
 
@@ -79,14 +80,13 @@ export const UserProfile: React.FC = () => {
 
     useEffect(() => {
         if (user) {
-            setCurrentProfile(user as ProfileType)
             userForm.reset(user)
         }
     }, [user])
 
     return (
         <div className='content'>
-            <BreadCrumbs title='My Profile' origin='Users' />
+            <BreadCrumbs title='Edit User' origin='Users' />
 
             <Form {...userForm}>
                 <form
@@ -248,7 +248,6 @@ export const UserProfile: React.FC = () => {
                                             <FormField
                                                 control={userForm.control}
                                                 name='role'
-                                                disabled
                                                 render={({ field }) => (
                                                     <FormItem>
                                                         <FormControl>
@@ -256,6 +255,7 @@ export const UserProfile: React.FC = () => {
                                                                 className='mt-[16px] w-[100%] bg-white'
                                                                 placeholder='Role'
                                                                 options={ROLE_VALUES}
+                                                                disabled
                                                                 {...field}
                                                             />
                                                         </FormControl>
@@ -486,7 +486,11 @@ export const UserProfile: React.FC = () => {
                                 >
                                     Cancel
                                 </Button>
-                                <Button type='submit' className='w-1/5' disabled={!isValid}>
+                                <Button
+                                    type='submit'
+                                    className='w-1/5'
+                                    disabled={!isValid || !isDirty}
+                                >
                                     Submit
                                 </Button>
                             </CardFooter>

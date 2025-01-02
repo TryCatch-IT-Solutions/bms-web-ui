@@ -36,7 +36,7 @@ const UsersCSVTemplate = ({
             headers={csvHeaders}
             filename={'import-user-template.csv'}
             className={
-                'w-[230px] h-[34px] text-[#191A0A] hover:bg-[#00000029] whitespace-nowrap block px-3 py-1 text-base rounded-b-md'
+                'w-[200px] h-[34px] text-[#191A0A] hover:bg-[#00000029] whitespace-nowrap block px-3 py-1 text-base rounded-b-md'
             }
             onClick={() => {
                 setIsOpen && setIsOpen(!isOpen)

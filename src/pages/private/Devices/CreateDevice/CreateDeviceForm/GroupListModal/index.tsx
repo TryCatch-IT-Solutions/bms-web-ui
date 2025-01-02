@@ -24,6 +24,7 @@ const GroupListModal: React.FC<GroupListModalProps> = ({ open, setOpen, control 
     const [groupId, setGroupId] = useState<number>(0)
     const [groupProfile, setGroupProfile] = useState<GroupType | null>(null)
     const setDeviceGroupAtom = useSetAtom(createDeviceGroupAtom)
+    const [searchVal, setSearchVal] = useState<string>('')
 
     const [pagination, setPagination] = useState<PaginationType>({
         current_page: 1,
@@ -40,8 +41,8 @@ const GroupListModal: React.FC<GroupListModalProps> = ({ open, setOpen, control 
     }
 
     const { data: groups, isLoading } = useQuery({
-        queryKey: ['groupListCreateDeviceList', pagination],
-        queryFn: () => getGroups(pagination),
+        queryKey: ['groupListCreateDeviceList', pagination, searchVal],
+        queryFn: () => getGroups(pagination, searchVal),
     })
 
     const handleCheckClick = (g: GroupType) => {
@@ -69,7 +70,7 @@ const GroupListModal: React.FC<GroupListModalProps> = ({ open, setOpen, control 
 
                 <div className='px-10'>
                     <SearchBar
-                        onSearchChange={(val) => console.log(val)}
+                        onSearchChange={(e) => setSearchVal(e?.target?.value)}
                         placeHolder='Search Employee'
                     />
                 </div>
