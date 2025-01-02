@@ -59,13 +59,20 @@ const Marker = ({
             {activeMarker === id ? (
                 <InfoWindowF options={{ minWidth: 280 }} onCloseClick={() => setMarker(null)}>
                     <div className='p-2 space-y-2'>
-                        <div className='text-zentive-green-dark text-sm font-semibold flex flex-row items-center gap-2'>
-                            <div className='rounded-full bg-zentive-green-dark w-fit h-fit text-white p-2'>
-                                {text}
-                            </div>
+                        <div className='text-zentive-green-dark text-sm flex flex-row items-center gap-2'>
+                            <b className='font-semibold'>Device: </b>
+                            {id}
+                        </div>
+                        <div className='text-zentive-green-dark text-sm flex flex-row items-center gap-2'>
+                            <b className='font-semibold'>Model: </b>
                             {model}
                         </div>
-                        <p className='text-sm'>{serial_no}</p>
+                        <div className='flex flex-row items-center gap-2'>
+                            <p className='text-sm'>
+                                <b className='font-semibold'>Serial No: </b>
+                                {serial_no}
+                            </p>
+                        </div>
                     </div>
                 </InfoWindowF>
             ) : null}
