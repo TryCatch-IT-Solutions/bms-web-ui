@@ -95,8 +95,6 @@ export const UserTable: React.FC = () => {
         })
     }
 
-    useEffect(() => {}, [])
-
     return (
         <>
             <div className='mb-5 flex flex-row justify-between'>
