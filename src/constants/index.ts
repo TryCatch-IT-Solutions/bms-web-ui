@@ -57,3 +57,8 @@ export const TEMP_groupadmin = [
 ]
 
 export const LAPTOP_MAX_WIDTH = 1425
+
+export const USER_FILTER_OPTIONS = [
+    { value: 'groupadmin', label: 'Group Admin' },
+    { value: 'superadmin', label: 'Super Admin' },
+]

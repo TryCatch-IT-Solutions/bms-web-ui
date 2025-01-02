@@ -1,4 +1,4 @@
-import { userIdsToDeleteAtom, usersToExportAtom } from '@/store/user'
+import { userFilterAtom, userIdsToDeleteAtom, usersToExportAtom } from '@/store/user'
 import { getUsers } from '@/api/profile'
 import { ProfileType, UserListType } from '@/api/profile/schema'
 import { Checkbox } from '@/components/Checkbox'
@@ -6,12 +6,12 @@ import { Pagination } from '@/components/Pagination'
 import { PaginationType } from '@/components/Pagination/schema'
 import { TableHeader, TableRow, TableHead, TableBody, TableCell, Table } from '@/components/Table'
 import AppSkeletonLoadingState from '@/components/TableLoadingState'
-import { ROLE, USER_STATUS } from '@/constants'
+import { USER_STATUS } from '@/constants'
 import { userSelectedStatusAtom } from '@/store/user'
 import { cn } from '@/utils/helper'
 import { useQuery } from '@tanstack/react-query'
 import { useAtom, useAtomValue, useSetAtom } from 'jotai'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { Card, CardContent } from '@/components/Card'
 import DeleteUserModal from '../DeleteUserModal'
@@ -20,6 +20,7 @@ import ExportDropdown from '../ExportDropdown'
 import { Button } from '@/components/Button'
 import { Trash2Icon } from 'lucide-react'
 import { UserStatusTabs } from '../UserStatusTabs'
+import UserFilterDropdown from '../UserFilterDropdown'
 
 const tableHeader = [
     { name: 'Account Number' },
@@ -36,6 +37,7 @@ export const UserTable: React.FC = () => {
     const [searchVal, setSearchVal] = useState<string>('')
     const selectedUserStatus = useAtomValue(userSelectedStatusAtom)
     const usersToExport = useAtomValue(usersToExportAtom)
+    const userFilter = useAtomValue(userFilterAtom)
 
     const onSearchChange = (val: string) => {
         setSearchVal(val)
@@ -53,12 +55,12 @@ export const UserTable: React.FC = () => {
     const navigate = useNavigate()
 
     const { data: users, isLoading } = useQuery({
-        queryKey: ['usersList', pagination, selectedStatus, searchVal],
+        queryKey: ['usersList', pagination, selectedStatus, searchVal, userFilter],
         queryFn: () =>
             getUsers(
                 pagination,
                 [selectedStatus],
-                [ROLE.superadmin, ROLE.groupadmin],
+                userFilter ?? ['superadmin', 'groupadmin'],
                 true,
                 searchVal,
             ),
@@ -93,6 +95,8 @@ export const UserTable: React.FC = () => {
         })
     }
 
+    useEffect(() => {}, [])
+
     return (
         <>
             <div className='mb-5 flex flex-row justify-between'>
@@ -118,7 +122,8 @@ export const UserTable: React.FC = () => {
                         {selectedUserStatus === USER_STATUS.ACTIVATED ? 'Delete' : 'Restore'}
                         <Trash2Icon className='h-4' />
                     </Button>
-                    <Button>Filter</Button>
+
+                    <UserFilterDropdown />
                 </div>
             </div>
             <UserStatusTabs />
