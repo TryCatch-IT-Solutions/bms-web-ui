@@ -26,6 +26,7 @@ const tableHeader = [
 export const GroupTable: React.FC = () => {
     const [open, setOpen] = useState<boolean>(false)
     const [groupsToRemove, setGroupsToRemove] = useAtom(groupsToDeleteAtom)
+    const [searchVal, setSearchVal] = useState<string>('')
 
     const navigate = useNavigate()
     const [pagination, setPagination] = useState<PaginationType>({
@@ -49,8 +50,8 @@ export const GroupTable: React.FC = () => {
     }
 
     const { data: groups, isLoading } = useQuery({
-        queryKey: ['groupList', pagination],
-        queryFn: () => getGroups(pagination),
+        queryKey: ['groupList', pagination, searchVal],
+        queryFn: () => getGroups(pagination, searchVal),
     })
 
     useEffect(() => {
@@ -58,13 +59,18 @@ export const GroupTable: React.FC = () => {
     }, [])
 
     const onSearchChange = (val: string) => {
-        console.log(val)
+        setTimeout(() => {
+            setSearchVal(val)
+        }, 500)
     }
 
     return (
         <>
             <div className='mb-5 flex flex-row justify-between'>
-                <SearchBar placeHolder='Search User' onSearchChange={() => onSearchChange} />
+                <SearchBar
+                    placeHolder='Search User'
+                    onSearchChange={(e) => onSearchChange(e?.target?.value)}
+                />
                 <div className='flex flex-row gap-5'>
                     <Button
                         variant='outline'
@@ -77,7 +83,6 @@ export const GroupTable: React.FC = () => {
                         Delete
                         <Trash2Icon className='h-4' />
                     </Button>
-                    <Button>Filter</Button>
                 </div>
             </div>
             <Card>
@@ -99,7 +104,11 @@ export const GroupTable: React.FC = () => {
                         </TableHeader>
                         <TableBody>
                             {isLoading ? (
-                                <AppSkeletonLoadingState />
+                                <TableRow>
+                                    <TableCell colSpan={6}>
+                                        <AppSkeletonLoadingState />
+                                    </TableCell>
+                                </TableRow>
                             ) : (
                                 groups?.content.map((g) => (
                                     <TableRow

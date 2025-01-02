@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction, useState } from 'react'
+import { Dispatch, SetStateAction, useEffect, useState } from 'react'
 import { Button } from '@/components/Button'
 import { Modal } from '@/components/Modal'
 import SearchBar from '@/components/SearchBar'
@@ -34,6 +34,7 @@ const EmployeeListModal: React.FC<EmployeeListModalProps> = ({ open, setOpen }) 
     const { id } = useParams()
 
     const [empIds, setEmpIds] = useState<AddEmpToGroupType>({ employees: [] })
+    const [searchVal, setSearchVal] = useState<string>('')
 
     const handleCheckboxChange = (emp: ProfileType, checked: boolean) => {
         setEmpIds((prev) => {
@@ -60,15 +61,18 @@ const EmployeeListModal: React.FC<EmployeeListModalProps> = ({ open, setOpen }) 
     })
 
     const handleSave = () => {
-        console.log('here')
         addEmpToGroupMu(empIds)
         setOpen(false)
     }
 
     const { data: employees, isLoading } = useQuery({
-        queryKey: ['employeeList', pagination],
-        queryFn: () => getUsers(pagination, ['active'], [ROLE.employee], true, null),
+        queryKey: ['groupEditemployeeList', pagination, searchVal],
+        queryFn: () => getUsers(pagination, ['active'], [ROLE.employee], true, searchVal),
     })
+
+    useEffect(() => {
+        setSearchVal('')
+    }, [open])
 
     return (
         <Modal
@@ -90,7 +94,11 @@ const EmployeeListModal: React.FC<EmployeeListModalProps> = ({ open, setOpen }) 
 
                 <div className='px-10'>
                     <SearchBar
-                        onSearchChange={(val) => console.log(val)}
+                        onSearchChange={(e) => {
+                            setTimeout(() => {
+                                setSearchVal(e?.target?.value)
+                            }, 500)
+                        }}
                         placeHolder='Search Employee'
                     />
                 </div>

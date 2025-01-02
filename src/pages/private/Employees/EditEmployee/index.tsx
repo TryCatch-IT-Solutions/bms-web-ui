@@ -35,28 +35,28 @@ export const EditEmployee: React.FC = () => {
         mode: 'onChange',
         resolver: logZodResolver(profileSchema),
         defaultValues: {
-            email: user?.email,
-            first_name: user?.first_name,
-            last_name: user?.last_name,
-            middle_name: user?.middle_name,
-            role: user?.role,
-            address1: user?.address1,
-            address2: user?.address2,
-            barangay: user?.barangay,
-            municipality: user?.municipality,
-            province: user?.province,
-            zip_code: user?.zip_code,
-            birth_date: user?.birth_date,
-            gender: user?.gender,
-            phone_number: '+' + user?.phone_number,
-            emergency_contact_name: user?.emergency_contact_name,
-            emergency_contact_no: user?.emergency_contact_no,
+            email: '',
+            first_name: '',
+            last_name: '',
+            middle_name: '',
+            role: '',
+            address1: '',
+            address2: '',
+            barangay: '',
+            municipality: '',
+            province: '',
+            zip_code: '',
+            birth_date: '',
+            gender: '',
+            phone_number: '',
+            emergency_contact_name: '',
+            emergency_contact_no: '',
         },
     })
 
     const {
         setValue,
-        formState: { errors, isValid, isSubmitting },
+        formState: { errors, isValid, isSubmitting, isDirty },
     } = userForm
 
     const { mutate: updateUserMu } = useMutation({
@@ -492,7 +492,7 @@ export const EditEmployee: React.FC = () => {
                                 <Button
                                     type='submit'
                                     className='w-1/5'
-                                    disabled={!isValid || isSubmitting}
+                                    disabled={!isValid || isSubmitting || !isDirty}
                                 >
                                     Submit
                                 </Button>

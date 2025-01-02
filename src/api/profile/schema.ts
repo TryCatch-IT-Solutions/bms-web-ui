@@ -16,7 +16,7 @@ export const profileSchema = z
         first_name: stringValidator('First Name', { isRequired: true }),
         last_name: stringValidator('Last Name', { isRequired: true }),
         middle_name: z.string().optional().nullable(),
-        role: stringValidator('Role', { isRequired: true }),
+        role: z.string(),
         group_id: z.number().nullish().optional(),
         address1: stringValidator('Address ', { isRequired: true }),
         address2: z.string().optional().nullable(),
