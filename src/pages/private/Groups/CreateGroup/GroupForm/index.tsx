@@ -5,10 +5,10 @@ import { Input } from '@/components/Input'
 import { useForm } from 'react-hook-form'
 import { GroupMemberTable } from './GroupMemberTable'
 import { useNavigate } from 'react-router-dom'
-import { logZodResolver } from '@/utils/helper'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { createGroup } from '@/api/group'
 import { useToast } from '@/hooks/useToast'
+import { zodResolver } from '@hookform/resolvers/zod'
 
 export const GroupForm: React.FC = () => {
     const navigate = useNavigate()
@@ -16,7 +16,7 @@ export const GroupForm: React.FC = () => {
 
     const groupForm = useForm<CreateGroupType>({
         mode: 'onChange',
-        resolver: logZodResolver(createGroupSchema),
+        resolver: zodResolver(createGroupSchema),
     })
 
     const { toast } = useToast()
@@ -89,7 +89,7 @@ export const GroupForm: React.FC = () => {
                 </div>
 
                 <div className='flex flex-row gap-5 items-center justify-end mt-5'>
-                    <Button variant='outline' onClick={() => navigate(-1)}>
+                    <Button variant='outline' onClick={() => navigate(-1)} type='button'>
                         Cancel
                     </Button>
                     <Button type='submit' disabled={!isValid}>

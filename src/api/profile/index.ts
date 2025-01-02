@@ -1,5 +1,5 @@
 import { PaginationType } from '@/components/Pagination/schema'
-import { API_URL, axiosInstance } from '../axiosInstance'
+import { axiosInstance } from '../axiosInstance'
 import {
     BulkUserUpdateStatusType,
     CreateUserType,

@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction, useState } from 'react'
+import { Dispatch, SetStateAction, useEffect, useState } from 'react'
 import { Button } from '@/components/Button'
 import { Modal } from '@/components/Modal'
 import SearchBar from '@/components/SearchBar'
@@ -20,6 +20,7 @@ interface AdminListModalProps {
 
 const AdminListModal: React.FC<AdminListModalProps> = ({ open, setOpen }) => {
     const [adminId, setAdminId] = useState<number>(0)
+    const [searchVal, setSearchVal] = useState<string>('')
     const [adminProfile, setAdminProfile] = useState<ProfileType | null>(null)
 
     const [pagination, setPagination] = useState<PaginationType>({
@@ -37,8 +38,8 @@ const AdminListModal: React.FC<AdminListModalProps> = ({ open, setOpen }) => {
     }
 
     const { data: employees, isLoading } = useQuery({
-        queryKey: ['groupAdminList', pagination],
-        queryFn: () => getUsers(pagination, ['active'], [ROLE.groupadmin], true, null),
+        queryKey: ['createGroupAdminList', pagination, searchVal],
+        queryFn: () => getUsers(pagination, ['active'], [ROLE.groupadmin], true, searchVal),
     })
 
     const handleCheckClick = (e: ProfileType) => {
@@ -46,12 +47,16 @@ const AdminListModal: React.FC<AdminListModalProps> = ({ open, setOpen }) => {
         setAdminProfile(e)
     }
 
+    useEffect(() => {
+        setSearchVal('')
+    }, [open])
+
     return (
         <Modal
             isOpen={open}
             isHideCloseButton
             onClose={() => {
-                setOpen(false)
+                console.log('here')
             }}
             title=''
             titleClassName=''
@@ -66,7 +71,11 @@ const AdminListModal: React.FC<AdminListModalProps> = ({ open, setOpen }) => {
 
                 <div className='px-10'>
                     <SearchBar
-                        onSearchChange={(val) => console.log(val)}
+                        onSearchChange={(e) =>
+                            setTimeout(() => {
+                                setSearchVal(e?.target?.value)
+                            }, 500)
+                        }
                         placeHolder='Search Employee'
                     />
                 </div>
@@ -101,12 +110,14 @@ const AdminListModal: React.FC<AdminListModalProps> = ({ open, setOpen }) => {
                         variant='ghost'
                         className='w-97 h-11 text-base font-semibold bg-white text-bms-primary ring-bms-primary border border-bms-primary'
                         onClick={() => setOpen(false)}
+                        type='button'
                     >
                         Cancel
                     </Button>
                     <Button
                         onClick={handleSave}
                         className='w-97 h-11 text-base font-semibold bg-bms-primary'
+                        type='button'
                     >
                         Add
                     </Button>
