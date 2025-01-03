@@ -22,7 +22,11 @@ export const getDeviceList = async (p: PaginationType, search: string): Promise<
 }
 
 export const getDeviceMapView = async (): Promise<DeviceType[]> => {
-    const response = await axiosInstance.get(`/api/devices`)
+    const response = await axiosInstance.get(`/api/devices`, {
+        params: {
+            status: ['active'],
+        },
+    })
 
     return response.data.content
 }
