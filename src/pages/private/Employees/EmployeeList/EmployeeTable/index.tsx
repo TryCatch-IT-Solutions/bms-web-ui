@@ -7,7 +7,7 @@ import { PaginationType } from '@/components/Pagination/schema'
 import SearchBar from '@/components/SearchBar'
 import { TableHeader, TableRow, TableHead, TableBody, TableCell, Table } from '@/components/Table'
 import AppSkeletonLoadingState from '@/components/TableLoadingState'
-import { ROLE, USER_STATUS } from '@/constants'
+import { ROLE, TIME_DATE_FORMAT, USER_STATUS } from '@/constants'
 import { employeeExportAtom, employeeSelectedStatusAtom, employeesToDeleteAtom } from '@/store/user'
 import { cn } from '@/utils/helper'
 import { useQuery } from '@tanstack/react-query'
@@ -20,6 +20,7 @@ import { Button } from '@/components/Button'
 import { Trash2Icon } from 'lucide-react'
 import { EmployeeStatusBar } from '../EmployeeStatusBar'
 import DeleteEmployeeModal from '../DeleteEmployeeModal'
+import dayjs from 'dayjs'
 
 const tableHeader = [
     { name: 'Account Number' },
@@ -178,7 +179,7 @@ export const EmployeeTable: React.FC = () => {
                                         </p>
                                     </TableCell>
                                     <TableCell onClick={() => handleRowClick(u?.id)}>
-                                        {u.birth_date}
+                                        {dayjs(u.birth_date).format(TIME_DATE_FORMAT.DATE)}
                                     </TableCell>
                                 </TableRow>
                             ))}

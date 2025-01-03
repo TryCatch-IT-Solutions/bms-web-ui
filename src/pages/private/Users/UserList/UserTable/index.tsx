@@ -6,12 +6,12 @@ import { Pagination } from '@/components/Pagination'
 import { PaginationType } from '@/components/Pagination/schema'
 import { TableHeader, TableRow, TableHead, TableBody, TableCell, Table } from '@/components/Table'
 import AppSkeletonLoadingState from '@/components/TableLoadingState'
-import { USER_STATUS } from '@/constants'
+import { TIME_DATE_FORMAT, USER_STATUS } from '@/constants'
 import { userSelectedStatusAtom } from '@/store/user'
 import { cn } from '@/utils/helper'
 import { useQuery } from '@tanstack/react-query'
 import { useAtom, useAtomValue, useSetAtom } from 'jotai'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { Card, CardContent } from '@/components/Card'
 import DeleteUserModal from '../DeleteUserModal'
@@ -21,6 +21,7 @@ import { Button } from '@/components/Button'
 import { Trash2Icon } from 'lucide-react'
 import { UserStatusTabs } from '../UserStatusTabs'
 import UserFilterDropdown from '../UserFilterDropdown'
+import dayjs from 'dayjs'
 
 const tableHeader = [
     { name: 'Account Number' },
@@ -191,7 +192,7 @@ export const UserTable: React.FC = () => {
                                         </p>
                                     </TableCell>
                                     <TableCell onClick={() => handleRowClick(u?.id)}>
-                                        {u.birth_date}
+                                        {dayjs(u.birth_date).format(TIME_DATE_FORMAT.DATE)}
                                     </TableCell>
                                 </TableRow>
                             ))}

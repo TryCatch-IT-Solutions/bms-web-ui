@@ -111,7 +111,9 @@ const Items = ({ index, item, open, setCurrentTab }: ItemProps) => {
                     navItemTextStyle,
                 )}
             >
-                <item.icon className='mr-3 flex-shrink-0 h-6 w-6' aria-hidden='true' />
+                {item.icon && (
+                    <item.icon className='mr-3 flex-shrink-0 h-6 w-6' aria-hidden='true' />
+                )}
             </span>
 
             <span className={twMerge('flex-1', navItemHoverStyle, navItemTextStyle)}>
