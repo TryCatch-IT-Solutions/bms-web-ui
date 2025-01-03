@@ -53,7 +53,7 @@ module.exports = {
                         dark: '#646464',
                     },
                     link: '#dc2626',
-                    primary: '#e80006', // Custom primary red
+                    primary: '#e9212b', // Custom primary red
                 },
                 border: 'hsl(var(--border))',
                 input: 'hsl(var(--input))',
