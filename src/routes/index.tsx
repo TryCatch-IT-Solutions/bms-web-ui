@@ -2,17 +2,17 @@ import { createBrowserRouter } from 'react-router-dom'
 import PrivateRoutes from './PrivateRoutes'
 import PublicRoutes from './PublicRoutes'
 import { Navigate } from 'react-router-dom'
-import { Error404 } from '@/pages/common/error/404'
-import { Error403 } from '@/pages/common/error/403'
+import NotFoundPage from '@/pages/common/error/404'
+import { UnauthorizedPage } from '@/pages/common/error/401'
 
 export const Routes = createBrowserRouter([
     {
         path: '404',
-        element: <Error404 />,
+        element: <NotFoundPage />,
     },
     {
-        path: '403',
-        element: <Error403 />,
+        path: '401',
+        element: <UnauthorizedPage />,
     },
     {
         path: '*',

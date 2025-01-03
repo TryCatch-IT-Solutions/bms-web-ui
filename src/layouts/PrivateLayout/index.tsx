@@ -1,21 +1,25 @@
 import { Toaster } from '@/components/Toaster'
-import { Outlet } from 'react-router-dom'
+import { Navigate, Outlet, useLocation } from 'react-router-dom'
 import { Topbar } from './TopBar'
-import { Sidebar } from './SideBar'
+import { navigationItems, NavigationProps, Sidebar } from './SideBar'
 import { cn } from '@/utils/helper'
 import { LAPTOP_MAX_WIDTH } from '@/constants'
 import { useMediaQuery } from 'react-responsive'
 import { useAtomValue } from 'jotai'
-import { tokenAtom } from '@/store/user'
+import { tokenAtom, userAtom } from '@/store/user'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { useEffect } from 'react'
 import { useAuth } from '@/hooks/useAuth'
 import { verifyToken } from '@/api/auth'
 import MobileMenu from './SideBar/MenuChild/MobileMenu'
+import { getAllowedNavigationItems } from '@/utils/navigation'
 
 const PrivateLayout = () => {
     const xl_vw_already = useMediaQuery({ maxWidth: LAPTOP_MAX_WIDTH })
     const token = useAtomValue(tokenAtom)
+    const user = useAtomValue(userAtom)
+
+    const path = useLocation().pathname
 
     const { signOut } = useAuth()
 
@@ -38,6 +42,39 @@ const PrivateLayout = () => {
             signOut()
         }
     }, [isTokenValid, isLoading, token])
+
+    const allowedNavigationItems = getAllowedNavigationItems(navigationItems, user?.role)
+
+    const isPathPresentInNavigation = (path: string, items: NavigationProps[]) => {
+        if (path === '/dashboard') {
+            return true
+        }
+
+        for (const item of items) {
+            // Check if the current item's href matches the given path
+            if (item.href === path) {
+                return true
+            }
+
+            // If the item has children, recursively check them
+            if (item.children && item.children.length > 0) {
+                const foundInChildren = isPathPresentInNavigation(path, item.children)
+                if (foundInChildren) {
+                    return true
+                }
+            }
+        }
+
+        // Return false if the path was not found
+        return false
+    }
+
+    // Usage
+    const isPathValid = isPathPresentInNavigation(path, allowedNavigationItems)
+
+    if (!isPathValid) {
+        return <Navigate to='/401' replace />
+    }
 
     return (
         <div>

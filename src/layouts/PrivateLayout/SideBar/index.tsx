@@ -14,7 +14,7 @@ import { getAllowedNavigationItems } from '@/utils/navigation'
 
 export type NavigationProps = {
     name: string
-    icon: IconType
+    icon?: IconType
     allowedRoles: (typeof ROLE)[keyof typeof ROLE][]
     href: string
     children?: NavigationChildrenProps[]
