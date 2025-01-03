@@ -62,3 +62,5 @@ export const USER_FILTER_OPTIONS = [
     { value: 'groupadmin', label: 'Group Admin' },
     { value: 'superadmin', label: 'Super Admin' },
 ]
+
+export const EXCLUDED_ROUTES = ['/dashboard', '/user/my-profile']

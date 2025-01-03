@@ -3,7 +3,7 @@ import { Navigate, Outlet, useLocation } from 'react-router-dom'
 import { Topbar } from './TopBar'
 import { navigationItems, NavigationProps, Sidebar } from './SideBar'
 import { cn } from '@/utils/helper'
-import { LAPTOP_MAX_WIDTH } from '@/constants'
+import { EXCLUDED_ROUTES, LAPTOP_MAX_WIDTH } from '@/constants'
 import { useMediaQuery } from 'react-responsive'
 import { useAtomValue } from 'jotai'
 import { tokenAtom, userAtom } from '@/store/user'
@@ -46,7 +46,10 @@ const PrivateLayout = () => {
     const allowedNavigationItems = getAllowedNavigationItems(navigationItems, user?.role)
 
     const isPathPresentInNavigation = (path: string, items: NavigationProps[]) => {
-        if (path === '/dashboard') {
+        if (isLoading) {
+            return true
+        }
+        if (EXCLUDED_ROUTES.includes(path)) {
             return true
         }
 
