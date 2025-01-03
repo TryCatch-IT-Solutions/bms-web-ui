@@ -46,6 +46,9 @@ const PrivateLayout = () => {
     const allowedNavigationItems = getAllowedNavigationItems(navigationItems, user?.role)
 
     const isPathPresentInNavigation = (path: string, items: NavigationProps[]) => {
+        if (isLoading) {
+            return true
+        }
         if (EXCLUDED_ROUTES.includes(path)) {
             return true
         }

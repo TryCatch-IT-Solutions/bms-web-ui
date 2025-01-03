@@ -16,6 +16,7 @@ import { Trash2Icon } from 'lucide-react'
 import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import DeleteDeviceModal from '../DeleteDeviceModal'
+import { DeviceFilterByGroupModal } from './DeviceFilterByGroupModal'
 
 const tableHeader = [
     { name: 'Device ID' },
@@ -32,6 +33,7 @@ export const DeviceTable: React.FC = () => {
     })
 
     const [devicesToDelete, setDevicesToDelete] = useAtom(deleteDeviceAtom)
+    const [groupFilter, setGroupFilter] = useState<boolean>(false)
     const [searchVal, setSearchVal] = useState<string>('')
 
     const [open, setOpen] = useState<boolean>(false)
@@ -74,6 +76,9 @@ export const DeviceTable: React.FC = () => {
                     >
                         Delete
                         <Trash2Icon className='h-4' />
+                    </Button>
+                    <Button type='button' onClick={() => setGroupFilter(true)}>
+                        Filter By Group
                     </Button>
                 </div>
             </div>
@@ -145,6 +150,7 @@ export const DeviceTable: React.FC = () => {
                 </CardContent>
             </Card>
             <DeleteDeviceModal open={open} setOpen={setOpen} />
+            <DeviceFilterByGroupModal open={groupFilter} setOpen={setGroupFilter} />
         </>
     )
 }
