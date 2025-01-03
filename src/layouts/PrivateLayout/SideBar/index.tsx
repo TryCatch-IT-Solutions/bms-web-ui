@@ -60,12 +60,17 @@ export const navigationItems: NavigationProps[] = [
             {
                 name: 'Groups',
                 href: '/group/list',
-                allowedRoles: [ROLE.superadmin, ROLE.groupadmin],
+                allowedRoles: [ROLE.superadmin],
             },
             {
                 name: 'Create Group',
                 href: '/group/create',
                 allowedRoles: [ROLE.superadmin],
+            },
+            {
+                name: 'My Group',
+                href: '/group/user-group',
+                allowedRoles: [ROLE.groupadmin],
             },
         ],
     },

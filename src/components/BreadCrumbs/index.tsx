@@ -16,12 +16,12 @@ export const BreadCrumbs: React.FC<BreadCrumbsProps> = ({ origin, title, id }) =
                     <ChevronRightIcon className='h-4' />
                 </span>
                 {title}
-                {id && (
+                {(id ?? 0) > 0 && (
                     <>
                         <span>
                             <ChevronRightIcon className='h-4' />
                         </span>
-                        <span>{id}</span>
+                        <span>{(id ?? 0) > 0 ? id : ''}</span>
                     </>
                 )}
             </p>
