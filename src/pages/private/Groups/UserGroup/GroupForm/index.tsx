@@ -7,7 +7,7 @@ import { GroupMemberTable } from './GroupMemberTable'
 import { Trash2Icon } from 'lucide-react'
 
 import { useEffect, useState } from 'react'
-import { useNavigate, useParams } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { getGroupByid, updateGroupName } from '@/api/group'
 import Spinner from '@/components/Spinner'
@@ -19,26 +19,31 @@ import EmployeeListModal from './EmployeeListModal'
 import { Card, CardContent, CardHeader } from '@/components/Card'
 import { zodResolver } from '@hookform/resolvers/zod'
 import RemoveEmpToGroupModal from './RemoveEmpToGroupModal'
+import { useAtomValue } from 'jotai'
+import { userAtom } from '@/store/user'
+import { NoGroup } from './NoGroup'
 
 export const GroupForm: React.FC = () => {
     const [open, setOpen] = useState<boolean>(false)
     const [removeModal, setRemoveModal] = useState<boolean>(false)
     const [groupAdminModal, setGroupAdminModal] = useState<boolean>(false)
-    const { id } = useParams()
     const { toast } = useToast()
     const queryClient = useQueryClient()
     const navigate = useNavigate()
 
+    const user = useAtomValue(userAtom)
+
     const { data: group, isLoading } = useQuery({
-        queryKey: ['editGroup', id],
-        queryFn: () => getGroupByid(Number(id)),
+        queryKey: ['editGroup', user?.group_id],
+        queryFn: () => getGroupByid(user?.group_id ?? 0),
+        enabled: user?.group_id !== null,
     })
 
     const groupForm = useForm<EditGroupType>({
         mode: 'onSubmit',
         resolver: zodResolver(editGroupSchema),
         defaultValues: {
-            id: Number(id),
+            id: user?.group_id ?? 0,
             name: group?.name,
             group_admin: group?.group_admin?.id,
             admin_profile: group?.group_admin,
@@ -72,7 +77,7 @@ export const GroupForm: React.FC = () => {
     useEffect(() => {
         if (group) {
             groupForm.reset({
-                id: Number(id),
+                id: user?.group_id ?? 0,
                 name: group?.name,
                 group_admin: group?.group_admin?.id,
                 admin_profile: group?.group_admin,
@@ -82,7 +87,7 @@ export const GroupForm: React.FC = () => {
 
     return isLoading ? (
         <Spinner variant='normal' className='h-[8rem] w-[8rem]' />
-    ) : (
+    ) : user?.group_id !== null ? (
         <div className='flex flex-col gap-10'>
             <Card>
                 <CardHeader>
@@ -186,5 +191,7 @@ export const GroupForm: React.FC = () => {
                 </CardContent>
             </Card>
         </div>
+    ) : (
+        <NoGroup />
     )
 }

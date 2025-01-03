@@ -9,6 +9,7 @@ import { EmployeeList } from '@/pages/private/Employees/EmployeeList'
 import { CreateGroup } from '@/pages/private/Groups/CreateGroup'
 import { EditGroup } from '@/pages/private/Groups/EditGroup'
 import { GroupList } from '@/pages/private/Groups/GroupList'
+import { UserGroup } from '@/pages/private/Groups/UserGroup'
 import { ActivityLogs } from '@/pages/private/Logs/ActivityLogs'
 import { CreateUser } from '@/pages/private/Users/CreateUser'
 import { EditUser } from '@/pages/private/Users/EditUser'
@@ -71,6 +72,10 @@ const PrivateRoutes: RouteObject = {
                 {
                     path: 'edit/:id',
                     element: <EditGroup />,
+                },
+                {
+                    path: 'user-group',
+                    element: <UserGroup />,
                 },
             ],
         },
