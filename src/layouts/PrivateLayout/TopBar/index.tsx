@@ -15,7 +15,7 @@ import { useAuth } from '@/hooks/useAuth'
 import { useAtom, useAtomValue } from 'jotai'
 import { userAtom } from '@/store/user'
 import { navAtom } from '../SideBar'
-import { ROLE_LABELS, ROLE_VALUES } from '@/constants'
+import { ROLE_VALUES } from '@/constants'
 
 export const Topbar = () => {
     const navigate = useNavigate()

@@ -1,3 +1,5 @@
+import { WEBSITE_URL } from '@/api/axiosInstance'
+
 export const AT_LEAST_TWO_CHARACTERS = 'must be at least 2 characters long'
 export const AT_LEAST_FOUR_CHARACTERS = 'must be at least 4 characters long'
 export const INVALID = 'is invalid'
@@ -63,4 +65,47 @@ export const USER_FILTER_OPTIONS = [
     { value: 'superadmin', label: 'Super Admin' },
 ]
 
+export const TIME_DATE_FORMAT = {
+    DATE_TIME: 'MMM DD, YYYY HH:mm A',
+    DATE: 'MMM DD, YYYY',
+}
+
 export const EXCLUDED_ROUTES = ['/dashboard', '/user/my-profile']
+
+export const allowedNavigationLinks = [
+    { href: '/dashboard', allowedRoles: [ROLE.superadmin, ROLE.groupadmin], dynamic: false },
+    { href: '/user/list', allowedRoles: [ROLE.superadmin], dynamic: false },
+    { href: '/user/register', allowedRoles: [ROLE.superadmin], dynamic: false },
+    { href: '/group/list', allowedRoles: [ROLE.superadmin], dynamic: false },
+    { href: '/group/create', allowedRoles: [ROLE.superadmin], dynamic: false },
+    { href: '/group/user-group', allowedRoles: [ROLE.groupadmin], dynamic: false },
+    { href: '/device/list', allowedRoles: [ROLE.superadmin], dynamic: false },
+    { href: '/device/create', allowedRoles: [ROLE.superadmin], dynamic: false },
+    { href: '/device/map-view', allowedRoles: [ROLE.superadmin], dynamic: false },
+    { href: '/employee/create', allowedRoles: [ROLE.groupadmin, ROLE.superadmin], dynamic: false },
+    { href: '/employee/list', allowedRoles: [ROLE.groupadmin, ROLE.superadmin], dynamic: false },
+    { href: '/log/activity', allowedRoles: [ROLE.superadmin, ROLE.groupadmin], dynamic: false },
+
+    // Add dynamic edit URLs
+
+    {
+        href: `${WEBSITE_URL}/user/edit/:id`,
+        allowedRoles: [ROLE.superadmin],
+        dynamic: true,
+    },
+    {
+        href: `${WEBSITE_URL}/group/edit/:id`,
+        allowedRoles: [ROLE.superadmin],
+        dynamic: true,
+    },
+    {
+        href: `${WEBSITE_URL}/device/edit/:id`,
+        allowedRoles: [ROLE.superadmin],
+        dynamic: true,
+    },
+    {
+        href: `${WEBSITE_URL}/employee/edit/:id`,
+        allowedRoles: [ROLE.groupadmin, ROLE.superadmin],
+        dynamic: true,
+    },
+]

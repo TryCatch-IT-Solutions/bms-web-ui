@@ -1,9 +1,9 @@
 import { Toaster } from '@/components/Toaster'
 import { Navigate, Outlet, useLocation } from 'react-router-dom'
 import { Topbar } from './TopBar'
-import { navigationItems, NavigationProps, Sidebar } from './SideBar'
+import { Sidebar } from './SideBar'
 import { cn } from '@/utils/helper'
-import { EXCLUDED_ROUTES, LAPTOP_MAX_WIDTH } from '@/constants'
+import { allowedNavigationLinks, EXCLUDED_ROUTES, LAPTOP_MAX_WIDTH } from '@/constants'
 import { useMediaQuery } from 'react-responsive'
 import { useAtomValue } from 'jotai'
 import { tokenAtom, userAtom } from '@/store/user'
@@ -12,7 +12,7 @@ import { useEffect } from 'react'
 import { useAuth } from '@/hooks/useAuth'
 import { verifyToken } from '@/api/auth'
 import MobileMenu from './SideBar/MenuChild/MobileMenu'
-import { getAllowedNavigationItems } from '@/utils/navigation'
+import { WEBSITE_URL } from '@/api/axiosInstance'
 
 const PrivateLayout = () => {
     const xl_vw_already = useMediaQuery({ maxWidth: LAPTOP_MAX_WIDTH })
@@ -43,9 +43,10 @@ const PrivateLayout = () => {
         }
     }, [isTokenValid, isLoading, token])
 
-    const allowedNavigationItems = getAllowedNavigationItems(navigationItems, user?.role)
-
-    const isPathPresentInNavigation = (path: string, items: NavigationProps[]) => {
+    const isPathPresentInNavigation = (
+        path: string,
+        items: { href: string; allowedRoles: string[]; dynamic: boolean }[],
+    ) => {
         if (isLoading) {
             return true
         }
@@ -53,29 +54,33 @@ const PrivateLayout = () => {
             return true
         }
 
+        // Loop through the allowed items and check for matching path
         for (const item of items) {
-            // Check if the current item's href matches the given path
-            if (item.href === path) {
+            // Check if the current item's href matches the given path and if user has allowed role
+            if (item.href === path && item.allowedRoles.includes(user?.role ?? '')) {
                 return true
             }
 
-            // If the item has children, recursively check them
-            if (item.children && item.children.length > 0) {
-                const foundInChildren = isPathPresentInNavigation(path, item.children)
-                if (foundInChildren) {
+            // If the item has dynamic URLs (like edit links), check if path matches pattern
+            if (item.dynamic === true) {
+                // Extract the base part of the URL before the dynamic segment
+                const baseUrl = item.href.split(WEBSITE_URL)[0]
+
+                // Check if the path starts with the base part
+                if (path.startsWith(baseUrl)) {
                     return true
                 }
             }
         }
-
         // Return false if the path was not found
         return false
     }
 
-    // Usage
-    const isPathValid = isPathPresentInNavigation(path, allowedNavigationItems)
+    // Validate if the current path exists in the allowed navigation links
+    const isPathValid = isPathPresentInNavigation(path, allowedNavigationLinks)
 
     if (!isPathValid) {
+        // Optionally handle invalid path (redirect to a 401 page)
         return <Navigate to='/401' replace />
     }
 
