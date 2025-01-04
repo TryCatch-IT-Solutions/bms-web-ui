@@ -1,5 +1,5 @@
 import { Toaster } from '@/components/Toaster'
-import { Navigate, Outlet, useLocation } from 'react-router-dom'
+import { Navigate, Outlet, useLocation, useParams } from 'react-router-dom'
 import { Topbar } from './TopBar'
 import { Sidebar } from './SideBar'
 import { cn } from '@/utils/helper'
@@ -12,14 +12,14 @@ import { useEffect } from 'react'
 import { useAuth } from '@/hooks/useAuth'
 import { verifyToken } from '@/api/auth'
 import MobileMenu from './SideBar/MenuChild/MobileMenu'
-import { WEBSITE_URL } from '@/api/axiosInstance'
 
 const PrivateLayout = () => {
     const xl_vw_already = useMediaQuery({ maxWidth: LAPTOP_MAX_WIDTH })
     const token = useAtomValue(tokenAtom)
     const user = useAtomValue(userAtom)
 
-    const path = useLocation().pathname
+    const path = useLocation()
+    const { id } = useParams()
 
     const { signOut } = useAuth()
 
@@ -54,30 +54,24 @@ const PrivateLayout = () => {
             return true
         }
 
-        // Loop through the allowed items and check for matching path
         for (const item of items) {
-            // Exact match for static paths
-            if (item.href === path && item.allowedRoles.includes(user?.role ?? '')) {
-                return true
-            }
-
-            // Handle dynamic paths like /user/edit/:id, /group/edit/:id, etc.
-            const baseUrl = item.href.split(WEBSITE_URL)[0] // Extract the base URL part
-            // Check if the path starts with the base part and the user role is allowed
-            if (
-                path.startsWith(baseUrl) &&
-                item.dynamic &&
-                item.allowedRoles.includes(user?.role ?? '')
-            ) {
-                return true
+            if (item.dynamic === true) {
+                const trimmedPath = path.replace('/' + id, '')
+                if (trimmedPath === item.href) {
+                    return item.allowedRoles.includes(user?.role ?? '')
+                }
+            } else {
+                if (item.href === path) {
+                    return item.allowedRoles.includes(user?.role ?? '')
+                }
             }
         }
-        // Return false if the path was not found or user does not have access
+
         return false
     }
 
     // Validate if the current path exists in the allowed navigation links
-    const isPathValid = isPathPresentInNavigation(path, allowedNavigationLinks)
+    const isPathValid = isPathPresentInNavigation(path.pathname, allowedNavigationLinks)
 
     if (!isPathValid) {
         // Optionally handle invalid path (redirect to a 401 page)

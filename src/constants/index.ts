@@ -1,5 +1,3 @@
-import { WEBSITE_URL } from '@/api/axiosInstance'
-
 export const AT_LEAST_TWO_CHARACTERS = 'must be at least 2 characters long'
 export const AT_LEAST_FOUR_CHARACTERS = 'must be at least 4 characters long'
 export const INVALID = 'is invalid'
@@ -89,22 +87,22 @@ export const allowedNavigationLinks = [
     // Add dynamic edit URLs
 
     {
-        href: `${WEBSITE_URL}/user/edit/:id`,
+        href: `/user/edit`,
         allowedRoles: [ROLE.superadmin],
         dynamic: true,
     },
     {
-        href: `${WEBSITE_URL}/group/edit/:id`,
+        href: `/group/edit`,
         allowedRoles: [ROLE.superadmin],
         dynamic: true,
     },
     {
-        href: `${WEBSITE_URL}/device/edit/:id`,
+        href: `/device/edit`,
         allowedRoles: [ROLE.superadmin],
         dynamic: true,
     },
     {
-        href: `${WEBSITE_URL}/employee/edit/:id`,
+        href: `/employee/edit`,
         allowedRoles: [ROLE.groupadmin, ROLE.superadmin],
         dynamic: true,
     },
