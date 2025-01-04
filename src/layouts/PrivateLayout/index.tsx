@@ -56,23 +56,23 @@ const PrivateLayout = () => {
 
         // Loop through the allowed items and check for matching path
         for (const item of items) {
-            // Check if the current item's href matches the given path and if user has allowed role
+            // Exact match for static paths
             if (item.href === path && item.allowedRoles.includes(user?.role ?? '')) {
                 return true
             }
 
-            // If the item has dynamic URLs (like edit links), check if path matches pattern
-            if (item.dynamic === true) {
-                // Extract the base part of the URL before the dynamic segment
-                const baseUrl = item.href.split(WEBSITE_URL)[0]
-
-                // Check if the path starts with the base part
-                if (path.startsWith(baseUrl)) {
-                    return true
-                }
+            // Handle dynamic paths like /user/edit/:id, /group/edit/:id, etc.
+            const baseUrl = item.href.split(WEBSITE_URL)[0] // Extract the base URL part
+            // Check if the path starts with the base part and the user role is allowed
+            if (
+                path.startsWith(baseUrl) &&
+                item.dynamic &&
+                item.allowedRoles.includes(user?.role ?? '')
+            ) {
+                return true
             }
         }
-        // Return false if the path was not found
+        // Return false if the path was not found or user does not have access
         return false
     }
 
