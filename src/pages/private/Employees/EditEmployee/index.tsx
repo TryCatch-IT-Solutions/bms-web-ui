@@ -56,10 +56,11 @@ export const EditEmployee: React.FC = () => {
 
     const {
         setValue,
+        setError,
         formState: { errors, isValid, isSubmitting, isDirty },
     } = userForm
 
-    const { mutate: updateUserMu } = useMutation({
+    const { mutate: updateUserMu, isPending } = useMutation({
         mutationFn: editUser,
         onSuccess: () => {
             toast({
@@ -71,10 +72,22 @@ export const EditEmployee: React.FC = () => {
 
             navigate(`/employee/list`)
         },
+        onError: (err: any) => {
+            toast({
+                description: err?.response?.data?.message,
+                variant: 'destructive',
+            })
+        },
     })
 
     const onSubmit = (data: EditUserType) => {
-        updateUserMu(data)
+        if (data.phone_number === data.emergency_contact_no) {
+            setError('emergency_contact_no', {
+                message: 'Cannot be the same as user phone number',
+            })
+        } else {
+            updateUserMu(data)
+        }
     }
 
     useEffect(() => {
@@ -189,6 +202,7 @@ export const EditEmployee: React.FC = () => {
                                                                 className='mt-[16px] w-[100%] bg-white'
                                                                 placeholder='Email'
                                                                 type='email'
+                                                                disabled
                                                                 {...field}
                                                             />
                                                         </FormControl>
@@ -332,7 +346,7 @@ export const EditEmployee: React.FC = () => {
                                                             />
                                                         </FormControl>
                                                         <FormMessage>
-                                                            {errors?.address1?.message}
+                                                            {errors?.address2?.message}
                                                         </FormMessage>
                                                     </FormItem>
                                                 )}
@@ -446,7 +460,10 @@ export const EditEmployee: React.FC = () => {
                                                             />
                                                         </FormControl>
                                                         <FormMessage>
-                                                            {errors?.municipality?.message}
+                                                            {
+                                                                errors?.emergency_contact_name
+                                                                    ?.message
+                                                            }
                                                         </FormMessage>
                                                     </FormItem>
                                                 )}
@@ -470,7 +487,7 @@ export const EditEmployee: React.FC = () => {
                                                             />
                                                         </FormControl>
                                                         <FormMessage>
-                                                            {errors?.phone_number?.message}
+                                                            {errors?.emergency_contact_no?.message}
                                                         </FormMessage>
                                                     </FormItem>
                                                 )}
@@ -492,7 +509,7 @@ export const EditEmployee: React.FC = () => {
                                 <Button
                                     type='submit'
                                     className='w-1/5'
-                                    disabled={!isValid || isSubmitting || !isDirty}
+                                    disabled={!isValid || isSubmitting || !isDirty || isPending}
                                 >
                                     Submit
                                 </Button>
