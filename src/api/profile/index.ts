@@ -19,7 +19,7 @@ export const getUsers = async (
 ): Promise<UserListType> => {
     const response = await axiosInstance.get(`/api/users`, {
         params: {
-            page: p.current_page,
+            page: search === null || search === '' ? p.current_page : 1,
             limit: p.itemsPerPage,
             roles: role,
             status: status,

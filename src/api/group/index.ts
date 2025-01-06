@@ -18,7 +18,7 @@ export const createGroup = async (data: CreateGroupType) => {
 export const getGroups = async (p: PaginationType, searchVal: string): Promise<GroupListType> => {
     const response = await axiosInstance.get('/api/groups', {
         params: {
-            page: p.current_page,
+            page: searchVal === null || searchVal === '' ? p.current_page : 1,
             limit: p.itemsPerPage,
             status: ['active'],
             search: searchVal,

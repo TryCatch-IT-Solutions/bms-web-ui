@@ -45,6 +45,13 @@ export const GroupMemberTable: React.FC = () => {
         setEmpToRemove([])
     }
 
+    const handleCheckAll = (checked: boolean) => {
+        setEmpToRemove(() => {
+            const updatedEmployees = checked ? emps?.map((e) => e.id) : []
+            return updatedEmployees || []
+        })
+    }
+
     return (
         <div className='flex flex-col gap-5'>
             <div className='flex flex-row items-center justify-between'>
@@ -61,7 +68,8 @@ export const GroupMemberTable: React.FC = () => {
                     <Button
                         variant='outline'
                         className='flex flex-row gap-2'
-                        onClick={handleRemove} // Call handleRemove on click
+                        onClick={handleRemove}
+                        disabled={empToRemove.length === 0}
                     >
                         Remove
                         <Trash2Icon className='w-5' />
@@ -87,7 +95,19 @@ export const GroupMemberTable: React.FC = () => {
                                             'font-semibold text-bms-gray-medium text-base whitespace-nowrap',
                                         )}
                                     >
-                                        {header.name}
+                                        <span className='flex flex-row gap-2 items-center'>
+                                            {index === 0 && (
+                                                <Checkbox
+                                                    checked={empIds?.length === empToRemove.length}
+                                                    onCheckedChange={() =>
+                                                        handleCheckAll(
+                                                            empToRemove?.length !== emps?.length,
+                                                        )
+                                                    }
+                                                />
+                                            )}
+                                            {header.name}
+                                        </span>
                                     </TableHead>
                                 ))}
                             </TableRow>

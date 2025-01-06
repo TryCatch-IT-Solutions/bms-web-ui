@@ -11,6 +11,7 @@ import { Pagination } from '@/components/Pagination'
 import Spinner from '@/components/Spinner'
 import { useFormContext } from 'react-hook-form'
 import { ProfileType } from '@/api/profile/schema'
+import { CreateGroupType } from '@/api/group/schema'
 
 interface EmployeeListModalProps {
     open: boolean
@@ -27,6 +28,10 @@ const EmployeeListModal: React.FC<EmployeeListModalProps> = ({ open, setOpen }) 
     const [searchVal, setSearchVal] = useState<string>('')
     const [empIds, setEmpIds] = useState<number[]>([])
     const [empProfiles, setEmpProfiles] = useState<ProfileType[]>([])
+
+    const { watch } = useFormContext<CreateGroupType>()
+
+    const emps = watch('employee_profiles') // Array of employee profiles
 
     const { setValue } = useFormContext()
 
@@ -46,10 +51,18 @@ const EmployeeListModal: React.FC<EmployeeListModalProps> = ({ open, setOpen }) 
     const { data: employees, isLoading } = useQuery({
         queryKey: ['createGroupemployeeList', pagination, searchVal],
         queryFn: () => getUsers(pagination, ['active'], [ROLE.employee], true, searchVal),
+        select: (data) => {
+            return {
+                content: data?.content?.filter((emp) => !emps?.some((e) => e.id === emp.id)),
+                meta: data?.meta,
+            }
+        },
     })
 
     useEffect(() => {
         setSearchVal('')
+        setEmpIds((prev) => prev.filter((id) => emps?.some((emp) => emp.id === id)))
+        setEmpProfiles((prev) => prev.filter((emp) => emps?.some((e) => e.id === emp.id)))
     }, [open])
 
     return (
@@ -121,6 +134,7 @@ const EmployeeListModal: React.FC<EmployeeListModalProps> = ({ open, setOpen }) 
                         onClick={handleSave}
                         className='w-97 h-11 text-base font-semibold bg-bms-primary'
                         type='button'
+                        disabled={empIds.length === 0}
                     >
                         Add Employees
                     </Button>
