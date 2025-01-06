@@ -4,6 +4,8 @@ import dayjs from 'dayjs'
 import { E164Number } from 'libphonenumber-js/core'
 import { formatPhoneNumber } from 'react-phone-number-input'
 import { UserListType } from '@/api/profile/schema'
+import { useSetAtom } from 'jotai'
+import { employeeExportAtom, employeesToDeleteAtom } from '@/store/user'
 
 interface IExportDataToCSV {
     employee_number: string
@@ -34,6 +36,9 @@ const ExportEmployeeCSV = ({
     setIsOpen?: React.Dispatch<React.SetStateAction<boolean>>
     employeeListData?: UserListType
 }) => {
+    const setEmployeeExportAtom = useSetAtom(employeeExportAtom)
+    const setUserIdsToDelete = useSetAtom(employeesToDeleteAtom)
+
     const tableData: IExportDataToCSV[] | null =
         (employeeListData &&
             (employeeListData.content?.map((employee) => {
@@ -137,6 +142,8 @@ const ExportEmployeeCSV = ({
             className='w-[150px] h-[34px] text-gray-dark hover:bg-gray-100 block px-5 py-1 text-base rounded-b-md text-start'
             onClick={() => {
                 setIsOpen && setIsOpen(!isOpen)
+                setEmployeeExportAtom(null)
+                setUserIdsToDelete(null)
             }}
         >
             Export as CSV

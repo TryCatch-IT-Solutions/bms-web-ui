@@ -22,7 +22,7 @@ const DeleteEmployeeModal: React.FC<DeleteEmployeeModalProps> = ({ open, setOpen
 
     const queryClient = useQueryClient()
 
-    const { mutate: deleteUsersMu } = useMutation({
+    const { mutate: deleteUsersMu, isPending } = useMutation({
         mutationFn: () => bulkDeleteUserStatus(userIdsToDelete as BulkUserUpdateStatusType),
         onSuccess: () => {
             toast({
@@ -103,7 +103,7 @@ const DeleteEmployeeModal: React.FC<DeleteEmployeeModalProps> = ({ open, setOpen
                     <Button
                         onClick={handleSubmit}
                         className='w-97 h-11 text-base font-semibold bg-bms-primary'
-                        disabled={disabled}
+                        disabled={disabled || isPending}
                     >
                         Yes, please
                     </Button>

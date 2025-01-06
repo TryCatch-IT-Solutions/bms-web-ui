@@ -5,6 +5,8 @@ import { PDFEmployeeExport } from '..'
 import { E164Number } from 'libphonenumber-js/core'
 import { formatPhoneNumber } from 'react-phone-number-input'
 import { UserListType } from '@/api/profile/schema'
+import { useSetAtom } from 'jotai'
+import { employeeExportAtom, employeesToDeleteAtom } from '@/store/user'
 
 interface IExportDataToPDF {
     employee_number: string
@@ -31,6 +33,9 @@ interface IExportEmployeePDFProps {
 
 const ExportEmployeePDF = ({ employeeListData }: IExportEmployeePDFProps) => {
     if (employeeListData === null || !employeeListData?.content?.length) return null
+
+    const setEmployeeExportAtom = useSetAtom(employeeExportAtom)
+    const setUserIdsToDelete = useSetAtom(employeesToDeleteAtom)
 
     const handleExportToPDF = async () => {
         convertImageToBase64(daiLogo)
@@ -83,6 +88,8 @@ const ExportEmployeePDF = ({ employeeListData }: IExportEmployeePDFProps) => {
 
                 // Pass the formatted data and the logo to the PDF generation function
                 PDFEmployeeExport(daiLogo, tableData)
+                setUserIdsToDelete(null)
+                setEmployeeExportAtom(null)
             })
             .catch((err) => console.error('Error converting image to Base64:', err.message))
     }

@@ -38,7 +38,10 @@ export const UserTable: React.FC = () => {
     const [searchVal, setSearchVal] = useState<string>('')
     const selectedUserStatus = useAtomValue(userSelectedStatusAtom)
     const usersToExport = useAtomValue(usersToExportAtom)
+    const [userIdsToDelete, setUserIdsToDelete] = useAtom(userIdsToDeleteAtom)
     const userFilter = useAtomValue(userFilterAtom)
+
+    console.log(usersToExport)
 
     const onSearchChange = (val: string) => {
         setSearchVal(val)
@@ -50,7 +53,6 @@ export const UserTable: React.FC = () => {
     })
 
     const selectedStatus = useAtomValue(userSelectedStatusAtom)
-    const [userIdsToDelete, setUserIdsToDelete] = useAtom(userIdsToDeleteAtom)
     const setUsersToExport = useSetAtom(usersToExportAtom)
 
     const navigate = useNavigate()
@@ -150,6 +152,14 @@ export const UserTable: React.FC = () => {
                                         <span className='flex flex-row gap-2'>
                                             {index === 0 && (
                                                 <Checkbox
+                                                    checked={
+                                                        (usersToExport?.content?.length ===
+                                                            users?.content?.length &&
+                                                            usersToExport !== null) ||
+                                                        (userIdsToDelete?.users?.length ===
+                                                            users?.content?.length &&
+                                                            userIdsToDelete !== null)
+                                                    }
                                                     onCheckedChange={() =>
                                                         handleCheckAll(
                                                             usersToExport?.content?.length !==

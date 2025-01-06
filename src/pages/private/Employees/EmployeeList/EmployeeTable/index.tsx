@@ -137,6 +137,14 @@ export const EmployeeTable: React.FC = () => {
                                         <span className='flex flex-row gap-2'>
                                             {index === 0 && (
                                                 <Checkbox
+                                                    checked={
+                                                        (employeesToExport?.content?.length ===
+                                                            users?.content?.length &&
+                                                            employeesToExport !== null) ||
+                                                        (userIdsToDelete?.users?.length ===
+                                                            users?.content?.length &&
+                                                            userIdsToDelete !== null)
+                                                    }
                                                     onCheckedChange={() =>
                                                         handleCheckAll(
                                                             employeesToExport?.content?.length !==
