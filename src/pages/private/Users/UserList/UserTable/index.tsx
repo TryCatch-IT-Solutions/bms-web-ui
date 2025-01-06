@@ -38,6 +38,7 @@ export const UserTable: React.FC = () => {
     const [searchVal, setSearchVal] = useState<string>('')
     const selectedUserStatus = useAtomValue(userSelectedStatusAtom)
     const usersToExport = useAtomValue(usersToExportAtom)
+    const [userIdsToDelete, setUserIdsToDelete] = useAtom(userIdsToDeleteAtom)
     const userFilter = useAtomValue(userFilterAtom)
 
     const onSearchChange = (val: string) => {
@@ -50,7 +51,6 @@ export const UserTable: React.FC = () => {
     })
 
     const selectedStatus = useAtomValue(userSelectedStatusAtom)
-    const [userIdsToDelete, setUserIdsToDelete] = useAtom(userIdsToDeleteAtom)
     const setUsersToExport = useSetAtom(usersToExportAtom)
 
     const navigate = useNavigate()
