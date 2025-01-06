@@ -56,10 +56,11 @@ export const EditUser: React.FC = () => {
 
     const {
         setValue,
+        setError,
         formState: { errors, isValid, isDirty },
     } = userForm
 
-    const { mutate: updateUserMu } = useMutation({
+    const { mutate: updateUserMu, isPending } = useMutation({
         mutationFn: editUser,
         onSuccess: () => {
             toast({
@@ -71,10 +72,22 @@ export const EditUser: React.FC = () => {
 
             navigate(`/user/list`)
         },
+        onError: (err: any) => {
+            toast({
+                description: err?.response?.data?.message,
+                variant: 'destructive',
+            })
+        },
     })
 
     const onSubmit = (data: EditUserType) => {
-        updateUserMu(data)
+        if (data.phone_number === data.emergency_contact_no) {
+            setError('emergency_contact_no', {
+                message: 'Cannot be the same as user phone number',
+            })
+        } else {
+            updateUserMu(data)
+        }
     }
 
     useEffect(() => {
@@ -142,7 +155,7 @@ export const EditUser: React.FC = () => {
                                                             <Input
                                                                 className='mt-[16px] w-[100%] bg-white'
                                                                 placeholder='Middle Name'
-                                                                type='email'
+                                                                type='text'
                                                                 onChange={field.onChange}
                                                                 value={field.value ?? ''}
                                                             />
@@ -189,6 +202,7 @@ export const EditUser: React.FC = () => {
                                                                 className='mt-[16px] w-[100%] bg-white'
                                                                 placeholder='Email'
                                                                 type='email'
+                                                                disabled
                                                                 {...field}
                                                             />
                                                         </FormControl>
@@ -331,7 +345,7 @@ export const EditUser: React.FC = () => {
                                                             />
                                                         </FormControl>
                                                         <FormMessage>
-                                                            {errors?.address1?.message}
+                                                            {errors?.address2?.message}
                                                         </FormMessage>
                                                     </FormItem>
                                                 )}
@@ -469,7 +483,7 @@ export const EditUser: React.FC = () => {
                                                             />
                                                         </FormControl>
                                                         <FormMessage>
-                                                            {errors?.phone_number?.message}
+                                                            {errors?.emergency_contact_no?.message}
                                                         </FormMessage>
                                                     </FormItem>
                                                 )}
@@ -491,7 +505,7 @@ export const EditUser: React.FC = () => {
                                 <Button
                                     type='submit'
                                     className='w-1/5'
-                                    disabled={!isValid || !isDirty}
+                                    disabled={!isValid || !isDirty || isPending}
                                 >
                                     Submit
                                 </Button>

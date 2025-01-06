@@ -32,7 +32,7 @@ export const CreateEmployee: React.FC = () => {
         formState: { errors, isValid },
     } = userForm
 
-    const { mutate: createUserMu } = useMutation({
+    const { mutate: createUserMu, isPending } = useMutation({
         mutationFn: createUser,
         onSuccess: () => {
             toast({
@@ -472,7 +472,11 @@ export const CreateEmployee: React.FC = () => {
                             >
                                 Cancel
                             </Button>
-                            <Button type='submit' className='w-1/5' disabled={!isValid}>
+                            <Button
+                                type='submit'
+                                className='w-1/5'
+                                disabled={!isValid || isPending}
+                            >
                                 Submit
                             </Button>
                         </CardFooter>

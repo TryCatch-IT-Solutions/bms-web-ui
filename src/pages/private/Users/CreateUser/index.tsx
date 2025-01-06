@@ -32,7 +32,7 @@ export const CreateUser: React.FC = () => {
         formState: { errors, isValid },
     } = userForm
 
-    const { mutate: createUserMu } = useMutation({
+    const { mutate: createUserMu, isPending } = useMutation({
         mutationFn: createUser,
         onSuccess: () => {
             toast({
@@ -406,7 +406,7 @@ export const CreateUser: React.FC = () => {
                                                     />
                                                 </FormControl>
                                                 <FormMessage>
-                                                    {errors?.municipality?.message}
+                                                    {errors?.emergency_contact_name?.message}
                                                 </FormMessage>
                                             </FormItem>
                                         )}
@@ -430,7 +430,7 @@ export const CreateUser: React.FC = () => {
                                                     />
                                                 </FormControl>
                                                 <FormMessage>
-                                                    {errors?.province?.message}
+                                                    {errors?.emergency_contact_no?.message}
                                                 </FormMessage>
                                             </FormItem>
                                         )}
@@ -491,7 +491,11 @@ export const CreateUser: React.FC = () => {
                             >
                                 Cancel
                             </Button>
-                            <Button type='submit' className='w-1/5' disabled={!isValid}>
+                            <Button
+                                type='submit'
+                                className='w-1/5'
+                                disabled={!isValid || isPending}
+                            >
                                 Submit
                             </Button>
                         </CardFooter>
