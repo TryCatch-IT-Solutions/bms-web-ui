@@ -50,10 +50,15 @@ const EmployeeListModal: React.FC<EmployeeListModalProps> = ({ open, setOpen }) 
         })
     }
 
-    const { mutate: addEmpToGroupMu } = useMutation<unknown, AxiosError, AddEmpToGroupType>({
+    const { mutate: addEmpToGroupMu, isPending } = useMutation<
+        unknown,
+        AxiosError,
+        AddEmpToGroupType
+    >({
         mutationFn: (data) => addGroupEmployee(data, Number(id)),
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: ['editGroup'] })
+            queryClient.invalidateQueries({ queryKey: ['groupEditemployeeList'] })
             toast({
                 description: 'Employees Added Successfully',
             })
@@ -145,6 +150,7 @@ const EmployeeListModal: React.FC<EmployeeListModalProps> = ({ open, setOpen }) 
                         onClick={handleSave}
                         className='w-97 h-11 text-base font-semibold bg-bms-primary'
                         type='button'
+                        disabled={isPending}
                     >
                         Add Employees
                     </Button>

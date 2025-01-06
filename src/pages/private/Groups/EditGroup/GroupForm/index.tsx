@@ -19,6 +19,8 @@ import EmployeeListModal from './EmployeeListModal'
 import { Card, CardContent, CardHeader } from '@/components/Card'
 import { zodResolver } from '@hookform/resolvers/zod'
 import RemoveEmpToGroupModal from './RemoveEmpToGroupModal'
+import { useAtomValue } from 'jotai'
+import { employeeGroupToRemoveAtom } from '@/store/groups'
 
 export const GroupForm: React.FC = () => {
     const [open, setOpen] = useState<boolean>(false)
@@ -28,6 +30,7 @@ export const GroupForm: React.FC = () => {
     const { toast } = useToast()
     const queryClient = useQueryClient()
     const navigate = useNavigate()
+    const empToRemove = useAtomValue(employeeGroupToRemoveAtom)
 
     const { data: group, isLoading } = useQuery({
         queryKey: ['editGroup', id],
@@ -53,7 +56,11 @@ export const GroupForm: React.FC = () => {
 
     const adminProfile = watch('admin_profile')
 
-    const { mutate: updateGroupNameMu } = useMutation<unknown, AxiosError, EditGroupType>({
+    const { mutate: updateGroupNameMu, isPending } = useMutation<
+        unknown,
+        AxiosError,
+        EditGroupType
+    >({
         mutationFn: updateGroupName,
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: ['editGroup'] })
@@ -141,7 +148,7 @@ export const GroupForm: React.FC = () => {
                                         Cancel
                                     </Button>
 
-                                    <Button type='submit' disabled={!isValid}>
+                                    <Button type='submit' disabled={!isValid || isPending}>
                                         Update Group
                                     </Button>
                                 </div>
@@ -165,6 +172,9 @@ export const GroupForm: React.FC = () => {
                                     variant='outline'
                                     type='button'
                                     className='flex flex-row gap-2'
+                                    disabled={
+                                        empToRemove === null || empToRemove?.employees?.length === 0
+                                    }
                                 >
                                     Remove
                                     <Trash2Icon className='w-5' />

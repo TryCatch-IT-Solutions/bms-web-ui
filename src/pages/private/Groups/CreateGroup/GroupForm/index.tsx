@@ -31,7 +31,7 @@ export const GroupForm: React.FC = () => {
     const empIds = watch('employees')
     const adminId = watch('group_admin')
 
-    const { mutate: createGroupMu } = useMutation({
+    const { mutate: createGroupMu, isPending } = useMutation({
         mutationFn: createGroup,
         onSuccess: () => {
             toast({
@@ -92,7 +92,7 @@ export const GroupForm: React.FC = () => {
                     <Button variant='outline' onClick={() => navigate(-1)} type='button'>
                         Cancel
                     </Button>
-                    <Button type='submit' disabled={!isValid}>
+                    <Button type='submit' disabled={!isValid || isPending}>
                         Create Group
                     </Button>
                 </div>
