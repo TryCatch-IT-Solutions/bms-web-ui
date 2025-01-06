@@ -12,7 +12,7 @@ import { cn } from '@/utils/helper'
 import { useQuery } from '@tanstack/react-query'
 import { useAtom, useAtomValue, useSetAtom } from 'jotai'
 import { useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import { Card, CardContent } from '@/components/Card'
 import DeleteUserModal from '../DeleteUserModal'
 import SearchBar from '@/components/SearchBar'
@@ -69,7 +69,7 @@ export const UserTable: React.FC = () => {
     })
 
     const handleRowClick = (id: number) => {
-        navigate(`/user/edit/${id}`)
+        selectedStatus === USER_STATUS.ACTIVATED ? navigate(`/user/edit/${id}`) : null
     }
 
     const handleCheckboxChange = (user: ProfileType, isChecked: boolean) => {
@@ -170,7 +170,7 @@ export const UserTable: React.FC = () => {
                                                     ) // Toggle user ID selection
                                             }
                                         />
-                                        <Link to={'/user/edit'}>{u.id}</Link>
+                                        {u.id}
                                     </TableCell>
                                     <TableCell onClick={() => handleRowClick(u?.id)}>
                                         {u.first_name}

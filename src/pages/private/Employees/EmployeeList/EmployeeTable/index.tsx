@@ -13,7 +13,7 @@ import { cn } from '@/utils/helper'
 import { useQuery } from '@tanstack/react-query'
 import { useAtom, useAtomValue } from 'jotai'
 import { useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import ImportDropdown from '../ImportDropdown'
 import ExportDropdown from '../ExportDropdown'
 import { Button } from '@/components/Button'
@@ -59,7 +59,7 @@ export const EmployeeTable: React.FC = () => {
     })
 
     const handleRowClick = (id: number) => {
-        navigate(`/employee/edit/${id}`)
+        selectedStatus === USER_STATUS.ACTIVATED ? navigate(`/employee/edit/${id}`) : null
     }
 
     const handleCheckboxChange = (userId: number, isChecked: boolean) => {
@@ -157,7 +157,7 @@ export const EmployeeTable: React.FC = () => {
                                                     ) // Toggle user ID selection
                                             }
                                         />
-                                        <Link to={'/user/edit'}>{u.id}</Link>
+                                        {u.id}
                                     </TableCell>
                                     <TableCell onClick={() => handleRowClick(u?.id)}>
                                         {u.first_name}
