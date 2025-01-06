@@ -103,5 +103,5 @@ export const PDFEmployeeExport = (zentiveLogoUrl: string, tableData: IExportData
     })
 
     // Save the PDF file
-    doc.save('user-list.pdf')
+    doc.save('employee-list.pdf')
 }

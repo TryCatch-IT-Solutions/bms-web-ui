@@ -1,14 +1,13 @@
-import { convertImageToBase64 } from '@/utils/helper'
-import daiLogo from '@/assets/dai-logo.png'
+import React from 'react'
+import { CSVLink } from 'react-csv'
 import dayjs from 'dayjs'
 import { E164Number } from 'libphonenumber-js/core'
 import { formatPhoneNumber } from 'react-phone-number-input'
 import { UserListType } from '@/api/profile/schema'
-import { PDFEmployeeExport } from '../ExportPDF'
 import { useSetAtom } from 'jotai'
 import { userIdsToDeleteAtom, usersToExportAtom } from '@/store/user'
 
-interface IExportDataToPDF {
+interface IExportDataToCSV {
     employee_number: string
     first_name: string
     midle_name: string
@@ -28,21 +27,23 @@ interface IExportDataToPDF {
     emergency_contact_number: string
 }
 
-interface IExportEmployeePDFProps {
+const ExportEmployeeCSV = ({
+    isOpen,
+    setIsOpen,
+    employeeListData,
+}: {
+    isOpen?: boolean
+    setIsOpen?: React.Dispatch<React.SetStateAction<boolean>>
     employeeListData?: UserListType
-}
-
-const ExportEmployeePDF = ({ employeeListData }: IExportEmployeePDFProps) => {
-    if (employeeListData === null || !employeeListData?.content?.length) return null
-
-    const usersToExport = useSetAtom(usersToExportAtom)
+}) => {
+    const setEmployeeExportAtom = useSetAtom(usersToExportAtom)
     const setUserIdsToDelete = useSetAtom(userIdsToDeleteAtom)
 
-    const handleExportToPDF = async () => {
-        convertImageToBase64(daiLogo)
-            .then((daiLogo: any) => {
-                const tableData: IExportDataToPDF[] = employeeListData.content?.map((employee) => ({
-                    employee_number: '000' + employee.id,
+    const tableData: IExportDataToCSV[] | null =
+        (employeeListData &&
+            (employeeListData.content?.map((employee) => {
+                return {
+                    employee_number: employee.id + '',
                     first_name: employee.first_name,
                     midle_name: employee.middle_name ?? '', // Handle optional middle name
                     last_name: employee.last_name,
@@ -53,16 +54,16 @@ const ExportEmployeePDF = ({ employeeListData }: IExportEmployeePDFProps) => {
                                   ('+63' + employee.phone_number.substring(2)) as E164Number,
                               )
                                   .replace('0', '')
-                                  .replace(' ', '-')}`
+                                  .replace(' ', '-')}` // Format phone number for Philippines
                             : `(${employee.phone_number.substring(0, 3)})-${formatPhoneNumber(
                                   employee.phone_number as E164Number,
                               )
-                                  .replace('0', '')
-                                  .replace(' ', '-')}`
+                                  .replace('0', ' ')
+                                  .replace(' ', '-')}` // Format phone number for others
                     }`,
                     gender: employee.gender,
                     role: employee.role,
-                    birth_date: dayjs(employee.birth_date).format('MMMM DD, YYYY'),
+                    birth_date: dayjs(employee.birth_date).format('MMMM DD, YYYY'), // Format birth date
                     address1: employee.address1,
                     address2: employee.address2 ?? '', // Handle optional address2
                     barangay: employee.barangay,
@@ -76,33 +77,78 @@ const ExportEmployeePDF = ({ employeeListData }: IExportEmployeePDFProps) => {
                                   ('+63' +
                                       employee.emergency_contact_no.substring(2)) as E164Number,
                               )
-                                  .replace('0', '')
-                                  .replace(' ', '-')}`
+                                  .replace('0', ' ')
+                                  .replace(' ', '-')}` // Format emergency contact number for Philippines
                             : `(${employee.emergency_contact_no?.substring(
                                   0,
                                   3,
                               )})-${formatPhoneNumber(employee.emergency_contact_no as E164Number)
-                                  .replace('0', '')
-                                  .replace(' ', '-')}`
+                                  .replace('0', ' ')
+                                  .replace(' ', '-')}` // Format emergency contact number for others
                     }`,
-                })) as IExportDataToPDF[]
+                }
+            }) as IExportDataToCSV[])) ||
+        null
 
-                // Pass the formatted data and the logo to the PDF generation function
-                PDFEmployeeExport(daiLogo, tableData)
-                usersToExport(null)
-                setUserIdsToDelete(null)
-            })
-            .catch((err) => console.error('Error converting image to Base64:', err.message))
-    }
+    if (!tableData) return
+
+    // Updated CSV Headers reflecting the full details
+    const csvHeaders = [
+        'Employee Number',
+        'First Name',
+        'Middle Name',
+        'Last Name',
+        'Email Address',
+        'Phone Number',
+        'Gender',
+        'Role',
+        'Birth Date',
+        'Address 1',
+        'Address 2',
+        'Barangay',
+        'Municipality',
+        'Province',
+        'Zip Code',
+        'Emergency Contact Name',
+        'Emergency Contact Number',
+    ]
+
+    // Updated CSV Data reflecting the corresponding fields
+    const csvData = tableData?.map((item) => ({
+        'Employee Number': item.employee_number,
+        'First Name': item.first_name,
+        'Middle Name': item.midle_name,
+        'Last Name': item.last_name,
+        'Email Address': item.email,
+        'Phone Number': item.phone_number,
+        Gender: item.gender,
+        Role: item.role,
+        'Birth Date': item.birth_date,
+        'Address 1': item.address1,
+        'Address 2': item.address2,
+        Barangay: item.barangay,
+        Municipality: item.municipality,
+        Province: item.province,
+        'Zip Code': item.zip_code,
+        'Emergency Contact Name': item.emergency_contact_name,
+        'Emergency Contact Number': item.emergency_contact_number,
+    }))
 
     return (
-        <button
+        <CSVLink
+            data={csvData}
+            headers={csvHeaders}
+            filename={'user-list.csv'}
             className='w-[150px] h-[34px] text-gray-dark hover:bg-gray-100 block px-5 py-1 text-base rounded-b-md text-start'
-            onClick={handleExportToPDF}
+            onClick={() => {
+                setIsOpen && setIsOpen(!isOpen)
+                setEmployeeExportAtom(null)
+                setUserIdsToDelete(null)
+            }}
         >
-            Export as PDF
-        </button>
+            Export as CSV
+        </CSVLink>
     )
 }
 
-export default ExportEmployeePDF
+export default ExportEmployeeCSV

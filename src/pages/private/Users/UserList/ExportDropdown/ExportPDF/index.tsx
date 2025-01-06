@@ -38,7 +38,7 @@ export const PDFEmployeeExport = (zentiveLogoUrl: string, tableData: IExportData
     startY += imageHeight + 10
 
     doc.setFontSize(16)
-    doc.text('Employees', pageWidth / 2, startY, { align: 'center' })
+    doc.text('Users', pageWidth / 2, startY, { align: 'center' })
 
     startY += 10
 
