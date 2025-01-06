@@ -7,14 +7,23 @@ import { formatPhoneNumber } from 'react-phone-number-input'
 import { UserListType } from '@/api/profile/schema'
 
 interface IExportDataToPDF {
-    employeeNumber: string
-    name: string
-    compensation: string
-    caLicense: string
+    employee_number: string
+    first_name: string
+    midle_name: string
+    last_name: string
     email: string
-    address: string
-    phoneNumber: string
-    dateOfBirth: string
+    phone_number: string
+    gender: string
+    role: string
+    birth_date: string
+    address1: string
+    address2: string
+    barangay: string
+    municipality: string
+    province: string
+    zip_code: string
+    emergency_contact_name: string
+    emergency_contact_number: string
 }
 interface IExportEmployeePDFProps {
     employeeListData?: UserListType
@@ -27,10 +36,12 @@ const ExportEmployeePDF = ({ employeeListData }: IExportEmployeePDFProps) => {
         convertImageToBase64(daiLogo)
             .then((daiLogo: any) => {
                 const tableData: IExportDataToPDF[] = employeeListData.content?.map((employee) => ({
-                    employeeNumber: '000' + employee.id,
-                    name: employee.first_name + ' ' + employee.last_name,
+                    employee_number: '000' + employee.id,
+                    first_name: employee.first_name,
+                    midle_name: employee.middle_name ?? '', // Handle optional middle name
+                    last_name: employee.last_name,
                     email: employee.email,
-                    phoneNumber: `${
+                    phone_number: `${
                         employee.phone_number.startsWith('+6')
                             ? `(+63)-${formatPhoneNumber(
                                   ('+63' + employee.phone_number.substring(2)) as E164Number,
@@ -43,14 +54,34 @@ const ExportEmployeePDF = ({ employeeListData }: IExportEmployeePDFProps) => {
                                   .replace('0', '')
                                   .replace(' ', '-')}`
                     }`,
-                    address: `${employee?.address1 + ','} ${
-                        employee?.address2 !== undefined ? employee?.address2 + ', ' : ''
-                    }${employee?.barangay + ','} ${
-                        employee?.municipality + ','
-                    } ${employee?.zip_code}`,
-                    dateOfBirth: dayjs(employee.birth_date).format('MMMM DD, YYYY'),
+                    gender: employee.gender,
+                    role: employee.role,
+                    birth_date: dayjs(employee.birth_date).format('MMMM DD, YYYY'),
+                    address1: employee.address1,
+                    address2: employee.address2 ?? '', // Handle optional address2
+                    barangay: employee.barangay,
+                    municipality: employee.municipality,
+                    province: employee.province,
+                    zip_code: employee.zip_code,
+                    emergency_contact_name: employee.emergency_contact_name,
+                    emergency_contact_number: `${
+                        employee.emergency_contact_no?.startsWith('+6')
+                            ? `(+63)-${formatPhoneNumber(
+                                  ('+63' +
+                                      employee.emergency_contact_no.substring(2)) as E164Number,
+                              )
+                                  .replace('0', '')
+                                  .replace(' ', '-')}`
+                            : `(${employee.emergency_contact_no?.substring(
+                                  0,
+                                  3,
+                              )})-${formatPhoneNumber(employee.emergency_contact_no as E164Number)
+                                  .replace('0', '')
+                                  .replace(' ', '-')}`
+                    }`,
                 })) as IExportDataToPDF[]
 
+                // Pass the formatted data and the logo to the PDF generation function
                 PDFEmployeeExport(daiLogo, tableData)
             })
             .catch((err) => console.error('Error converting image to Base64:', err.message))
@@ -65,4 +96,5 @@ const ExportEmployeePDF = ({ employeeListData }: IExportEmployeePDFProps) => {
         </button>
     )
 }
+
 export default ExportEmployeePDF
