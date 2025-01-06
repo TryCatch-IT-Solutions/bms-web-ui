@@ -2,7 +2,7 @@ import { Popover, Transition } from '@headlessui/react'
 
 import { Fragment } from 'react'
 import { BsPerson } from 'react-icons/bs'
-import { CiSettings } from 'react-icons/ci'
+import { CiSettings, CiUser } from 'react-icons/ci'
 import { FaBars } from 'react-icons/fa'
 import { FiChevronDown, FiLogOut } from 'react-icons/fi'
 import { useMediaQuery } from 'react-responsive'
@@ -90,9 +90,22 @@ export const Topbar = () => {
                                         onClick={() => navigate('/user/my-profile')}
                                     >
                                         <div className='p-3 flex items-center cursor-pointer text-sm hover:bg-zentive-gray-bg hover:text-black hover:font-semibold transition-all'>
-                                            <CiSettings className='mr-3 w-6 h-6' />
+                                            <CiUser className='mr-3 w-6 h-6' />
                                             <div className='flex-1 text-left'>
                                                 <p> My Profile </p>
+                                            </div>
+                                        </div>
+                                    </button>
+
+                                    <button
+                                        type='button'
+                                        className='border-b-2 border-zentive-gray-bg'
+                                        onClick={() => navigate('/settings/api-keys')}
+                                    >
+                                        <div className='p-3 flex items-center cursor-pointer text-sm hover:bg-zentive-gray-bg hover:text-black hover:font-semibold transition-all'>
+                                            <CiSettings className='mr-3 w-6 h-6' />
+                                            <div className='flex-1 text-left'>
+                                                <p> Settings </p>
                                             </div>
                                         </div>
                                     </button>
