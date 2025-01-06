@@ -61,7 +61,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
                         'floating-label absolute left-3 top-1/2 -translate-y-1/2 text-base text-bms-gray-medium duration-100 ease-linear peer-focus:-translate-y-[2.15rem] peer-focus:text-sm peer-focus:px-1 pointer-events-none',
                         // with value
                         value && 'split-color text-sm -translate-y-[2.15rem] px-1 bg-white',
-                        !value && 'peer-focus:split-color bg-white',
+                        !value && 'peer-focus:split-color peer-focus:bg-white bg-transparent',
                         //
                         invalid ? 'text-destructive split-color' : 'peer-focus:text-bms-gray-500',
                         props.disabled && 'split-color-disabled',

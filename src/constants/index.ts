@@ -82,7 +82,12 @@ export const allowedNavigationLinks = [
     { href: '/device/map-view', allowedRoles: [ROLE.superadmin], dynamic: false },
     { href: '/employee/create', allowedRoles: [ROLE.groupadmin, ROLE.superadmin], dynamic: false },
     { href: '/employee/list', allowedRoles: [ROLE.groupadmin, ROLE.superadmin], dynamic: false },
-    { href: '/log/activity', allowedRoles: [ROLE.superadmin, ROLE.groupadmin], dynamic: false },
+    { href: '/log/activity', allowedRoles: [ROLE.superadmin], dynamic: false },
+    {
+        href: '/settings/api-keys',
+        allowedRoles: [ROLE.superadmin],
+        dynamic: false,
+    },
 
     // Add dynamic edit URLs
 
@@ -107,3 +112,9 @@ export const allowedNavigationLinks = [
         dynamic: true,
     },
 ]
+
+export const API_KEY_LABELS = {
+    SMS: 'SMS_API_KEY',
+    EMAIL: 'EMAIL_API_KEY',
+    MAPS: 'MAPS_API_KEY',
+}

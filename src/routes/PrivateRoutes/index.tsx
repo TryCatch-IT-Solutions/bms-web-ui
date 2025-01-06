@@ -11,6 +11,7 @@ import { CreateGroup } from '@/pages/private/Groups/CreateGroup'
 import { EditGroup } from '@/pages/private/Groups/EditGroup'
 import { GroupList } from '@/pages/private/Groups/GroupList'
 import { UserGroup } from '@/pages/private/Groups/UserGroup'
+import { APIKeys } from '@/pages/private/Settings/APIKeys'
 import { CreateUser } from '@/pages/private/Users/CreateUser'
 import { EditUser } from '@/pages/private/Users/EditUser'
 import { UserList } from '@/pages/private/Users/UserList'
@@ -123,6 +124,15 @@ const PrivateRoutes: RouteObject = {
                 {
                     path: 'activity',
                     element: <ActivityLogs />,
+                },
+            ],
+        },
+        {
+            path: '/settings',
+            children: [
+                {
+                    path: 'api-keys',
+                    element: <APIKeys />,
                 },
             ],
         },

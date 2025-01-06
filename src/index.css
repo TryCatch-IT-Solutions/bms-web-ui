@@ -123,4 +123,8 @@ ul.react-paginate li.disabled a {
     -ms-overflow-style: none;
 }
 
+input::placeholder {
+    @apply bg-transparent; /* Tailwind utility to make placeholder background transparent */
+}
+
 /* react paginate */
