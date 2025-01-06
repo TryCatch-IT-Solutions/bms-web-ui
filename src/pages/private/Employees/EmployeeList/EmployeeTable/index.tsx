@@ -84,6 +84,15 @@ export const EmployeeTable: React.FC = () => {
         })
     }
 
+    const handleCheckAll = (isChecked: boolean) => {
+        const updatedUserIds = isChecked ? users?.content?.map((u: ProfileType) => u.id) : [] // Add all userIds if checked, else empty array
+        setUserIdsToDelete({ users: updatedUserIds ?? [] }) // Set the updated userIds
+        setEmployeeExportAtom({
+            content: isChecked ? users?.content ?? [] : [],
+            meta: users?.meta as PaginationType,
+        })
+    }
+
     return (
         <>
             <div className='mb-5 flex flex-row justify-between'>
@@ -125,7 +134,22 @@ export const EmployeeTable: React.FC = () => {
                                             'font-semibold text-bms-gray-medium text-base whitespace-nowrap',
                                         )}
                                     >
-                                        {header.name}
+                                        <span className='flex flex-row gap-2'>
+                                            {index === 0 && (
+                                                <Checkbox
+                                                    onCheckedChange={() =>
+                                                        handleCheckAll(
+                                                            employeesToExport?.content?.length !==
+                                                                users?.content?.length ||
+                                                                userIdsToDelete?.users?.length !==
+                                                                    users?.content?.length,
+                                                        )
+                                                    }
+                                                    className='mt-[3px]'
+                                                />
+                                            )}
+                                            {header.name}
+                                        </span>
                                     </TableHead>
                                 ))}
                             </TableRow>
@@ -146,9 +170,12 @@ export const EmployeeTable: React.FC = () => {
                                     key={u?.id}
                                     className='text-start text-base text-bms-gray-dark cursor-pointer'
                                 >
-                                    <TableCell className='font-semibold text-bms-link flex flex-row items-center gap-1'>
+                                    <TableCell className='font-semibold text-bms-link flex flex-row items-center gap-2'>
                                         <Checkbox
-                                            checked={userIdsToDelete?.users?.includes(u.id)} // Check if the user ID is selected
+                                            checked={
+                                                userIdsToDelete?.users?.includes(u.id) ||
+                                                employeesToExport?.content?.includes(u)
+                                            } // Check if the user ID is selected// Check if the user ID is selected
                                             onClick={
                                                 () =>
                                                     handleCheckboxChange(
@@ -156,6 +183,7 @@ export const EmployeeTable: React.FC = () => {
                                                         !userIdsToDelete?.users?.includes(u.id),
                                                     ) // Toggle user ID selection
                                             }
+                                            className='-mt-[.5px]'
                                         />
                                         {u.id}
                                     </TableCell>

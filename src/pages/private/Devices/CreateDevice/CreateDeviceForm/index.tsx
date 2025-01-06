@@ -39,7 +39,7 @@ export const CreateDeviceForm: React.FC = () => {
         formState: { errors },
     } = deviceForm
 
-    const { mutate: createDeviceMu } = useMutation({
+    const { mutate: createDeviceMu, isPending } = useMutation({
         mutationFn: createDevice,
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: ['deviceList'] })
@@ -172,7 +172,7 @@ export const CreateDeviceForm: React.FC = () => {
                         >
                             Cancel
                         </Button>
-                        <Button type='submit' className='w-1/5' disabled={!isValid}>
+                        <Button type='submit' className='w-1/5' disabled={!isValid || isPending}>
                             Submit
                         </Button>
                     </CardFooter>
