@@ -94,7 +94,33 @@ export const DeviceTable: React.FC = () => {
                                             'font-semibold text-bms-gray-medium text-base whitespace-nowrap',
                                         )}
                                     >
-                                        {header.name}
+                                        <span className='flex flex-row items-center gap-2'>
+                                            {index === 0 && (
+                                                <Checkbox
+                                                    checked={
+                                                        devicesToDelete?.devices?.length ===
+                                                        devices?.content?.length
+                                                    }
+                                                    onClick={() => {
+                                                        if (
+                                                            devicesToDelete?.devices?.length ===
+                                                            devices?.content?.length
+                                                        ) {
+                                                            setDevicesToDelete({ devices: [] })
+                                                        } else {
+                                                            setDevicesToDelete({
+                                                                devices:
+                                                                    devices?.content?.map(
+                                                                        (d: DeviceType) => d.id,
+                                                                    ) ?? [],
+                                                            })
+                                                        }
+                                                    }}
+                                                    className='-mt-[2px]'
+                                                />
+                                            )}
+                                            {header.name}
+                                        </span>
                                     </TableHead>
                                 ))}
                             </TableRow>
@@ -115,7 +141,7 @@ export const DeviceTable: React.FC = () => {
                                     key={d?.id}
                                     className='text-start text-base text-bms-gray-dark cursor-pointer'
                                 >
-                                    <TableCell className='font-semibold text-bms-link flex flex-row items-center gap-1'>
+                                    <TableCell className='font-semibold text-bms-link flex flex-row items-center gap-2'>
                                         <Checkbox
                                             checked={devicesToDelete?.devices?.includes(d?.id)}
                                             onClick={
@@ -125,6 +151,7 @@ export const DeviceTable: React.FC = () => {
                                                         !devicesToDelete?.devices?.includes(d?.id),
                                                     ) // Toggle user ID selection
                                             }
+                                            className='-mt-[2px]'
                                         />
                                         <Link to={'/user/edit'}>{d.id}</Link>
                                     </TableCell>

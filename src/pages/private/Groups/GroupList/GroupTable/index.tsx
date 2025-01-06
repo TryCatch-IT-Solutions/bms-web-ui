@@ -15,6 +15,7 @@ import DeleteGroupModal from '../DeleteGroupModal'
 import { Card, CardContent } from '@/components/Card'
 import { groupsToDeleteAtom } from '@/store/groups'
 import { useAtom } from 'jotai'
+import { GroupType } from '@/api/group/schema'
 
 const tableHeader = [
     { name: 'Group ID' },
@@ -54,15 +55,20 @@ export const GroupTable: React.FC = () => {
         queryFn: () => getGroups(pagination, searchVal),
     })
 
-    useEffect(() => {
-        setGroupsToRemove(null)
-    }, [])
+    const handleCheckAll = (checked: boolean) => {
+        const updatedGroupIds = checked ? groups?.content?.map((u: GroupType) => u.id) : []
+        setGroupsToRemove({ groups: updatedGroupIds ?? [] })
+    }
 
     const onSearchChange = (val: string) => {
         setTimeout(() => {
             setSearchVal(val)
         }, 500)
     }
+
+    useEffect(() => {
+        setGroupsToRemove(null)
+    }, [])
 
     return (
         <>
@@ -97,7 +103,24 @@ export const GroupTable: React.FC = () => {
                                             'font-semibold text-bms-gray-medium text-base whitespace-nowrap',
                                         )}
                                     >
-                                        {header.name}
+                                        <span className='flex flex-row gap-2 items-center'>
+                                            {index === 0 && (
+                                                <Checkbox
+                                                    checked={
+                                                        groupsToRemove?.groups?.length ===
+                                                        groups?.content?.length
+                                                    }
+                                                    onCheckedChange={() => {
+                                                        handleCheckAll(
+                                                            groupsToRemove?.groups?.length !==
+                                                                groups?.content?.length,
+                                                        )
+                                                    }}
+                                                    className='-mt-[2px]'
+                                                />
+                                            )}
+                                            {header.name}
+                                        </span>
                                     </TableHead>
                                 ))}
                             </TableRow>
@@ -115,7 +138,7 @@ export const GroupTable: React.FC = () => {
                                         key={0}
                                         className='text-start text-base text-bms-gray-dark cursor-pointer'
                                     >
-                                        <TableCell className='font-semibold text-bms-link flex flex-row items-center gap-1'>
+                                        <TableCell className='font-semibold text-bms-link flex flex-row items-center gap-2'>
                                             <Checkbox
                                                 checked={
                                                     groupsToRemove?.groups?.includes(g.id) ?? false
@@ -128,6 +151,7 @@ export const GroupTable: React.FC = () => {
                                                         ) as boolean,
                                                     )
                                                 }
+                                                className='-mt-[2px]'
                                             />{' '}
                                             {g.id}
                                         </TableCell>

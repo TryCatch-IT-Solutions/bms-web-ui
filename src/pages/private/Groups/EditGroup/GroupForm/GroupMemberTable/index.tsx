@@ -70,6 +70,7 @@ export const GroupMemberTable: React.FC<EditGroupMemberTableProps> = ({ employee
                                                             employees.length,
                                                     )
                                                 }
+                                                className='-mt-[2px]'
                                             />
                                         )}
                                         {header.name}
@@ -84,7 +85,7 @@ export const GroupMemberTable: React.FC<EditGroupMemberTableProps> = ({ employee
                                 key={e.id}
                                 className='text-start text-base text-bms-gray-dark cursor-pointer'
                             >
-                                <TableCell className='font-semibold text-bms-link flex flex-row items-center gap-1'>
+                                <TableCell className='font-semibold text-bms-link flex flex-row items-center gap-2'>
                                     <Checkbox
                                         onClick={() =>
                                             handleCheckBoxClick(
@@ -93,6 +94,7 @@ export const GroupMemberTable: React.FC<EditGroupMemberTableProps> = ({ employee
                                             )
                                         }
                                         checked={empToRemove?.employees?.includes(e.id)}
+                                        className='-mt-[2px]'
                                     />{' '}
                                     {e.id}
                                 </TableCell>

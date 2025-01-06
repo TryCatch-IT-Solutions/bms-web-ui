@@ -19,7 +19,7 @@ const DeleteGroupModal: React.FC<DeleteGroupModalProps> = ({ open, setOpen }) =>
 
     const queryClient = useQueryClient()
 
-    const { mutate: removeGroupsMu } = useMutation<unknown, unknown, DeleteGroupType>({
+    const { mutate: removeGroupsMu, isPending } = useMutation<unknown, unknown, DeleteGroupType>({
         mutationFn: removeGroup,
         onSuccess: () => {
             toast({
@@ -80,6 +80,7 @@ const DeleteGroupModal: React.FC<DeleteGroupModalProps> = ({ open, setOpen }) =>
                     <Button
                         onClick={handleSave}
                         className='w-97 h-11 text-base font-semibold bg-bms-primary'
+                        disabled={isPending}
                     >
                         Yes, please
                     </Button>
