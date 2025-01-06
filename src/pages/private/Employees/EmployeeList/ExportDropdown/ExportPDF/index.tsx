@@ -3,12 +3,23 @@ import jsPDF from 'jspdf'
 import dayjs from 'dayjs'
 
 interface IExportDataToPDF {
-    employeeNumber: string
-    name: string
+    employee_number: string
+    first_name: string
+    midle_name: string
+    last_name: string
     email: string
-    phoneNumber: string
-    address: string
-    dateOfBirth: string
+    phone_number: string
+    gender: string
+    role: string
+    birth_date: string
+    address1: string
+    address2: string
+    barangay: string
+    municipality: string
+    province: string
+    zip_code: string
+    emergency_contact_name: string
+    emergency_contact_number: string
 }
 
 export const PDFEmployeeExport = (zentiveLogoUrl: string, tableData: IExportDataToPDF[]) => {
@@ -31,19 +42,51 @@ export const PDFEmployeeExport = (zentiveLogoUrl: string, tableData: IExportData
 
     startY += 10
 
+    // Define table headers, including all required fields
     const head = [
-        ['Employee Number', 'Name', 'Email Address', 'Address', 'Phone Number', 'Date of Birth'],
+        [
+            'Employee Number',
+            'First Name',
+            'Middle Name',
+            'Last Name',
+            'Email Address',
+            'Phone Number',
+            'Gender',
+            'Role',
+            'Birth Date',
+            'Address 1',
+            'Address 2',
+            'Barangay',
+            'Municipality',
+            'Province',
+            'Zip Code',
+            'Emergency Contact Name',
+            'Emergency Contact Number',
+        ],
     ]
 
+    // Map the table data to match the headers and ensure the format is correct
     const body = tableData?.map((data) => [
-        data.employeeNumber,
-        data.name,
+        data.employee_number,
+        data.first_name,
+        data.midle_name,
+        data.last_name,
         data.email,
-        data.address,
-        data.phoneNumber,
-        data.dateOfBirth === '' ? '' : dayjs(data.dateOfBirth).format('MMMM DD, YYYY'),
+        data.phone_number,
+        data.gender,
+        data.role,
+        data.birth_date === '' ? '' : dayjs(data.birth_date).format('MMMM DD, YYYY'),
+        data.address1,
+        data.address2,
+        data.barangay,
+        data.municipality,
+        data.province,
+        data.zip_code,
+        data.emergency_contact_name,
+        data.emergency_contact_number,
     ])
 
+    // Generate the table using jsPDF autoTable
     autoTable(doc, {
         startY: startY,
         head: head,
@@ -59,5 +102,6 @@ export const PDFEmployeeExport = (zentiveLogoUrl: string, tableData: IExportData
         },
     })
 
-    doc.save('employee-list.pdf')
+    // Save the PDF file
+    doc.save('user-list.pdf')
 }
