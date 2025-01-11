@@ -92,6 +92,30 @@ export const importUsersSchema = z.object({
     file: z.instanceof(File),
 })
 
+export const employeeTimeEntriesSchema = z.object({
+    id: z.number(),
+    user_id: z.number(),
+    type: z.enum(['time_in', 'time_out', 'other_type']),
+    datetime: z.string(),
+    metadata: z.array(z.unknown()),
+    is_synced: z.number().int().min(0).max(1),
+    created_at: z.string(),
+    updated_at: z.string(),
+    deleted_at: z.nullable(z.string()),
+    employee: profileSchema.pick({
+        id: true,
+        group_id: true,
+        first_name: true,
+        last_name: true,
+        middle_name: true,
+    }),
+})
+
+export const timeEntriesSchema = z.object({
+    content: z.array(employeeTimeEntriesSchema),
+    meta: paginationSchema,
+})
+
 export type ProfileType = z.infer<typeof profileSchema>
 export type UserListType = z.infer<typeof userListSchema>
 export type CreateUserType = z.infer<typeof createUserSchema>
@@ -99,3 +123,5 @@ export type EditUserType = z.infer<typeof editUserSchema>
 export type BulkUserUpdateStatusType = z.infer<typeof bulkUserUpdateStatusSchema>
 export type UserStatusCountType = z.infer<typeof userStatusCountSchema>
 export type ImportUserType = z.infer<typeof importUsersSchema>
+export type TimeEntriesListType = z.infer<typeof timeEntriesSchema>
+export type TimeEntryType = z.infer<typeof employeeTimeEntriesSchema>

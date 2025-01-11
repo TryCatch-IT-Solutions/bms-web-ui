@@ -81,6 +81,11 @@ export const allowedNavigationLinks = [
     { href: '/device/create', allowedRoles: [ROLE.superadmin], dynamic: false },
     { href: '/device/map-view', allowedRoles: [ROLE.superadmin], dynamic: false },
     { href: '/employee/create', allowedRoles: [ROLE.groupadmin, ROLE.superadmin], dynamic: false },
+    {
+        href: '/employee/time-entries',
+        allowedRoles: [ROLE.groupadmin, ROLE.superadmin],
+        dynamic: false,
+    },
     { href: '/employee/list', allowedRoles: [ROLE.groupadmin, ROLE.superadmin], dynamic: false },
     { href: '/log/activity', allowedRoles: [ROLE.superadmin], dynamic: false },
     {
