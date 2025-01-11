@@ -5,6 +5,9 @@ import GoogleMapsApiWrapper from '@/components/GoogleMapsApiWrapper'
 import { BreadCrumbs } from '@/components/BreadCrumbs'
 import { getDeviceMapView } from '@/api/device'
 import { DeviceType } from '@/api/device/schema'
+import { getAPIKey } from '@/api/settings'
+import { API_KEY_LABELS } from '@/constants'
+import Spinner from '@/components/Spinner'
 
 type MapViewProps = {
     isLoaded: boolean
@@ -39,12 +42,24 @@ const MapView: FC<MapViewProps> = ({ isLoaded, loadError }) => {
     )
 }
 
-const DeviceMapView: FC = () => (
-    <GoogleMapsApiWrapper
-        render={(isLoaded: boolean, loadError?: Error) => (
-            <MapView isLoaded={isLoaded} loadError={loadError} />
-        )}
-    />
-)
+const DeviceMapView: FC = () => {
+    const { data: apiKey, isLoading } = useQuery({
+        queryKey: ['googleMapsAPIKey'],
+        queryFn: () => getAPIKey(API_KEY_LABELS.MAPS),
+    })
+
+    if (isLoading) {
+        return <Spinner variant='normal' />
+    } else {
+        return (
+            <GoogleMapsApiWrapper
+                render={(isLoaded: boolean, loadError?: Error) => (
+                    <MapView isLoaded={isLoaded} loadError={loadError} />
+                )}
+                apiKey={apiKey}
+            />
+        )
+    }
+}
 
 export default DeviceMapView
