@@ -8,10 +8,10 @@ import { PaginationType } from '@/components/Pagination/schema'
 import SearchBar from '@/components/SearchBar'
 import { TableHeader, TableRow, TableHead, TableBody, TableCell, Table } from '@/components/Table'
 import AppSkeletonLoadingState from '@/components/TableLoadingState'
-import { deleteDeviceAtom } from '@/store/device'
+import { deleteDeviceAtom, groupFilterAtom } from '@/store/device'
 import { cn } from '@/utils/helper'
 import { useQuery } from '@tanstack/react-query'
-import { useAtom } from 'jotai'
+import { useAtom, useAtomValue } from 'jotai'
 import { Trash2Icon } from 'lucide-react'
 import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
@@ -35,6 +35,7 @@ export const DeviceTable: React.FC = () => {
     const [devicesToDelete, setDevicesToDelete] = useAtom(deleteDeviceAtom)
     const [groupFilter, setGroupFilter] = useState<boolean>(false)
     const [searchVal, setSearchVal] = useState<string>('')
+    const deviceGroupFilter = useAtomValue(groupFilterAtom)
 
     const [open, setOpen] = useState<boolean>(false)
     const onSearchChange = (val: string) => {
@@ -44,8 +45,8 @@ export const DeviceTable: React.FC = () => {
     const navigate = useNavigate()
 
     const { data: devices, isLoading } = useQuery({
-        queryKey: ['deviceList', pagination, searchVal],
-        queryFn: () => getDeviceList(pagination, searchVal),
+        queryKey: ['deviceList', pagination, searchVal, deviceGroupFilter],
+        queryFn: () => getDeviceList(pagination, searchVal, deviceGroupFilter ?? 0),
     })
 
     const handleRowClick = (id: number) => {

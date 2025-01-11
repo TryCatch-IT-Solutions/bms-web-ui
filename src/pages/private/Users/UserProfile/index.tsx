@@ -13,10 +13,10 @@ import PhoneNumberInput from '@/components/PhoneNumberInput'
 import { editUser, getUserById } from '@/api/profile'
 import { useMutation, useQuery } from '@tanstack/react-query'
 import { useEffect } from 'react'
-import { logZodResolver } from '@/utils/helper'
 import Spinner from '@/components/Spinner'
 import { useAtom } from 'jotai'
 import { userAtom } from '@/store/user'
+import { zodResolver } from '@hookform/resolvers/zod'
 
 export const UserProfile: React.FC = () => {
     const navigate = useNavigate()
@@ -32,7 +32,7 @@ export const UserProfile: React.FC = () => {
 
     const userForm = useForm<EditUserType>({
         mode: 'onChange',
-        resolver: logZodResolver(profileSchema),
+        resolver: zodResolver(profileSchema),
         defaultValues: {
             email: '',
             first_name: '',

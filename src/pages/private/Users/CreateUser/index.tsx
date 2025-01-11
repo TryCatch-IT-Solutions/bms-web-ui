@@ -13,8 +13,8 @@ import PhoneNumberInput from '@/components/PhoneNumberInput'
 import { useEffect } from 'react'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { createUser } from '@/api/profile'
-import { logZodResolver } from '@/utils/helper'
 import { PasswordInput } from '@/components/PasswordInput'
+import { zodResolver } from '@hookform/resolvers/zod'
 
 export const CreateUser: React.FC = () => {
     const navigate = useNavigate()
@@ -23,7 +23,7 @@ export const CreateUser: React.FC = () => {
 
     const userForm = useForm<CreateUserType>({
         mode: 'onChange',
-        resolver: logZodResolver(createUserSchema),
+        resolver: zodResolver(createUserSchema),
     })
 
     const {
