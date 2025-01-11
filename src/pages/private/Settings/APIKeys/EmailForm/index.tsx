@@ -5,24 +5,25 @@ import { Card, CardContent, CardFooter, CardHeader } from '@/components/Card'
 import { Form, FormControl, FormField, FormItem, FormMessage } from '@/components/Form'
 import { Input } from '@/components/Input'
 import { API_KEY_LABELS } from '@/constants'
-
 import { useMutation, useQuery } from '@tanstack/react-query'
 import { AxiosError } from 'axios'
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { useEffect } from 'react'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { useToast } from '@/hooks/useToast'
 
 export const EmailForm = () => {
     const [enabled, setEnabled] = useState<boolean>(false)
-    const emailAPIForm = useForm<CreateAPIKeyType>({
+    const { toast } = useToast()
+    const apiForm = useForm<CreateAPIKeyType>({
         mode: 'all',
         resolver: zodResolver(createAPIKeySchema),
     })
 
-    const { data: mapsAPIKey } = useQuery({
-        queryKey: ['mapsAPIKey'],
-        queryFn: () => getAPIKey(API_KEY_LABELS.MAPS),
+    const { data: apiKey, isLoading } = useQuery({
+        queryKey: ['emailAPIkey'],
+        queryFn: () => getAPIKey(API_KEY_LABELS.EMAIL),
     })
 
     const {
@@ -30,14 +31,7 @@ export const EmailForm = () => {
         setValue,
         setError,
         formState: { errors, isDirty },
-    } = emailAPIForm
-
-    // Set 'key' value on mount, ensuring it doesn't cause an infinite loop
-    useEffect(() => {
-        if (emailAPIForm.getValues('key') !== API_KEY_LABELS.MAPS) {
-            setValue('key', API_KEY_LABELS.MAPS)
-        }
-    }, [setValue, emailAPIForm]) // Dependency on setValue and emailAPIForm to prevent infinite loop
+    } = apiForm
 
     const { mutate: createAPIKeyMu, isPending } = useMutation<
         unknown,
@@ -46,7 +40,11 @@ export const EmailForm = () => {
     >({
         mutationFn: createAPIkey,
         onSuccess: () => {
-            // handle success
+            toast({
+                description: 'Google Maps API Key Updated',
+            })
+
+            setEnabled(false)
         },
         onError: (error) => {
             if (error.response?.status === 409) {
@@ -62,9 +60,19 @@ export const EmailForm = () => {
         enabled && createAPIKeyMu(data)
     }
 
+    useEffect(() => {
+        if (apiForm.getValues('key') !== API_KEY_LABELS.EMAIL) {
+            setValue('key', API_KEY_LABELS.EMAIL)
+        }
+
+        if (!isLoading && apiKey !== undefined) {
+            setValue('value', apiKey)
+        }
+    }, [isLoading])
+
     return (
         <Card>
-            <Form {...emailAPIForm}>
+            <Form {...apiForm}>
                 <form
                     autoComplete='on'
                     noValidate
@@ -74,15 +82,15 @@ export const EmailForm = () => {
                     <CardHeader>
                         <p className='font-semibold text-bms-gray-500'>Email API Key</p>
                     </CardHeader>
-                    <CardContent>
+                    <CardContent className='flex flex-row items-center justify-center w-[100%]'>
                         <FormField
-                            control={emailAPIForm.control}
+                            control={apiForm.control}
                             name='value'
                             render={({ field }) => (
                                 <FormItem>
                                     <FormControl>
                                         <Input
-                                            className='mt-[16px] w-[100%] bg-white'
+                                            className='w-[30rem] bg-white h-11'
                                             placeholder='Email API Key'
                                             type='text'
                                             disabled={!enabled}
@@ -93,14 +101,13 @@ export const EmailForm = () => {
                                 </FormItem>
                             )}
                         />
+                        <Button type='button' onClick={() => setEnabled(!enabled)}>
+                            {enabled ? 'Cancel' : 'Edit'}
+                        </Button>
                     </CardContent>
                     <CardFooter className='justify-end'>
-                        <Button
-                            type='submit'
-                            disabled={isPending || !isDirty}
-                            onClick={() => setEnabled(!enabled)}
-                        >
-                            {mapsAPIKey || !enabled ? 'Edit' : 'Update'}
+                        <Button type='submit' disabled={isPending || !isDirty || !enabled}>
+                            Update
                         </Button>
                     </CardFooter>
                 </form>

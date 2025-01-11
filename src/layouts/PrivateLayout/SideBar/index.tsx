@@ -115,7 +115,7 @@ export const navigationItems: NavigationProps[] = [
             },
             {
                 name: 'Time Entries',
-                href: '#',
+                href: '/employee/time-entries',
                 allowedRoles: [ROLE.groupadmin, ROLE.superadmin],
             },
         ],

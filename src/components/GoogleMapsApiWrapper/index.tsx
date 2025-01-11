@@ -2,6 +2,7 @@ import { useJsApiLoader, Libraries } from '@react-google-maps/api'
 import { FC } from 'react'
 
 type GoogleMapsApiWrapperProps = {
+    apiKey: string
     render: (isLoaded: boolean, loadError?: Error) => React.ReactNode
 }
 

@@ -6,6 +6,7 @@ import {
     EditUserType,
     ImportUserType,
     ProfileType,
+    TimeEntriesListType,
     UserListType,
     UserStatusCountType,
 } from './schema'
@@ -89,4 +90,21 @@ export const importUsers = async (data: ImportUserType) => {
         console.error('Failed to export employees via csv:', err)
         throw err
     }
+}
+
+export const getEmployeeTimeEntries = async (
+    p: PaginationType,
+    search: string | null,
+): Promise<TimeEntriesListType> => {
+    const response = await axiosInstance.get('/api/time-entries', {
+        params: {
+            page: search === null || search === '' ? p.current_page : 1,
+            limit: p.itemsPerPage,
+            date_start: '',
+            date_end: '',
+            search: search,
+        },
+    })
+
+    return response.data
 }
