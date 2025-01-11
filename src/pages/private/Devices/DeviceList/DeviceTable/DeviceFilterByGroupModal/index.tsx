@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction, useState } from 'react'
+import { Dispatch, SetStateAction, useEffect, useState } from 'react'
 import { Button } from '@/components/Button'
 import { Modal } from '@/components/Modal'
 import SearchBar from '@/components/SearchBar'
@@ -9,8 +9,8 @@ import { Pagination } from '@/components/Pagination'
 import Spinner from '@/components/Spinner'
 import { getGroups } from '@/api/group'
 import { GroupType } from '@/api/group/schema'
-import { useSetAtom } from 'jotai'
-import { createDeviceGroupAtom } from '@/store/device'
+import { useAtom } from 'jotai'
+import { groupFilterAtom } from '@/store/device'
 
 interface GroupListModalProps {
     open: boolean
@@ -18,9 +18,9 @@ interface GroupListModalProps {
 }
 
 export const DeviceFilterByGroupModal: React.FC<GroupListModalProps> = ({ open, setOpen }) => {
-    const [groupId, setGroupId] = useState<number>(0)
-    const [groupProfile, setGroupProfile] = useState<GroupType | null>(null)
-    const setDeviceGroupAtom = useSetAtom(createDeviceGroupAtom)
+    const [groupId, setGroupId] = useState<number | null>(null)
+    const [groupProfile, setGroupProfile] = useState<number | null>(null)
+    const [groupIdAtom, setDeviceGroupAtom] = useAtom(groupFilterAtom)
     const [searchVal, setSearchVal] = useState<string>('')
 
     const [pagination, setPagination] = useState<PaginationType>({
@@ -40,9 +40,18 @@ export const DeviceFilterByGroupModal: React.FC<GroupListModalProps> = ({ open, 
     })
 
     const handleCheckClick = (g: GroupType) => {
-        setGroupId(g.id)
-        setGroupProfile(g)
+        if (groupId === g.id) {
+            setGroupId(null)
+            setGroupProfile(null)
+        } else {
+            setGroupId(g.id)
+            setGroupProfile(g.id)
+        }
     }
+
+    useEffect(() => {
+        setGroupId(groupIdAtom)
+    }, [open])
 
     return (
         <Modal
@@ -106,7 +115,7 @@ export const DeviceFilterByGroupModal: React.FC<GroupListModalProps> = ({ open, 
                         onClick={handleSave}
                         className='w-97 h-11 text-base font-semibold bg-bms-primary'
                     >
-                        Add
+                        Submit
                     </Button>
                 </div>
             </div>

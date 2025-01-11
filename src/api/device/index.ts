@@ -8,15 +8,23 @@ export const createDevice = async (data: CreateDeviceType) => {
     return response.data
 }
 
-export const getDeviceList = async (p: PaginationType, search: string): Promise<DeviceListType> => {
-    const response = await axiosInstance.get(`/api/devices`, {
-        params: {
-            page: search === null || search === '' ? p.current_page : 1,
-            limit: p.itemsPerPage,
-            status: ['active'],
-            search: search,
-        },
-    })
+export const getDeviceList = async (
+    p: PaginationType,
+    search: string,
+    groupFilter?: number,
+): Promise<DeviceListType> => {
+    const params: Record<string, any> = {
+        page: search === null || search === '' || groupFilter ? p.current_page : 1,
+        limit: p.itemsPerPage,
+        status: ['active'],
+        search: search,
+    }
+
+    if (groupFilter && groupFilter > 0) {
+        params.groupId = groupFilter
+    }
+
+    const response = await axiosInstance.get(`/api/devices`, { params })
 
     return response.data
 }
