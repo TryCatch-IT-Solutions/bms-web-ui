@@ -14,7 +14,7 @@ import { useQuery } from '@tanstack/react-query'
 import { useAtom, useAtomValue } from 'jotai'
 import { Trash2Icon } from 'lucide-react'
 import { useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import DeleteDeviceModal from '../DeleteDeviceModal'
 import { DeviceFilterByGroupModal } from './DeviceFilterByGroupModal'
 

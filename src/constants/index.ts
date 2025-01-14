@@ -63,6 +63,11 @@ export const USER_FILTER_OPTIONS = [
     { value: 'superadmin', label: 'Super Admin' },
 ]
 
+export const USER_ASSIGN_STATUS = [
+    { value: false, label: 'Assigned' },
+    { value: true, label: 'Unassigned' },
+]
+
 export const TIME_DATE_FORMAT = {
     DATE_TIME: 'MMM DD, YYYY HH:mm A',
     DATE: 'MMM DD, YYYY',
