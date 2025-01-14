@@ -8,7 +8,12 @@ import SearchBar from '@/components/SearchBar'
 import { TableHeader, TableRow, TableHead, TableBody, TableCell, Table } from '@/components/Table'
 import AppSkeletonLoadingState from '@/components/TableLoadingState'
 import { ROLE, TIME_DATE_FORMAT, USER_STATUS } from '@/constants'
-import { employeeExportAtom, employeeSelectedStatusAtom, employeesToDeleteAtom } from '@/store/user'
+import {
+    employeeExportAtom,
+    employeeSelectedStatusAtom,
+    employeesToDeleteAtom,
+    userAssignStatusFilterAtom,
+} from '@/store/user'
 import { cn } from '@/utils/helper'
 import { useQuery } from '@tanstack/react-query'
 import { useAtom, useAtomValue } from 'jotai'
@@ -21,6 +26,8 @@ import { Trash2Icon } from 'lucide-react'
 import { EmployeeStatusBar } from '../EmployeeStatusBar'
 import DeleteEmployeeModal from '../DeleteEmployeeModal'
 import dayjs from 'dayjs'
+import UserFilterDropdown from '../UserFilterDropdown'
+import { ResetIcon } from '@radix-ui/react-icons'
 
 const tableHeader = [
     { name: 'Account Number' },
@@ -38,6 +45,7 @@ export const EmployeeTable: React.FC = () => {
     const [searchVal, setSearchVal] = useState<string | null>('')
     const [employeesToExport, setEmployeeExportAtom] = useAtom(employeeExportAtom)
     const [userIdsToDelete, setUserIdsToDelete] = useAtom(employeesToDeleteAtom)
+    const [userStatusFilter, setUserStatusFilter] = useAtom(userAssignStatusFilterAtom)
 
     const onSearchChange = (val: string) => {
         setTimeout(() => {
@@ -54,8 +62,9 @@ export const EmployeeTable: React.FC = () => {
     const navigate = useNavigate()
 
     const { data: users, isLoading } = useQuery({
-        queryKey: ['employeeList', pagination, selectedStatus, searchVal],
-        queryFn: () => getUsers(pagination, [selectedStatus], [ROLE.employee], true, searchVal),
+        queryKey: ['employeeList', pagination, selectedStatus, searchVal, userStatusFilter],
+        queryFn: () =>
+            getUsers(pagination, [selectedStatus], [ROLE.employee], userStatusFilter, searchVal),
     })
 
     const handleRowClick = (id: number) => {
@@ -93,13 +102,24 @@ export const EmployeeTable: React.FC = () => {
         })
     }
 
+    const handleResetFilter = () => {
+        setUserStatusFilter(null)
+        setSearchVal('')
+    }
+
     return (
         <>
             <div className='mb-5 flex flex-row justify-between'>
-                <SearchBar
-                    placeHolder='Search User'
-                    onSearchChange={(e) => onSearchChange(e?.target?.value)}
-                />
+                <div className='flex flex-row gap-1'>
+                    <SearchBar
+                        placeHolder='Search Employee'
+                        onSearchChange={(e) => onSearchChange(e?.target?.value)}
+                    />
+                    <UserFilterDropdown />
+                    <Button onClick={handleResetFilter} variant='outlineTwo'>
+                        <ResetIcon />
+                    </Button>
+                </div>
                 <div className='flex flex-row gap-5'>
                     <ImportDropdown />
                     <ExportDropdown

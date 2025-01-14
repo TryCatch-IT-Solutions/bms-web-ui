@@ -1,4 +1,9 @@
-import { userFilterAtom, userIdsToDeleteAtom, usersToExportAtom } from '@/store/user'
+import {
+    userRoleFilterAtom,
+    userIdsToDeleteAtom,
+    usersToExportAtom,
+    userAssignStatusFilterAtom,
+} from '@/store/user'
 import { getUsers } from '@/api/profile'
 import { ProfileType, UserListType } from '@/api/profile/schema'
 import { Checkbox } from '@/components/Checkbox'
@@ -22,6 +27,7 @@ import { Trash2Icon } from 'lucide-react'
 import { UserStatusTabs } from '../UserStatusTabs'
 import UserFilterDropdown from '../UserFilterDropdown'
 import dayjs from 'dayjs'
+import { ResetIcon } from '@radix-ui/react-icons'
 
 const tableHeader = [
     { name: 'Account Number' },
@@ -39,9 +45,8 @@ export const UserTable: React.FC = () => {
     const selectedUserStatus = useAtomValue(userSelectedStatusAtom)
     const usersToExport = useAtomValue(usersToExportAtom)
     const [userIdsToDelete, setUserIdsToDelete] = useAtom(userIdsToDeleteAtom)
-    const userFilter = useAtomValue(userFilterAtom)
-
-    console.log(usersToExport)
+    const [userRoleFilter, setUserRoleFilter] = useAtom(userRoleFilterAtom)
+    const [userStatusFilter, setUserStatusFilter] = useAtom(userAssignStatusFilterAtom)
 
     const onSearchChange = (val: string) => {
         setSearchVal(val)
@@ -58,13 +63,20 @@ export const UserTable: React.FC = () => {
     const navigate = useNavigate()
 
     const { data: users, isLoading } = useQuery({
-        queryKey: ['usersList', pagination, selectedStatus, searchVal, userFilter],
+        queryKey: [
+            'usersList',
+            pagination,
+            selectedStatus,
+            searchVal,
+            userRoleFilter,
+            userStatusFilter,
+        ],
         queryFn: () =>
             getUsers(
                 pagination,
                 [selectedStatus],
-                userFilter ?? ['superadmin', 'groupadmin'],
-                true,
+                userRoleFilter ?? ['superadmin', 'groupadmin'],
+                userStatusFilter,
                 searchVal,
             ),
         refetchOnWindowFocus: true,
@@ -107,13 +119,26 @@ export const UserTable: React.FC = () => {
         })
     }
 
+    const handleResetFilter = () => {
+        setUserRoleFilter(['superadmin', 'groupadmin'])
+        setUserStatusFilter(null)
+        setSearchVal('')
+    }
+
     return (
         <>
             <div className='mb-5 flex flex-row justify-between'>
-                <SearchBar
-                    placeHolder='Search User'
-                    onSearchChange={(e) => onSearchChange(e.target.value)}
-                />
+                <div className='flex flex-row gap-1'>
+                    <SearchBar
+                        value={searchVal}
+                        placeHolder='Search User'
+                        onSearchChange={(e) => onSearchChange(e.target.value)}
+                    />
+                    <UserFilterDropdown />
+                    <Button onClick={handleResetFilter} variant='outlineTwo'>
+                        <ResetIcon />
+                    </Button>
+                </div>
                 <div className='flex flex-row gap-5'>
                     <ExportDropdown
                         isDisabled={(usersToExport && usersToExport?.content.length === 0) ?? true}
@@ -132,8 +157,6 @@ export const UserTable: React.FC = () => {
                         {selectedUserStatus === USER_STATUS.ACTIVATED ? 'Delete' : 'Restore'}
                         <Trash2Icon className='h-4' />
                     </Button>
-
-                    <UserFilterDropdown />
                 </div>
             </div>
             <UserStatusTabs />

@@ -15,19 +15,19 @@ export const getUsers = async (
     p: PaginationType,
     status: string[],
     role: string[],
-    available: boolean,
+    available: boolean | null,
     search: string | null,
 ): Promise<UserListType> => {
-    const response = await axiosInstance.get(`/api/users`, {
-        params: {
-            page: search === null || search === '' ? p.current_page : 1,
-            limit: p.itemsPerPage,
-            roles: role,
-            status: status,
-            available: available,
-            search: search ?? null,
-        },
-    })
+    const params = {
+        page: search === null || search === '' ? p.current_page : 1,
+        limit: p.itemsPerPage,
+        roles: role,
+        status: status,
+        search: search ?? null,
+        ...(available !== null && { available }),
+    }
+
+    const response = await axiosInstance.get(`/api/users`, { params })
 
     return response.data
 }
