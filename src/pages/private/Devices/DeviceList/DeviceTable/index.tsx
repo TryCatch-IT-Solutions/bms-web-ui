@@ -154,7 +154,7 @@ export const DeviceTable: React.FC = () => {
                                             }
                                             className='-mt-[2px]'
                                         />
-                                        <Link to={'/user/edit'}>{d.id}</Link>
+                                        {d.id}
                                     </TableCell>
                                     <TableCell onClick={() => handleRowClick(d?.id)}>
                                         {d.group_id}
