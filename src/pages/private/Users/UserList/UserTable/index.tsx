@@ -75,7 +75,9 @@ export const UserTable: React.FC = () => {
             getUsers(
                 pagination,
                 [selectedStatus],
-                userRoleFilter ?? ['superadmin', 'groupadmin'],
+                userRoleFilter !== null && userRoleFilter?.length !== 0
+                    ? userRoleFilter
+                    : ['superadmin', 'groupadmin'],
                 userStatusFilter,
                 searchVal,
             ),

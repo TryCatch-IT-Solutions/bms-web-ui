@@ -29,8 +29,8 @@ export const profileSchema = z
         gender: stringValidator('Gender', { isRequired: true }),
         phone_number: phoneNumberValidator,
         status: z.string(),
-        emergency_contact_name: z.string(),
-        emergency_contact_no: z.string(),
+        emergency_contact_name: stringValidator('Emergency Contact Name', { isRequired: true }),
+        emergency_contact_no: phoneNumberValidator,
         email: z
             .string({ required_error: 'Email is required' })
             .email({ message: 'Invalid email address' }),

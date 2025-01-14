@@ -12,7 +12,7 @@ import {
     employeeExportAtom,
     employeeSelectedStatusAtom,
     employeesToDeleteAtom,
-    userAssignStatusFilterAtom,
+    employeeAssignStatusFilterAtom,
 } from '@/store/user'
 import { cn } from '@/utils/helper'
 import { useQuery } from '@tanstack/react-query'
@@ -45,7 +45,7 @@ export const EmployeeTable: React.FC = () => {
     const [searchVal, setSearchVal] = useState<string | null>('')
     const [employeesToExport, setEmployeeExportAtom] = useAtom(employeeExportAtom)
     const [userIdsToDelete, setUserIdsToDelete] = useAtom(employeesToDeleteAtom)
-    const [userStatusFilter, setUserStatusFilter] = useAtom(userAssignStatusFilterAtom)
+    const [userStatusFilter, setUserStatusFilter] = useAtom(employeeAssignStatusFilterAtom)
 
     const onSearchChange = (val: string) => {
         setTimeout(() => {
