@@ -26,12 +26,22 @@ export const ROLE_LABELS = {
     employee: 'Employee' as string,
 } as const
 
+export const EDIT_ROLE_LABELS = {
+    superadmin: 'Super Admin' as string,
+    groupadmin: 'Group Admin' as string,
+} as const
+
 export const USER_STATUS = {
     ACTIVATED: 'active',
     INACTIVE: 'inactive',
 } as const
 
 export const ROLE_VALUES = Object.entries(ROLE_LABELS).map(([key, label]) => ({
+    value: key, // Use the key as the value
+    label: label, // Use the value as the label
+}))
+
+export const EDIT_ROLE_VALUES = Object.entries(EDIT_ROLE_LABELS).map(([key, label]) => ({
     value: key, // Use the key as the value
     label: label, // Use the value as the label
 }))

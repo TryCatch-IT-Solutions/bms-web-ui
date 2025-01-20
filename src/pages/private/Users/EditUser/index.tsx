@@ -8,7 +8,7 @@ import { useToast } from '@/hooks/useToast'
 import { profileSchema, EditUserType } from '@/api/profile/schema'
 import { BreadCrumbs } from '@/components/BreadCrumbs'
 import { Dropdown } from '@/components/DropdownInput'
-import { GENDER_OPTIONS, ROLE_VALUES } from '@/constants'
+import { GENDER_OPTIONS, EDIT_ROLE_VALUES } from '@/constants'
 import PhoneNumberInput from '@/components/PhoneNumberInput'
 import { editUser, getUserById } from '@/api/profile'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
@@ -271,7 +271,7 @@ export const EditUser: React.FC = () => {
                                                             <Dropdown
                                                                 className='mt-[16px] w-[100%] bg-white'
                                                                 placeholder='Role'
-                                                                options={ROLE_VALUES}
+                                                                options={EDIT_ROLE_VALUES}
                                                                 {...field}
                                                             />
                                                         </FormControl>
