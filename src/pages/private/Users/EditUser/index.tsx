@@ -430,7 +430,17 @@ export const EditUser: React.FC = () => {
                                                             <Input
                                                                 className='mt-[16px] w-[100%] bg-white'
                                                                 placeholder='Zip Code'
-                                                                type='text'
+                                                                onKeyDown={(e) => {
+                                                                    if (
+                                                                        e.key === '-' ||
+                                                                        e.key === '+' ||
+                                                                        e.key === 'e' ||
+                                                                        e.key === 'E'
+                                                                    ) {
+                                                                        e.preventDefault()
+                                                                    }
+                                                                }}
+                                                                type='number'
                                                                 {...field}
                                                             />
                                                         </FormControl>
