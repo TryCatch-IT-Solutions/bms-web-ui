@@ -414,7 +414,17 @@ export const UserProfile: React.FC = () => {
                                                             <Input
                                                                 className='mt-[16px] w-[100%] bg-white'
                                                                 placeholder='Zip Code'
-                                                                type='text'
+                                                                type='number'
+                                                                onKeyDown={(e) => {
+                                                                    if (
+                                                                        e.key === '-' ||
+                                                                        e.key === '+' ||
+                                                                        e.key === 'e' ||
+                                                                        e.key === 'E'
+                                                                    ) {
+                                                                        e.preventDefault()
+                                                                    }
+                                                                }}
                                                                 {...field}
                                                             />
                                                         </FormControl>
