@@ -1,5 +1,6 @@
 import PrivateLayout from '@/layouts/PrivateLayout'
 import { ActivityLogs } from '@/pages/private/ActivityLogs/Logs'
+import { Dashboard } from '@/pages/private/Dashboard'
 import { CreateDevice } from '@/pages/private/Devices/CreateDevice'
 import { DeviceList } from '@/pages/private/Devices/DeviceList'
 import DeviceMapView from '@/pages/private/Devices/DeviceMapView'
@@ -30,7 +31,7 @@ const PrivateRoutes: RouteObject = {
             path: '/dashboard',
             children: [
                 {
-                    element: <></>,
+                    element: <Dashboard />,
                     index: true,
                 },
             ],
