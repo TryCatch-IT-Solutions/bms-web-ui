@@ -87,6 +87,10 @@ export const GroupForm: React.FC = () => {
         }
     }, [group])
 
+    useEffect(() => {
+        groupForm.trigger()
+    }, [groupAdminModal])
+
     return isLoading ? (
         <Spinner variant='normal' className='h-[8rem] w-[8rem]' />
     ) : (
