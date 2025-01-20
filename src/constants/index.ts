@@ -127,4 +127,5 @@ export const API_KEY_LABELS = {
     SMS: 'SMS_API_KEY',
     EMAIL: 'EMAIL_API_KEY',
     MAPS: 'MAPS_API_KEY',
+    APP: 'APP_TOKEN',
 }
