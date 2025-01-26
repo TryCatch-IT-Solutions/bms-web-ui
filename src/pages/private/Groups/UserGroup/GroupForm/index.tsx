@@ -110,9 +110,10 @@ export const GroupForm: React.FC = () => {
                                             <FormItem>
                                                 <FormControl>
                                                     <Input
-                                                        className='mt-[16px] w-[100%] bg-white'
+                                                        className='mt-[16px] w-[50%] bg-white'
                                                         placeholder='Group Name'
                                                         type='text'
+                                                        disabled
                                                         {...field}
                                                     />
                                                 </FormControl>
@@ -128,6 +129,7 @@ export const GroupForm: React.FC = () => {
                                         className='bg-gray-500 hover:bg-gray-400'
                                         onClick={() => setGroupAdminModal(true)}
                                         type='button'
+                                        disabled
                                     >
                                         {adminProfile
                                             ? adminProfile.first_name +
@@ -137,7 +139,7 @@ export const GroupForm: React.FC = () => {
                                     </Button>
                                 </div>
 
-                                <div className='mt-3 w-full flex flex-row gap-5 items-end justify-end'>
+                                {/* <div className='mt-3 w-full flex flex-row gap-5 items-end justify-end'>
                                     <Button
                                         type='button'
                                         variant='outline'
@@ -149,7 +151,7 @@ export const GroupForm: React.FC = () => {
                                     <Button type='submit' disabled={!isValid}>
                                         Update Group
                                     </Button>
-                                </div>
+                                </div> */}
                             </div>
                         </form>
                         <AdminListModal open={groupAdminModal} setOpen={setGroupAdminModal} />
