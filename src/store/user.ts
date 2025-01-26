@@ -1,5 +1,5 @@
 import { BulkUserUpdateStatusType, ProfileType, UserListType } from '@/api/profile/schema'
-import { USER_STATUS } from '@/constants'
+import { USER_PROFILE_TABS, USER_STATUS } from '@/constants'
 import { atom } from 'jotai'
 import { atomWithStorage } from 'jotai/utils'
 
@@ -14,3 +14,4 @@ export const usersToExportAtom = atom<UserListType | null>(null)
 export const userRoleFilterAtom = atom<string[] | null>(['superadmin', 'groupadmin'])
 export const userAssignStatusFilterAtom = atom<boolean | null>(null)
 export const employeeAssignStatusFilterAtom = atom<boolean | null>(null)
+export const userProfileTabsAtom = atom<string>(USER_PROFILE_TABS.PROFILE)
