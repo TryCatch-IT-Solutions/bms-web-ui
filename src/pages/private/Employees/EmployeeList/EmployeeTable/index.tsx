@@ -13,6 +13,7 @@ import {
     employeeSelectedStatusAtom,
     employeesToDeleteAtom,
     employeeAssignStatusFilterAtom,
+    userAtom,
 } from '@/store/user'
 import { cn } from '@/utils/helper'
 import { useQuery } from '@tanstack/react-query'
@@ -46,6 +47,8 @@ export const EmployeeTable: React.FC = () => {
     const [employeesToExport, setEmployeeExportAtom] = useAtom(employeeExportAtom)
     const [userIdsToDelete, setUserIdsToDelete] = useAtom(employeesToDeleteAtom)
     const [userStatusFilter, setUserStatusFilter] = useAtom(employeeAssignStatusFilterAtom)
+
+    const user = useAtomValue(userAtom)
 
     const onSearchChange = (val: string) => {
         setTimeout(() => {
@@ -128,16 +131,20 @@ export const EmployeeTable: React.FC = () => {
                         }
                         employeeListData={employeesToExport as UserListType}
                     />
-                    <Button
-                        variant='outline'
-                        type='button'
-                        className='flex flex-row gap-1'
-                        onClick={() => setOpen(true)}
-                        disabled={userIdsToDelete === null || userIdsToDelete.users.length === 0}
-                    >
-                        {selectedStatus === USER_STATUS.ACTIVATED ? 'Delete' : 'Restore'}
-                        <Trash2Icon className='h-4' />
-                    </Button>
+                    {user?.role === ROLE.superadmin && (
+                        <Button
+                            variant='outline'
+                            type='button'
+                            className='flex flex-row gap-1'
+                            onClick={() => setOpen(true)}
+                            disabled={
+                                userIdsToDelete === null || userIdsToDelete.users.length === 0
+                            }
+                        >
+                            {selectedStatus === USER_STATUS.ACTIVATED ? 'Delete' : 'Restore'}
+                            <Trash2Icon className='h-4' />
+                        </Button>
+                    )}
                 </div>
             </div>
             <Card className='bg-white w-full overflow-x-auto'>
