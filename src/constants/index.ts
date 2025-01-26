@@ -36,6 +36,11 @@ export const USER_STATUS = {
     INACTIVE: 'inactive',
 } as const
 
+export const USER_PROFILE_TABS = {
+    PROFILE: 'profile',
+    PASSWORD: 'password',
+}
+
 export const ROLE_VALUES = Object.entries(ROLE_LABELS).map(([key, label]) => ({
     value: key, // Use the key as the value
     label: label, // Use the value as the label

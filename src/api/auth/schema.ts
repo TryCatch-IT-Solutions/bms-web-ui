@@ -51,6 +51,56 @@ export const updatePasswordSchema = z
         }
     })
 
+export const updateUserPasswordSchema = z
+    .object({
+        password: z
+            .string()
+            .min(8, { message: 'New password is required' })
+            .trim()
+            .regex(uppercaseRegex, {
+                message: 'Must include at least one uppercase letter',
+            })
+            .regex(specialRegex, {
+                message: 'Must include at least one special character',
+            })
+            .regex(numericRegex, { message: 'Must include at least one number' })
+            .regex(lowercaseRegex, {
+                message: 'Must include at least one lowercase letter',
+            }),
+        new_password: z.string().min(8, { message: 'Confirm password is required' }).trim(),
+        password_confirmation: z
+            .string()
+            .min(8, { message: 'Confirm password is required' })
+            .trim(),
+    })
+    .superRefine((data, ctx) => {
+        if (data.new_password && data.new_password.trim() !== data.password_confirmation.trim()) {
+            ctx.addIssue({
+                code: 'custom',
+                path: ['password_confirmation'],
+                message: 'Passwords do not match',
+            })
+        }
+
+        if (
+            data.password &&
+            data.new_password.trim() === data.password_confirmation.trim() &&
+            data.new_password === data.password
+        ) {
+            ctx.addIssue({
+                code: 'custom',
+                path: ['password_confirmation'],
+                message: 'New password cannot be your old password',
+            })
+
+            ctx.addIssue({
+                code: 'custom',
+                path: ['new_password'],
+                message: 'New password cannot be your old password',
+            })
+        }
+    })
+
 export const signInSchema = authSchema
     .pick({
         password: true,
@@ -75,3 +125,4 @@ export type SignInType = z.infer<typeof signInSchema>
 export type SignInResponseType = z.infer<typeof signInResponseSchema>
 export type ForgotPasswordType = z.infer<typeof forgotPasswordSchema>
 export type UpdatePasswordType = z.infer<typeof updatePasswordSchema>
+export type UpdateUserPasswordType = z.infer<typeof updateUserPasswordSchema>
