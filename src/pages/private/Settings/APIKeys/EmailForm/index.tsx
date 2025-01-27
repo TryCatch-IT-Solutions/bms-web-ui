@@ -12,6 +12,8 @@ import { useForm } from 'react-hook-form'
 import { useEffect } from 'react'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useToast } from '@/hooks/useToast'
+import { PasswordInput } from '@/components/PasswordInput'
+import { EditIcon, XIcon } from 'lucide-react'
 
 export const EmailForm = () => {
     const [enabled, setEnabled] = useState<boolean>(false)
@@ -23,7 +25,7 @@ export const EmailForm = () => {
 
     const { data: apiKey, isLoading } = useQuery({
         queryKey: ['emailAPIkey'],
-        queryFn: () => getAPIKey(API_KEY_LABELS.EMAIL),
+        queryFn: () => getAPIKey(API_KEY_LABELS.EMAIL, 1),
     })
 
     const {
@@ -60,13 +62,21 @@ export const EmailForm = () => {
         enabled && createAPIKeyMu(data)
     }
 
+    const handleInputChange = () => {
+        if (apiForm?.formState?.errors?.fields?.EMAIL) {
+            apiForm.clearErrors('fields.EMAIL')
+        }
+    }
+
     useEffect(() => {
         if (apiForm.getValues('key') !== API_KEY_LABELS.EMAIL) {
             setValue('key', API_KEY_LABELS.EMAIL)
         }
 
         if (!isLoading && apiKey !== undefined) {
-            setValue('value', apiKey)
+            setValue('value', apiKey.value)
+            setValue('fields.EMAIL', apiKey?.fields?.EMAIL ?? '')
+            setValue('fields.PASSWORD', apiKey?.fields?.PASSWORD ?? '')
         }
     }, [isLoading])
 
@@ -79,10 +89,19 @@ export const EmailForm = () => {
                     className='w-full h-full'
                     onSubmit={handleSubmit(onSubmit)}
                 >
-                    <CardHeader>
+                    <CardHeader className='flex flex-row justify-between'>
                         <p className='font-semibold text-bms-gray-500'>Email API Key</p>
+                        <Button
+                            type='button'
+                            className='flex flex-row gap-2 -mt-3'
+                            variant='link'
+                            onClick={() => setEnabled(!enabled)}
+                        >
+                            {enabled ? 'Cancel' : 'Edit'}
+                            {enabled ? <XIcon /> : <EditIcon />}
+                        </Button>
                     </CardHeader>
-                    <CardContent className='flex flex-row items-center justify-center w-[100%]'>
+                    <CardContent className='flex flex-col gap-9 w-[100%]'>
                         <FormField
                             control={apiForm.control}
                             name='value'
@@ -101,9 +120,44 @@ export const EmailForm = () => {
                                 </FormItem>
                             )}
                         />
-                        <Button type='button' onClick={() => setEnabled(!enabled)}>
-                            {enabled ? 'Cancel' : 'Edit'}
-                        </Button>
+                        <FormField
+                            control={apiForm.control}
+                            name='fields.EMAIL'
+                            render={({ field }) => (
+                                <FormItem>
+                                    <FormControl>
+                                        <Input
+                                            autoComplete='email'
+                                            className='bg-white'
+                                            placeholder='Email Address'
+                                            disabled={!enabled}
+                                            type='email'
+                                            {...field}
+                                            onInput={handleInputChange}
+                                        />
+                                    </FormControl>
+                                    <FormMessage>{errors?.fields?.EMAIL?.message}</FormMessage>
+                                </FormItem>
+                            )}
+                        />
+                        <FormField
+                            control={apiForm.control}
+                            name='fields.PASSWORD'
+                            render={({ field }) => (
+                                <FormItem>
+                                    <FormControl>
+                                        <PasswordInput
+                                            className='w-[30rem] bg-white h-11'
+                                            placeholder='Password'
+                                            type='text'
+                                            disabled={!enabled}
+                                            {...field}
+                                        />
+                                    </FormControl>
+                                    <FormMessage>{errors?.key?.message}</FormMessage>
+                                </FormItem>
+                            )}
+                        />
                     </CardContent>
                     <CardFooter className='justify-end'>
                         <Button type='submit' disabled={isPending || !isDirty || !enabled}>
