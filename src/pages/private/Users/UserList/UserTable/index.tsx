@@ -89,6 +89,8 @@ export const UserTable: React.FC = () => {
     }
 
     const handleCheckboxChange = (user: ProfileType, isChecked: boolean) => {
+        if (user?.id === 1) return // Exclude user with ID 1
+
         setUserIdsToDelete((prev) => {
             const updatedUserIds = isChecked
                 ? [...(prev?.users ?? []), user?.id] // Add userId if checked
@@ -113,10 +115,15 @@ export const UserTable: React.FC = () => {
     }
 
     const handleCheckAll = (isChecked: boolean) => {
-        const updatedUserIds = isChecked ? users?.content?.map((u: ProfileType) => u.id) : [] // Add all userIds if checked, else empty array
+        const updatedUserIds = isChecked
+            ? users?.content?.filter((u: ProfileType) => u.id !== 1).map((u: ProfileType) => u.id) // Exclude user with ID 1
+            : [] // Empty array if unchecked
+
         setUserIdsToDelete({ users: updatedUserIds ?? [] }) // Set the updated userIds
         setUsersToExport({
-            content: isChecked ? users?.content ?? [] : [],
+            content: isChecked
+                ? users?.content?.filter((u: ProfileType) => u.id !== 1) ?? [] // Exclude user with ID 1
+                : [],
             meta: users?.meta as PaginationType,
         })
     }
@@ -226,8 +233,9 @@ export const UserTable: React.FC = () => {
                                     <TableCell className='font-semibold text-bms-link flex flex-row items-center gap-2'>
                                         <Checkbox
                                             checked={
-                                                userIdsToDelete?.users?.includes(u.id) ||
-                                                usersToExport?.content?.includes(u)
+                                                (userIdsToDelete?.users?.includes(u.id) ||
+                                                    usersToExport?.content?.includes(u)) &&
+                                                u?.id !== 1
                                             } // Check if the user ID is selected
                                             onClick={
                                                 () =>
@@ -237,6 +245,7 @@ export const UserTable: React.FC = () => {
                                                     ) // Toggle user ID selection
                                             }
                                             className='-mt-[.5px]'
+                                            disabled={u?.id === 1}
                                         />
                                         {u.id}
                                     </TableCell>
