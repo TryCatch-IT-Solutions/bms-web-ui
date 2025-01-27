@@ -3,7 +3,7 @@ import { USER_STATUS } from '@/constants'
 import { userIdsToDeleteAtom, userSelectedStatusAtom, usersToExportAtom } from '@/store/user'
 import { Tabs, TabsList, TabsTrigger } from '@radix-ui/react-tabs'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
-import { useAtom, useSetAtom } from 'jotai'
+import { useSetAtom } from 'jotai'
 
 interface UserTabsProps {
     search?: string
@@ -13,7 +13,7 @@ interface UserTabsProps {
 }
 
 export const UserStatusTabs: React.FC<UserTabsProps> = ({ search, roles, available }) => {
-    const [selectedStatus, setSelectedStatus] = useAtom(userSelectedStatusAtom)
+    const setSelectedStatus = useSetAtom(userSelectedStatusAtom)
     const setToDelete = useSetAtom(userIdsToDeleteAtom)
     const setToExport = useSetAtom(usersToExportAtom)
 
@@ -27,8 +27,8 @@ export const UserStatusTabs: React.FC<UserTabsProps> = ({ search, roles, availab
     }
 
     const { data: userCount } = useQuery({
-        queryKey: ['userStatusCount', search, roles, selectedStatus, available],
-        queryFn: () => getUserStatusCount('users', search, roles, [selectedStatus], available),
+        queryKey: ['userStatusCount', search, roles, available],
+        queryFn: () => getUserStatusCount('users', search, roles, available),
     })
 
     return (

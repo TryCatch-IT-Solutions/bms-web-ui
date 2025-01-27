@@ -67,14 +67,13 @@ export const getUserStatusCount = async (
     page?: string,
     search?: string,
     roles?: string[],
-    status?: string[],
     available?: boolean,
 ): Promise<UserStatusCountType> => {
     const params = {
         page,
         search,
         roles,
-        status,
+        status: ['active', 'inactive'],
         ...(available !== null && { available: available ? 1 : 0 }),
     }
 
