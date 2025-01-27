@@ -35,6 +35,12 @@ const DeleteEmployeeModal: React.FC<DeleteEmployeeModalProps> = ({ open, setOpen
             setUserIdsToDelete(null)
             setOpen(false)
         },
+        onError: (err: any) => {
+            toast({
+                description: err?.response?.data?.errors,
+                variant: 'destructive',
+            })
+        },
     })
 
     const { mutate: restoreUsersMu } = useMutation({
@@ -52,7 +58,7 @@ const DeleteEmployeeModal: React.FC<DeleteEmployeeModalProps> = ({ open, setOpen
         },
         onError: (err: any) => {
             toast({
-                description: err?.response?.data?.message,
+                description: err?.response?.data?.errors,
                 variant: 'destructive',
             })
         },
