@@ -5,6 +5,14 @@ import { Tabs, TabsList, TabsTrigger } from '@radix-ui/react-tabs'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { useSetAtom } from 'jotai'
 
+// interface UserTabsProps {
+//     page?: string
+//     search?: string
+//     roles?: string[]
+//     status?: string
+//     available?: boolean
+// }
+
 export const UserStatusTabs: React.FC = () => {
     const setSelected = useSetAtom(userSelectedStatusAtom)
     const setToDelete = useSetAtom(userIdsToDeleteAtom)
@@ -21,7 +29,7 @@ export const UserStatusTabs: React.FC = () => {
 
     const { data: userCount } = useQuery({
         queryKey: ['userStatusCount'],
-        queryFn: () => getUserStatusCount(''),
+        queryFn: () => getUserStatusCount('users'),
     })
 
     return (

@@ -10,6 +10,7 @@ import {
     UserListType,
     UserStatusCountType,
 } from './schema'
+import dayjs from 'dayjs'
 
 export const getUsers = async (
     p: PaginationType,
@@ -62,8 +63,22 @@ export const bulkRestoreUserStatus = async (data: BulkUserUpdateStatusType) => {
     return response.data
 }
 
-export const getUserStatusCount = async (page?: string): Promise<UserStatusCountType> => {
-    const response = await axiosInstance.get(`/api/users/count?page=${page}`)
+export const getUserStatusCount = async (
+    page?: string,
+    search?: string,
+    roles?: string[],
+    status?: string,
+    available?: boolean,
+): Promise<UserStatusCountType> => {
+    const params = {
+        page,
+        search,
+        roles,
+        status,
+        ...(available !== null && { available: available ? 1 : 0 }),
+    }
+
+    const response = await axiosInstance.get(`/api/users/count?page`, { params })
 
     return response.data
 }
@@ -95,14 +110,16 @@ export const importUsers = async (data: ImportUserType) => {
 export const getEmployeeTimeEntries = async (
     p: PaginationType,
     search: string | null,
+    date_start: string,
+    date_end: string,
 ): Promise<TimeEntriesListType> => {
     const response = await axiosInstance.get('/api/time-entries', {
         params: {
             page: search === null || search === '' ? p.current_page : 1,
             limit: p.itemsPerPage,
-            date_start: '',
-            date_end: '',
             search: search,
+            ...(date_start !== '' && { date_start: dayjs(date_start).format('YYYY-MM-DD') }),
+            ...(date_end !== '' && { date_end: dayjs(date_end).format('YYYY-MM-DD') }),
         },
     })
 

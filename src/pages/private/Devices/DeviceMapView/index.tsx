@@ -45,7 +45,7 @@ const MapView: FC<MapViewProps> = ({ isLoaded, loadError }) => {
 const DeviceMapView: FC = () => {
     const { data: apiKey, isLoading } = useQuery({
         queryKey: ['googleMapsAPIKey'],
-        queryFn: () => getAPIKey(API_KEY_LABELS.MAPS),
+        queryFn: () => getAPIKey(API_KEY_LABELS.MAPS, 0),
     })
 
     if (isLoading) {
@@ -56,7 +56,7 @@ const DeviceMapView: FC = () => {
                 render={(isLoaded: boolean, loadError?: Error) => (
                     <MapView isLoaded={isLoaded} loadError={loadError} />
                 )}
-                apiKey={apiKey}
+                apiKey={apiKey?.value ?? ''}
             />
         )
     }
