@@ -3,18 +3,17 @@ import { USER_STATUS } from '@/constants'
 import { userIdsToDeleteAtom, userSelectedStatusAtom, usersToExportAtom } from '@/store/user'
 import { Tabs, TabsList, TabsTrigger } from '@radix-ui/react-tabs'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
-import { useSetAtom } from 'jotai'
+import { useAtom, useSetAtom } from 'jotai'
 
-// interface UserTabsProps {
-//     page?: string
-//     search?: string
-//     roles?: string[]
-//     status?: string
-//     available?: boolean
-// }
+interface UserTabsProps {
+    search?: string
+    roles?: string[]
+    status?: string[]
+    available?: boolean
+}
 
-export const UserStatusTabs: React.FC = () => {
-    const setSelected = useSetAtom(userSelectedStatusAtom)
+export const UserStatusTabs: React.FC<UserTabsProps> = ({ search, roles, available }) => {
+    const [selectedStatus, setSelectedStatus] = useAtom(userSelectedStatusAtom)
     const setToDelete = useSetAtom(userIdsToDeleteAtom)
     const setToExport = useSetAtom(usersToExportAtom)
 
@@ -22,20 +21,20 @@ export const UserStatusTabs: React.FC = () => {
 
     const onSwitchTab = (status: string) => {
         queryClient.invalidateQueries({ queryKey: ['usersList'] })
-        setSelected(status)
+        setSelectedStatus(status)
         setToDelete(null)
         setToExport(null)
     }
 
     const { data: userCount } = useQuery({
-        queryKey: ['userStatusCount'],
-        queryFn: () => getUserStatusCount('users'),
+        queryKey: ['userStatusCount', search, roles, selectedStatus, available],
+        queryFn: () => getUserStatusCount('users', search, roles, [selectedStatus], available),
     })
 
     return (
         <Tabs
             defaultValue={USER_STATUS.ACTIVATED}
-            onValueChange={(val) => setSelected(val)}
+            onValueChange={(val) => setSelectedStatus(val)}
             className='bg-white rounded-md w-full'
         >
             <TabsList className='w-full flex flex-row mt-[26px] space-x-4'>

@@ -149,8 +149,12 @@ export const EmployeeTable: React.FC = () => {
             </div>
             <Card className='bg-white w-full overflow-x-auto'>
                 <CardContent className='mt-4'>
-                    <EmployeeStatusBar />
-
+                    <EmployeeStatusBar
+                        search={searchVal ?? ''}
+                        roles={['employee']}
+                        status={[selectedStatus]}
+                        available={userStatusFilter as boolean}
+                    />
                     <Table className='table-auto whitespace-normal w-full'>
                         <TableHeader style={{ marginBottom: '10px' }}>
                             <TableRow>

@@ -161,9 +161,14 @@ export const UserTable: React.FC = () => {
                     </Button>
                 </div>
             </div>
-            <UserStatusTabs />
             <Card className='bg-white w-full overflow-x-auto'>
                 <CardContent className='mt-4'>
+                    <UserStatusTabs
+                        search={searchVal}
+                        roles={userRoleFilter ?? []}
+                        status={[selectedStatus]}
+                        available={userStatusFilter as boolean}
+                    />
                     <Table className='table-auto whitespace-normal w-full'>
                         <TableHeader style={{ marginBottom: '10px' }}>
                             <TableRow>
