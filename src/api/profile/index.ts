@@ -24,7 +24,7 @@ export const getUsers = async (
         roles: role,
         status: status,
         search: search ?? null,
-        ...(available !== null && { available }),
+        ...(available !== null && { available: available ? 1 : 0 }),
     }
 
     const response = await axiosInstance.get(`/api/users`, { params })

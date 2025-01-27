@@ -53,7 +53,7 @@ export const GroupForm: React.FC = () => {
     const {
         handleSubmit,
         watch,
-        formState: { errors, isValid },
+        formState: { errors },
     } = groupForm
 
     const adminProfile = watch('admin_profile')

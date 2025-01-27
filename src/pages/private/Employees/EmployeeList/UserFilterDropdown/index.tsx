@@ -2,14 +2,14 @@ import { useState } from 'react'
 import { Button } from '@/components/Button'
 import { Checkbox } from '@/components/Checkbox'
 import { useAtom } from 'jotai'
-import { userAssignStatusFilterAtom } from '@/store/user'
+import { employeeAssignStatusFilterAtom } from '@/store/user'
 import { USER_ASSIGN_STATUS } from '@/constants'
 import { BsFunnelFill } from 'react-icons/bs'
 
 const UserFilterDropdown: React.FC = () => {
     const [isOpen, setIsOpen] = useState(false)
     const [userAssignedStatusFilter, setuserAssignStatusFilterAtom] = useAtom(
-        userAssignStatusFilterAtom,
+        employeeAssignStatusFilterAtom,
     )
 
     const toggleDropdown = () => {
