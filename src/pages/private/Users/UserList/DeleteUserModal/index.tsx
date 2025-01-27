@@ -50,6 +50,12 @@ const DeleteUserModal: React.FC<DeleteUserModalProps> = ({ open, setOpen }) => {
             setUserIdsToDelete(null)
             setOpen(false)
         },
+        onError: (err: any) => {
+            toast({
+                description: err?.response?.data?.message,
+                variant: 'destructive',
+            })
+        },
     })
 
     const handleSubmit = () => {

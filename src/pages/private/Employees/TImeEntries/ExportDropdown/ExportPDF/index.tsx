@@ -1,6 +1,5 @@
 import autoTable from 'jspdf-autotable'
 import jsPDF from 'jspdf'
-import dayjs from 'dayjs'
 
 interface IExportDataToPDF {
     id: number
@@ -38,7 +37,8 @@ export const PDFEmployeeExport = (zentiveLogoUrl: string, tableData: IExportData
         data.id,
         data.first_name,
         data.last_name,
-        data.datetime === '' ? '' : dayjs(data.datetime).format('MMMM DD, YYYY'),
+        data.type,
+        data.datetime,
     ])
 
     // Generate the table using jsPDF autoTable
