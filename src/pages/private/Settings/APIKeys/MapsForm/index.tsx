@@ -13,6 +13,7 @@ import { useForm } from 'react-hook-form'
 import { useEffect } from 'react'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useToast } from '@/hooks/useToast'
+import { XIcon, EditIcon } from 'lucide-react'
 
 export const MapsForm = () => {
     const [enabled, setEnabled] = useState<boolean>(false)
@@ -24,7 +25,7 @@ export const MapsForm = () => {
 
     const { data: apiKey, isLoading } = useQuery({
         queryKey: ['mapsAPIKey'],
-        queryFn: () => getAPIKey(API_KEY_LABELS.MAPS),
+        queryFn: () => getAPIKey(API_KEY_LABELS.MAPS, 0),
     })
 
     const {
@@ -67,7 +68,7 @@ export const MapsForm = () => {
         }
 
         if (!isLoading && apiKey !== undefined) {
-            setValue('value', apiKey)
+            setValue('value', apiKey.value)
         }
     }, [isLoading])
 
@@ -80,8 +81,17 @@ export const MapsForm = () => {
                     className='w-full h-full'
                     onSubmit={handleSubmit(onSubmit)}
                 >
-                    <CardHeader>
+                    <CardHeader className='flex flex-row justify-between'>
                         <p className='font-semibold text-bms-gray-500'>Google Maps API Key</p>
+                        <Button
+                            type='button'
+                            className='flex flex-row gap-2 -mt-3'
+                            variant='link'
+                            onClick={() => setEnabled(!enabled)}
+                        >
+                            {enabled ? 'Cancel' : 'Edit'}
+                            {enabled ? <XIcon /> : <EditIcon />}
+                        </Button>
                     </CardHeader>
                     <CardContent className='flex flex-row items-center justify-center w-[100%]'>
                         <FormField
@@ -102,9 +112,6 @@ export const MapsForm = () => {
                                 </FormItem>
                             )}
                         />
-                        <Button type='button' onClick={() => setEnabled(!enabled)}>
-                            {enabled ? 'Cancel' : 'Edit'}
-                        </Button>
                     </CardContent>
                     <CardFooter className='justify-end'>
                         <Button type='submit' disabled={isPending || !isDirty || !enabled}>
