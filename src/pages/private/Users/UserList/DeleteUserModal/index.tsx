@@ -22,7 +22,7 @@ const DeleteUserModal: React.FC<DeleteUserModalProps> = ({ open, setOpen }) => {
 
     const queryClient = useQueryClient()
 
-    const { mutate: deleteUsersMu } = useMutation({
+    const { mutate: deleteUsersMu, isPending: deletePending } = useMutation({
         mutationFn: () => bulkDeleteUserStatus(userIdsToDelete as BulkUserUpdateStatusType),
         onSuccess: () => {
             toast({
@@ -40,10 +40,12 @@ const DeleteUserModal: React.FC<DeleteUserModalProps> = ({ open, setOpen }) => {
                 description: err?.response?.data?.errors,
                 variant: 'destructive',
             })
+
+            setOpen(false)
         },
     })
 
-    const { mutate: restoreUsersMu } = useMutation({
+    const { mutate: restoreUsersMu, isPending: restorePending } = useMutation({
         mutationFn: () => bulkRestoreUserStatus(userIdsToDelete as BulkUserUpdateStatusType),
         onSuccess: () => {
             toast({
@@ -61,6 +63,8 @@ const DeleteUserModal: React.FC<DeleteUserModalProps> = ({ open, setOpen }) => {
                 description: err?.response?.data?.errors,
                 variant: 'destructive',
             })
+
+            setOpen(false)
         },
     })
 
@@ -130,7 +134,7 @@ const DeleteUserModal: React.FC<DeleteUserModalProps> = ({ open, setOpen }) => {
                         onClick={handleSubmit}
                         className='w-97 h-11 text-base font-semibold bg-bms-primary'
                         type='button'
-                        disabled={disabled}
+                        disabled={disabled || deletePending || restorePending}
                     >
                         Yes, please
                     </Button>
