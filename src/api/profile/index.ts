@@ -10,6 +10,7 @@ import {
     UserListType,
     UserStatusCountType,
 } from './schema'
+import dayjs from 'dayjs'
 
 export const getUsers = async (
     p: PaginationType,
@@ -95,14 +96,16 @@ export const importUsers = async (data: ImportUserType) => {
 export const getEmployeeTimeEntries = async (
     p: PaginationType,
     search: string | null,
+    date_start: string,
+    date_end: string,
 ): Promise<TimeEntriesListType> => {
     const response = await axiosInstance.get('/api/time-entries', {
         params: {
             page: search === null || search === '' ? p.current_page : 1,
             limit: p.itemsPerPage,
-            date_start: '',
-            date_end: '',
             search: search,
+            ...(date_start !== '' && { date_start: dayjs(date_start).format('YYYY-MM-DD') }),
+            ...(date_end !== '' && { date_end: dayjs(date_end).format('YYYY-MM-DD') }),
         },
     })
 
