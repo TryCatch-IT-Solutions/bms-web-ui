@@ -3,28 +3,34 @@ import { USER_STATUS } from '@/constants'
 import { employeeExportAtom, employeeSelectedStatusAtom, employeesToDeleteAtom } from '@/store/user'
 import { Tabs, TabsList, TabsTrigger } from '@radix-ui/react-tabs'
 import { useQuery } from '@tanstack/react-query'
-import { useSetAtom } from 'jotai'
+import { useAtom, useSetAtom } from 'jotai'
+interface UserTabsProps {
+    search?: string
+    roles?: string[]
+    status?: string[]
+    available?: boolean
+}
 
-export const EmployeeStatusBar: React.FC = () => {
-    const setSelected = useSetAtom(employeeSelectedStatusAtom)
+export const EmployeeStatusBar: React.FC<UserTabsProps> = ({ search, roles, available }) => {
+    const [selectedStatus, setSelectedStatus] = useAtom(employeeSelectedStatusAtom)
     const setToExport = useSetAtom(employeeExportAtom)
     const setToDelete = useSetAtom(employeesToDeleteAtom)
 
     const onSwitchTab = (status: string) => {
-        setSelected(status)
+        setSelectedStatus(status)
         setToExport(null)
         setToDelete(null)
     }
 
     const { data: userCount } = useQuery({
-        queryKey: ['userStatusCount'],
-        queryFn: () => getUserStatusCount('employee'),
+        queryKey: ['userStatusCount', search, roles, selectedStatus, available],
+        queryFn: () => getUserStatusCount('employee', search, roles, [selectedStatus], available),
     })
 
     return (
         <Tabs
             defaultValue={USER_STATUS.ACTIVATED}
-            onValueChange={(val) => setSelected(val)}
+            onValueChange={(val) => setSelectedStatus(val)}
             className='bg-white rounded-md w-full'
         >
             <TabsList className='w-full flex flex-row mt-[26px] space-x-4'>
