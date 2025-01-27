@@ -170,7 +170,7 @@ export const TimeEntries: React.FC = () => {
                                         {t.id}
                                     </TableCell>
                                     <TableCell>{t?.employee?.first_name}</TableCell>
-                                    <TableCell>{t?.employee?.first_name}</TableCell>
+                                    <TableCell>{t?.employee?.last_name}</TableCell>
                                     <TableCell>{formatUnderscoreString(t?.type)}</TableCell>
                                     <TableCell>
                                         {dayjs(t?.datetime).format(TIME_DATE_FORMAT.DATE_TIME)}
