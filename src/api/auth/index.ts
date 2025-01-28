@@ -41,7 +41,7 @@ export const forgotPassword = async (data: ForgotPasswordType) => {
 }
 
 export const updateUserPassword = async (data: UpdateUserPasswordType) => {
-    const response = await axiosInstance.post('/api/user/2/updatePassword', data)
+    const response = await axiosInstance.post(`/api/user/${data.id}/updatePassword`, data)
 
     return response.data
 }

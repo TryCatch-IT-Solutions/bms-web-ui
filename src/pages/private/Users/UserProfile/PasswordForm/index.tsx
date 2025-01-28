@@ -9,6 +9,9 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { updateUserPasswordSchema, UpdateUserPasswordType } from '@/api/auth/schema'
 import { updateUserPassword } from '@/api/auth'
 import { PasswordInput } from '@/components/PasswordInput'
+import { useEffect } from 'react'
+import { useAtomValue } from 'jotai'
+import { userAtom } from '@/store/user'
 
 export const PasswordForm: React.FC = () => {
     const navigate = useNavigate()
@@ -19,7 +22,10 @@ export const PasswordForm: React.FC = () => {
         resolver: zodResolver(updateUserPasswordSchema),
     })
 
+    const user = useAtomValue(userAtom)
+
     const {
+        setValue,
         formState: { errors, isValid },
     } = userForm
 
@@ -44,6 +50,10 @@ export const PasswordForm: React.FC = () => {
     const onSubmit = (data: UpdateUserPasswordType) => {
         updateUserPasswordMu(data)
     }
+
+    useEffect(() => {
+        setValue('id', user?.id ?? 0)
+    }, [])
 
     return (
         <div>
