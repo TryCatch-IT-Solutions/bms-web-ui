@@ -102,19 +102,18 @@ export const PasswordForm: React.FC = () => {
                                 <div className='w-1/3'>
                                     <FormField
                                         control={userForm.control}
-                                        name='password_confirmation'
+                                        name='new_password_confirmation'
                                         render={({ field }) => (
                                             <FormItem>
                                                 <FormControl>
                                                     <PasswordInput
-                                                        hasConfirmPassword
                                                         className='mt-[16px] w-[100%] bg-white'
                                                         placeholder='Confirm Password'
                                                         {...field}
                                                     />
                                                 </FormControl>
                                                 <FormMessage>
-                                                    {errors?.password_confirmation?.message}
+                                                    {errors?.new_password_confirmation?.message}
                                                 </FormMessage>
                                             </FormItem>
                                         )}
