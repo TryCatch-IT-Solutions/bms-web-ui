@@ -138,20 +138,6 @@ export const GroupForm: React.FC = () => {
                                             : 'Select Group Admin'}
                                     </Button>
                                 </div>
-
-                                {/* <div className='mt-3 w-full flex flex-row gap-5 items-end justify-end'>
-                                    <Button
-                                        type='button'
-                                        variant='outline'
-                                        onClick={() => navigate(-1)}
-                                    >
-                                        Cancel
-                                    </Button>
-
-                                    <Button type='submit' disabled={!isValid}>
-                                        Update Group
-                                    </Button>
-                                </div> */}
                             </div>
                         </form>
                         <AdminListModal open={groupAdminModal} setOpen={setGroupAdminModal} />
@@ -160,12 +146,10 @@ export const GroupForm: React.FC = () => {
             </Card>
 
             <Card>
-                <CardHeader>
-                    <p className='font-semibold text-xl text-bms-gray-medium'>Employees</p>
-                </CardHeader>
                 <CardContent>
-                    <div className='mt-10 flex flex-col gap-5'>
-                        <div className='flex flex-row items-end justify-end mt-5'>
+                    <div className='flex flex-col gap-5'>
+                        <div className='flex flex-row items-cenrer justify-between mt-5'>
+                            <p className='font-semibold text-xl text-bms-gray-medium'>Employees</p>
                             <div className='flex flex-row gap-5'>
                                 <Button
                                     onClick={() => setRemoveModal(true)}
@@ -189,7 +173,11 @@ export const GroupForm: React.FC = () => {
                         <GroupMemberTable employees={group?.employees as ProfileType[]} />
                     </div>
                     <EmployeeListModal open={open} setOpen={setOpen} />
-                    <RemoveEmpToGroupModal open={removeModal} setOpen={setRemoveModal} />
+                    <RemoveEmpToGroupModal
+                        open={removeModal}
+                        setOpen={setRemoveModal}
+                        groupId={user?.group_id ?? 0}
+                    />
                 </CardContent>
             </Card>
         </div>

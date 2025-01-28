@@ -7,24 +7,22 @@ import { useAtom } from 'jotai'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { employeeGroupToRemoveAtom } from '@/store/groups'
 import { AddEmpToGroupType } from '@/api/group/schema'
-import { useParams } from 'react-router-dom'
 import { removeGroupEmployee } from '@/api/group'
 
 interface DeleteUserModalProps {
     open: boolean
     setOpen: Dispatch<SetStateAction<boolean>>
+    groupId: number
 }
 
-const RemoveEmpToGroupModal: React.FC<DeleteUserModalProps> = ({ open, setOpen }) => {
+const RemoveEmpToGroupModal: React.FC<DeleteUserModalProps> = ({ open, setOpen, groupId }) => {
     const [userIdsToDelete, setUserIdsToDelete] = useAtom(employeeGroupToRemoveAtom)
     const [disabled, setDisabled] = useState<boolean>(false)
 
     const queryClient = useQueryClient()
 
-    const { id } = useParams()
-
     const { mutate: deleteUsersMu } = useMutation({
-        mutationFn: () => removeGroupEmployee(userIdsToDelete as AddEmpToGroupType, Number(id)),
+        mutationFn: () => removeGroupEmployee(userIdsToDelete as AddEmpToGroupType, groupId),
         onSuccess: () => {
             toast({
                 description: 'Employees Removed Successfully',
