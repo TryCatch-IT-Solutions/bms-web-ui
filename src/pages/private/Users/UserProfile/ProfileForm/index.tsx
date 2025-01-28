@@ -54,6 +54,7 @@ export const ProfileForm: React.FC = () => {
 
     const {
         setValue,
+        setError,
         formState: { errors, isValid, isDirty },
     } = userForm
 
@@ -70,7 +71,11 @@ export const ProfileForm: React.FC = () => {
     })
 
     const onSubmit = (data: EditUserType) => {
-        updateUserMu(data)
+        if (data.phone_number === data.emergency_contact_no) {
+            setError('emergency_contact_no', { message: 'Cannot be the same as user phone number' })
+        } else {
+            updateUserMu(data)
+        }
     }
 
     useEffect(() => {
@@ -477,7 +482,7 @@ export const ProfileForm: React.FC = () => {
                                                             />
                                                         </FormControl>
                                                         <FormMessage>
-                                                            {errors?.phone_number?.message}
+                                                            {errors?.emergency_contact_no?.message}
                                                         </FormMessage>
                                                     </FormItem>
                                                 )}
