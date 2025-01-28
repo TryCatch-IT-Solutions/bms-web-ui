@@ -124,12 +124,12 @@ export const navigationItems: NavigationProps[] = [
         name: 'Logs',
         icon: HiOutlineClock,
         href: '#',
-        allowedRoles: [ROLE.superadmin, ROLE.groupadmin],
+        allowedRoles: [ROLE.superadmin],
         children: [
             {
                 name: 'Activity Logs',
                 href: '/log/activity',
-                allowedRoles: [ROLE.superadmin, ROLE.groupadmin],
+                allowedRoles: [ROLE.superadmin],
             },
         ],
     },
