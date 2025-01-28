@@ -148,7 +148,7 @@ export const DeviceTable: React.FC = () => {
                                             onClick={
                                                 () =>
                                                     handleCheckboxChange(
-                                                        d.id,
+                                                        d?.id,
                                                         !devicesToDelete?.devices?.includes(d?.id),
                                                     ) // Toggle user ID selection
                                             }
@@ -157,13 +157,13 @@ export const DeviceTable: React.FC = () => {
                                         {d.id}
                                     </TableCell>
                                     <TableCell onClick={() => handleRowClick(d?.id)}>
-                                        {d.group_id}
+                                        {d?.group?.name ?? '--'}
                                     </TableCell>
                                     <TableCell onClick={() => handleRowClick(d?.id)}>
-                                        {d.model}
+                                        {d?.model}
                                     </TableCell>
                                     <TableCell onClick={() => handleRowClick(d?.id)}>
-                                        {d.serial_no}
+                                        {d?.serial_no}
                                     </TableCell>
                                 </TableRow>
                             ))}
