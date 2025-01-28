@@ -55,13 +55,16 @@ export const updateUserPasswordSchema = z
     .object({
         password: z.string(),
         new_password: z.string().min(8, { message: 'Confirm password is required' }).trim(),
-        password_confirmation: z
+        new_password_confirmation: z
             .string()
             .min(8, { message: 'Confirm password is required' })
             .trim(),
     })
     .superRefine((data, ctx) => {
-        if (data.new_password && data.new_password.trim() !== data.password_confirmation.trim()) {
+        if (
+            data.new_password &&
+            data.new_password.trim() !== data.new_password_confirmation.trim()
+        ) {
             ctx.addIssue({
                 code: 'custom',
                 path: ['password_confirmation'],
@@ -71,7 +74,7 @@ export const updateUserPasswordSchema = z
 
         if (
             data.password &&
-            data.new_password.trim() === data.password_confirmation.trim() &&
+            data.new_password.trim() === data.new_password_confirmation.trim() &&
             data.new_password === data.password
         ) {
             ctx.addIssue({
