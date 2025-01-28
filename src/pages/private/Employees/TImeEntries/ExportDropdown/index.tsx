@@ -7,7 +7,7 @@ import ExportEmployeePDF from './ExportPDF/ExportPDFButton'
 import { TimeEntriesListType } from '@/api/profile/schema'
 
 interface IExportDropdown {
-    timeEntries?: TimeEntriesListType
+    timeEntries: TimeEntriesListType
     isDisabled: boolean
 }
 

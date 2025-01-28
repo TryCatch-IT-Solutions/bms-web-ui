@@ -15,6 +15,8 @@ import { BreadCrumbs } from '@/components/BreadCrumbs'
 import ExportDropdown from './ExportDropdown'
 import { Checkbox } from '@/components/Checkbox'
 import { ExportCounter } from '@/components/ExportCounter'
+import { timeEntriesToExportAtom } from '@/store/user'
+import { useAtom } from 'jotai'
 ;``
 const tableHeader = [
     { name: 'Record ID' },
@@ -28,8 +30,7 @@ export const TimeEntries: React.FC = () => {
     const [searchVal, setSearchVal] = useState<string | null>('')
     const [start, setStart] = useState<string>('')
     const [end, setEnd] = useState<string>('')
-    const [toExport, setToExport] = useState<TimeEntriesListType | null>(null)
-
+    const [toExport, setToExport] = useAtom(timeEntriesToExportAtom)
     const onSearchChange = (val: string) => {
         setTimeout(() => {
             setSearchVal(val)
@@ -110,7 +111,10 @@ export const TimeEntries: React.FC = () => {
                             limit={users?.content?.length ?? 0}
                         />
                     )}
-                    <ExportDropdown timeEntries={users} isDisabled={false} />
+                    <ExportDropdown
+                        timeEntries={toExport as TimeEntriesListType}
+                        isDisabled={false}
+                    />
                 </div>
             </div>
             <Card className='bg-white w-full overflow-x-auto'>
@@ -166,13 +170,14 @@ export const TimeEntries: React.FC = () => {
                                 >
                                     <TableCell className='font-semibold text-bms-link flex flex-row items-center gap-2'>
                                         <Checkbox
-                                            checked={toExport?.content?.includes(t)} // Check if the user ID is selected
-                                            onClick={
-                                                () =>
-                                                    handleCheckboxChange(
-                                                        t,
-                                                        !toExport?.content?.includes(t),
-                                                    ) // Toggle user ID selection
+                                            checked={
+                                                toExport?.content?.includes(t) && toExport !== null
+                                            } // Check if the user ID is selected
+                                            onClick={() =>
+                                                handleCheckboxChange(
+                                                    t,
+                                                    !toExport?.content?.includes(t),
+                                                )
                                             }
                                             className='-mt-[.5px]'
                                         />
