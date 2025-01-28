@@ -4,10 +4,12 @@ import { z } from 'zod'
 export const deviceSchema = z.object({
     id: z.number(),
     group_id: z.number(),
-    group: z.object({
-        id: z.number(),
-        name: z.string(),
-    }),
+    group: z
+        .object({
+            id: z.number(),
+            name: z.string(),
+        })
+        .optional(),
     model: z.string(),
     serial_no: z.string(),
     lat: z.number(),
