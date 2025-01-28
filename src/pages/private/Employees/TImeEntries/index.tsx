@@ -14,6 +14,7 @@ import dayjs from 'dayjs'
 import { BreadCrumbs } from '@/components/BreadCrumbs'
 import ExportDropdown from './ExportDropdown'
 import { Checkbox } from '@/components/Checkbox'
+import { ExportCounter } from '@/components/ExportCounter'
 ;``
 const tableHeader = [
     { name: 'Record ID' },
@@ -102,7 +103,15 @@ export const TimeEntries: React.FC = () => {
                         value={end}
                     />
                 </div>
-                <ExportDropdown timeEntries={users} isDisabled={false} />
+                <div className='flex flex-row gap-5'>
+                    {toExport && toExport?.content?.length > 0 && (
+                        <ExportCounter
+                            selected={toExport?.content?.length ?? 0}
+                            limit={users?.content?.length ?? 0}
+                        />
+                    )}
+                    <ExportDropdown timeEntries={users} isDisabled={false} />
+                </div>
             </div>
             <Card className='bg-white w-full overflow-x-auto'>
                 <CardContent className='mt-4'>
@@ -179,14 +188,16 @@ export const TimeEntries: React.FC = () => {
                             ))}
                         </TableBody>
                     </Table>
-                    <Pagination
-                        pagination={pagination}
-                        setPagination={setPagination}
-                        total={users?.meta.total ?? 0}
-                        per_page={20}
-                    />
                 </CardContent>
             </Card>
+            <div className='mt-5'>
+                <Pagination
+                    pagination={pagination}
+                    setPagination={setPagination}
+                    total={users?.meta.total ?? 0}
+                    per_page={pagination.per_page ?? 10}
+                />
+            </div>
         </div>
     )
 }

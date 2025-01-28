@@ -21,7 +21,7 @@ export const getUsers = async (
 ): Promise<UserListType> => {
     const params = {
         page: search === null || search === '' ? p.current_page : 1,
-        limit: p.itemsPerPage,
+        limit: p.per_page,
         roles: role,
         status: status,
         search: search ?? null,

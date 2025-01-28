@@ -29,6 +29,7 @@ import UserFilterDropdown from '../UserFilterDropdown'
 import dayjs from 'dayjs'
 import { ResetIcon } from '@radix-ui/react-icons'
 import { SyncNotificationBar } from '@/components/SyncNofificationBar'
+import { ExportCounter } from '@/components/ExportCounter'
 
 const tableHeader = [
     { name: 'Account Number' },
@@ -54,8 +55,7 @@ export const UserTable: React.FC = () => {
     }
     const [pagination, setPagination] = useState<PaginationType>({
         current_page: 1,
-        per_page: 20,
-        itemsPerPage: 20,
+        per_page: 10,
     })
 
     const selectedStatus = useAtomValue(userSelectedStatusAtom)
@@ -151,6 +151,13 @@ export const UserTable: React.FC = () => {
                 </div>
                 <SyncNotificationBar />
                 <div className='flex flex-row gap-5'>
+                    {usersToExport && usersToExport?.content?.length > 0 && (
+                        <ExportCounter
+                            selected={usersToExport?.content?.length ?? 0}
+                            limit={users?.content?.length ?? 0}
+                        />
+                    )}
+
                     <ExportDropdown
                         isDisabled={(usersToExport && usersToExport?.content.length === 0) ?? true}
                         employeeListData={usersToExport as UserListType}
@@ -277,14 +284,16 @@ export const UserTable: React.FC = () => {
                             ))}
                         </TableBody>
                     </Table>
-                    <Pagination
-                        pagination={pagination}
-                        setPagination={setPagination}
-                        total={users?.meta.total ?? 0}
-                        per_page={20}
-                    />
                 </CardContent>
             </Card>
+            <div className='mt-5'>
+                <Pagination
+                    pagination={pagination}
+                    setPagination={setPagination}
+                    total={users?.meta.total ?? 0}
+                    per_page={pagination.per_page ?? 10}
+                />
+            </div>
             <DeleteUserModal open={open} setOpen={setOpen} />
         </>
     )
