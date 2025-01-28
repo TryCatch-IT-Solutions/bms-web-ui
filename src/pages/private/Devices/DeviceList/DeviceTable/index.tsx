@@ -29,8 +29,7 @@ const tableHeader = [
 export const DeviceTable: React.FC = () => {
     const [pagination, setPagination] = useState<PaginationType>({
         current_page: 1,
-        per_page: 20,
-        itemsPerPage: 20,
+        per_page: 10,
     })
 
     const [devicesToDelete, setDevicesToDelete] = useAtom(deleteDeviceAtom)
@@ -172,16 +171,18 @@ export const DeviceTable: React.FC = () => {
                             ))}
                         </TableBody>
                     </Table>
-                    <Pagination
-                        pagination={pagination}
-                        setPagination={setPagination}
-                        total={devices?.meta.total ?? 0}
-                        per_page={20}
-                    />
                 </CardContent>
             </Card>
             <DeleteDeviceModal open={open} setOpen={setOpen} />
             <DeviceFilterByGroupModal open={groupFilter} setOpen={setGroupFilter} />
+            <div className='mt-5'>
+                <Pagination
+                    pagination={pagination}
+                    setPagination={setPagination}
+                    total={devices?.meta.total ?? 0}
+                    per_page={pagination.per_page ?? 10}
+                />
+            </div>
         </>
     )
 }

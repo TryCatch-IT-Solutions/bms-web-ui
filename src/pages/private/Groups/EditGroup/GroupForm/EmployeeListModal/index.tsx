@@ -24,8 +24,7 @@ interface EmployeeListModalProps {
 const EmployeeListModal: React.FC<EmployeeListModalProps> = ({ open, setOpen }) => {
     const [pagination, setPagination] = useState<PaginationType>({
         current_page: 1,
-        per_page: 20,
-        itemsPerPage: 20,
+        per_page: 10,
     })
 
     const { toast } = useToast()
@@ -131,12 +130,14 @@ const EmployeeListModal: React.FC<EmployeeListModalProps> = ({ open, setOpen }) 
                     )}
                 </div>
 
-                <Pagination
-                    pagination={pagination}
-                    setPagination={setPagination}
-                    total={employees?.meta.total ?? 0}
-                    per_page={20}
-                />
+                <div className='mr-5'>
+                    <Pagination
+                        pagination={pagination}
+                        setPagination={setPagination}
+                        total={employees?.meta.total ?? 0}
+                        per_page={pagination.per_page ?? 10}
+                    />
+                </div>
 
                 <div className='mt-6 flex justify-end gap-x-4 bg-gray-300 py-6 px-6'>
                     <Button
@@ -150,7 +151,7 @@ const EmployeeListModal: React.FC<EmployeeListModalProps> = ({ open, setOpen }) 
                         onClick={handleSave}
                         className='w-97 h-11 text-base font-semibold bg-bms-primary'
                         type='button'
-                        disabled={isPending}
+                        disabled={isPending || empIds?.employees?.length === 0}
                     >
                         Add Employees
                     </Button>

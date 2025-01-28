@@ -15,7 +15,7 @@ export const getDeviceList = async (
 ): Promise<DeviceListType> => {
     const params: Record<string, any> = {
         page: search === null || search === '' || groupFilter ? p.current_page : 1,
-        limit: p.itemsPerPage,
+        limit: p.per_page,
         status: ['active'],
         search: search,
     }
