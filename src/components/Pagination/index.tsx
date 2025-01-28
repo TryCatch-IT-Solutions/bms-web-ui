@@ -24,6 +24,18 @@ export const Pagination: React.FC<PaginatedItemsProps> = ({
         })
     }
 
+    const handlePageSizeClick = (value: string) => {
+        const newPageSize = parseInt(value) //  const newPageSize = parseInt(value, 10)
+
+        setPagination((prevPagination) => ({
+            ...prevPagination,
+            page: 1,
+            per_page: newPageSize,
+        }))
+    }
+
+    const itemsPerPageOptions = [10, 20, 50, 200, 500, 1000]
+
     return (
         <div className='flex flex-row justify-end gap-5 w-full max-w-full'>
             <div className='flex flex-col justify-end max-w-full'>
@@ -45,6 +57,21 @@ export const Pagination: React.FC<PaginatedItemsProps> = ({
                     containerClassName='react-paginate'
                     forcePage={(pagination.current_page ?? 1) - 1}
                 />
+            </div>
+            <div className='mb-2 z-10 flex flex-row gap-2 justify-end'>
+                <label htmlFor='itemsPerPage'>Items per page:</label>
+                <select
+                    id='itemsPerPage'
+                    value={per_page}
+                    onChange={(e) => handlePageSizeClick(e.target.value)}
+                    className='h-[30px] -mt-1 rounded-md border border-zentive-gray-light'
+                >
+                    {itemsPerPageOptions?.map((option) => (
+                        <option key={option} value={option}>
+                            {option}
+                        </option>
+                    ))}
+                </select>
             </div>
         </div>
     )

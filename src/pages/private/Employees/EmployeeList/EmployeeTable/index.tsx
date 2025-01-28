@@ -30,6 +30,7 @@ import dayjs from 'dayjs'
 import UserFilterDropdown from '../UserFilterDropdown'
 import { ResetIcon } from '@radix-ui/react-icons'
 import { SyncNotificationBar } from '@/components/SyncNofificationBar'
+import { ExportCounter } from '@/components/ExportCounter'
 
 const tableHeader = [
     { name: 'Account Number' },
@@ -59,8 +60,7 @@ export const EmployeeTable: React.FC = () => {
 
     const [pagination, setPagination] = useState<PaginationType>({
         current_page: 1,
-        per_page: 20,
-        itemsPerPage: 20,
+        per_page: 10,
     })
 
     const navigate = useNavigate()
@@ -128,6 +128,12 @@ export const EmployeeTable: React.FC = () => {
                 <SyncNotificationBar />
 
                 <div className='flex flex-row gap-5'>
+                    {employeesToExport && employeesToExport?.content?.length > 0 && (
+                        <ExportCounter
+                            selected={employeesToExport?.content?.length ?? 0}
+                            limit={users?.content?.length ?? 0}
+                        />
+                    )}
                     <ImportDropdown />
                     <ExportDropdown
                         isDisabled={
@@ -256,14 +262,16 @@ export const EmployeeTable: React.FC = () => {
                             ))}
                         </TableBody>
                     </Table>
-                    <Pagination
-                        pagination={pagination}
-                        setPagination={setPagination}
-                        total={users?.meta.total ?? 0}
-                        per_page={20}
-                    />
                 </CardContent>
             </Card>
+            <div className='mt-5'>
+                <Pagination
+                    pagination={pagination}
+                    setPagination={setPagination}
+                    total={users?.meta.total ?? 0}
+                    per_page={pagination.per_page ?? 10}
+                />
+            </div>
             <DeleteEmployeeModal open={open} setOpen={setOpen} />
         </>
     )
