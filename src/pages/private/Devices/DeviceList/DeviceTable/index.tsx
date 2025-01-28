@@ -17,6 +17,7 @@ import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import DeleteDeviceModal from '../DeleteDeviceModal'
 import { DeviceFilterByGroupModal } from './DeviceFilterByGroupModal'
+import { SyncNotificationBar } from '@/components/SyncNofificationBar'
 
 const tableHeader = [
     { name: 'Device ID' },
@@ -69,6 +70,7 @@ export const DeviceTable: React.FC = () => {
                     placeHolder='Search Device'
                     onSearchChange={(e) => onSearchChange(e?.target?.value)}
                 />
+                <SyncNotificationBar />
                 <div className='flex flex-row gap-5'>
                     <Button
                         variant='outline'
@@ -83,6 +85,7 @@ export const DeviceTable: React.FC = () => {
                     </Button>
                 </div>
             </div>
+
             <Card>
                 <CardContent>
                     <Table className='table-auto whitespace-normal w-full'>

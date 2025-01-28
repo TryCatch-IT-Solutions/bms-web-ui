@@ -21,6 +21,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import RemoveEmpToGroupModal from './RemoveEmpToGroupModal'
 import { useAtomValue } from 'jotai'
 import { employeeGroupToRemoveAtom } from '@/store/groups'
+import { SyncNotificationBar } from '@/components/SyncNofificationBar'
 
 export const GroupForm: React.FC = () => {
     const [open, setOpen] = useState<boolean>(false)
@@ -164,13 +165,14 @@ export const GroupForm: React.FC = () => {
             </Card>
 
             <Card>
-                <CardHeader>
-                    <p className='font-semibold text-xl text-bms-gray-medium'>Employees</p>
-                </CardHeader>
                 <CardContent>
-                    <div className='mt-10 flex flex-col gap-5'>
-                        <div className='flex flex-row items-end justify-end mt-5'>
-                            <div className='flex flex-row gap-5'>
+                    <div className='flex flex-col gap-5'>
+                        <div className='flex flex-row items-center justify-between mt-5'>
+                            <p className='font-semibold text-xl text-bms-gray-medium'>Employees</p>
+                            <span>
+                                <SyncNotificationBar />
+                            </span>
+                            <div className='flex flex-row gap-5 items-end justify-end'>
                                 <Button
                                     onClick={() => setRemoveModal(true)}
                                     variant='outline'
@@ -193,6 +195,7 @@ export const GroupForm: React.FC = () => {
                                 </Button>
                             </div>
                         </div>
+
                         <GroupMemberTable employees={group?.employees as ProfileType[]} />
                     </div>
                     <EmployeeListModal open={open} setOpen={setOpen} />
