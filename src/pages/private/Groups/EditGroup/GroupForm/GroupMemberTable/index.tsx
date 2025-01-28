@@ -62,12 +62,12 @@ export const GroupMemberTable: React.FC<EditGroupMemberTableProps> = ({ employee
                                             <Checkbox
                                                 checked={
                                                     empToRemove?.employees?.length ===
-                                                    employees.length
+                                                    employees?.length
                                                 }
                                                 onCheckedChange={() =>
                                                     handleCheckAll(
                                                         empToRemove?.employees?.length !==
-                                                            employees.length,
+                                                            employees?.length,
                                                     )
                                                 }
                                                 className='-mt-[2px]'

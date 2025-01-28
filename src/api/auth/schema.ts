@@ -53,20 +53,7 @@ export const updatePasswordSchema = z
 
 export const updateUserPasswordSchema = z
     .object({
-        password: z
-            .string()
-            .min(8, { message: 'New password is required' })
-            .trim()
-            .regex(uppercaseRegex, {
-                message: 'Must include at least one uppercase letter',
-            })
-            .regex(specialRegex, {
-                message: 'Must include at least one special character',
-            })
-            .regex(numericRegex, { message: 'Must include at least one number' })
-            .regex(lowercaseRegex, {
-                message: 'Must include at least one lowercase letter',
-            }),
+        password: z.string(),
         new_password: z.string().min(8, { message: 'Confirm password is required' }).trim(),
         password_confirmation: z
             .string()

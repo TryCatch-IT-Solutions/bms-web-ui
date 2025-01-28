@@ -159,7 +159,7 @@ export const UserTable: React.FC = () => {
                     )}
 
                     <ExportDropdown
-                        isDisabled={(usersToExport && usersToExport?.content.length === 0) ?? true}
+                        isDisabled={(usersToExport && usersToExport?.content?.length === 0) ?? true}
                         employeeListData={usersToExport as UserListType}
                     />
                     <Button
@@ -168,7 +168,7 @@ export const UserTable: React.FC = () => {
                         onClick={() => setOpen(true)}
                         disabled={
                             userIdsToDelete === null ||
-                            userIdsToDelete.users.length === 0 ||
+                            userIdsToDelete.users?.length === 0 ||
                             userIdsToDelete === null
                         }
                     >
