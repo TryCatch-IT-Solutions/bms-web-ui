@@ -53,6 +53,7 @@ export const updatePasswordSchema = z
 
 export const updateUserPasswordSchema = z
     .object({
+        id: z.number(),
         password: z.string(),
         new_password: z.string().min(8, { message: 'Confirm password is required' }).trim(),
         new_password_confirmation: z
