@@ -33,8 +33,7 @@ export const GroupTable: React.FC = () => {
     const navigate = useNavigate()
     const [pagination, setPagination] = useState<PaginationType>({
         current_page: 1,
-        per_page: 20,
-        itemsPerPage: 20,
+        per_page: 10,
     })
 
     const handleCheckBoxClick = (id: number, checked: boolean) => {
@@ -171,14 +170,16 @@ export const GroupTable: React.FC = () => {
                             )}
                         </TableBody>
                     </Table>
-                    <Pagination
-                        pagination={pagination}
-                        setPagination={setPagination}
-                        total={groups?.meta.total ?? 0}
-                        per_page={20}
-                    />
                 </CardContent>
             </Card>
+            <div className='mt-5'>
+                <Pagination
+                    pagination={pagination}
+                    setPagination={setPagination}
+                    total={groups?.meta.total ?? 0}
+                    per_page={pagination.per_page ?? 10}
+                />
+            </div>
             <DeleteGroupModal open={open} setOpen={setOpen} />
         </>
     )

@@ -39,8 +39,7 @@ export const TimeEntries: React.FC = () => {
 
     const [pagination, setPagination] = useState<PaginationType>({
         current_page: 1,
-        per_page: 20,
-        itemsPerPage: 20,
+        per_page: 10,
     })
 
     const { data: users, isLoading } = useQuery({

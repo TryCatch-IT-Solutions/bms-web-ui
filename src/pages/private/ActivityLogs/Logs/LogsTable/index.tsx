@@ -22,8 +22,7 @@ const tableHeader = [
 export const LogsTable: React.FC = () => {
     const [pagination, setPagination] = useState<PaginationType>({
         current_page: 1,
-        per_page: 20,
-        itemsPerPage: 20,
+        per_page: 10,
     })
 
     const { data: logs, isLoading } = useQuery({
@@ -83,14 +82,16 @@ export const LogsTable: React.FC = () => {
                             ))}
                         </TableBody>
                     </Table>
-                    <Pagination
-                        pagination={pagination}
-                        setPagination={setPagination}
-                        total={logs?.meta.total ?? 0}
-                        per_page={20}
-                    />
                 </CardContent>
             </Card>
+            <div className='mt-5'>
+                <Pagination
+                    pagination={pagination}
+                    setPagination={setPagination}
+                    total={logs?.meta?.total ?? 0}
+                    per_page={pagination.per_page ?? 10}
+                />
+            </div>
         </>
     )
 }

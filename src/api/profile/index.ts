@@ -114,8 +114,11 @@ export const getEmployeeTimeEntries = async (
 ): Promise<TimeEntriesListType> => {
     const response = await axiosInstance.get('/api/time-entries', {
         params: {
-            page: search === null || search === '' ? p.current_page : 1,
-            limit: p.itemsPerPage,
+            page:
+                search === null || search === '' || (date_start == '' && date_end == '')
+                    ? p.current_page
+                    : 1,
+            limit: p.per_page,
             search: search,
             ...(date_start !== '' && { date_start: dayjs(date_start).format('YYYY-MM-DD') }),
             ...(date_end !== '' && { date_end: dayjs(date_end).format('YYYY-MM-DD') }),

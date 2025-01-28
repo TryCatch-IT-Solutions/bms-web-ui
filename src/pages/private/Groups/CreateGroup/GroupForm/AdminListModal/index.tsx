@@ -97,12 +97,14 @@ const AdminListModal: React.FC<AdminListModalProps> = ({ open, setOpen }) => {
                     )}
                 </div>
 
-                <Pagination
-                    pagination={pagination}
-                    setPagination={setPagination}
-                    total={employees?.meta.total ?? 0}
-                    per_page={pagination.per_page ?? 10}
-                />
+                <div className='mr-5'>
+                    <Pagination
+                        pagination={pagination}
+                        setPagination={setPagination}
+                        total={employees?.meta.total ?? 0}
+                        per_page={pagination.per_page ?? 10}
+                    />
+                </div>
 
                 <div className='flex justify-end gap-x-4 bg-gray-300 py-6 px-6'>
                     <Button
@@ -117,6 +119,7 @@ const AdminListModal: React.FC<AdminListModalProps> = ({ open, setOpen }) => {
                         onClick={handleSave}
                         className='w-97 h-11 text-base font-semibold bg-bms-primary'
                         type='button'
+                        disabled={adminId === 0}
                     >
                         Add
                     </Button>

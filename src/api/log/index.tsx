@@ -6,8 +6,8 @@ export const getLogList = async (p: PaginationType): Promise<LogsType> => {
     const response = await axiosInstance.get('/api/logs', {
         params: {
             page: p.current_page,
-            limit: p.itemsPerPage,
             status: ['active'],
+            limit: p.per_page,
         },
     })
 
