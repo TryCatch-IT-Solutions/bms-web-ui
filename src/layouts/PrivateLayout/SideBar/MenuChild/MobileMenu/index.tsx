@@ -1,5 +1,5 @@
 import { Dialog, Transition } from '@headlessui/react'
-import { useAtom } from 'jotai'
+import { useAtom, useAtomValue } from 'jotai'
 import { Fragment, useState } from 'react'
 import { HiXMark } from 'react-icons/hi2'
 import { MenuChildren } from '..'
@@ -8,12 +8,17 @@ import daiLogo from '@/assets/dai-logo.png'
 import { useNavigate } from 'react-router-dom'
 import { useMediaQuery } from 'react-responsive'
 import { cn } from '@/utils/helper'
+import { getAllowedNavigationItems } from '@/utils/navigation'
+import { userAtom } from '@/store/user'
 
 const MobileMenu = () => {
     const [sidebarOpen, setSidebarOpen] = useAtom(navAtom)
     const [currentTab, setCurrentTab] = useState(0)
     const navigate = useNavigate()
 
+    const user = useAtomValue(userAtom)
+
+    const allowedNavigationItems = getAllowedNavigationItems(navigationItems, user?.role)
     const xl_vw_already = useMediaQuery({ maxWidth: 1425 })
 
     return (
@@ -91,7 +96,7 @@ const MobileMenu = () => {
                                         className='flex-auto pt-4 space-y-2 bg-white overflow-auto no-scrollbar'
                                         aria-label='Sidebar'
                                     >
-                                        {navigationItems?.map((item, index) => (
+                                        {allowedNavigationItems?.map((item, index) => (
                                             <div key={`${item?.name}-${index}`}>
                                                 <MenuChildren
                                                     index={index}
