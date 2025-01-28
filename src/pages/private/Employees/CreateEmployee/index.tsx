@@ -421,7 +421,7 @@ export const CreateEmployee: React.FC = () => {
                                                     />
                                                 </FormControl>
                                                 <FormMessage>
-                                                    {errors?.province?.message}
+                                                    {errors?.emergency_contact_no?.message}
                                                 </FormMessage>
                                             </FormItem>
                                         )}
