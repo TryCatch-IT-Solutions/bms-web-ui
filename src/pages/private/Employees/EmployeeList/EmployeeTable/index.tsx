@@ -137,7 +137,7 @@ export const EmployeeTable: React.FC = () => {
                     <ImportDropdown />
                     <ExportDropdown
                         isDisabled={
-                            (employeesToExport && employeesToExport?.content.length === 0) ?? true
+                            (employeesToExport && employeesToExport?.content?.length === 0) ?? true
                         }
                         employeeListData={employeesToExport as UserListType}
                     />

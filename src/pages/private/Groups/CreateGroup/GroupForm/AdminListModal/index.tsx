@@ -25,8 +25,7 @@ const AdminListModal: React.FC<AdminListModalProps> = ({ open, setOpen }) => {
 
     const [pagination, setPagination] = useState<PaginationType>({
         current_page: 1,
-        per_page: 20,
-        itemsPerPage: 20,
+        per_page: 10,
     })
 
     const { setValue } = useFormContext<CreateGroupType>()
@@ -102,10 +101,10 @@ const AdminListModal: React.FC<AdminListModalProps> = ({ open, setOpen }) => {
                     pagination={pagination}
                     setPagination={setPagination}
                     total={employees?.meta.total ?? 0}
-                    per_page={20}
+                    per_page={pagination.per_page ?? 10}
                 />
 
-                <div className='mt-6 flex justify-end gap-x-4 bg-gray-300 py-6 px-6'>
+                <div className='flex justify-end gap-x-4 bg-gray-300 py-6 px-6'>
                     <Button
                         variant='ghost'
                         className='w-97 h-11 text-base font-semibold bg-white text-bms-primary ring-bms-primary border border-bms-primary'

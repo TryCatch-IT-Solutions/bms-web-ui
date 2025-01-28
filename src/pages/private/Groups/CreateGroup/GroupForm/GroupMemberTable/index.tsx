@@ -69,7 +69,7 @@ export const GroupMemberTable: React.FC = () => {
                         variant='outline'
                         className='flex flex-row gap-2'
                         onClick={handleRemove}
-                        disabled={empToRemove.length === 0}
+                        disabled={empToRemove?.length === 0}
                     >
                         Remove
                         <Trash2Icon className='w-5' />
@@ -98,7 +98,7 @@ export const GroupMemberTable: React.FC = () => {
                                         <span className='flex flex-row gap-2 items-center'>
                                             {index === 0 && (
                                                 <Checkbox
-                                                    checked={empIds?.length === empToRemove.length}
+                                                    checked={empIds?.length === empToRemove?.length}
                                                     onCheckedChange={() =>
                                                         handleCheckAll(
                                                             empToRemove?.length !== emps?.length,

@@ -36,7 +36,7 @@ const ExportEmployeeCSV = ({
             datetime: dayjs(r?.datetime).format(TIME_DATE_FORMAT.DATE_TIME),
         })) || []
 
-    if (!tableData.length) return null
+    if (!tableData?.length) return null
 
     const csvHeaders = [
         { label: 'Record ID', key: 'id' },
