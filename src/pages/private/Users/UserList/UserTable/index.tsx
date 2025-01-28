@@ -28,6 +28,7 @@ import { UserStatusTabs } from '../UserStatusTabs'
 import UserFilterDropdown from '../UserFilterDropdown'
 import dayjs from 'dayjs'
 import { ResetIcon } from '@radix-ui/react-icons'
+import { SyncNotificationBar } from '@/components/SyncNofificationBar'
 
 const tableHeader = [
     { name: 'Account Number' },
@@ -148,6 +149,7 @@ export const UserTable: React.FC = () => {
                         <ResetIcon />
                     </Button>
                 </div>
+                <SyncNotificationBar />
                 <div className='flex flex-row gap-5'>
                     <ExportDropdown
                         isDisabled={(usersToExport && usersToExport?.content.length === 0) ?? true}

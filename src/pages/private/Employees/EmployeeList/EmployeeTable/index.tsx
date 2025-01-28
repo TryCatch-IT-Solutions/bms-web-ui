@@ -29,6 +29,7 @@ import DeleteEmployeeModal from '../DeleteEmployeeModal'
 import dayjs from 'dayjs'
 import UserFilterDropdown from '../UserFilterDropdown'
 import { ResetIcon } from '@radix-ui/react-icons'
+import { SyncNotificationBar } from '@/components/SyncNofificationBar'
 
 const tableHeader = [
     { name: 'Account Number' },
@@ -123,6 +124,9 @@ export const EmployeeTable: React.FC = () => {
                         <ResetIcon />
                     </Button>
                 </div>
+
+                <SyncNotificationBar />
+
                 <div className='flex flex-row gap-5'>
                     <ImportDropdown />
                     <ExportDropdown

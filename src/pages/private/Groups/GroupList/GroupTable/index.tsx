@@ -16,6 +16,7 @@ import { Card, CardContent } from '@/components/Card'
 import { groupsToDeleteAtom } from '@/store/groups'
 import { useAtom } from 'jotai'
 import { GroupType } from '@/api/group/schema'
+import { SyncNotificationBar } from '@/components/SyncNofificationBar'
 
 const tableHeader = [
     { name: 'Group ID' },
@@ -77,6 +78,7 @@ export const GroupTable: React.FC = () => {
                     placeHolder='Search User'
                     onSearchChange={(e) => onSearchChange(e?.target?.value)}
                 />
+                <SyncNotificationBar />
                 <div className='flex flex-row gap-5'>
                     <Button
                         variant='outline'
