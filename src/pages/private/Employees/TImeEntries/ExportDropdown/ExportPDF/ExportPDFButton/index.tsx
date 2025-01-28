@@ -4,7 +4,7 @@ import dayjs from 'dayjs'
 import { PDFEmployeeExport } from '..'
 import { TimeEntriesListType } from '@/api/profile/schema'
 import { useSetAtom } from 'jotai'
-import { employeeExportAtom, employeesToDeleteAtom } from '@/store/user'
+import { timeEntriesToExportAtom } from '@/store/user'
 import { TIME_DATE_FORMAT } from '@/constants'
 
 interface IExportDataToPDF {
@@ -21,8 +21,7 @@ interface IExportEmployeePDFProps {
 const ExportEmployeePDF = ({ timeEntries }: IExportEmployeePDFProps) => {
     if (timeEntries === null || !timeEntries?.content?.length) return null
 
-    const setEmployeeExportAtom = useSetAtom(employeeExportAtom)
-    const setUserIdsToDelete = useSetAtom(employeesToDeleteAtom)
+    const setTimeEntriesToExport = useSetAtom(timeEntriesToExportAtom)
 
     const handleExportToPDF = async () => {
         convertImageToBase64(daiLogo)
@@ -38,8 +37,7 @@ const ExportEmployeePDF = ({ timeEntries }: IExportEmployeePDFProps) => {
 
                 // Pass the formatted data and the logo to the PDF generation function
                 PDFEmployeeExport(daiLogo, tableData)
-                setUserIdsToDelete(null)
-                setEmployeeExportAtom(null)
+                setTimeEntriesToExport(null)
             })
             .catch((err) => console.error('Error converting image to Base64:', err.message))
     }
