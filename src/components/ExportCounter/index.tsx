@@ -5,7 +5,7 @@ interface ExportCounterProps {
 
 export const ExportCounter: React.FC<ExportCounterProps> = ({ selected, limit }) => {
     return (
-        <div className='flex flex-row items-center justify-end'>
+        <div className='flex flex-row items-center justify-end text-bms-gray-500'>
             <p>
                 {selected} out of {limit} records selected
             </p>

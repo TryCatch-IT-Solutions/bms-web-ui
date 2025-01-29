@@ -14,7 +14,7 @@ const tableHeader = [{ name: 'Notification ID' }, { name: 'Message' }]
 export const UserNotificationTable: React.FC = () => {
     const [pagination, setPagination] = useState<PaginationType>({
         current_page: 1,
-        per_page: 20,
+        per_page: 10,
     })
 
     const { data: genNotifications, isLoading: getNotifLoading } = useQuery({
@@ -68,14 +68,17 @@ export const UserNotificationTable: React.FC = () => {
                             ))}
                         </TableBody>
                     </Table>
-                    <Pagination
-                        pagination={pagination}
-                        setPagination={setPagination}
-                        total={genNotifications?.meta.total ?? 0}
-                        per_page={20}
-                    />
                 </CardContent>
             </Card>
+
+            <div className='mt-5'>
+                <Pagination
+                    pagination={pagination}
+                    setPagination={setPagination}
+                    total={genNotifications?.meta.total ?? 0}
+                    per_page={pagination?.per_page ?? 10}
+                />
+            </div>
         </div>
     )
 }
