@@ -24,6 +24,7 @@ import { userAtom } from '@/store/user'
 import { NoGroup } from './NoGroup'
 import { employeeGroupToRemoveAtom } from '@/store/groups'
 import { SyncNotificationBar } from '@/components/SyncNofificationBar'
+import { ExportCounter } from '@/components/ExportCounter'
 
 export const GroupForm: React.FC = () => {
     const [open, setOpen] = useState<boolean>(false)
@@ -156,6 +157,12 @@ export const GroupForm: React.FC = () => {
                             <p className='font-semibold text-xl text-bms-gray-medium'>Employees</p>
                             <SyncNotificationBar />
                             <div className='flex flex-row gap-5'>
+                                {emptToRemove && emptToRemove?.employees?.length > 0 && (
+                                    <ExportCounter
+                                        selected={emptToRemove?.employees?.length ?? 0}
+                                        limit={group?.employees?.length ?? 0}
+                                    />
+                                )}
                                 <Button
                                     onClick={() => setRemoveModal(true)}
                                     variant='outline'
