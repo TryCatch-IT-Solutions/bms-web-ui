@@ -22,6 +22,8 @@ import RemoveEmpToGroupModal from './RemoveEmpToGroupModal'
 import { useAtomValue } from 'jotai'
 import { userAtom } from '@/store/user'
 import { NoGroup } from './NoGroup'
+import { employeeGroupToRemoveAtom } from '@/store/groups'
+import { SyncNotificationBar } from '@/components/SyncNofificationBar'
 
 export const GroupForm: React.FC = () => {
     const [open, setOpen] = useState<boolean>(false)
@@ -30,6 +32,8 @@ export const GroupForm: React.FC = () => {
     const { toast } = useToast()
     const queryClient = useQueryClient()
     const navigate = useNavigate()
+
+    const emptToRemove = useAtomValue(employeeGroupToRemoveAtom)
 
     const user = useAtomValue(userAtom)
 
@@ -150,12 +154,17 @@ export const GroupForm: React.FC = () => {
                     <div className='flex flex-col gap-5'>
                         <div className='flex flex-row items-cenrer justify-between mt-5'>
                             <p className='font-semibold text-xl text-bms-gray-medium'>Employees</p>
+                            <SyncNotificationBar />
                             <div className='flex flex-row gap-5'>
                                 <Button
                                     onClick={() => setRemoveModal(true)}
                                     variant='outline'
                                     type='button'
                                     className='flex flex-row gap-2'
+                                    disabled={
+                                        emptToRemove === null ||
+                                        emptToRemove?.employees?.length === 0
+                                    }
                                 >
                                     Remove
                                     <Trash2Icon className='w-5' />
@@ -172,7 +181,11 @@ export const GroupForm: React.FC = () => {
                         </div>
                         <GroupMemberTable employees={group?.employees as ProfileType[]} />
                     </div>
-                    <EmployeeListModal open={open} setOpen={setOpen} />
+                    <EmployeeListModal
+                        open={open}
+                        setOpen={setOpen}
+                        group_id={user?.group_id ?? 0}
+                    />
                     <RemoveEmpToGroupModal
                         open={removeModal}
                         setOpen={setRemoveModal}
