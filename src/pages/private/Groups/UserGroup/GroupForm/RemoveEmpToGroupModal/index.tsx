@@ -1,5 +1,5 @@
 import { HiOutlineExclamationTriangle } from 'react-icons/hi2'
-import { Dispatch, SetStateAction, useState } from 'react'
+import { Dispatch, SetStateAction } from 'react'
 import { Button } from '@/components/Button'
 import { Modal } from '@/components/Modal'
 import { toast } from '@/hooks/useToast'
@@ -17,11 +17,10 @@ interface DeleteUserModalProps {
 
 const RemoveEmpToGroupModal: React.FC<DeleteUserModalProps> = ({ open, setOpen, groupId }) => {
     const [userIdsToDelete, setUserIdsToDelete] = useAtom(employeeGroupToRemoveAtom)
-    const [disabled, setDisabled] = useState<boolean>(false)
 
     const queryClient = useQueryClient()
 
-    const { mutate: deleteUsersMu } = useMutation({
+    const { mutate: deleteUsersMu, isPending } = useMutation({
         mutationFn: () => removeGroupEmployee(userIdsToDelete as AddEmpToGroupType, groupId),
         onSuccess: () => {
             toast({
@@ -36,9 +35,7 @@ const RemoveEmpToGroupModal: React.FC<DeleteUserModalProps> = ({ open, setOpen, 
     })
 
     const handleSubmit = () => {
-        setDisabled(true)
         deleteUsersMu()
-        setDisabled(false)
     }
 
     return (
@@ -74,7 +71,7 @@ const RemoveEmpToGroupModal: React.FC<DeleteUserModalProps> = ({ open, setOpen, 
                         variant='ghost'
                         className='w-97 h-11 text-base font-semibold bg-white text-bms-primary ring-bms-primary border border-bms-primary'
                         onClick={() => setOpen(false)}
-                        disabled={disabled}
+                        disabled={isPending}
                     >
                         Cancel
                     </Button>
@@ -82,7 +79,7 @@ const RemoveEmpToGroupModal: React.FC<DeleteUserModalProps> = ({ open, setOpen, 
                         onClick={handleSubmit}
                         className='w-97 h-11 text-base font-semibold bg-bms-primary'
                         type='button'
-                        disabled={disabled}
+                        disabled={userIdsToDelete?.employees?.length === 0 || isPending}
                     >
                         Yes, please
                     </Button>

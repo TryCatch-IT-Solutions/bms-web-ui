@@ -33,6 +33,13 @@ export const GroupMemberTable: React.FC<EditGroupMemberTableProps> = ({ employee
         })
     }
 
+    const handleCheckAll = (checked: boolean) => {
+        setEmpToRemove(() => {
+            const updatedEmployees = checked ? employees.map((e) => e.id) : []
+            return { employees: updatedEmployees }
+        })
+    }
+
     useEffect(() => {
         setEmpToRemove(null)
     }, [])
@@ -50,7 +57,24 @@ export const GroupMemberTable: React.FC<EditGroupMemberTableProps> = ({ employee
                                         'font-semibold text-bms-gray-medium text-base whitespace-nowrap',
                                     )}
                                 >
-                                    {header.name}
+                                    <span className='flex flex-row gap-2 items-center'>
+                                        {index === 0 && (
+                                            <Checkbox
+                                                checked={
+                                                    empToRemove?.employees?.length ===
+                                                    employees?.length
+                                                }
+                                                onCheckedChange={() =>
+                                                    handleCheckAll(
+                                                        empToRemove?.employees?.length !==
+                                                            employees?.length,
+                                                    )
+                                                }
+                                                className='-mt-[2px]'
+                                            />
+                                        )}
+                                        {header.name}
+                                    </span>
                                 </TableHead>
                             ))}
                         </TableRow>
@@ -69,6 +93,7 @@ export const GroupMemberTable: React.FC<EditGroupMemberTableProps> = ({ employee
                                                 empToRemove?.employees?.includes(e.id) ?? false,
                                             )
                                         }
+                                        checked={empToRemove?.employees?.includes(e.id)}
                                     />{' '}
                                     {e.id}
                                 </TableCell>

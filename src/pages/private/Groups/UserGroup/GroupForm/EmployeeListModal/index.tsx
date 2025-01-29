@@ -13,25 +13,22 @@ import { ProfileType } from '@/api/profile/schema'
 import { AddEmpToGroupType } from '@/api/group/schema'
 import { AxiosError } from 'axios'
 import { addGroupEmployee } from '@/api/group'
-import { useParams } from 'react-router-dom'
 import { useToast } from '@/hooks/useToast'
 
 interface EmployeeListModalProps {
     open: boolean
     setOpen: Dispatch<SetStateAction<boolean>>
+    group_id: number
 }
 
-const EmployeeListModal: React.FC<EmployeeListModalProps> = ({ open, setOpen }) => {
+const EmployeeListModal: React.FC<EmployeeListModalProps> = ({ open, setOpen, group_id }) => {
     const [pagination, setPagination] = useState<PaginationType>({
         current_page: 1,
-        per_page: 20,
-        itemsPerPage: 20,
+        per_page: 10,
     })
 
     const { toast } = useToast()
     const queryClient = useQueryClient()
-
-    const { id } = useParams()
 
     const [empIds, setEmpIds] = useState<AddEmpToGroupType>({ employees: [] })
     const [searchVal, setSearchVal] = useState<string>('')
@@ -50,23 +47,28 @@ const EmployeeListModal: React.FC<EmployeeListModalProps> = ({ open, setOpen }) 
         })
     }
 
-    const { mutate: addEmpToGroupMu } = useMutation<unknown, AxiosError, AddEmpToGroupType>({
-        mutationFn: (data) => addGroupEmployee(data, Number(id)),
+    const { mutate: addEmpToGroupMu, isPending } = useMutation<
+        unknown,
+        AxiosError,
+        AddEmpToGroupType
+    >({
+        mutationFn: (data) => addGroupEmployee(data, group_id),
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: ['editGroup'] })
             toast({
                 description: 'Employees Added Successfully',
             })
+
+            setOpen(false)
         },
     })
 
     const handleSave = () => {
         addEmpToGroupMu(empIds)
-        setOpen(false)
     }
 
     const { data: employees, isLoading } = useQuery({
-        queryKey: ['groupEditemployeeList', pagination, searchVal],
+        queryKey: ['groupEditemployeeList', pagination, searchVal, open],
         queryFn: () => getUsers(pagination, ['active'], [ROLE.employee], true, searchVal),
     })
 
@@ -126,18 +128,21 @@ const EmployeeListModal: React.FC<EmployeeListModalProps> = ({ open, setOpen }) 
                     )}
                 </div>
 
-                <Pagination
-                    pagination={pagination}
-                    setPagination={setPagination}
-                    total={employees?.meta.total ?? 0}
-                    per_page={20}
-                />
+                <div className='mr-5'>
+                    <Pagination
+                        pagination={pagination}
+                        setPagination={setPagination}
+                        total={employees?.meta.total ?? 0}
+                        per_page={pagination?.per_page ?? 10}
+                    />
+                </div>
 
                 <div className='mt-6 flex justify-end gap-x-4 bg-gray-300 py-6 px-6'>
                     <Button
                         variant='ghost'
                         className='w-97 h-11 text-base font-semibold bg-white text-bms-primary ring-bms-primary border border-bms-primary'
                         onClick={() => setOpen(false)}
+                        disabled={isPending}
                     >
                         Cancel
                     </Button>
@@ -145,6 +150,7 @@ const EmployeeListModal: React.FC<EmployeeListModalProps> = ({ open, setOpen }) 
                         onClick={handleSave}
                         className='w-97 h-11 text-base font-semibold bg-bms-primary'
                         type='button'
+                        disabled={isPending || empIds?.employees?.length === 0}
                     >
                         Add Employees
                     </Button>
