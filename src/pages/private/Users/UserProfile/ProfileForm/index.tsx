@@ -58,7 +58,7 @@ export const ProfileForm: React.FC = () => {
         formState: { errors, isValid, isDirty },
     } = userForm
 
-    const { mutate: updateUserMu } = useMutation({
+    const { mutate: updateUserMu, isPending } = useMutation({
         mutationFn: editUser,
         onSuccess: () => {
             toast({
@@ -188,6 +188,7 @@ export const ProfileForm: React.FC = () => {
                                                                 className='mt-[16px] w-[100%] bg-white'
                                                                 placeholder='Email'
                                                                 type='email'
+                                                                disabled
                                                                 {...field}
                                                             />
                                                         </FormControl>
@@ -504,7 +505,7 @@ export const ProfileForm: React.FC = () => {
                                 <Button
                                     type='submit'
                                     className='w-1/5'
-                                    disabled={!isValid || !isDirty}
+                                    disabled={!isValid || !isDirty || isPending}
                                 >
                                     Submit
                                 </Button>
