@@ -79,7 +79,7 @@ export const GroupMemberTable: React.FC = () => {
                         variant='outline'
                         className='flex flex-row gap-2'
                     >
-                        Add Employee
+                        Assign Employee(s)
                     </Button>
                 </div>
             </div>
