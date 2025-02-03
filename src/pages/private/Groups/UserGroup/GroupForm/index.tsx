@@ -182,7 +182,7 @@ export const GroupForm: React.FC = () => {
                                     className='flex flex-row gap-2'
                                     type='button'
                                 >
-                                    Add Employee
+                                    Assign Employee(s)
                                 </Button>
                             </div>
                         </div>

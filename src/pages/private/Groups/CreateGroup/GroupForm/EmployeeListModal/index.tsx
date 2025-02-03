@@ -78,7 +78,7 @@ const EmployeeListModal: React.FC<EmployeeListModalProps> = ({ open, setOpen }) 
             <div className='flex flex-col gap-5'>
                 <div className='flex gap-5 px-10'>
                     <h1 className='text-left font-semibold text-2xl text-gray-900 mt-2.5'>
-                        Add Employee to Group
+                        Assign Employee(s) to Group
                     </h1>
                 </div>
 
@@ -137,7 +137,7 @@ const EmployeeListModal: React.FC<EmployeeListModalProps> = ({ open, setOpen }) 
                         type='button'
                         disabled={empIds?.length === 0}
                     >
-                        Add Employees
+                        Assign Employee(s)
                     </Button>
                 </div>
             </div>
