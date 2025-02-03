@@ -61,7 +61,7 @@ const ExportEmployeePDF = ({ employeeListData }: IExportEmployeePDFProps) => {
                     }`,
                     gender: employee.gender,
                     role: employee.role,
-                    birth_date: dayjs(employee.birth_date).format('MMMM DD, YYYY'),
+                    birth_date: dayjs(employee.birth_date).format('YYYY-MM-DD'),
                     address1: employee.address1,
                     address2: employee.address2 ?? '', // Handle optional address2
                     barangay: employee.barangay,

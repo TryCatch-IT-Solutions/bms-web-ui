@@ -86,6 +86,7 @@ export const USER_ASSIGN_STATUS = [
 export const TIME_DATE_FORMAT = {
     DATE_TIME: 'MMM DD, YYYY HH:mm A',
     DATE: 'MMM DD, YYYY',
+    EXPORT_DATE_TIME: 'YYYY-MM-DD HH:mm',
 }
 
 export const EXCLUDED_ROUTES = ['/dashboard', '/user/my-profile']

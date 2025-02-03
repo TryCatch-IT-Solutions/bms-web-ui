@@ -1,6 +1,7 @@
 import autoTable from 'jspdf-autotable'
 import jsPDF from 'jspdf'
 import dayjs from 'dayjs'
+import { TIME_DATE_FORMAT } from '@/constants'
 
 interface IExportDataToPDF {
     employee_number: string
@@ -75,7 +76,9 @@ export const PDFEmployeeExport = (zentiveLogoUrl: string, tableData: IExportData
         data.phone_number,
         data.gender,
         data.role,
-        data.birth_date === '' ? '' : dayjs(data.birth_date).format('MMMM DD, YYYY'),
+        data.birth_date === ''
+            ? ''
+            : dayjs(data.birth_date).format(TIME_DATE_FORMAT.EXPORT_DATE_TIME),
         data.address1,
         data.address2,
         data.barangay,
