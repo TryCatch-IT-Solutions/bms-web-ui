@@ -33,7 +33,7 @@ const ExportEmployeeCSV = ({
             first_name: r?.employee?.first_name || 'N/A',
             last_name: r?.employee?.last_name || 'N/A',
             type: formatUnderscoreString(r?.type || 'Unknown'),
-            datetime: dayjs(r?.datetime).format(TIME_DATE_FORMAT.DATE_TIME),
+            datetime: dayjs(r?.datetime).format(TIME_DATE_FORMAT.EXPORT_DATE_TIME),
         })) || []
 
     if (!tableData?.length) return null

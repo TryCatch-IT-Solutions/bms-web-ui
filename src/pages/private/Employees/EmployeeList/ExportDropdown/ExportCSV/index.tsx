@@ -6,6 +6,7 @@ import { formatPhoneNumber } from 'react-phone-number-input'
 import { UserListType } from '@/api/profile/schema'
 import { useSetAtom } from 'jotai'
 import { employeeExportAtom, employeesToDeleteAtom } from '@/store/user'
+import { TIME_DATE_FORMAT } from '@/constants'
 
 interface IExportDataToCSV {
     employee_number: string
@@ -63,7 +64,9 @@ const ExportEmployeeCSV = ({
                     }`,
                     gender: employee.gender,
                     role: employee.role,
-                    birth_date: dayjs(employee.birth_date).format('MMMM DD, YYYY'), // Format birth date
+                    birth_date: dayjs(employee.birth_date).format(
+                        TIME_DATE_FORMAT.EXPORT_DATE_TIME,
+                    ), // Format birth date
                     address1: employee.address1,
                     address2: employee.address2 ?? '', // Handle optional address2
                     barangay: employee.barangay,
