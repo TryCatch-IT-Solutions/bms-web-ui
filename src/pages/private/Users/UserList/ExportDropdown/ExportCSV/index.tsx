@@ -139,7 +139,7 @@ const ExportEmployeeCSV = ({
             data={csvData}
             headers={csvHeaders}
             filename={'user-list.csv'}
-            className='w-[150px] h-[34px] text-gray-dark hover:bg-gray-100 block px-5 py-1 text-base rounded-b-md text-start'
+            className='w-[150px] h-[34px] xs:text-sm text-gray-dark hover:bg-gray-100 block px-5 py-1 text-base rounded-b-md text-start'
             onClick={() => {
                 setIsOpen && setIsOpen(!isOpen)
                 setEmployeeExportAtom(null)

@@ -58,7 +58,7 @@ const SearchBar: React.FC<SearchBarProps> = ({
                     className={
                         !className
                             ? cn(
-                                  'w-[204px] h-11 py-2 pl-10 pr-4 border border-gray-300 rounded-l-[2px] focus:outline-none',
+                                  'w-[204px] h-11 xs:h-9 py-2 pl-10 pr-4 border border-gray-300 rounded-l-[2px] focus:outline-none text-base xs:text-sm',
                               )
                             : className
                     }

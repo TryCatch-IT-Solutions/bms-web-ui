@@ -37,7 +37,7 @@ export const Pagination: React.FC<PaginatedItemsProps> = ({
     const itemsPerPageOptions = [10, 20, 50, 200, 500, 1000]
 
     return (
-        <div className='flex flex-row justify-end gap-5 w-full max-w-full'>
+        <div className='flex flex-row justify-end gap-5 w-full max-w-full xs:text-sm'>
             <div className='flex flex-col justify-end max-w-full'>
                 <ReactPaginate
                     previousLabel='<<'

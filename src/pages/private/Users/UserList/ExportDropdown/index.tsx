@@ -37,7 +37,7 @@ const ExportDropdown = ({ employeeListData, isDisabled }: IExportDropdown) => {
             <Menu>
                 <Menu.Button
                     className={cn(
-                        'w-[105px] h-[43px] text-base text-center font-semibold flex justify-center items-center gap-x-1.5 rounded-[4px] ring-2 ring-inset',
+                        'w-[105px] h-[43px] xs:h-9 text-base xs:text-sm text-center font-semibold flex justify-center items-center gap-x-1.5 rounded-[4px] ring-2 ring-inset',
                         !isDisabled
                             ? isOpen
                                 ? 'bg-white text-black ring-[#00000029]'
