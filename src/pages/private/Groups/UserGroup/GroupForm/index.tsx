@@ -25,6 +25,7 @@ import { NoGroup } from './NoGroup'
 import { employeeGroupToRemoveAtom } from '@/store/groups'
 import { SyncNotificationBar } from '@/components/SyncNofificationBar'
 import { ExportCounter } from '@/components/ExportCounter'
+import ImportDropdown from '../ImportDropdown'
 
 export const GroupForm: React.FC = () => {
     const [open, setOpen] = useState<boolean>(false)
@@ -39,7 +40,7 @@ export const GroupForm: React.FC = () => {
     const user = useAtomValue(userAtom)
 
     const { data: group, isLoading } = useQuery({
-        queryKey: ['editGroup', user?.group_id],
+        queryKey: ['editUserGroup', user?.group_id],
         queryFn: () => getGroupByid(user?.group_id ?? 0),
         enabled: user?.group_id !== null,
     })
@@ -176,6 +177,7 @@ export const GroupForm: React.FC = () => {
                                     Remove
                                     <Trash2Icon className='w-5' />
                                 </Button>
+                                <ImportDropdown />
                                 <Button
                                     onClick={() => setOpen(true)}
                                     variant='outline'

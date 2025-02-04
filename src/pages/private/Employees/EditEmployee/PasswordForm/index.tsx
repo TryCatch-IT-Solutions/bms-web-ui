@@ -10,6 +10,9 @@ import { overridePasswordSChema, OverridePasswordType } from '@/api/auth/schema'
 import { overridePassowrd } from '@/api/auth'
 import { PasswordInput } from '@/components/PasswordInput'
 import { useEffect } from 'react'
+import { ROLE } from '@/constants'
+import { useAtomValue } from 'jotai'
+import { userAtom } from '@/store/user'
 
 export const PasswordForm: React.FC = () => {
     const navigate = useNavigate()
@@ -24,6 +27,11 @@ export const PasswordForm: React.FC = () => {
 
     const numericId = Number(id)
 
+    const userProfile = useAtomValue(userAtom)
+
+    const successUrl =
+        userProfile?.role === ROLE.superadmin ? '/employee/list' : '/group/user-group'
+
     const {
         setValue,
         formState: { errors, isValid },
@@ -36,7 +44,7 @@ export const PasswordForm: React.FC = () => {
                 description: 'Password updated successfully',
                 duration: 2000,
             })
-            navigate(-1)
+            navigate(successUrl)
         },
         onError: () => {
             toast({

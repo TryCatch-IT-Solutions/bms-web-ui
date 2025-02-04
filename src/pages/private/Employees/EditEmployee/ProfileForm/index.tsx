@@ -7,13 +7,15 @@ import { useNavigate, useParams } from 'react-router-dom'
 import { useToast } from '@/hooks/useToast'
 import { profileSchema, EditUserType } from '@/api/profile/schema'
 import { Dropdown } from '@/components/DropdownInput'
-import { GENDER_OPTIONS, ROLE_VALUES } from '@/constants'
+import { GENDER_OPTIONS, ROLE, ROLE_VALUES } from '@/constants'
 import PhoneNumberInput from '@/components/PhoneNumberInput'
 import { editUser, getUserById } from '@/api/profile'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { useEffect } from 'react'
 import Spinner from '@/components/Spinner'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { useAtomValue } from 'jotai'
+import { userAtom } from '@/store/user'
 
 export const ProfileForm: React.FC = () => {
     const navigate = useNavigate()
@@ -21,6 +23,8 @@ export const ProfileForm: React.FC = () => {
     const { id } = useParams()
 
     const numericId = Number(id)
+
+    const userProfile = useAtomValue(userAtom)
 
     const queryClient = useQueryClient()
 
@@ -53,6 +57,9 @@ export const ProfileForm: React.FC = () => {
         },
     })
 
+    const successUrl =
+        userProfile?.role === ROLE.superadmin ? '/employee/list' : '/group/user-group'
+
     const {
         setValue,
         setError,
@@ -68,8 +75,9 @@ export const ProfileForm: React.FC = () => {
             })
 
             queryClient.invalidateQueries({ queryKey: ['employeeList'] })
+            queryClient.invalidateQueries({ queryKey: ['editUserGroup'] })
 
-            navigate(`/employee/list`)
+            navigate(successUrl)
         },
         onError: (err: any) => {
             toast({
@@ -509,7 +517,9 @@ export const ProfileForm: React.FC = () => {
                                 <Button
                                     variant='outline'
                                     className='w-1/5'
-                                    onClick={() => navigate('/employee/list')}
+                                    onClick={() => {
+                                        navigate(successUrl)
+                                    }}
                                 >
                                     Cancel
                                 </Button>
