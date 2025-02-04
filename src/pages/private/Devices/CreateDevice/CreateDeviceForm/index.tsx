@@ -13,7 +13,6 @@ import { useNavigate } from 'react-router-dom'
 import GroupListModal from './GroupListModal'
 import { useAtom } from 'jotai'
 import { createDeviceGroupAtom } from '@/store/device'
-import { logZodResolver } from '@/utils/helper'
 
 export const CreateDeviceForm: React.FC = () => {
     const [open, setOpen] = useState<boolean>(false)
@@ -30,7 +29,7 @@ export const CreateDeviceForm: React.FC = () => {
 
     const deviceForm = useForm<CreateDeviceType>({
         mode: 'all',
-        resolver: logZodResolver(createDeviceSchema),
+        resolver: zodResolver(createDeviceSchema),
     })
 
     const {
