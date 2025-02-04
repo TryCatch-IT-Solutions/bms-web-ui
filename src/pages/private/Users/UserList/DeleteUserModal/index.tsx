@@ -31,7 +31,9 @@ const DeleteUserModal: React.FC<DeleteUserModalProps> = ({ open, setOpen }) => {
             })
 
             queryClient.invalidateQueries({ queryKey: ['usersList'] })
-            queryClient.invalidateQueries({ queryKey: ['userStatusCount'] })
+            queryClient.invalidateQueries({ queryKey: ['archivedUsersCount'] })
+            queryClient.invalidateQueries({ queryKey: ['assignedUsersCount'] })
+            queryClient.invalidateQueries({ queryKey: ['unassignedUsersCount'] })
             setUserIdsToDelete(null)
             setOpen(false)
         },
@@ -54,7 +56,9 @@ const DeleteUserModal: React.FC<DeleteUserModalProps> = ({ open, setOpen }) => {
             })
 
             queryClient.invalidateQueries({ queryKey: ['usersList'] })
-            queryClient.invalidateQueries({ queryKey: ['userStatusCount'] })
+            queryClient.invalidateQueries({ queryKey: ['archivedUsersCount'] })
+            queryClient.invalidateQueries({ queryKey: ['assignedUsersCount'] })
+            queryClient.invalidateQueries({ queryKey: ['unassignedUsersCount'] })
             setUserIdsToDelete(null)
             setOpen(false)
         },

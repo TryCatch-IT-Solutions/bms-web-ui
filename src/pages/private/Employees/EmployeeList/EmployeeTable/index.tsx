@@ -27,7 +27,7 @@ import { Trash2Icon } from 'lucide-react'
 import { EmployeeStatusBar } from '../EmployeeStatusBar'
 import DeleteEmployeeModal from '../DeleteEmployeeModal'
 import dayjs from 'dayjs'
-import UserFilterDropdown from '../UserFilterDropdown'
+// import UserFilterDropdown from '../UserFilterDropdown'
 import { ResetIcon } from '@radix-ui/react-icons'
 import { SyncNotificationBar } from '@/components/SyncNofificationBar'
 import { ExportCounter } from '@/components/ExportCounter'
@@ -118,8 +118,9 @@ export const EmployeeTable: React.FC = () => {
                     <SearchBar
                         placeHolder='Search Employee'
                         onSearchChange={(e) => onSearchChange(e?.target?.value)}
+                        value={searchVal ? searchVal : ''}
                     />
-                    <UserFilterDropdown />
+                    {/* <UserFilterDropdown /> */}
                     <Button onClick={handleResetFilter} variant='outlineTwo'>
                         <ResetIcon />
                     </Button>

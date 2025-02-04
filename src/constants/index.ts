@@ -20,6 +20,18 @@ export const ROLE = {
     employee: 'employee' as string,
 } as const
 
+export const EMP_ASSIGN_STATUS_TABS = {
+    assigned: 'assigned' as string,
+    unassigned: 'unassigned' as string,
+    archive: 'archive' as string,
+} as const
+
+export const USER_ASSIGN_STATUS_TABS = {
+    assigned: 'assigned' as string,
+    unassigned: 'unassigned' as string,
+    archive: 'archive' as string,
+} as const
+
 export const ROLE_LABELS = {
     superadmin: 'Super Admin' as string,
     groupadmin: 'Group Admin' as string,

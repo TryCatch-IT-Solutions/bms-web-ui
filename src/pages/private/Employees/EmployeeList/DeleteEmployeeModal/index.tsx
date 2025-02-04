@@ -31,7 +31,9 @@ const DeleteEmployeeModal: React.FC<DeleteEmployeeModalProps> = ({ open, setOpen
             })
 
             queryClient.invalidateQueries({ queryKey: ['employeeList'] })
-            queryClient.invalidateQueries({ queryKey: ['userStatusCount'] })
+            queryClient.invalidateQueries({ queryKey: ['assignedEmpCount'] })
+            queryClient.invalidateQueries({ queryKey: ['unassignedEmpCount'] })
+            queryClient.invalidateQueries({ queryKey: ['archivedCount'] })
             setUserIdsToDelete(null)
             setOpen(false)
         },
@@ -52,7 +54,9 @@ const DeleteEmployeeModal: React.FC<DeleteEmployeeModalProps> = ({ open, setOpen
             })
 
             queryClient.invalidateQueries({ queryKey: ['employeeList'] })
-            queryClient.invalidateQueries({ queryKey: ['userStatusCount'] })
+            queryClient.invalidateQueries({ queryKey: ['assignedEmpCount'] })
+            queryClient.invalidateQueries({ queryKey: ['unassignedEmpCount'] })
+            queryClient.invalidateQueries({ queryKey: ['archivedCount'] })
             setUserIdsToDelete(null)
             setOpen(false)
         },

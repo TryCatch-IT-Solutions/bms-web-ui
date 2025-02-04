@@ -2,17 +2,13 @@ import { useState } from 'react'
 import { Button } from '@/components/Button'
 import { Checkbox } from '@/components/Checkbox'
 import { useAtom } from 'jotai'
-import { userAssignStatusFilterAtom, userRoleFilterAtom } from '@/store/user'
-import { USER_ASSIGN_STATUS, USER_FILTER_OPTIONS } from '@/constants'
+import { userRoleFilterAtom } from '@/store/user'
+import { USER_FILTER_OPTIONS } from '@/constants'
 import { BsFunnelFill } from 'react-icons/bs'
 
 const UserFilterDropdown: React.FC = () => {
     const [isOpen, setIsOpen] = useState(false)
     const [userFilter, setuserRoleFilterAtom] = useAtom(userRoleFilterAtom)
-    const [userAssignedStatusFilter, setuserAssignStatusFilterAtom] = useAtom(
-        userAssignStatusFilterAtom,
-    )
-
     const toggleDropdown = () => {
         setIsOpen((prev) => !prev)
     }
@@ -23,14 +19,6 @@ const UserFilterDropdown: React.FC = () => {
             : [...(userFilter ?? []), value]
 
         setuserRoleFilterAtom(updatedFilters) // Apply changes immediately
-    }
-
-    const onAssignStatusCheckboxChange = (value: boolean) => {
-        if (userAssignedStatusFilter === value) {
-            setuserAssignStatusFilterAtom(null)
-        } else {
-            setuserAssignStatusFilterAtom(value)
-        }
     }
 
     return (
@@ -52,20 +40,6 @@ const UserFilterDropdown: React.FC = () => {
                                         checked={userFilter?.includes(f.value)}
                                     />
                                     <label htmlFor={f.value} className='ml-2 text-sm text-gray-700'>
-                                        {f.label}
-                                    </label>
-                                </li>
-                            ))}
-                            <p className='font-semibold flex items-center px-4 text-sm mt-2'>
-                                Assign Status
-                            </p>
-                            {USER_ASSIGN_STATUS.map((f) => (
-                                <li key={f.label} className='flex items-center px-4 py-2 b'>
-                                    <Checkbox
-                                        onClick={() => onAssignStatusCheckboxChange(f.value)}
-                                        checked={userAssignedStatusFilter === f.value}
-                                    />
-                                    <label htmlFor={f.label} className='ml-2 text-sm text-gray-700'>
                                         {f.label}
                                     </label>
                                 </li>
