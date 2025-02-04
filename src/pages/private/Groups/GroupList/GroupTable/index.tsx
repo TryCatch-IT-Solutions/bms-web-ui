@@ -72,12 +72,17 @@ export const GroupTable: React.FC = () => {
 
     return (
         <>
-            <div className='mb-5 flex flex-row justify-between'>
+            <div className='xl:hidden 2xl:hidden lg:hidden md:hidden'>
+                <SyncNotificationBar />
+            </div>
+            <div className='mb-5 flex flex-row justify-between xs:mt-1'>
                 <SearchBar
                     placeHolder='Search User'
                     onSearchChange={(e) => onSearchChange(e?.target?.value)}
                 />
-                <SyncNotificationBar />
+                <div className='xs:hidden'>
+                    <SyncNotificationBar />
+                </div>
                 <div className='flex flex-row gap-5'>
                     <Button
                         variant='outline'
@@ -101,7 +106,7 @@ export const GroupTable: React.FC = () => {
                                     <TableHead
                                         key={index}
                                         className={cn(
-                                            'font-semibold text-bms-gray-medium text-base whitespace-nowrap',
+                                            'font-semibold text-bms-gray-medium text-base whitespace-nowrap xs:text-sm',
                                         )}
                                     >
                                         <span className='flex flex-row gap-2 items-center'>
@@ -137,7 +142,7 @@ export const GroupTable: React.FC = () => {
                                 groups?.content.map((g) => (
                                     <TableRow
                                         key={0}
-                                        className='text-start text-base text-bms-gray-dark cursor-pointer'
+                                        className='text-start text-base text-bms-gray-dark cursor-pointer xs:text-sm'
                                     >
                                         <TableCell className='font-semibold text-bms-link flex flex-row items-center gap-2'>
                                             <Checkbox

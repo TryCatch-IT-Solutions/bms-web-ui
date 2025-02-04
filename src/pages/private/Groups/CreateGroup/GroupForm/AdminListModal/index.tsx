@@ -62,8 +62,8 @@ const AdminListModal: React.FC<AdminListModalProps> = ({ open, setOpen }) => {
             containerClassName='max-w-[600px]'
         >
             <div className='flex flex-col gap-5'>
-                <div className='flex gap-5 px-10'>
-                    <h1 className='text-left font-semibold text-2xl text-gray-900 mt-2.5'>
+                <div className='flex gap-5 px-10 xs:text-center xs:items-center xs:justify-center'>
+                    <h1 className='text-left font-semibold text-2xl text-gray-900 mt-2.5 xs:text-lg xs:text-center'>
                         Select Group Admin
                     </h1>
                 </div>
@@ -83,7 +83,7 @@ const AdminListModal: React.FC<AdminListModalProps> = ({ open, setOpen }) => {
                     {isLoading ? (
                         <Spinner variant='normal' className='h-10 w-10' />
                     ) : (
-                        <ul className='flex flex-col gap-3'>
+                        <ul className='flex flex-col gap-3 xs:text-sm'>
                             {employees?.content?.map((e) => (
                                 <li className='flex flex-row gap-2 items-center'>
                                     <Checkbox

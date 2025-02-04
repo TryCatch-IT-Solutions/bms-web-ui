@@ -62,8 +62,8 @@ export const GroupForm: React.FC = () => {
                 className='flex flex-col gap-5 w-full h-full max-w-[80%]'
                 onSubmit={handleSubmit(onSubmit)}
             >
-                <div className='flex flex-row gap-5 items-center'>
-                    <div className='w-1/2'>
+                <div className='flex gap-5 items-center'>
+                    <div className='w-1/2 xs:w-[100%]'>
                         <FormField
                             control={groupForm.control}
                             name='name'
@@ -71,7 +71,7 @@ export const GroupForm: React.FC = () => {
                                 <FormItem>
                                     <FormControl>
                                         <Input
-                                            className='mt-[16px] w-[50%] bg-white'
+                                            className='mt-[16px] w-[50%] xs:w-[100%] bg-white'
                                             placeholder='Group Name'
                                             type='text'
                                             {...field}

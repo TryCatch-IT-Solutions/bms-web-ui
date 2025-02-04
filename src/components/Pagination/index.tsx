@@ -37,7 +37,7 @@ export const Pagination: React.FC<PaginatedItemsProps> = ({
     const itemsPerPageOptions = [10, 20, 50, 200, 500, 1000]
 
     return (
-        <div className='flex flex-row justify-end gap-5 w-full max-w-full xs:text-sm'>
+        <div className='flex flex-row xs:flex-col xs:gap-2 justify-end gap-5 w-full max-w-full xs:text-sm'>
             <div className='flex flex-col justify-end max-w-full'>
                 <ReactPaginate
                     previousLabel='<<'
@@ -58,7 +58,7 @@ export const Pagination: React.FC<PaginatedItemsProps> = ({
                     forcePage={(pagination.current_page ?? 1) - 1}
                 />
             </div>
-            <div className='mb-2 z-10 flex flex-row gap-2 justify-end'>
+            <div className='mb-2 z-10 flex flex-row gap-2 justify-end xs:items-center'>
                 <label htmlFor='itemsPerPage'>Items per page:</label>
                 <select
                     id='itemsPerPage'

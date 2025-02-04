@@ -29,7 +29,7 @@ const UserFilterDropdown: React.FC = () => {
                 </Button>
             </div>
             {isOpen && (
-                <div className='absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 z-50'>
+                <div className='absolute right-0 xs:left-0 mt-2 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 z-50'>
                     <div className='py-1 bg-white'>
                         <p className='font-semibold flex items-center px-4 text-sm'>Role</p>
                         <ul className='overflow-auto bg-white'>
