@@ -92,36 +92,36 @@ const DeleteUserModal: React.FC<DeleteUserModalProps> = ({ open, setOpen }) => {
             containerClassName='max-w-[600px]'
         >
             <div>
-                <div className='flex gap-5 px-10'>
-                    <div className='flex justify-center items-center bg-zentive-red-light h-16 w-16 rounded-full'>
+                <div className='flex xs:flex-col gap-5 xs:items-center xs:justify-center px-10'>
+                    <div className='flex justify-center items-center bg-zentive-red-light h-16 xs:h-5 w-16 rounded-full'>
                         <HiOutlineExclamationTriangle className='yx-5 text-red-500 h-10 w-10' />
                     </div>
-                    <div className=' overflow-auto'>
+                    <div className='overflow-auto xs:items-center xs:justify-center'>
                         {selectedUserStatus === USER_STATUS.ACTIVATED ? (
-                            <>
-                                <h1 className='text-left font-semibold text-2xl text-gray-900 mt-2.5'>
+                            <div className='text-left xs:text-center xs:flex xs:flex-col xs:items-center xs:justify-center'>
+                                <h1 className='font-semibold text-2xl xs:text-lg text-gray-900 mt-2.5'>
                                     Delete User Accounts
                                 </h1>
-                                <p className='text-left text-sm text-gray-500 mt-5'>
+                                <p className='text-sm text-gray-500 xs:text-sm mt-5'>
                                     Deleted user accounts will lose their login capability, you can
                                     recover the selected accounts on the deleted tab of this table.
                                 </p>
-                                <p className='text-left text-sm text-gray-500 mt-5'>
+                                <p className='text-sm text-gray-500 xs:text-sm mt-5'>
                                     Are you sure you want to delete these accounts?
                                 </p>
-                            </>
+                            </div>
                         ) : (
-                            <>
-                                <h1 className='text-left font-semibold text-2xl text-gray-900 mt-2.5'>
+                            <div className='text-left xs:text-center xs:flex xs:flex-col xs:items-center xs:justify-center'>
+                                <h1 className='font-semibold text-2xl xs:text-lg text-gray-900 mt-2.5'>
                                     Restore User Accounts
                                 </h1>
-                                <p className='text-left text-sm text-gray-500 mt-5'>
+                                <p className='text-sm text-gray-500 xs:text-sm mt-5'>
                                     Rstored user accounts will regain their login capability.
                                 </p>
-                                <p className='text-left text-sm text-gray-500 mt-5'>
+                                <p className='text-sm text-gray-500 xs:text-sm mt-5'>
                                     Are you sure you want to restore these accounts?
                                 </p>
-                            </>
+                            </div>
                         )}
                     </div>
                 </div>

@@ -5,7 +5,7 @@
 @tailwind utilities;
 
 .content {
-    @apply mt-10;
+    @apply mt-10 xs:mt-0;
 }
 
 @layer base {

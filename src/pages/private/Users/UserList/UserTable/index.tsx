@@ -137,20 +137,27 @@ export const UserTable: React.FC = () => {
 
     return (
         <>
-            <div className='mb-5 flex flex-row justify-between'>
-                <div className='flex flex-row gap-1'>
+            <div className='xl:hidden 2xl:hidden lg:hidden md:hidden'>
+                <SyncNotificationBar />
+            </div>
+            <div className='mb-5 flex flex-row justify-between xs:mt-1'>
+                <div className='flex flex-row xs:flex-col gap-1'>
                     <SearchBar
                         value={searchVal}
                         placeHolder='Search User'
                         onSearchChange={(e) => onSearchChange(e.target.value)}
                     />
-                    <UserFilterDropdown />
-                    <Button onClick={handleResetFilter} variant='outlineTwo'>
-                        <ResetIcon />
-                    </Button>
+                    <div className='flex flex-row gap-1 xs:items-center xs:justify-center'>
+                        <UserFilterDropdown />
+                        <Button onClick={handleResetFilter} variant='outlineTwo'>
+                            <ResetIcon />
+                        </Button>
+                    </div>
                 </div>
-                <SyncNotificationBar />
-                <div className='flex flex-row gap-5'>
+                <div className='xs:hidden'>
+                    <SyncNotificationBar />
+                </div>
+                <div className='flex flex-row xs:flex-col xs:gap-1 gap-5'>
                     {usersToExport && usersToExport?.content?.length > 0 && (
                         <ExportCounter
                             selected={usersToExport?.content?.length ?? 0}
@@ -192,7 +199,7 @@ export const UserTable: React.FC = () => {
                                     <TableHead
                                         key={index}
                                         className={cn(
-                                            'font-semibold text-bms-gray-medium text-base whitespace-nowrap',
+                                            'font-semibold text-bms-gray-medium text-base whitespace-nowrap xs:text-sm',
                                         )}
                                     >
                                         <span className='flex flex-row gap-2'>
@@ -237,7 +244,7 @@ export const UserTable: React.FC = () => {
                             {users?.content?.map((u: ProfileType) => (
                                 <TableRow
                                     key={u?.id}
-                                    className='text-start text-base text-bms-gray-dark cursor-pointer'
+                                    className='text-start text-base text-bms-gray-dark cursor-pointer xs:text-sm'
                                 >
                                     <TableCell className='font-semibold text-bms-link flex flex-row items-center gap-2'>
                                         <Checkbox
