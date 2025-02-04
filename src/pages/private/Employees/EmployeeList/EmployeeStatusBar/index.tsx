@@ -17,7 +17,7 @@ interface UserTabsProps {
     available?: boolean
 }
 
-export const EmployeeStatusBar: React.FC<UserTabsProps> = ({ search, roles, available }) => {
+export const EmployeeStatusBar: React.FC<UserTabsProps> = ({ search, roles }) => {
     const setSelectedStatus = useSetAtom(employeeSelectedStatusAtom)
     const setToExport = useSetAtom(employeeExportAtom)
     const setToDelete = useSetAtom(employeesToDeleteAtom)
