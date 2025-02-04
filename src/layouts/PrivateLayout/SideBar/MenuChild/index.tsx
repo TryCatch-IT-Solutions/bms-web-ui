@@ -116,7 +116,7 @@ const Items = ({ index, item, open, setCurrentTab }: ItemProps) => {
                 )}
             </span>
 
-            <span className={twMerge('flex-1', navItemHoverStyle, navItemTextStyle)}>
+            <span className={twMerge('flex-1 xs:text-sm', navItemHoverStyle, navItemTextStyle)}>
                 {item.name}
             </span>
 
@@ -144,7 +144,7 @@ const SubItems = ({ item }: ItemProps) => {
                     key={subItem.name}
                     to={subItem.href}
                     className={twMerge(
-                        'bg-transparent text-gray-500 hover:bg-gray-200 transition-all duration-300 group w-full flex items-center pl-16 py-2 text-sm font-medium',
+                        'bg-transparent text-gray-500 xs:text-sm hover:bg-gray-200 transition-all duration-300 group w-full flex items-center pl-16 py-2 text-sm font-medium',
                         subItem.href === pathname && 'bg-zentive-gray-light text-zentive-blue-dark',
                     )}
                     onClick={() => {

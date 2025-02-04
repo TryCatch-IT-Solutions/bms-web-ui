@@ -54,7 +54,7 @@ export const GroupMemberTable: React.FC = () => {
 
     return (
         <div className='flex flex-col gap-5'>
-            <div className='flex flex-row items-center justify-between'>
+            <div className='flex flex-row xs:flex-col items-center justify-between'>
                 <div className='flex flex-row gap-5 items-center mt-3'>
                     <p>Group Admin: </p>
                     <Button
@@ -64,7 +64,7 @@ export const GroupMemberTable: React.FC = () => {
                         {admin ? admin.first_name + ' ' + admin?.last_name : 'Select Group Admin'}
                     </Button>
                 </div>
-                <div className='flex flex-row gap-5 mt-5'>
+                <div className='flex flex-row xs:flex-col gap-5 mt-5'>
                     <Button
                         variant='outline'
                         className='flex flex-row gap-2'
@@ -95,7 +95,7 @@ export const GroupMemberTable: React.FC = () => {
                                             'font-semibold text-bms-gray-medium text-base whitespace-nowrap',
                                         )}
                                     >
-                                        <span className='flex flex-row gap-2 items-center'>
+                                        <span className='flex flex-row gap-2 items-center xs:text-sm'>
                                             {index === 0 && (
                                                 <Checkbox
                                                     checked={empIds?.length === empToRemove?.length}
