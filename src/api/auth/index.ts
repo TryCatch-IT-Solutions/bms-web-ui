@@ -1,6 +1,7 @@
 import { axiosInstance } from '../axiosInstance'
 import {
     ForgotPasswordType,
+    OverridePasswordType,
     SignInResponseType,
     SignInType,
     UpdatePasswordType,
@@ -41,6 +42,12 @@ export const forgotPassword = async (data: ForgotPasswordType) => {
 }
 
 export const updateUserPassword = async (data: UpdateUserPasswordType) => {
+    const response = await axiosInstance.post(`/api/user/${data.id}/updatePassword`, data)
+
+    return response.data
+}
+
+export const overridePassowrd = async (data: OverridePasswordType) => {
     const response = await axiosInstance.post(`/api/user/${data.id}/updatePassword`, data)
 
     return response.data

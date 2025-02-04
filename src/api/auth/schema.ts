@@ -112,8 +112,45 @@ export const createNewPasswordSchema = z.object({
     token: z.string(),
 })
 
+export const overridePasswordSChema = z
+    .object({
+        id: z.number(),
+        new_password: z.string().min(8, { message: 'Confirm password is required' }).trim(),
+        new_password_confirmation: z
+            .string()
+            .min(8, { message: 'Confirm password is required' })
+            .trim(),
+    })
+    .superRefine((data, ctx) => {
+        if (
+            data.new_password &&
+            data.new_password.trim() !== data.new_password_confirmation.trim()
+        ) {
+            ctx.addIssue({
+                code: 'custom',
+                path: ['password_confirmation'],
+                message: 'Passwords do not match',
+            })
+        }
+
+        if (data.new_password.trim() === data.new_password_confirmation.trim()) {
+            ctx.addIssue({
+                code: 'custom',
+                path: ['password_confirmation'],
+                message: 'New password cannot be your old password',
+            })
+
+            ctx.addIssue({
+                code: 'custom',
+                path: ['new_password'],
+                message: 'New password cannot be your old password',
+            })
+        }
+    })
+
 export type SignInType = z.infer<typeof signInSchema>
 export type SignInResponseType = z.infer<typeof signInResponseSchema>
 export type ForgotPasswordType = z.infer<typeof forgotPasswordSchema>
 export type UpdatePasswordType = z.infer<typeof updatePasswordSchema>
 export type UpdateUserPasswordType = z.infer<typeof updateUserPasswordSchema>
+export type OverridePasswordType = z.infer<typeof overridePasswordSChema>

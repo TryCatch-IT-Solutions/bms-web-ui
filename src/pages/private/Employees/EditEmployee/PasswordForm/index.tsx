@@ -6,8 +6,8 @@ import { useNavigate, useParams } from 'react-router-dom'
 import { useToast } from '@/hooks/useToast'
 import { useMutation } from '@tanstack/react-query'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { updateUserPasswordSchema, UpdateUserPasswordType } from '@/api/auth/schema'
-import { updateUserPassword } from '@/api/auth'
+import { updateUserPasswordSchema, OverridePasswordType } from '@/api/auth/schema'
+import { overridePassowrd } from '@/api/auth'
 import { PasswordInput } from '@/components/PasswordInput'
 import { useEffect } from 'react'
 
@@ -15,7 +15,7 @@ export const PasswordForm: React.FC = () => {
     const navigate = useNavigate()
     const { toast } = useToast()
 
-    const userForm = useForm<UpdateUserPasswordType>({
+    const userForm = useForm<OverridePasswordType>({
         mode: 'onChange',
         resolver: zodResolver(updateUserPasswordSchema),
     })
@@ -30,7 +30,7 @@ export const PasswordForm: React.FC = () => {
     } = userForm
 
     const { mutate: updateUserPasswordMu, isPending } = useMutation({
-        mutationFn: updateUserPassword,
+        mutationFn: overridePassowrd,
         onSuccess: () => {
             toast({
                 description: 'User updated successfully',
@@ -47,7 +47,7 @@ export const PasswordForm: React.FC = () => {
         },
     })
 
-    const onSubmit = (data: UpdateUserPasswordType) => {
+    const onSubmit = (data: OverridePasswordType) => {
         updateUserPasswordMu(data)
     }
 
@@ -67,27 +67,6 @@ export const PasswordForm: React.FC = () => {
                     <Card className=''>
                         <CardContent className='min-w-[64.59rem] min-h-[37.125rem] flex flex-col gap-5 pt-5'>
                             <div className='flex flex-row gap-3 items-center justify-start'>
-                                <div className='w-1/3'>
-                                    <FormField
-                                        control={userForm.control}
-                                        name='password'
-                                        render={({ field }) => (
-                                            <FormItem>
-                                                <FormControl>
-                                                    <PasswordInput
-                                                        className='mt-[16px] w-[100%] bg-white'
-                                                        placeholder='Current Password'
-                                                        {...field}
-                                                    />
-                                                </FormControl>
-                                                <FormMessage>
-                                                    {errors?.password?.message}
-                                                </FormMessage>
-                                            </FormItem>
-                                        )}
-                                    />
-                                </div>
-
                                 <div className='w-1/3'>
                                     <FormField
                                         control={userForm.control}
