@@ -14,6 +14,9 @@ export const deviceSchema = z.object({
     serial_no: z.string(),
     lat: z.number(),
     lon: z.number(),
+    is_online: z.number().optional(),
+    last_sync: z.string().optional(),
+    last_activity: z.string().optional(),
 })
 
 export const deviceListSchema = z.object({
