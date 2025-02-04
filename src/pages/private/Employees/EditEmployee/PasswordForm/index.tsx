@@ -6,7 +6,7 @@ import { useNavigate, useParams } from 'react-router-dom'
 import { useToast } from '@/hooks/useToast'
 import { useMutation } from '@tanstack/react-query'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { updateUserPasswordSchema, OverridePasswordType } from '@/api/auth/schema'
+import { overridePasswordSChema, OverridePasswordType } from '@/api/auth/schema'
 import { overridePassowrd } from '@/api/auth'
 import { PasswordInput } from '@/components/PasswordInput'
 import { useEffect } from 'react'
@@ -17,7 +17,7 @@ export const PasswordForm: React.FC = () => {
 
     const userForm = useForm<OverridePasswordType>({
         mode: 'onChange',
-        resolver: zodResolver(updateUserPasswordSchema),
+        resolver: zodResolver(overridePasswordSChema),
     })
 
     const { id } = useParams()
@@ -33,7 +33,7 @@ export const PasswordForm: React.FC = () => {
         mutationFn: overridePassowrd,
         onSuccess: () => {
             toast({
-                description: 'User updated successfully',
+                description: 'Password updated successfully',
                 duration: 2000,
             })
             navigate(-1)

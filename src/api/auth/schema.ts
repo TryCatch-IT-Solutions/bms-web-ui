@@ -122,28 +122,11 @@ export const overridePasswordSChema = z
             .trim(),
     })
     .superRefine((data, ctx) => {
-        if (
-            data.new_password &&
-            data.new_password.trim() !== data.new_password_confirmation.trim()
-        ) {
+        if (data.new_password.trim() !== data.new_password_confirmation.trim()) {
             ctx.addIssue({
                 code: 'custom',
                 path: ['password_confirmation'],
                 message: 'Passwords do not match',
-            })
-        }
-
-        if (data.new_password.trim() === data.new_password_confirmation.trim()) {
-            ctx.addIssue({
-                code: 'custom',
-                path: ['password_confirmation'],
-                message: 'New password cannot be your old password',
-            })
-
-            ctx.addIssue({
-                code: 'custom',
-                path: ['new_password'],
-                message: 'New password cannot be your old password',
             })
         }
     })
