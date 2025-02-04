@@ -6,6 +6,7 @@ import { employeeGroupToRemoveAtom } from '@/store/groups'
 import { cn } from '@/utils/helper'
 import { useAtom } from 'jotai'
 import { useEffect } from 'react'
+import { useNavigate } from 'react-router-dom'
 
 const tableHeader = [
     { name: 'Account Number' },
@@ -22,6 +23,8 @@ interface EditGroupMemberTableProps {
 
 export const GroupMemberTable: React.FC<EditGroupMemberTableProps> = ({ employees }) => {
     const [empToRemove, setEmpToRemove] = useAtom(employeeGroupToRemoveAtom)
+
+    const navigate = useNavigate()
 
     const handleCheckBoxClick = (id: number, checked: boolean) => {
         setEmpToRemove((prev) => {
@@ -97,11 +100,19 @@ export const GroupMemberTable: React.FC<EditGroupMemberTableProps> = ({ employee
                                     />{' '}
                                     {e.id}
                                 </TableCell>
-                                <TableCell>{e.first_name}</TableCell>
-                                <TableCell>{e.last_name}</TableCell>
-                                <TableCell>{e.email}</TableCell>
-                                <TableCell>{e.phone_number}</TableCell>
-                                <TableCell>
+                                <TableCell onClick={() => navigate(`/employee/edit/${e.id}`)}>
+                                    {e.first_name}
+                                </TableCell>
+                                <TableCell onClick={() => navigate(`/employee/edit/${e.id}`)}>
+                                    {e.last_name}
+                                </TableCell>
+                                <TableCell onClick={() => navigate(`/employee/edit/${e.id}`)}>
+                                    {e.email}
+                                </TableCell>
+                                <TableCell onClick={() => navigate(`/employee/edit/${e.id}`)}>
+                                    {e.phone_number}
+                                </TableCell>
+                                <TableCell onClick={() => navigate(`/employee/edit/${e.id}`)}>
                                     <p className='w-40 truncate'>
                                         {e.address1} {e.address2 ? e.address2 + ',' : ','}{' '}
                                         {e.municipality}, {e.province}

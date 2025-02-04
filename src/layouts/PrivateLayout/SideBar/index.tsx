@@ -111,7 +111,7 @@ export const navigationItems: NavigationProps[] = [
             {
                 name: 'Employee List',
                 href: '/employee/list',
-                allowedRoles: [ROLE.groupadmin, ROLE.superadmin],
+                allowedRoles: [ROLE.superadmin],
             },
         ],
     },

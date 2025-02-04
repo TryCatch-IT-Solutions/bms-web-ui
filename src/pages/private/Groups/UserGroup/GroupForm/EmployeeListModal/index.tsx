@@ -68,7 +68,7 @@ const EmployeeListModal: React.FC<EmployeeListModalProps> = ({ open, setOpen, gr
     }
 
     const { data: employees, isLoading } = useQuery({
-        queryKey: ['groupEditemployeeList', pagination, searchVal, open],
+        queryKey: ['userGroupEditemployeeList', pagination, searchVal, open],
         queryFn: () => getUsers(pagination, ['active'], [ROLE.employee], true, searchVal),
     })
 
