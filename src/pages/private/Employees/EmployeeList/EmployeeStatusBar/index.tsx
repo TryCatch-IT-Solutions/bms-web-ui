@@ -41,17 +41,17 @@ export const EmployeeStatusBar: React.FC<UserTabsProps> = ({ search, roles, avai
     }
 
     const { data: assignedCount } = useQuery({
-        queryKey: ['assignedEmpCount', search, roles, available],
+        queryKey: ['assignedEmpCount', search, roles],
         queryFn: () => getUserStatusCount('employee', search, roles, false),
     })
 
     const { data: unassignedCount } = useQuery({
-        queryKey: ['unassignedEmpCount', search, roles, available],
+        queryKey: ['unassignedEmpCount', search, roles],
         queryFn: () => getUserStatusCount('employee', search, roles, true),
     })
 
     const { data: archivedCount } = useQuery({
-        queryKey: ['archivedCount', search, roles, available],
+        queryKey: ['archivedCount', search, roles],
         queryFn: () => getUserStatusCount('employee', search, roles, true),
     })
 

@@ -18,7 +18,7 @@ interface UserTabsProps {
     available?: boolean
 }
 
-export const UserStatusTabs: React.FC<UserTabsProps> = ({ search, roles, available }) => {
+export const UserStatusTabs: React.FC<UserTabsProps> = ({ search, roles }) => {
     const setSelectedStatus = useSetAtom(userSelectedStatusAtom)
     const setToDelete = useSetAtom(userIdsToDeleteAtom)
     const setToExport = useSetAtom(usersToExportAtom)
@@ -44,17 +44,17 @@ export const UserStatusTabs: React.FC<UserTabsProps> = ({ search, roles, availab
     }
 
     const { data: assignedCount } = useQuery({
-        queryKey: ['assignedUsersCount', search, roles, available],
+        queryKey: ['assignedUsersCount', search, roles],
         queryFn: () => getUserStatusCount('users', search, roles, false),
     })
 
     const { data: unassignedCount } = useQuery({
-        queryKey: ['unassignedUsersCount', search, roles, available],
+        queryKey: ['unassignedUsersCount', search, roles],
         queryFn: () => getUserStatusCount('users', search, roles, true),
     })
 
     const { data: archivedCount } = useQuery({
-        queryKey: ['archivedUsersCount', search, roles, available],
+        queryKey: ['archivedUsersCount', search, roles],
         queryFn: () => getUserStatusCount('users', search, roles, true),
     })
 
