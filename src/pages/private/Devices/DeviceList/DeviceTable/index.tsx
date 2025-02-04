@@ -24,6 +24,8 @@ const tableHeader = [
     { name: 'Group' },
     { name: 'Model' },
     { name: 'Serial Number' },
+    { name: 'Status' },
+    { name: 'Last Sync' },
 ]
 
 export const DeviceTable: React.FC = () => {
@@ -166,6 +168,16 @@ export const DeviceTable: React.FC = () => {
                                     </TableCell>
                                     <TableCell onClick={() => handleRowClick(d?.id)}>
                                         {d?.serial_no}
+                                    </TableCell>
+                                    <TableCell onClick={() => handleRowClick(d?.id)}>
+                                        {d?.is_online === 1 ? (
+                                            <span className='text-blue-500'>Online</span>
+                                        ) : (
+                                            <span className='text-red-500'>Offline</span>
+                                        )}
+                                    </TableCell>
+                                    <TableCell onClick={() => handleRowClick(d?.id)}>
+                                        {d?.last_sync}
                                     </TableCell>
                                 </TableRow>
                             ))}
