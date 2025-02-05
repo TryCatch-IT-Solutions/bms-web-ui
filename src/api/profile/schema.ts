@@ -102,6 +102,8 @@ export const employeeTimeEntriesSchema = z.object({
     created_at: z.string(),
     updated_at: z.string(),
     deleted_at: z.nullable(z.string()),
+    lat: z.number(),
+    lon: z.number(),
     employee: profileSchema.pick({
         id: true,
         group_id: true,

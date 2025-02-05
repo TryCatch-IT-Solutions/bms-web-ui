@@ -8,12 +8,13 @@ import { EditDevice } from '@/pages/private/Devices/EditDevice'
 import { CreateEmployee } from '@/pages/private/Employees/CreateEmployee'
 import { EditEmployee } from '@/pages/private/Employees/EditEmployee'
 import { EmployeeList } from '@/pages/private/Employees/EmployeeList'
-import { TimeEntries } from '@/pages/private/Employees/TImeEntries'
 import { CreateGroup } from '@/pages/private/Groups/CreateGroup'
 import { EditGroup } from '@/pages/private/Groups/EditGroup'
 import { GroupList } from '@/pages/private/Groups/GroupList'
 import { UserGroup } from '@/pages/private/Groups/UserGroup'
 import { APIKeys } from '@/pages/private/Settings/APIKeys'
+import { TimeEntryList } from '@/pages/private/TImeEntries/TimeEntryList'
+import { TimeEntryMapView } from '@/pages/private/TImeEntries/TimeEntryMapView'
 import { CreateUser } from '@/pages/private/Users/CreateUser'
 import { EditUser } from '@/pages/private/Users/EditUser'
 import { UserList } from '@/pages/private/Users/UserList'
@@ -99,7 +100,11 @@ const PrivateRoutes: RouteObject = {
                 },
                 {
                     path: 'time-entries',
-                    element: <TimeEntries />,
+                    element: <TimeEntryList />,
+                },
+                {
+                    path: 'time-entries/map-view',
+                    element: <TimeEntryMapView />,
                 },
             ],
         },
