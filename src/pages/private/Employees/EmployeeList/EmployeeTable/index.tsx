@@ -53,9 +53,7 @@ export const EmployeeTable: React.FC = () => {
     const user = useAtomValue(userAtom)
 
     const onSearchChange = (val: string) => {
-        setTimeout(() => {
-            setSearchVal(val)
-        }, 500)
+        setSearchVal(val)
     }
 
     const [pagination, setPagination] = useState<PaginationType>({
