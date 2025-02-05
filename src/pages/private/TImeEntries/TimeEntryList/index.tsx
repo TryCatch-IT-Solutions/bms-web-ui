@@ -204,7 +204,13 @@ export const TimeEntryList: React.FC = () => {
                                                 t?.lat === undefined ||
                                                 t?.lon === undefined
                                             }
-                                            onClick={() => navigate('/')}
+                                            onClick={() =>
+                                                navigate(
+                                                    `/employee/time-entries/map-view?lat=${
+                                                        t?.lat ?? 14.69177
+                                                    }&lon=${t?.lon ?? 120.538582}`,
+                                                )
+                                            }
                                         >
                                             Map View <MapIcon />
                                         </Button>

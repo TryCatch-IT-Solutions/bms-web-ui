@@ -149,6 +149,11 @@ export const allowedNavigationLinks = [
         allowedRoles: [ROLE.groupadmin, ROLE.superadmin],
         dynamic: true,
     },
+    {
+        href: `/employee/time-entries/map-view`,
+        allowedRoles: [ROLE.superadmin],
+        dynamic: true,
+    },
 ]
 
 export const API_KEY_LABELS = {
