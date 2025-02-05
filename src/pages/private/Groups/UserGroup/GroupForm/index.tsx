@@ -67,7 +67,7 @@ export const GroupForm: React.FC = () => {
     const { mutate: updateGroupNameMu } = useMutation<unknown, AxiosError, EditGroupType>({
         mutationFn: updateGroupName,
         onSuccess: () => {
-            queryClient.invalidateQueries({ queryKey: ['editGroup'] })
+            queryClient.invalidateQueries({ queryKey: ['editUserGroup'] })
             queryClient.invalidateQueries({ queryKey: ['groupList'] })
             toast({
                 description: 'Group Information Updated Successfully',
