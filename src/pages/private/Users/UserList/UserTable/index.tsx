@@ -140,8 +140,8 @@ export const UserTable: React.FC = () => {
             <div className='xl:hidden 2xl:hidden lg:hidden md:hidden'>
                 <SyncNotificationBar />
             </div>
-            <div className='mb-5 flex flex-row justify-between xs:mt-1'>
-                <div className='flex flex-row xs:flex-col gap-1'>
+            <div className='mb-5 flex flex-row justify-between xs:mt-4'>
+                <div className='flex flex-row xs:flex-col gap-4'>
                     <SearchBar
                         value={searchVal}
                         placeHolder='Search User'
@@ -157,7 +157,7 @@ export const UserTable: React.FC = () => {
                 <div className='xs:hidden'>
                     <SyncNotificationBar />
                 </div>
-                <div className='flex flex-row xs:flex-col xs:gap-1 gap-5'>
+                <div className='flex flex-row xs:flex-col xs:gap-4 gap-5'>
                     {usersToExport && usersToExport?.content?.length > 0 && (
                         <ExportCounter
                             selected={usersToExport?.content?.length ?? 0}
@@ -185,7 +185,7 @@ export const UserTable: React.FC = () => {
                 </div>
             </div>
             <Card className='bg-white w-full overflow-x-auto'>
-                <CardContent className='mt-4'>
+                <CardContent className='mt-4 flex flex-col'>
                     <UserStatusTabs
                         search={searchVal}
                         roles={userRoleFilter ?? []}

@@ -66,7 +66,7 @@ export const EmployeeStatusBar: React.FC<UserTabsProps> = ({ search, roles }) =>
             onValueChange={(val) => setSelectedStatus(val)}
             className='bg-white rounded-md w-full'
         >
-            <TabsList className='w-full flex flex-row mt-[26px] space-x-4'>
+            <TabsList className='w-full flex flex-row mt-5 xs:mt-[10px] space-x-4'>
                 <TabsTrigger
                     onClick={() => onSwitchTab(EMP_ASSIGN_STATUS_TABS.assigned)}
                     value={EMP_ASSIGN_STATUS_TABS.assigned}

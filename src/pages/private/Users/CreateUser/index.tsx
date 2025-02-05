@@ -77,7 +77,7 @@ export const CreateUser: React.FC = () => {
                     <Card className=''>
                         <CardContent className='flex flex-col gap-5 pt-5'>
                             <div className='flex flex-row xs:flex-col xs:gap-5 gap-3 items-center justify-start'>
-                                <div className='w-1/3  xs:w-full'>
+                                <div className='w-1/3 xs:w-full'>
                                     <FormField
                                         control={userForm.control}
                                         name='first_name'
@@ -99,7 +99,7 @@ export const CreateUser: React.FC = () => {
                                     />
                                 </div>
 
-                                <div className='w-1/3  xs:w-full'>
+                                <div className='w-1/3 xs:w-full'>
                                     <FormField
                                         control={userForm.control}
                                         name='middle_name'
@@ -145,7 +145,7 @@ export const CreateUser: React.FC = () => {
                             </div>
 
                             <div className='flex flex-row xs:flex-col xs:gap-5 gap-3 items-center justify-start'>
-                                <div className='w-1/3  xs:w-full'>
+                                <div className='w-1/3 xs:w-full'>
                                     <FormField
                                         control={userForm.control}
                                         name='email'

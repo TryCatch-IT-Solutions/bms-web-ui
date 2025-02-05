@@ -69,12 +69,12 @@ export const UserStatusTabs: React.FC<UserTabsProps> = ({ search, roles }) => {
             onValueChange={(val) => setSelectedStatus(val)}
             className='bg-white rounded-md w-full'
         >
-            <TabsList className='w-full text-lg xs:text-sm flex flex-row mt-[26px] xs:mt-[10px] space-x-4 xs:space-x-1'>
+            <TabsList className='w-full text-lg xs:text-sm flex flex-row mt-0 xs:mt-[10px] space-x-4 xs:space-x-1'>
                 <TabsTrigger
                     onClick={() => onSwitchTab(USER_ASSIGN_STATUS_TABS.assigned)}
                     value={USER_ASSIGN_STATUS_TABS.assigned}
                     className={
-                        'w-1/2 h-[54px] text-bms-gray-dark data-[state=active]:text-bms-link data-[state=active]: border-bms-link data-[state=active]:font-bold data-[state=active]:border-b-4 data-[state=active]:bg-white sm:truncate ...'
+                        'w-1/2 h-10 text-bms-gray-dark data-[state=active]:text-bms-link data-[state=active]: border-bms-link data-[state=active]:font-bold data-[state=active]:border-b-4 data-[state=active]:bg-white sm:truncate ...'
                     }
                 >
                     {`Assigned (${assignedCount?.active ?? 0})`}
@@ -83,7 +83,7 @@ export const UserStatusTabs: React.FC<UserTabsProps> = ({ search, roles }) => {
                     onClick={() => onSwitchTab(USER_ASSIGN_STATUS_TABS.unassigned)}
                     value={USER_ASSIGN_STATUS_TABS.unassigned}
                     className={
-                        'w-1/2 h-[54px] text-bms-gray-dark data-[state=active]:text-bms-link data-[state=active]: border-bms-link data-[state=active]:font-bold data-[state=active]:border-b-4 data-[state=active]:bg-white sm:truncate ...'
+                        'w-1/2 h-10 text-bms-gray-dark data-[state=active]:text-bms-link data-[state=active]: border-bms-link data-[state=active]:font-bold data-[state=active]:border-b-4 data-[state=active]:bg-white sm:truncate ...'
                     }
                 >
                     {`Unassigned (${unassignedCount?.active ?? 0})`}
@@ -92,7 +92,7 @@ export const UserStatusTabs: React.FC<UserTabsProps> = ({ search, roles }) => {
                     onClick={() => onSwitchTab(USER_ASSIGN_STATUS_TABS.archive)}
                     value={USER_ASSIGN_STATUS_TABS.archive}
                     className={
-                        'w-1/2 h-[54px] text-bms-gray-dark data-[state=active]:text-bms-link data-[state=active]: border-bms-link data-[state=active]:font-bold data-[state=active]:border-b-4 data-[state=active]:bg-white sm:truncate ...'
+                        'w-1/2 h-10 text-bms-gray-dark data-[state=active]:text-bms-link data-[state=active]: border-bms-link data-[state=active]:font-bold data-[state=active]:border-b-4 data-[state=active]:bg-white sm:truncate ...'
                     }
                 >
                     {`Archived (${archivedCount?.inactive ?? 0})`}

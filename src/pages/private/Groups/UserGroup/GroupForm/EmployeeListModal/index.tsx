@@ -54,7 +54,7 @@ const EmployeeListModal: React.FC<EmployeeListModalProps> = ({ open, setOpen, gr
     >({
         mutationFn: (data) => addGroupEmployee(data, group_id),
         onSuccess: () => {
-            queryClient.invalidateQueries({ queryKey: ['editGroup'] })
+            queryClient.invalidateQueries({ queryKey: ['editUserGroup'] })
             toast({
                 description: 'Employees Added Successfully',
             })

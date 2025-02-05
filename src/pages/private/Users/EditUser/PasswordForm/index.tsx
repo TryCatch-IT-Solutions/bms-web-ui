@@ -10,6 +10,7 @@ import { OverridePasswordType, overridePasswordSChema } from '@/api/auth/schema'
 import { overridePassowrd } from '@/api/auth'
 import { PasswordInput } from '@/components/PasswordInput'
 import { useEffect } from 'react'
+import { cn } from '@/utils/helper'
 
 export const PasswordForm: React.FC = () => {
     const navigate = useNavigate()
@@ -26,8 +27,11 @@ export const PasswordForm: React.FC = () => {
 
     const {
         setValue,
+        watch,
         formState: { errors, isValid },
     } = userForm
+
+    const newPass = watch('new_password')
 
     const { mutate: updateUserPasswordMu, isPending } = useMutation({
         mutationFn: overridePassowrd,
@@ -55,19 +59,21 @@ export const PasswordForm: React.FC = () => {
         setValue('id', numericId)
     }, [])
 
+    console.log(newPass)
+
     return (
         <div>
             <Form {...userForm}>
                 <form
                     autoComplete='on'
                     noValidate
-                    className='w-full h-full max-w-[80%]'
+                    className='w-full h-full max-w-[80%] xs:max-w-[100%]'
                     onSubmit={userForm.handleSubmit(onSubmit)}
                 >
                     <Card className=''>
-                        <CardContent className='min-w-[64.59rem] min-h-[37.125rem] flex flex-col gap-5 pt-5'>
-                            <div className='flex flex-row gap-3 items-center justify-start'>
-                                <div className='w-1/3'>
+                        <CardContent className='flex flex-col gap-5 pt-5 2xl:min-h-[37.125rem] xl:min-h-[37.125rem] lg:min-h-[37.125rem] md:min-h-[37.125rem]'>
+                            <div className='flex flex-row xs:flex-col xs:gap-5 gap-3 items-center justify-start'>
+                                <div className='w-1/3 xs:w-full'>
                                     <FormField
                                         control={userForm.control}
                                         name='new_password'
@@ -88,7 +94,12 @@ export const PasswordForm: React.FC = () => {
                                         )}
                                     />
                                 </div>
-                                <div className='w-1/3'>
+                                <div
+                                    className={cn(
+                                        'w-1/3 xs:w-full',
+                                        newPass !== '' && newPass !== undefined && 'xs:mt-[14rem]',
+                                    )}
+                                >
                                     <FormField
                                         control={userForm.control}
                                         name='new_password_confirmation'
@@ -114,14 +125,14 @@ export const PasswordForm: React.FC = () => {
                         <CardFooter className='flex flex-row gap-5 items-center justify-end'>
                             <Button
                                 variant='outline'
-                                className='w-1/5'
+                                className='w-1/5 xs:w-full'
                                 onClick={() => navigate('/user/list')}
                             >
                                 Cancel
                             </Button>
                             <Button
                                 type='submit'
-                                className='w-1/5'
+                                className='w-1/5 xs:w-full'
                                 disabled={!isValid || isPending}
                             >
                                 Submit
