@@ -17,6 +17,9 @@ import { Checkbox } from '@/components/Checkbox'
 import { ExportCounter } from '@/components/ExportCounter'
 import { timeEntriesToExportAtom } from '@/store/user'
 import { useAtom } from 'jotai'
+import { MapIcon } from 'lucide-react'
+import { Button } from '@/components/Button'
+import { useNavigate } from 'react-router-dom'
 ;``
 const tableHeader = [
     { name: 'Record ID' },
@@ -24,9 +27,10 @@ const tableHeader = [
     { name: 'Last Name' },
     { name: 'Type' },
     { name: 'Date' },
+    { name: 'Action' },
 ]
 
-export const TimeEntries: React.FC = () => {
+export const TimeEntryList: React.FC = () => {
     const [searchVal, setSearchVal] = useState<string | null>('')
     const [start, setStart] = useState<string>('')
     const [end, setEnd] = useState<string>('')
@@ -36,6 +40,8 @@ export const TimeEntries: React.FC = () => {
             setSearchVal(val)
         }, 500)
     }
+
+    const navigate = useNavigate()
 
     const [pagination, setPagination] = useState<PaginationType>({
         current_page: 1,
@@ -187,6 +193,27 @@ export const TimeEntries: React.FC = () => {
                                     <TableCell>{formatUnderscoreString(t?.type)}</TableCell>
                                     <TableCell>
                                         {dayjs(t?.datetime).format(TIME_DATE_FORMAT.DATE_TIME)}
+                                    </TableCell>
+                                    <TableCell>
+                                        <Button
+                                            className='flex flex-row gap-1 text-bms-gray-600 hover:text-bms-primary'
+                                            variant='outline'
+                                            disabled={
+                                                t?.lat === null ||
+                                                t?.lon === null ||
+                                                t?.lat === undefined ||
+                                                t?.lon === undefined
+                                            }
+                                            onClick={() =>
+                                                navigate(
+                                                    `/employee/time-entries/map-view?lat=${
+                                                        t?.lat ?? 14.69177
+                                                    }&lon=${t?.lon ?? 120.538582}`,
+                                                )
+                                            }
+                                        >
+                                            Map View <MapIcon />
+                                        </Button>
                                     </TableCell>
                                 </TableRow>
                             ))}
