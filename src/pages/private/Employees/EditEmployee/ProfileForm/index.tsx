@@ -7,7 +7,7 @@ import { useNavigate, useParams } from 'react-router-dom'
 import { useToast } from '@/hooks/useToast'
 import { profileSchema, EditUserType } from '@/api/profile/schema'
 import { Dropdown } from '@/components/DropdownInput'
-import { GENDER_OPTIONS, ROLE, ROLE_VALUES } from '@/constants'
+import { GENDER_OPTIONS, ROLE_VALUES } from '@/constants'
 import PhoneNumberInput from '@/components/PhoneNumberInput'
 import { editUser, getUserById } from '@/api/profile'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
@@ -23,8 +23,6 @@ export const ProfileForm: React.FC = () => {
     const { id } = useParams()
 
     const numericId = Number(id)
-
-    const userProfile = useAtomValue(userAtom)
 
     const queryClient = useQueryClient()
 
