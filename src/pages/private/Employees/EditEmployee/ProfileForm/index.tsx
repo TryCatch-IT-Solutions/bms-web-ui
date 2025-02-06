@@ -14,8 +14,6 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { useEffect } from 'react'
 import Spinner from '@/components/Spinner'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { useAtomValue } from 'jotai'
-import { userAtom } from '@/store/user'
 
 export const ProfileForm: React.FC = () => {
     const navigate = useNavigate()
