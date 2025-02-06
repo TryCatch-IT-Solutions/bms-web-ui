@@ -57,9 +57,6 @@ export const ProfileForm: React.FC = () => {
         },
     })
 
-    const successUrl =
-        userProfile?.role === ROLE.superadmin ? '/employee/list' : '/group/user-group'
-
     const {
         setValue,
         setError,
@@ -77,7 +74,7 @@ export const ProfileForm: React.FC = () => {
             queryClient.invalidateQueries({ queryKey: ['employeeList'] })
             queryClient.invalidateQueries({ queryKey: ['editUserGroup'] })
 
-            navigate(successUrl)
+            navigate(-1)
         },
         onError: (err: any) => {
             toast({
@@ -518,7 +515,7 @@ export const ProfileForm: React.FC = () => {
                                     variant='outline'
                                     className='w-1/5'
                                     onClick={() => {
-                                        navigate(successUrl)
+                                        navigate(-1)
                                     }}
                                 >
                                     Cancel
