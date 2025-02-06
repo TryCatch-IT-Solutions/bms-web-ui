@@ -1,6 +1,7 @@
 import { ProfileType } from '@/api/profile/schema'
 import { Card, CardContent } from '@/components/Card'
 import { Checkbox } from '@/components/Checkbox'
+import { SyncNotificationBar } from '@/components/SyncNofificationBar'
 import { TableHeader, TableRow, TableHead, TableBody, TableCell, Table } from '@/components/Table'
 import { employeeGroupToRemoveAtom } from '@/store/groups'
 import { cn } from '@/utils/helper'
@@ -49,7 +50,8 @@ export const GroupMemberTable: React.FC<EditGroupMemberTableProps> = ({ employee
 
     return (
         <Card>
-            <CardContent>
+            <CardContent className='flex flex-col gap-5 mt-5'>
+                <SyncNotificationBar />
                 <Table className='table-auto whitespace-normal w-full'>
                     <TableHeader style={{ marginBottom: '10px' }}>
                         <TableRow>

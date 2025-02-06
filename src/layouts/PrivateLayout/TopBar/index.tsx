@@ -40,8 +40,10 @@ export const Topbar = () => {
                 </button>
             )}
 
-            <div className={`flex flex-1 gap-x-4 lg:gap-x-6 justify-between xs:justify-end`}>
-                <div className='flex item-center justify-center xs:hidden'>
+            <div
+                className={`flex flex-1 gap-x-4 lg:gap-x-6 justify-between xs:justify-end sm:justify-end`}
+            >
+                <div className='flex item-center justify-center xs:hidden sm:hidden'>
                     <button
                         onClick={() => {
                             navigate('/dashboard')
@@ -56,12 +58,12 @@ export const Topbar = () => {
                     <Popover as='div' className='my-3 mx-3'>
                         <Popover.Button className='max-w-xs flex items-center text-sm focus:outline-none'>
                             <BsPerson className='mr-3 w-6 h-6' />
-                            <div className='inline-flex gap-2 justify-center items-center pl-5 xs:pl-0'>
+                            <div className='inline-flex gap-2 justify-center items-center pl-5 xs:pl-0 sm:pl-0'>
                                 <div>
-                                    <p className='font-semibold xs:text-sm'>
+                                    <p className='font-semibold xs:text-sm sm:text-sm'>
                                         {user?.first_name} {user?.last_name}
                                     </p>
-                                    <p className='mt-1 text-bms-primary/70 text-xs xs:text-xxs capitalize'>
+                                    <p className='mt-1 text-bms-primary/70 text-xs xs:text-xxs sm:text-xxs capitalize'>
                                         {
                                             ROLE_VALUES.find((role) => role.value === user?.role)
                                                 ?.label

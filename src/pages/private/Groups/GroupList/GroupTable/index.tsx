@@ -72,17 +72,11 @@ export const GroupTable: React.FC = () => {
 
     return (
         <>
-            <div className='xl:hidden 2xl:hidden lg:hidden md:hidden'>
-                <SyncNotificationBar />
-            </div>
             <div className='mb-5 flex flex-row justify-between xs:mt-1'>
                 <SearchBar
                     placeHolder='Search User'
                     onSearchChange={(e) => onSearchChange(e?.target?.value)}
                 />
-                <div className='xs:hidden'>
-                    <SyncNotificationBar />
-                </div>
                 <div className='flex flex-row gap-5'>
                     <Button
                         variant='outline'
@@ -98,7 +92,8 @@ export const GroupTable: React.FC = () => {
                 </div>
             </div>
             <Card>
-                <CardContent>
+                <CardContent className='flex flex-col items-center justify-center gap-5 mt-5'>
+                    <SyncNotificationBar />
                     <Table className='table-auto whitespace-normal w-full'>
                         <TableHeader style={{ marginBottom: '10px' }}>
                             <TableRow>

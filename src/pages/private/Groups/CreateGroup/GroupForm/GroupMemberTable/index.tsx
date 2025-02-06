@@ -64,7 +64,7 @@ export const GroupMemberTable: React.FC = () => {
                         {admin ? admin.first_name + ' ' + admin?.last_name : 'Select Group Admin'}
                     </Button>
                 </div>
-                <div className='flex flex-row xs:flex-col gap-5 mt-5'>
+                <div className='flex flex-row xs:flex-col gap-5 mt-5 xs:w-full sm:w-full'>
                     <Button
                         variant='outline'
                         className='flex flex-row gap-2'

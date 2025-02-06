@@ -75,13 +75,13 @@ export const CreateUser: React.FC = () => {
                 <form
                     autoComplete='on'
                     noValidate
-                    className='w-full h-full max-w-[80%] xs:max-w-full md:max-w-full'
+                    className='w-full h-full max-w-[80%] xs:max-w-full sm:max-w-full md:max-w-full'
                     onSubmit={userForm.handleSubmit(onSubmit)}
                 >
                     <Card className=''>
                         <CardContent className='flex flex-col gap-5 pt-5'>
-                            <div className='flex flex-row xs:flex-col xs:gap-5 gap-3 items-center justify-start'>
-                                <div className='w-1/3 xs:w-full'>
+                            <div className='flex flex-row xs:flex-col xs:gap-5 sm:flex-col sm:gap-5 gap-3 items-center justify-start'>
+                                <div className='w-1/3 xs:w-full sm:w-full'>
                                     <FormField
                                         control={userForm.control}
                                         name='first_name'
@@ -103,7 +103,7 @@ export const CreateUser: React.FC = () => {
                                     />
                                 </div>
 
-                                <div className='w-1/3  xs:w-full'>
+                                <div className='w-1/3 xs:w-full sm:w-full'>
                                     <FormField
                                         control={userForm.control}
                                         name='middle_name'
@@ -125,7 +125,7 @@ export const CreateUser: React.FC = () => {
                                         )}
                                     />
                                 </div>
-                                <div className='w-1/3  xs:w-full'>
+                                <div className='w-1/3 xs:w-full sm:w-full'>
                                     <FormField
                                         control={userForm.control}
                                         name='last_name'
@@ -148,8 +148,8 @@ export const CreateUser: React.FC = () => {
                                 </div>
                             </div>
 
-                            <div className='flex flex-row xs:flex-col xs:gap-5 gap-3 items-center justify-start'>
-                                <div className='w-1/3  xs:w-full'>
+                            <div className='flex flex-row xs:flex-col xs:gap-5 sm:flex-col sm:gap-5 gap-3 items-center justify-start'>
+                                <div className='w-1/3 xs:w-full sm:w-full'>
                                     <FormField
                                         control={userForm.control}
                                         name='email'
@@ -169,7 +169,7 @@ export const CreateUser: React.FC = () => {
                                     />
                                 </div>
 
-                                <div className='w-1/3  xs:w-full'>
+                                <div className='w-1/3 xs:w-full sm:w-full'>
                                     <FormField
                                         control={userForm.control}
                                         name='phone_number'
@@ -192,7 +192,7 @@ export const CreateUser: React.FC = () => {
                                         )}
                                     />
                                 </div>
-                                <div className='w-1/3  xs:w-full'>
+                                <div className='w-1/3 xs:w-full sm:w-full'>
                                     <FormField
                                         control={userForm.control}
                                         name='gender'
@@ -213,8 +213,8 @@ export const CreateUser: React.FC = () => {
                                 </div>
                             </div>
 
-                            <div className='flex flex-row xs:flex-col xs:gap-5 gap-3 items-center justify-start'>
-                                <div className='w-1/3 xs:w-full max-w-[32.5%] xs:max-w-[100%]'>
+                            <div className='flex flex-row xs:flex-col xs:gap-5 sm:flex-col sm:gap-5 gap-3 items-center justify-start'>
+                                <div className='w-1/3 xs:w-full sm:w-full max-w-[32.5%] xs:max-w-[100%] sm:max-w-[100%]'>
                                     <FormField
                                         control={userForm.control}
                                         name='role'
@@ -234,7 +234,7 @@ export const CreateUser: React.FC = () => {
                                     />
                                 </div>
 
-                                <div className='w-1/3  xs:w-full max-w-[32.5%] xs:max-w-[100%]'>
+                                <div className='w-1/3 xs:w-full sm:w-full max-w-[32.5%] xs:max-w-[100%] sm:max-w-[100%]'>
                                     <FormField
                                         control={userForm.control}
                                         name='birth_date'
@@ -257,8 +257,8 @@ export const CreateUser: React.FC = () => {
                                 </div>
                             </div>
 
-                            <div className='flex flex-row xs:flex-col xs:gap-5 gap-3 items-center justify-start'>
-                                <div className='w-1/3  xs:w-full'>
+                            <div className='flex flex-row xs:flex-col sm:flex-col sm:gap-5 xs:gap-5 gap-3 items-center justify-start'>
+                                <div className='w-1/3 xs:w-full sm:w-full'>
                                     <FormField
                                         control={userForm.control}
                                         name='address1'
@@ -280,7 +280,7 @@ export const CreateUser: React.FC = () => {
                                     />
                                 </div>
 
-                                <div className='w-1/3  xs:w-full'>
+                                <div className='w-1/3 xs:w-full sm:w-full'>
                                     <FormField
                                         control={userForm.control}
                                         name='address2'
@@ -303,7 +303,7 @@ export const CreateUser: React.FC = () => {
                                     />
                                 </div>
 
-                                <div className='w-1/3  xs:w-full'>
+                                <div className='w-1/3 xs:w-full sm:w-full'>
                                     <FormField
                                         control={userForm.control}
                                         name='barangay'
@@ -326,8 +326,8 @@ export const CreateUser: React.FC = () => {
                                 </div>
                             </div>
 
-                            <div className='flex flex-row xs:flex-col xs:gap-5 gap-3 items-center justify-start'>
-                                <div className='w-1/3  xs:w-full'>
+                            <div className='flex flex-row xs:flex-col xs:gap-5 sm:flex-col sm:gap-5 gap-3 items-center justify-start'>
+                                <div className='w-1/3 xs:w-full sm:w-full'>
                                     <FormField
                                         control={userForm.control}
                                         name='municipality'
@@ -349,7 +349,7 @@ export const CreateUser: React.FC = () => {
                                     />
                                 </div>
 
-                                <div className='w-1/3  xs:w-full'>
+                                <div className='w-1/3 xs:w-full sm:w-full'>
                                     <FormField
                                         control={userForm.control}
                                         name='province'
@@ -371,7 +371,7 @@ export const CreateUser: React.FC = () => {
                                     />
                                 </div>
 
-                                <div className='w-1/3  xs:w-full'>
+                                <div className='w-1/3 xs:w-full sm:w-full'>
                                     <FormField
                                         control={userForm.control}
                                         name='zip_code'
@@ -404,8 +404,8 @@ export const CreateUser: React.FC = () => {
                                 </div>
                             </div>
 
-                            <div className='flex flex-row xs:flex-col xs:gap-5 gap-3 items-center justify-start'>
-                                <div className='w-1/3  xs:w-full max-w-[32.5%] xs:max-w-[100%]'>
+                            <div className='flex flex-row xs:flex-col sm:flex-col xs:gap-5 gap-3 items-center justify-start'>
+                                <div className='w-1/3 xs:w-full sm:w-full max-w-[32.5%] xs:max-w-full sm:max-w-full'>
                                     <FormField
                                         control={userForm.control}
                                         name='emergency_contact_name'
@@ -427,7 +427,7 @@ export const CreateUser: React.FC = () => {
                                     />
                                 </div>
 
-                                <div className='w-1/3  xs:w-full max-w-[32.5%] xs:max-w-[100%]'>
+                                <div className='w-1/3 xs:w-full sm:w-full max-w-[32.5%] xs:max-w-full sm:max-w-full'>
                                     <FormField
                                         control={userForm.control}
                                         name='emergency_contact_no'
@@ -452,8 +452,8 @@ export const CreateUser: React.FC = () => {
                                 </div>
                             </div>
 
-                            <div className='flex flex-row xs:flex-col xs:gap-5 gap-3 items-center justify-start'>
-                                <div className='w-1/3  xs:w-full max-w-[32.5%] xs:max-w-[100%] mb-[12rem] xs:mb-0'>
+                            <div className='flex flex-row xs:flex-col xs:gap-5 sm:flex-col sm:gap-5 gap-3 items-center justify-start'>
+                                <div className='w-1/3 xs:w-full sm:w-full max-w-[32.5%] xs:max-w-full sm:max-w-full mb-[12rem] xs:mb-0 sm:mb-0'>
                                     <FormField
                                         control={userForm.control}
                                         name='password'
@@ -477,10 +477,10 @@ export const CreateUser: React.FC = () => {
 
                                 <div
                                     className={cn(
-                                        'w-1/3 xs:w-full max-w-[32.5%] xs:max-w-[100%] mb-[12rem] xs:mb-0',
+                                        'w-1/3 xs:w-full sm:w-full max-w-[32.5%] xs:max-w-full sm:max-w-full mb-[12rem] xs:mb-0 sm:mb-0',
                                         passwordVal !== undefined && passwordVal !== ''
-                                            ? 'xs:mt-48'
-                                            : 'xs:mt-4',
+                                            ? 'xs:mt-48 sm:mt-48'
+                                            : 'xs:mt-4 sm:mt-4',
                                     )}
                                 >
                                     <FormField
@@ -507,14 +507,14 @@ export const CreateUser: React.FC = () => {
                         <CardFooter className='flex flex-row gap-5 items-center justify-end'>
                             <Button
                                 variant='outline'
-                                className='w-1/5 xs:w-[100%]'
+                                className='w-1/5 xs:w-full sm:w-full'
                                 onClick={() => navigate('/user/list')}
                             >
                                 Cancel
                             </Button>
                             <Button
                                 type='submit'
-                                className='w-1/5 xs:w-[100%]'
+                                className='w-1/5 xs:w-full sm:w-full'
                                 disabled={!isValid || isPending}
                             >
                                 Submit
