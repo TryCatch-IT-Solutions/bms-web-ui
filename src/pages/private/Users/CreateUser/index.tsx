@@ -15,6 +15,7 @@ import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { createUser } from '@/api/profile'
 import { PasswordInput } from '@/components/PasswordInput'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { cn } from '@/utils/helper'
 
 export const CreateUser: React.FC = () => {
     const navigate = useNavigate()
@@ -29,8 +30,11 @@ export const CreateUser: React.FC = () => {
     const {
         setError,
         setValue,
+        watch,
         formState: { errors, isValid },
     } = userForm
+
+    const passwordVal = watch('password')
 
     const { mutate: createUserMu, isPending } = useMutation({
         mutationFn: createUser,
@@ -77,7 +81,7 @@ export const CreateUser: React.FC = () => {
                     <Card className=''>
                         <CardContent className='flex flex-col gap-5 pt-5'>
                             <div className='flex flex-row xs:flex-col xs:gap-5 gap-3 items-center justify-start'>
-                                <div className='w-1/3  xs:w-full'>
+                                <div className='w-1/3 xs:w-full'>
                                     <FormField
                                         control={userForm.control}
                                         name='first_name'
@@ -449,7 +453,7 @@ export const CreateUser: React.FC = () => {
                             </div>
 
                             <div className='flex flex-row xs:flex-col xs:gap-5 gap-3 items-center justify-start'>
-                                <div className='w-1/3  xs:w-full max-w-[32.5%] xs:max-w-[100%] mb-[12rem]'>
+                                <div className='w-1/3  xs:w-full max-w-[32.5%] xs:max-w-[100%] mb-[12rem] xs:mb-0'>
                                     <FormField
                                         control={userForm.control}
                                         name='password'
@@ -471,7 +475,14 @@ export const CreateUser: React.FC = () => {
                                     />
                                 </div>
 
-                                <div className='w-1/3  xs:w-full max-w-[32.5%] xs:max-w-[100%] mb-[12rem]'>
+                                <div
+                                    className={cn(
+                                        'w-1/3 xs:w-full max-w-[32.5%] xs:max-w-[100%] mb-[12rem] xs:mb-0',
+                                        passwordVal !== undefined && passwordVal !== ''
+                                            ? 'xs:mt-48'
+                                            : 'xs:mt-4',
+                                    )}
+                                >
                                     <FormField
                                         control={userForm.control}
                                         name='confirmPassword'

@@ -44,7 +44,7 @@ const Dropdown = React.forwardRef<HTMLSelectElement, DropdownProps<any>>(
                     value={value ?? ''} // Ensure that value is either the selected value or empty string
                     onChange={handleChange}
                     className={cn(
-                        'peer flex h-[45px] w-full text-base rounded-sm border border-bms-gray-medium placeholder:text-transparent bg-transparent px-3 shadow-sm transition-colors focus-visible:outline-none disabled:cursor-not-allowed disabled:bg-[#ebebeb] disabled:text-bms-gray-medium',
+                        'peer flex h-[45px] xs:h-[35px] xs:text-sm w-full text-base rounded-sm border border-bms-gray-medium placeholder:text-transparent bg-transparent px-3 shadow-sm transition-colors focus-visible:outline-none disabled:cursor-not-allowed disabled:bg-[#ebebeb] disabled:text-bms-gray-medium',
                         invalid ? 'border-bms-primary' : 'focus:border focus:border-bms-gray-500',
                         className,
                         isCurrency ? 'pl-5' : '',

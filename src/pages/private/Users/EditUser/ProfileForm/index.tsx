@@ -105,11 +105,11 @@ export const ProfileForm: React.FC = () => {
                 <form
                     autoComplete='on'
                     noValidate
-                    className='w-full h-full max-w-[80%]'
+                    className='w-full h-full max-w-[80%] xs:max-w-[100%]'
                     onSubmit={userForm.handleSubmit(onSubmit)}
                 >
                     <Card className=''>
-                        <CardContent className='min-w-[64.59rem] min-h-[37.125rem] flex flex-col gap-5 pt-5'>
+                        <CardContent className='flex flex-col gap-5 xs:gap-7 pt-5'>
                             {isLoading ? (
                                 <div className='flex flex-col items-center justify-center'>
                                     <Spinner
@@ -119,8 +119,8 @@ export const ProfileForm: React.FC = () => {
                                 </div>
                             ) : (
                                 <>
-                                    <div className='flex flex-row gap-3 items-center justify-start'>
-                                        <div className='w-1/3'>
+                                    <div className='flex flex-row xs:flex-col xs:gap-5 xs:gap-7 gap-3 items-center justify-start'>
+                                        <div className='w-1/3 xs:w-full'>
                                             <FormField
                                                 control={userForm.control}
                                                 name='first_name'
@@ -142,7 +142,7 @@ export const ProfileForm: React.FC = () => {
                                             />
                                         </div>
 
-                                        <div className='w-1/3'>
+                                        <div className='w-1/3 xs:w-full'>
                                             <FormField
                                                 control={userForm.control}
                                                 name='middle_name'
@@ -164,7 +164,7 @@ export const ProfileForm: React.FC = () => {
                                                 )}
                                             />
                                         </div>
-                                        <div className='w-1/3'>
+                                        <div className='w-1/3 xs:w-full'>
                                             <FormField
                                                 control={userForm.control}
                                                 name='last_name'
@@ -187,8 +187,8 @@ export const ProfileForm: React.FC = () => {
                                         </div>
                                     </div>
 
-                                    <div className='flex flex-row gap-3 items-center justify-start'>
-                                        <div className='w-1/3'>
+                                    <div className='flex flex-row xs:flex-col gap-3 xs:gap-7 items-center justify-start'>
+                                        <div className='w-1/3 xs:w-full'>
                                             <FormField
                                                 control={userForm.control}
                                                 name='email'
@@ -211,7 +211,7 @@ export const ProfileForm: React.FC = () => {
                                             />
                                         </div>
 
-                                        <div className='w-1/3'>
+                                        <div className='w-1/3 xs:w-full'>
                                             <FormField
                                                 control={userForm.control}
                                                 name='phone_number'
@@ -234,7 +234,7 @@ export const ProfileForm: React.FC = () => {
                                                 )}
                                             />
                                         </div>
-                                        <div className='w-1/3'>
+                                        <div className='w-1/3 xs:w-full'>
                                             <FormField
                                                 control={userForm.control}
                                                 name='gender'
@@ -257,8 +257,8 @@ export const ProfileForm: React.FC = () => {
                                         </div>
                                     </div>
 
-                                    <div className='flex flex-row gap-3 items-center justify-start'>
-                                        <div className='w-1/3 max-w-[32.5%]'>
+                                    <div className='flex flex-row xs:flex-col gap-3 items-center justify-start'>
+                                        <div className='w-1/3 xs:w-full max-w-[32.5%] xs:max-w-full'>
                                             <FormField
                                                 control={userForm.control}
                                                 name='role'
@@ -280,7 +280,7 @@ export const ProfileForm: React.FC = () => {
                                             />
                                         </div>
 
-                                        <div className='w-1/3 max-w-[32.5%]'>
+                                        <div className='w-1/3 xs:w-full max-w-[32.5%] xs:max-w-full'>
                                             <FormField
                                                 control={userForm.control}
                                                 name='birth_date'
@@ -303,8 +303,8 @@ export const ProfileForm: React.FC = () => {
                                         </div>
                                     </div>
 
-                                    <div className='flex flex-row gap-3 items-center justify-start'>
-                                        <div className='w-1/3'>
+                                    <div className='flex flex-row xs:flex-col gap-3 xs:gap-7 items-center justify-start'>
+                                        <div className='w-1/3 xs:w-full'>
                                             <FormField
                                                 control={userForm.control}
                                                 name='address1'
@@ -326,7 +326,7 @@ export const ProfileForm: React.FC = () => {
                                             />
                                         </div>
 
-                                        <div className='w-1/3'>
+                                        <div className='w-1/3 xs:w-full'>
                                             <FormField
                                                 control={userForm.control}
                                                 name='address2'
@@ -349,7 +349,7 @@ export const ProfileForm: React.FC = () => {
                                             />
                                         </div>
 
-                                        <div className='w-1/3'>
+                                        <div className='w-1/3 xs:w-full'>
                                             <FormField
                                                 control={userForm.control}
                                                 name='barangay'
@@ -372,8 +372,8 @@ export const ProfileForm: React.FC = () => {
                                         </div>
                                     </div>
 
-                                    <div className='flex flex-row gap-3 items-center justify-start'>
-                                        <div className='w-1/3'>
+                                    <div className='flex flex-row xs:flex-col gap-3 xs:gap-7 items-center justify-start'>
+                                        <div className='w-1/3 xs:w-full'>
                                             <FormField
                                                 control={userForm.control}
                                                 name='municipality'
@@ -395,7 +395,7 @@ export const ProfileForm: React.FC = () => {
                                             />
                                         </div>
 
-                                        <div className='w-1/3'>
+                                        <div className='w-1/3 xs:w-full'>
                                             <FormField
                                                 control={userForm.control}
                                                 name='province'
@@ -417,7 +417,7 @@ export const ProfileForm: React.FC = () => {
                                             />
                                         </div>
 
-                                        <div className='w-1/3'>
+                                        <div className='w-1/3 xs:w-full'>
                                             <FormField
                                                 control={userForm.control}
                                                 name='zip_code'
@@ -450,8 +450,8 @@ export const ProfileForm: React.FC = () => {
                                         </div>
                                     </div>
 
-                                    <div className='flex flex-row gap-3 items-center justify-start'>
-                                        <div className='w-1/3 max-w-[32.5%]'>
+                                    <div className='flex flex-row xs:flex-col gap-3 xs:gap-7 items-center justify-start'>
+                                        <div className='w-1/3 xs:w-full max-w-[32.5%] xs:max-w-full'>
                                             <FormField
                                                 control={userForm.control}
                                                 name='emergency_contact_name'
@@ -476,7 +476,7 @@ export const ProfileForm: React.FC = () => {
                                             />
                                         </div>
 
-                                        <div className='w-1/3 max-w-[32.5%]'>
+                                        <div className='w-1/3 xs:w-full max-w-[32.5%] xs:max-w-full'>
                                             <FormField
                                                 control={userForm.control}
                                                 name='emergency_contact_no'
@@ -504,17 +504,17 @@ export const ProfileForm: React.FC = () => {
                             )}
                         </CardContent>
                         {!isLoading && (
-                            <CardFooter className='flex flex-row gap-5 items-center justify-end'>
+                            <CardFooter className='flex flex-row gap-5 xs:gap-7 items-center justify-end'>
                                 <Button
                                     variant='outline'
-                                    className='w-1/5'
+                                    className='w-1/5 xs:w-full'
                                     onClick={() => navigate('/user/list')}
                                 >
                                     Cancel
                                 </Button>
                                 <Button
                                     type='submit'
-                                    className='w-1/5'
+                                    className='w-1/5 xs:w-full'
                                     disabled={!isValid || !isDirty || isPending}
                                 >
                                     Submit

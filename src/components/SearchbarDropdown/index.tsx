@@ -39,7 +39,7 @@ const SearchBarDropdown = React.forwardRef<HTMLSelectElement, DropdownProps<any>
                     ref={ref}
                     value={value ?? ''} // Ensure that value is either the selected value or empty string
                     onChange={handleChange}
-                    className={`peer flex h-[45px] w-full text-base rounded-sm border border-gray-300 placeholder:text-transparent bg-transparent px-3 shadow-sm transition-colors focus-visible:outline-none disabled:cursor-not-allowed disabled:bg-[#ebebeb] disabled:text-gray-300 ${className} ${
+                    className={`peer flex h-[45px] xs:h-[35px] w-full text-base xs:text-sm rounded-sm border border-gray-300 placeholder:text-transparent bg-transparent px-3 shadow-sm transition-colors focus-visible:outline-none disabled:cursor-not-allowed disabled:bg-[#ebebeb] disabled:text-gray-300 ${className} ${
                         isCurrency ? 'pl-5' : ''
                     }`}
                     {...props}
