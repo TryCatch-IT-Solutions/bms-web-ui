@@ -105,7 +105,7 @@ export const ProfileForm: React.FC = () => {
                 <form
                     autoComplete='on'
                     noValidate
-                    className='w-full h-full max-w-[80%] xs:max-w-[100%]'
+                    className='w-full h-full max-w-[80%] xs:max-w-full md:max-w-full'
                     onSubmit={userForm.handleSubmit(onSubmit)}
                 >
                     <Card className=''>
