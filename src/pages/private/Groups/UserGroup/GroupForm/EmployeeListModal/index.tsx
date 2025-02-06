@@ -5,7 +5,7 @@ import SearchBar from '@/components/SearchBar'
 import { Checkbox } from '@/components/Checkbox'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { getUsers } from '@/api/profile'
-import { ROLE } from '@/constants'
+import { ROLE, USER_SEARCH_TYPE_OPTIONS } from '@/constants'
 import { PaginationType } from '@/components/Pagination/schema'
 import { Pagination } from '@/components/Pagination'
 import Spinner from '@/components/Spinner'
@@ -14,6 +14,7 @@ import { AddEmpToGroupType } from '@/api/group/schema'
 import { AxiosError } from 'axios'
 import { addGroupEmployee } from '@/api/group'
 import { useToast } from '@/hooks/useToast'
+import { SearchBarDropdown } from '@/components/SearchbarDropdown'
 
 interface EmployeeListModalProps {
     open: boolean
@@ -29,6 +30,8 @@ const EmployeeListModal: React.FC<EmployeeListModalProps> = ({ open, setOpen, gr
 
     const { toast } = useToast()
     const queryClient = useQueryClient()
+
+    const [searchType, setSearchType] = useState<string>('full_name')
 
     const [empIds, setEmpIds] = useState<AddEmpToGroupType>({ employees: [] })
     const [searchVal, setSearchVal] = useState<string>('')
@@ -69,7 +72,8 @@ const EmployeeListModal: React.FC<EmployeeListModalProps> = ({ open, setOpen, gr
 
     const { data: employees, isLoading } = useQuery({
         queryKey: ['userGroupEditemployeeList', pagination, searchVal, open],
-        queryFn: () => getUsers(pagination, ['active'], [ROLE.employee], true, searchVal),
+        queryFn: () =>
+            getUsers(pagination, ['active'], [ROLE.employee], true, searchVal, searchType),
     })
 
     useEffect(() => {
@@ -94,7 +98,7 @@ const EmployeeListModal: React.FC<EmployeeListModalProps> = ({ open, setOpen, gr
                     </h1>
                 </div>
 
-                <div className='px-10'>
+                <div className='px-10 flex flex-row gap-3'>
                     <SearchBar
                         onSearchChange={(e) => {
                             setTimeout(() => {
@@ -102,6 +106,11 @@ const EmployeeListModal: React.FC<EmployeeListModalProps> = ({ open, setOpen, gr
                             }, 500)
                         }}
                         placeHolder='Search Employee'
+                    />
+                    <SearchBarDropdown
+                        options={USER_SEARCH_TYPE_OPTIONS}
+                        onChange={(e) => setSearchType(e)}
+                        value={searchType ?? ''}
                     />
                 </div>
 

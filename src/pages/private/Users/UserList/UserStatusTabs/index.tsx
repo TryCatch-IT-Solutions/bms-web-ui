@@ -1,4 +1,5 @@
 import { getUserStatusCount } from '@/api/profile'
+import { SyncNotificationBar } from '@/components/SyncNofificationBar'
 import { EMP_ASSIGN_STATUS_TABS, USER_ASSIGN_STATUS_TABS, USER_STATUS } from '@/constants'
 import {
     userAssignStatusFilterAtom,
@@ -16,9 +17,10 @@ interface UserTabsProps {
     roles?: string[]
     status?: string[]
     available?: boolean
+    searchType: string
 }
 
-export const UserStatusTabs: React.FC<UserTabsProps> = ({ search, roles }) => {
+export const UserStatusTabs: React.FC<UserTabsProps> = ({ search, roles, searchType }) => {
     const setSelectedStatus = useSetAtom(userSelectedStatusAtom)
     const setToDelete = useSetAtom(userIdsToDeleteAtom)
     const setToExport = useSetAtom(usersToExportAtom)
@@ -45,17 +47,17 @@ export const UserStatusTabs: React.FC<UserTabsProps> = ({ search, roles }) => {
 
     const { data: assignedCount } = useQuery({
         queryKey: ['assignedUsersCount', search, roles],
-        queryFn: () => getUserStatusCount('users', search, roles, false),
+        queryFn: () => getUserStatusCount('users', search, roles, searchType, false),
     })
 
     const { data: unassignedCount } = useQuery({
         queryKey: ['unassignedUsersCount', search, roles],
-        queryFn: () => getUserStatusCount('users', search, roles, true),
+        queryFn: () => getUserStatusCount('users', search, roles, searchType, true),
     })
 
     const { data: archivedCount } = useQuery({
         queryKey: ['archivedUsersCount', search, roles],
-        queryFn: () => getUserStatusCount('users', search, roles, true),
+        queryFn: () => getUserStatusCount('users', search, roles, searchType, true),
     })
 
     useEffect(() => {
@@ -64,40 +66,45 @@ export const UserStatusTabs: React.FC<UserTabsProps> = ({ search, roles }) => {
     }, [])
 
     return (
-        <Tabs
-            defaultValue={USER_ASSIGN_STATUS_TABS.assigned}
-            onValueChange={(val) => setSelectedStatus(val)}
-            className='bg-white rounded-md w-full'
-        >
-            <TabsList className='w-full text-lg xs:text-sm flex flex-row mt-[26px] xs:mt-[10px] space-x-4 xs:space-x-1'>
-                <TabsTrigger
-                    onClick={() => onSwitchTab(USER_ASSIGN_STATUS_TABS.assigned)}
-                    value={USER_ASSIGN_STATUS_TABS.assigned}
-                    className={
-                        'w-1/2 h-[54px] text-bms-gray-dark data-[state=active]:text-bms-link data-[state=active]: border-bms-link data-[state=active]:font-bold data-[state=active]:border-b-4 data-[state=active]:bg-white sm:truncate ...'
-                    }
-                >
-                    {`Assigned (${assignedCount?.active ?? 0})`}
-                </TabsTrigger>
-                <TabsTrigger
-                    onClick={() => onSwitchTab(USER_ASSIGN_STATUS_TABS.unassigned)}
-                    value={USER_ASSIGN_STATUS_TABS.unassigned}
-                    className={
-                        'w-1/2 h-[54px] text-bms-gray-dark data-[state=active]:text-bms-link data-[state=active]: border-bms-link data-[state=active]:font-bold data-[state=active]:border-b-4 data-[state=active]:bg-white sm:truncate ...'
-                    }
-                >
-                    {`Unassigned (${unassignedCount?.active ?? 0})`}
-                </TabsTrigger>
-                <TabsTrigger
-                    onClick={() => onSwitchTab(USER_ASSIGN_STATUS_TABS.archive)}
-                    value={USER_ASSIGN_STATUS_TABS.archive}
-                    className={
-                        'w-1/2 h-[54px] text-bms-gray-dark data-[state=active]:text-bms-link data-[state=active]: border-bms-link data-[state=active]:font-bold data-[state=active]:border-b-4 data-[state=active]:bg-white sm:truncate ...'
-                    }
-                >
-                    {`Archived (${archivedCount?.inactive ?? 0})`}
-                </TabsTrigger>
-            </TabsList>
-        </Tabs>
+        <div className='flex flex-col justify-center items-center'>
+            <div className='mt-2'>
+                <SyncNotificationBar />
+            </div>
+            <Tabs
+                defaultValue={USER_ASSIGN_STATUS_TABS.assigned}
+                onValueChange={(val) => setSelectedStatus(val)}
+                className='bg-white rounded-md w-full'
+            >
+                <TabsList className='w-full text-lg xs:text-sm flex flex-row mt-5 xs:mt-[10px] space-x-4 xs:space-x-1'>
+                    <TabsTrigger
+                        onClick={() => onSwitchTab(USER_ASSIGN_STATUS_TABS.assigned)}
+                        value={USER_ASSIGN_STATUS_TABS.assigned}
+                        className={
+                            'w-1/2 h-[54px] text-bms-gray-dark data-[state=active]:text-bms-link data-[state=active]: border-bms-link data-[state=active]:font-bold data-[state=active]:border-b-4 data-[state=active]:bg-white sm:truncate ...'
+                        }
+                    >
+                        {`Assigned (${assignedCount?.active ?? 0})`}
+                    </TabsTrigger>
+                    <TabsTrigger
+                        onClick={() => onSwitchTab(USER_ASSIGN_STATUS_TABS.unassigned)}
+                        value={USER_ASSIGN_STATUS_TABS.unassigned}
+                        className={
+                            'w-1/2 h-[54px] text-bms-gray-dark data-[state=active]:text-bms-link data-[state=active]: border-bms-link data-[state=active]:font-bold data-[state=active]:border-b-4 data-[state=active]:bg-white sm:truncate ...'
+                        }
+                    >
+                        {`Unassigned (${unassignedCount?.active ?? 0})`}
+                    </TabsTrigger>
+                    <TabsTrigger
+                        onClick={() => onSwitchTab(USER_ASSIGN_STATUS_TABS.archive)}
+                        value={USER_ASSIGN_STATUS_TABS.archive}
+                        className={
+                            'w-1/2 h-[54px] text-bms-gray-dark data-[state=active]:text-bms-link data-[state=active]: border-bms-link data-[state=active]:font-bold data-[state=active]:border-b-4 data-[state=active]:bg-white sm:truncate ...'
+                        }
+                    >
+                        {`Archived (${archivedCount?.inactive ?? 0})`}
+                    </TabsTrigger>
+                </TabsList>
+            </Tabs>
+        </div>
     )
 }

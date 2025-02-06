@@ -20,6 +20,13 @@ export const ROLE = {
     employee: 'employee' as string,
 } as const
 
+export const USER_SEARCH_TYPE_OPTIONS = [
+    { label: 'Name', value: 'full_name' },
+    { label: 'Email', value: 'email' },
+    { label: 'Contact Number', value: 'phone_number' },
+    { label: 'Address', value: 'address' },
+]
+
 export const EMP_ASSIGN_STATUS_TABS = {
     assigned: 'assigned' as string,
     unassigned: 'unassigned' as string,
