@@ -11,7 +11,7 @@ import { Pagination } from '@/components/Pagination'
 import { PaginationType } from '@/components/Pagination/schema'
 import { TableHeader, TableRow, TableHead, TableBody, TableCell, Table } from '@/components/Table'
 import AppSkeletonLoadingState from '@/components/TableLoadingState'
-import { TIME_DATE_FORMAT, USER_STATUS } from '@/constants'
+import { TIME_DATE_FORMAT, USER_SEARCH_TYPE_OPTIONS, USER_STATUS } from '@/constants'
 import { userSelectedStatusAtom } from '@/store/user'
 import { cn } from '@/utils/helper'
 import { useQuery } from '@tanstack/react-query'
@@ -30,6 +30,7 @@ import dayjs from 'dayjs'
 import { ResetIcon } from '@radix-ui/react-icons'
 import { SyncNotificationBar } from '@/components/SyncNofificationBar'
 import { ExportCounter } from '@/components/ExportCounter'
+import { SearchBarDropdown } from '@/components/SearchbarDropdown'
 
 const tableHeader = [
     { name: 'Account Number' },
@@ -49,6 +50,8 @@ export const UserTable: React.FC = () => {
     const [userIdsToDelete, setUserIdsToDelete] = useAtom(userIdsToDeleteAtom)
     const [userRoleFilter, setUserRoleFilter] = useAtom(userRoleFilterAtom)
     const [userStatusFilter, setUserStatusFilter] = useAtom(userAssignStatusFilterAtom)
+
+    const [searchType, setSearchType] = useState<string>('full_name')
 
     const onSearchChange = (val: string) => {
         setSearchVal(val)
@@ -81,6 +84,7 @@ export const UserTable: React.FC = () => {
                     : ['superadmin', 'groupadmin'],
                 userStatusFilter,
                 searchVal,
+                searchType,
             ),
         refetchOnWindowFocus: true,
     })
@@ -137,15 +141,17 @@ export const UserTable: React.FC = () => {
 
     return (
         <>
-            <div className='xl:hidden 2xl:hidden lg:hidden md:hidden'>
-                <SyncNotificationBar />
-            </div>
             <div className='mb-5 flex flex-row justify-between xs:mt-1'>
-                <div className='flex flex-row xs:flex-col gap-1'>
+                <div className='flex flex-row xs:flex-col gap-5'>
                     <SearchBar
                         value={searchVal}
                         placeHolder='Search User'
                         onSearchChange={(e) => onSearchChange(e.target.value)}
+                    />
+                    <SearchBarDropdown
+                        options={USER_SEARCH_TYPE_OPTIONS}
+                        onChange={(e) => setSearchType(e)}
+                        value={searchType ?? ''}
                     />
                     <div className='flex flex-row gap-1 xs:items-center xs:justify-center'>
                         <UserFilterDropdown />
@@ -153,9 +159,6 @@ export const UserTable: React.FC = () => {
                             <ResetIcon />
                         </Button>
                     </div>
-                </div>
-                <div className='xs:hidden'>
-                    <SyncNotificationBar />
                 </div>
                 <div className='flex flex-row xs:flex-col xs:gap-1 gap-5'>
                     {usersToExport && usersToExport?.content?.length > 0 && (
@@ -191,6 +194,7 @@ export const UserTable: React.FC = () => {
                         roles={userRoleFilter ?? []}
                         status={[selectedStatus]}
                         available={userStatusFilter as boolean}
+                        searchType={searchType}
                     />
                     <Table className='table-auto whitespace-normal w-full'>
                         <TableHeader style={{ marginBottom: '10px' }}>

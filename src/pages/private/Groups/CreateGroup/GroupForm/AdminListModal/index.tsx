@@ -5,13 +5,14 @@ import SearchBar from '@/components/SearchBar'
 import { Checkbox } from '@/components/Checkbox'
 import { useQuery } from '@tanstack/react-query'
 import { getUsers } from '@/api/profile'
-import { ROLE } from '@/constants'
+import { ROLE, USER_SEARCH_TYPE_OPTIONS } from '@/constants'
 import { PaginationType } from '@/components/Pagination/schema'
 import { Pagination } from '@/components/Pagination'
 import Spinner from '@/components/Spinner'
 import { CreateGroupType } from '@/api/group/schema'
 import { useFormContext } from 'react-hook-form'
 import { ProfileType } from '@/api/profile/schema'
+import { SearchBarDropdown } from '@/components/SearchbarDropdown'
 
 interface AdminListModalProps {
     open: boolean
@@ -22,6 +23,7 @@ const AdminListModal: React.FC<AdminListModalProps> = ({ open, setOpen }) => {
     const [adminId, setAdminId] = useState<number>(0)
     const [searchVal, setSearchVal] = useState<string>('')
     const [adminProfile, setAdminProfile] = useState<ProfileType | null>(null)
+    const [searchType, setSearchType] = useState<string>('full_name')
 
     const [pagination, setPagination] = useState<PaginationType>({
         current_page: 1,
@@ -38,7 +40,8 @@ const AdminListModal: React.FC<AdminListModalProps> = ({ open, setOpen }) => {
 
     const { data: employees, isLoading } = useQuery({
         queryKey: ['createGroupAdminList', pagination, searchVal],
-        queryFn: () => getUsers(pagination, ['active'], [ROLE.groupadmin], true, searchVal),
+        queryFn: () =>
+            getUsers(pagination, ['active'], [ROLE.groupadmin], true, searchVal, searchType),
     })
 
     const handleCheckClick = (e: ProfileType) => {
@@ -68,7 +71,7 @@ const AdminListModal: React.FC<AdminListModalProps> = ({ open, setOpen }) => {
                     </h1>
                 </div>
 
-                <div className='px-10'>
+                <div className='px-10 flex flex-row gap-3'>
                     <SearchBar
                         onSearchChange={(e) =>
                             setTimeout(() => {
@@ -76,6 +79,11 @@ const AdminListModal: React.FC<AdminListModalProps> = ({ open, setOpen }) => {
                             }, 500)
                         }
                         placeHolder='Search Employee'
+                    />
+                    <SearchBarDropdown
+                        options={USER_SEARCH_TYPE_OPTIONS}
+                        onChange={(e) => setSearchType(e)}
+                        value={searchType ?? ''}
                     />
                 </div>
 

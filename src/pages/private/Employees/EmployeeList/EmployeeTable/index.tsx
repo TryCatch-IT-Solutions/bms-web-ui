@@ -7,7 +7,7 @@ import { PaginationType } from '@/components/Pagination/schema'
 import SearchBar from '@/components/SearchBar'
 import { TableHeader, TableRow, TableHead, TableBody, TableCell, Table } from '@/components/Table'
 import AppSkeletonLoadingState from '@/components/TableLoadingState'
-import { ROLE, TIME_DATE_FORMAT, USER_STATUS } from '@/constants'
+import { ROLE, TIME_DATE_FORMAT, USER_SEARCH_TYPE_OPTIONS, USER_STATUS } from '@/constants'
 import {
     employeeExportAtom,
     employeeSelectedStatusAtom,
@@ -31,6 +31,7 @@ import dayjs from 'dayjs'
 import { ResetIcon } from '@radix-ui/react-icons'
 import { SyncNotificationBar } from '@/components/SyncNofificationBar'
 import { ExportCounter } from '@/components/ExportCounter'
+import { SearchBarDropdown } from '@/components/SearchbarDropdown'
 
 const tableHeader = [
     { name: 'Account Number' },
@@ -49,6 +50,7 @@ export const EmployeeTable: React.FC = () => {
     const [employeesToExport, setEmployeeExportAtom] = useAtom(employeeExportAtom)
     const [userIdsToDelete, setUserIdsToDelete] = useAtom(employeesToDeleteAtom)
     const [userStatusFilter, setUserStatusFilter] = useAtom(employeeAssignStatusFilterAtom)
+    const [searchType, setSearchType] = useState<string>('full_name')
 
     const user = useAtomValue(userAtom)
 
@@ -66,7 +68,14 @@ export const EmployeeTable: React.FC = () => {
     const { data: users, isLoading } = useQuery({
         queryKey: ['employeeList', pagination, selectedStatus, searchVal, userStatusFilter],
         queryFn: () =>
-            getUsers(pagination, [selectedStatus], [ROLE.employee], userStatusFilter, searchVal),
+            getUsers(
+                pagination,
+                [selectedStatus],
+                [ROLE.employee],
+                userStatusFilter,
+                searchVal,
+                searchType,
+            ),
     })
 
     const handleRowClick = (id: number) => {
@@ -118,13 +127,15 @@ export const EmployeeTable: React.FC = () => {
                         onSearchChange={(e) => onSearchChange(e?.target?.value)}
                         value={searchVal ? searchVal : ''}
                     />
-                    {/* <UserFilterDropdown /> */}
+                    <SearchBarDropdown
+                        options={USER_SEARCH_TYPE_OPTIONS}
+                        onChange={(e) => setSearchType(e)}
+                        value={searchType ?? ''}
+                    />
                     <Button onClick={handleResetFilter} variant='outlineTwo'>
                         <ResetIcon />
                     </Button>
                 </div>
-
-                <SyncNotificationBar />
 
                 <div className='flex flex-row gap-5'>
                     {employeesToExport && employeesToExport?.content?.length > 0 && (
@@ -157,12 +168,13 @@ export const EmployeeTable: React.FC = () => {
                 </div>
             </div>
             <Card className='bg-white w-full overflow-x-auto'>
-                <CardContent className='mt-4'>
+                <CardContent className='mt-4 flex'>
                     <EmployeeStatusBar
                         search={searchVal ?? ''}
                         roles={['employee']}
                         status={[selectedStatus]}
                         available={userStatusFilter as boolean}
+                        searchType={searchType}
                     />
                     <Table className='table-auto whitespace-normal w-full'>
                         <TableHeader style={{ marginBottom: '10px' }}>

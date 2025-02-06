@@ -18,13 +18,15 @@ export const getUsers = async (
     role: string[],
     available: boolean | null,
     search: string | null,
+    search_type?: string | null,
 ): Promise<UserListType> => {
     const params = {
         page: search === null || search === '' ? p.current_page : 1,
         limit: p.per_page,
         roles: role,
         status: status,
-        search: search ?? null,
+        search_value: search ?? null,
+        ...(search !== null && { search_type }),
         ...(available !== null && { available: available ? 1 : 0 }),
     }
 
@@ -65,15 +67,17 @@ export const bulkRestoreUserStatus = async (data: BulkUserUpdateStatusType) => {
 
 export const getUserStatusCount = async (
     page?: string,
-    search?: string,
+    search_value?: string,
     roles?: string[],
+    search_type?: string | null,
     available?: boolean,
 ): Promise<UserStatusCountType> => {
     const params = {
         page,
-        search,
+        search_value,
         roles,
         status: ['active', 'inactive'],
+        ...(search_value !== null && { search_type }),
         ...(available !== null && { available: available ? 1 : 0 }),
     }
 
