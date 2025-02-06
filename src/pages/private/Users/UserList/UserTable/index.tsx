@@ -28,7 +28,6 @@ import { UserStatusTabs } from '../UserStatusTabs'
 import UserFilterDropdown from '../UserFilterDropdown'
 import dayjs from 'dayjs'
 import { ResetIcon } from '@radix-ui/react-icons'
-import { SyncNotificationBar } from '@/components/SyncNofificationBar'
 import { ExportCounter } from '@/components/ExportCounter'
 import { SearchBarDropdown } from '@/components/SearchbarDropdown'
 
