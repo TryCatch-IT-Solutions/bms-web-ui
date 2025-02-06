@@ -141,7 +141,7 @@ export const UserTable: React.FC = () => {
     return (
         <>
             <div className='mb-5 flex flex-row justify-between xs:mt-1'>
-                <div className='flex flex-row xs:flex-col gap-5'>
+                <div className='flex flex-row xs:flex-col xs:gap-1 gap-5'>
                     <SearchBar
                         value={searchVal}
                         placeHolder='Search User'
@@ -187,7 +187,7 @@ export const UserTable: React.FC = () => {
                 </div>
             </div>
             <Card className='bg-white w-full overflow-x-auto'>
-                <CardContent className='mt-4'>
+                <CardContent className='flex flex-col mt-4'>
                     <UserStatusTabs
                         search={searchVal}
                         roles={userRoleFilter ?? []}

@@ -10,6 +10,7 @@ import { OverridePasswordType, overridePasswordSChema } from '@/api/auth/schema'
 import { overridePassowrd } from '@/api/auth'
 import { PasswordInput } from '@/components/PasswordInput'
 import { useEffect } from 'react'
+import { cn } from '@/utils/helper'
 
 export const PasswordForm: React.FC = () => {
     const navigate = useNavigate()
@@ -26,8 +27,11 @@ export const PasswordForm: React.FC = () => {
 
     const {
         setValue,
+        watch,
         formState: { errors, isValid },
     } = userForm
+
+    const newPass = watch('new_password')
 
     const { mutate: updateUserPasswordMu, isPending } = useMutation({
         mutationFn: overridePassowrd,
@@ -61,13 +65,13 @@ export const PasswordForm: React.FC = () => {
                 <form
                     autoComplete='on'
                     noValidate
-                    className='w-full h-full max-w-[80%]'
+                    className='w-full h-full max-w-[80%] xs:max-w-full md:max-w-full'
                     onSubmit={userForm.handleSubmit(onSubmit)}
                 >
-                    <Card className=''>
-                        <CardContent className='min-w-[64.59rem] min-h-[37.125rem] flex flex-col gap-5 pt-5'>
-                            <div className='flex flex-row gap-3 items-center justify-start'>
-                                <div className='w-1/3'>
+                    <Card>
+                        <CardContent className='min-w-[64.59rem] xs:min-w-full min-h-[37.125rem] xs:min-h-full flex flex-col gap-5 pt-5'>
+                            <div className='flex flex-row xs:flex-col gap-3 items-center justify-start'>
+                                <div className='w-1/3 xs:w-full'>
                                     <FormField
                                         control={userForm.control}
                                         name='new_password'
@@ -88,7 +92,14 @@ export const PasswordForm: React.FC = () => {
                                         )}
                                     />
                                 </div>
-                                <div className='w-1/3'>
+                                <div
+                                    className={cn(
+                                        'w-1/3 xs:w-full',
+                                        newPass !== undefined && newPass !== ''
+                                            ? 'xs:mt-48'
+                                            : 'xs:mt-4',
+                                    )}
+                                >
                                     <FormField
                                         control={userForm.control}
                                         name='new_password_confirmation'
