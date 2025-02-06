@@ -65,13 +65,13 @@ export const PasswordForm: React.FC = () => {
                 <form
                     autoComplete='on'
                     noValidate
-                    className='w-full h-full max-w-[80%] xs:max-w-full md:max-w-full'
+                    className='w-full h-full max-w-[80%] xs:max-w-full sm:max-w-full md:max-w-full'
                     onSubmit={userForm.handleSubmit(onSubmit)}
                 >
                     <Card>
-                        <CardContent className='min-w-[64.59rem] xs:min-w-full min-h-[37.125rem] xs:min-h-full flex flex-col gap-5 pt-5'>
-                            <div className='flex flex-row xs:flex-col gap-3 items-center justify-start'>
-                                <div className='w-1/3 xs:w-full'>
+                        <CardContent className='min-w-[64.59rem] xs:min-w-full sm:min-w-full min-h-[37.125rem] xs:min-h-full sm:min-h-full flex flex-col gap-5 pt-5'>
+                            <div className='flex flex-row xs:flex-col sm:flex-col gap-3 items-center justify-start'>
+                                <div className='w-1/3 xs:w-full sm:w-full'>
                                     <FormField
                                         control={userForm.control}
                                         name='new_password'
@@ -94,10 +94,10 @@ export const PasswordForm: React.FC = () => {
                                 </div>
                                 <div
                                     className={cn(
-                                        'w-1/3 xs:w-full',
+                                        'w-1/3 xs:w-full sm:w-full',
                                         newPass !== undefined && newPass !== ''
-                                            ? 'xs:mt-48'
-                                            : 'xs:mt-4',
+                                            ? 'xs:mt-48 sm:mt-48'
+                                            : 'xs:mt-4 sm:mt-4',
                                     )}
                                 >
                                     <FormField
@@ -125,14 +125,14 @@ export const PasswordForm: React.FC = () => {
                         <CardFooter className='flex flex-row gap-5 items-center justify-end'>
                             <Button
                                 variant='outline'
-                                className='w-1/5'
+                                className='w-1/5 xs:w-full sm:w-full'
                                 onClick={() => navigate('/user/list')}
                             >
                                 Cancel
                             </Button>
                             <Button
                                 type='submit'
-                                className='w-1/5'
+                                className='w-1/5 xs:w-full sm:w-full'
                                 disabled={!isValid || isPending}
                             >
                                 Submit

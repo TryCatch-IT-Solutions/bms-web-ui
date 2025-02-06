@@ -59,7 +59,7 @@ export const GroupForm: React.FC = () => {
             <form
                 autoComplete='on'
                 noValidate
-                className='flex flex-col gap-5 w-full h-full max-w-[80%]'
+                className='flex flex-col gap-5 w-full h-full max-w-[80%] xs:max-w-full'
                 onSubmit={handleSubmit(onSubmit)}
             >
                 <div className='flex gap-5 items-center'>
@@ -88,11 +88,20 @@ export const GroupForm: React.FC = () => {
                     <GroupMemberTable />
                 </div>
 
-                <div className='flex flex-row gap-5 items-center justify-end mt-5'>
-                    <Button variant='outline' onClick={() => navigate(-1)} type='button'>
+                <div className='flex flex-row gap-5 items-center justify-end xs:justify-center mt-5'>
+                    <Button
+                        className='xs:w-full sm:w-full'
+                        variant='outline'
+                        onClick={() => navigate(-1)}
+                        type='button'
+                    >
                         Cancel
                     </Button>
-                    <Button type='submit' disabled={!isValid || isPending}>
+                    <Button
+                        className='xs:w-full sm:w-full'
+                        type='submit'
+                        disabled={!isValid || isPending}
+                    >
                         Create Group
                     </Button>
                 </div>

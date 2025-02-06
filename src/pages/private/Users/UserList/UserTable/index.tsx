@@ -141,7 +141,7 @@ export const UserTable: React.FC = () => {
     return (
         <>
             <div className='mb-5 flex flex-row justify-between xs:mt-1'>
-                <div className='flex flex-row xs:flex-col xs:gap-1 gap-5'>
+                <div className='flex flex-row xs:flex-col sm:flex-col sm:gap-1 xs:gap-1 gap-5'>
                     <SearchBar
                         value={searchVal}
                         placeHolder='Search User'
@@ -159,7 +159,7 @@ export const UserTable: React.FC = () => {
                         </Button>
                     </div>
                 </div>
-                <div className='flex flex-row xs:flex-col xs:gap-1 gap-5'>
+                <div className='flex flex-row xs:flex-col xs:gap-1 sm:flex-col sm:gap-1 gap-5'>
                     {usersToExport && usersToExport?.content?.length > 0 && (
                         <ExportCounter
                             selected={usersToExport?.content?.length ?? 0}
@@ -224,7 +224,7 @@ export const UserTable: React.FC = () => {
                                                                     users?.content?.length,
                                                         )
                                                     }
-                                                    className='mt-[3px]'
+                                                    className='mt-[3px] xs:mt-1 sm:mt-1'
                                                 />
                                             )}
                                             {header.name}
@@ -249,7 +249,7 @@ export const UserTable: React.FC = () => {
                                     key={u?.id}
                                     className='text-start text-base text-bms-gray-dark cursor-pointer xs:text-sm'
                                 >
-                                    <TableCell className='font-semibold text-bms-link flex flex-row items-center gap-2'>
+                                    <TableCell className='font-semibold text-bms-link flex flex-row items-center gap-2 xs:mt-[.7rem] sm:mt-[.7rem]'>
                                         <Checkbox
                                             checked={
                                                 (userIdsToDelete?.users?.includes(u.id) ||
