@@ -2,8 +2,7 @@ import { createAPIkey, getAPIKey } from '@/api/settings'
 import { createAPIKeySchema, CreateAPIKeyType } from '@/api/settings/schema'
 import { Button } from '@/components/Button'
 import { Card, CardContent, CardFooter, CardHeader } from '@/components/Card'
-import { Form, FormControl, FormField, FormItem, FormMessage } from '@/components/Form'
-import { Input } from '@/components/Input'
+import { Form } from '@/components/Form'
 import { API_KEY_LABELS } from '@/constants'
 
 import { useMutation, useQuery } from '@tanstack/react-query'
@@ -32,7 +31,7 @@ export const StragerDetectionForm = () => {
     const {
         handleSubmit,
         setValue,
-        formState: { errors, isDirty },
+        formState: { isDirty },
     } = apiForm
 
     const { mutate: createAPIKeyMu, isPending } = useMutation<
