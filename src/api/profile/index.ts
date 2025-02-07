@@ -59,6 +59,12 @@ export const bulkDeleteUserStatus = async (data: BulkUserUpdateStatusType) => {
     return response.data
 }
 
+export const bulkArchiveUserStatus = async (data: BulkUserUpdateStatusType) => {
+    const response = await axiosInstance.post('/api/users/archive', data)
+
+    return response.data
+}
+
 export const bulkRestoreUserStatus = async (data: BulkUserUpdateStatusType) => {
     const response = await axiosInstance.post('/api/users/restore', data)
 

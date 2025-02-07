@@ -6,7 +6,7 @@ import { toast } from '@/hooks/useToast'
 import { useAtom, useAtomValue } from 'jotai'
 import { userIdsToDeleteAtom, userSelectedStatusAtom } from '@/store/user'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
-import { bulkDeleteUserStatus, bulkRestoreUserStatus } from '@/api/profile'
+import { bulkArchiveUserStatus, bulkRestoreUserStatus } from '@/api/profile'
 import { BulkUserUpdateStatusType } from '@/api/profile/schema'
 import { USER_STATUS } from '@/constants'
 
@@ -23,7 +23,7 @@ const DeleteUserModal: React.FC<DeleteUserModalProps> = ({ open, setOpen }) => {
     const queryClient = useQueryClient()
 
     const { mutate: deleteUsersMu, isPending: deletePending } = useMutation({
-        mutationFn: () => bulkDeleteUserStatus(userIdsToDelete as BulkUserUpdateStatusType),
+        mutationFn: () => bulkArchiveUserStatus(userIdsToDelete as BulkUserUpdateStatusType),
         onSuccess: () => {
             toast({
                 description: 'Accounts Deleted Successfully',

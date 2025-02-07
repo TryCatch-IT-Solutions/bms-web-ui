@@ -27,9 +27,10 @@ import { Trash2Icon } from 'lucide-react'
 import { EmployeeStatusBar } from '../EmployeeStatusBar'
 import DeleteEmployeeModal from '../DeleteEmployeeModal'
 import dayjs from 'dayjs'
-import { ResetIcon } from '@radix-ui/react-icons'
+import { ArchiveIcon, ResetIcon } from '@radix-ui/react-icons'
 import { ExportCounter } from '@/components/ExportCounter'
 import { SearchBarDropdown } from '@/components/SearchbarDropdown'
+import PermanentDeleteModal from '../PermanentDeleteModal'
 
 const tableHeader = [
     { name: 'Account Number' },
@@ -43,6 +44,7 @@ const tableHeader = [
 
 export const EmployeeTable: React.FC = () => {
     const [open, setOpen] = useState<boolean>(false)
+    const [deleteModal, setDeleteModal] = useState<boolean>(false)
     const selectedStatus = useAtomValue(employeeSelectedStatusAtom)
     const [searchVal, setSearchVal] = useState<string | null>('')
     const [employeesToExport, setEmployeeExportAtom] = useAtom(employeeExportAtom)
@@ -159,14 +161,28 @@ export const EmployeeTable: React.FC = () => {
                                 userIdsToDelete === null || userIdsToDelete.users.length === 0
                             }
                         >
-                            {selectedStatus === USER_STATUS.ACTIVATED ? 'Delete' : 'Restore'}
+                            {selectedStatus === USER_STATUS.ACTIVATED ? 'Archive' : 'Restore'}
+                            <ArchiveIcon className='h-4' />
+                        </Button>
+                    )}
+                    {user?.role === ROLE.superadmin && (
+                        <Button
+                            variant='outline'
+                            type='button'
+                            className='flex flex-row gap-1'
+                            onClick={() => setDeleteModal(true)}
+                            disabled={
+                                userIdsToDelete === null || userIdsToDelete.users.length === 0
+                            }
+                        >
+                            Delete
                             <Trash2Icon className='h-4' />
                         </Button>
                     )}
                 </div>
             </div>
             <Card className='bg-white w-full overflow-x-auto'>
-                <CardContent className='mt-4 flex'>
+                <CardContent className='mt-4 flex flex-col'>
                     <EmployeeStatusBar
                         search={searchVal ?? ''}
                         roles={['employee']}
@@ -282,6 +298,7 @@ export const EmployeeTable: React.FC = () => {
                 />
             </div>
             <DeleteEmployeeModal open={open} setOpen={setOpen} />
+            <PermanentDeleteModal setOpen={setDeleteModal} open={deleteModal} />
         </>
     )
 }
