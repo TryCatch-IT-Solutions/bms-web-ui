@@ -14,6 +14,7 @@ import { useEffect } from 'react'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useToast } from '@/hooks/useToast'
 import { XIcon, EditIcon } from 'lucide-react'
+import { maskApiKey } from '@/utils/crypto'
 
 export const MapsForm = () => {
     const [enabled, setEnabled] = useState<boolean>(false)
@@ -68,9 +69,13 @@ export const MapsForm = () => {
         }
 
         if (!isLoading && apiKey !== undefined) {
-            setValue('value', apiKey.value)
+            if (enabled) {
+                setValue('value', apiKey.value)
+            } else {
+                setValue('value', maskApiKey(apiKey.value))
+            }
         }
-    }, [isLoading])
+    }, [isLoading, enabled])
 
     return (
         <Card>

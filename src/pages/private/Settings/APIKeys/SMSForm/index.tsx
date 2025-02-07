@@ -15,6 +15,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { useToast } from '@/hooks/useToast'
 import { PasswordInput } from '@/components/PasswordInput'
 import { XIcon, EditIcon } from 'lucide-react'
+import { maskApiKey, maskString } from '@/utils/crypto'
 
 export const SMSForm = () => {
     const [enabled, setEnabled] = useState<boolean>(false)
@@ -75,9 +76,15 @@ export const SMSForm = () => {
         }
 
         if (!isLoading && apiKey !== undefined) {
-            setValue('value', apiKey.value)
+            if (enabled) {
+                setValue('value', apiKey.value)
+                setValue('fields.PASSWORD', apiKey?.fields?.PASSWORD ?? '')
+            } else {
+                setValue('value', maskApiKey(apiKey.value))
+                setValue('fields.PASSWORD', maskString(apiKey?.fields?.PASSWORD ?? ''))
+            }
+
             setValue('fields.EMAIL', apiKey?.fields?.EMAIL ?? '')
-            setValue('fields.PASSWORD', apiKey?.fields?.PASSWORD ?? '')
         }
     }, [isLoading])
 

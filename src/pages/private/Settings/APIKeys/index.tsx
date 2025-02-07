@@ -3,6 +3,7 @@ import { EmailForm } from './EmailForm'
 import { SMSForm } from './SMSForm'
 import { MapsForm } from './MapsForm'
 import { AndroidForm } from './AndroidForm'
+import { SnapshotRetentionForm } from './SnapshotRetentionForm'
 
 export const APIKeys = () => {
     return (
@@ -16,6 +17,9 @@ export const APIKeys = () => {
                 <div className='flex flex-row gap-5'>
                     <MapsForm />
                     <AndroidForm />
+                </div>
+                <div className='flex flex-row gap-5'>
+                    <SnapshotRetentionForm />
                 </div>
             </div>
         </div>
