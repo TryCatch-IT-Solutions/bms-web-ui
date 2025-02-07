@@ -21,7 +21,6 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import RemoveEmpToGroupModal from './RemoveEmpToGroupModal'
 import { useAtomValue } from 'jotai'
 import { employeeGroupToRemoveAtom } from '@/store/groups'
-import { SyncNotificationBar } from '@/components/SyncNofificationBar'
 
 export const GroupForm: React.FC = () => {
     const [open, setOpen] = useState<boolean>(false)
