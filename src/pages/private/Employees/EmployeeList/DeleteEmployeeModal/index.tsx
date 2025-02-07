@@ -8,7 +8,7 @@ import { employeeSelectedStatusAtom, employeesToDeleteAtom } from '@/store/user'
 import { useAtom, useAtomValue } from 'jotai'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { BulkUserUpdateStatusType } from '@/api/profile/schema'
-import { bulkDeleteUserStatus, bulkRestoreUserStatus } from '@/api/profile'
+import { bulkArchiveUserStatus, bulkRestoreUserStatus } from '@/api/profile'
 
 interface DeleteEmployeeModalProps {
     open: boolean
@@ -23,7 +23,7 @@ const DeleteEmployeeModal: React.FC<DeleteEmployeeModalProps> = ({ open, setOpen
     const queryClient = useQueryClient()
 
     const { mutate: deleteUsersMu, isPending } = useMutation({
-        mutationFn: () => bulkDeleteUserStatus(userIdsToDelete as BulkUserUpdateStatusType),
+        mutationFn: () => bulkArchiveUserStatus(userIdsToDelete as BulkUserUpdateStatusType),
         onSuccess: () => {
             toast({
                 description: 'Accounts Deleted Successfully',

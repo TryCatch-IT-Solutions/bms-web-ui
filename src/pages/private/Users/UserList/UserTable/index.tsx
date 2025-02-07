@@ -27,9 +27,10 @@ import { Trash2Icon } from 'lucide-react'
 import { UserStatusTabs } from '../UserStatusTabs'
 import UserFilterDropdown from '../UserFilterDropdown'
 import dayjs from 'dayjs'
-import { ResetIcon } from '@radix-ui/react-icons'
+import { ArchiveIcon, ResetIcon } from '@radix-ui/react-icons'
 import { ExportCounter } from '@/components/ExportCounter'
 import { SearchBarDropdown } from '@/components/SearchbarDropdown'
+import PermanentDeleteModal from '../PermanentDeleteModal'
 
 const tableHeader = [
     { name: 'Account Number' },
@@ -43,6 +44,7 @@ const tableHeader = [
 
 export const UserTable: React.FC = () => {
     const [open, setOpen] = useState<boolean>(false)
+    const [deleteModal, setDeleteModal] = useState<boolean>(false)
     const [searchVal, setSearchVal] = useState<string>('')
     const selectedUserStatus = useAtomValue(userSelectedStatusAtom)
     const usersToExport = useAtomValue(usersToExportAtom)
@@ -181,7 +183,20 @@ export const UserTable: React.FC = () => {
                             userIdsToDelete === null
                         }
                     >
-                        {selectedUserStatus === USER_STATUS.ACTIVATED ? 'Delete' : 'Restore'}
+                        {selectedUserStatus === USER_STATUS.ACTIVATED ? 'Archive' : 'Restore'}
+                        <ArchiveIcon className='h-4' />
+                    </Button>
+                    <Button
+                        variant='outline'
+                        className='flex flex-row gap-1'
+                        onClick={() => setDeleteModal(true)}
+                        disabled={
+                            userIdsToDelete === null ||
+                            userIdsToDelete.users?.length === 0 ||
+                            userIdsToDelete === null
+                        }
+                    >
+                        Delete
                         <Trash2Icon className='h-4' />
                     </Button>
                 </div>
@@ -305,6 +320,7 @@ export const UserTable: React.FC = () => {
                 />
             </div>
             <DeleteUserModal open={open} setOpen={setOpen} />
+            <PermanentDeleteModal open={deleteModal} setOpen={setDeleteModal} />
         </>
     )
 }
