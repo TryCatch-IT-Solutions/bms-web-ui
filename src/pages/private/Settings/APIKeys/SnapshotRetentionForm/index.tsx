@@ -11,28 +11,26 @@ import { AxiosError } from 'axios'
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { useEffect } from 'react'
-import { zodResolver } from '@hookform/resolvers/zod'
 import { useToast } from '@/hooks/useToast'
 import { XIcon, EditIcon } from 'lucide-react'
-import { maskApiKey } from '@/utils/crypto'
+import { logZodResolver } from '@/utils/helper'
 
-export const AndroidForm = () => {
+export const SnapshotRetentionForm = () => {
     const [enabled, setEnabled] = useState<boolean>(false)
     const { toast } = useToast()
     const apiForm = useForm<CreateAPIKeyType>({
         mode: 'all',
-        resolver: zodResolver(createAPIKeySchema),
+        resolver: logZodResolver(createAPIKeySchema),
     })
 
     const { data: apiKey, isLoading } = useQuery({
-        queryKey: ['appToken'],
-        queryFn: () => getAPIKey(API_KEY_LABELS.APP, 0),
+        queryKey: ['snapshotRetentionSettings'],
+        queryFn: () => getAPIKey(API_KEY_LABELS.SNAPSHOT_RETENTION, 0),
     })
 
     const {
         handleSubmit,
         setValue,
-        setError,
         formState: { errors, isDirty },
     } = apiForm
 
@@ -44,18 +42,10 @@ export const AndroidForm = () => {
         mutationFn: createAPIkey,
         onSuccess: () => {
             toast({
-                description: 'App Token Updated',
+                description: 'Snapshot Retention Days Updated',
             })
 
             setEnabled(false)
-        },
-        onError: (error) => {
-            if (error.response?.status === 409) {
-                setError('key', {
-                    type: 'manual',
-                    message: 'Key already exists',
-                })
-            }
         },
     })
 
@@ -64,18 +54,14 @@ export const AndroidForm = () => {
     }
 
     useEffect(() => {
-        if (apiForm.getValues('key') !== API_KEY_LABELS.APP) {
-            setValue('key', API_KEY_LABELS.APP)
+        if (apiForm.getValues('key') !== API_KEY_LABELS.SNAPSHOT_RETENTION) {
+            setValue('key', API_KEY_LABELS.SNAPSHOT_RETENTION)
         }
 
         if (!isLoading && apiKey !== undefined) {
-            if (enabled) {
-                setValue('value', apiKey.value)
-            } else {
-                setValue('value', maskApiKey(apiKey.value))
-            }
+            setValue('value', apiKey.value)
         }
-    }, [isLoading, enabled])
+    }, [isLoading])
 
     return (
         <Card>
@@ -87,7 +73,7 @@ export const AndroidForm = () => {
                     onSubmit={handleSubmit(onSubmit)}
                 >
                     <CardHeader className='flex flex-row justify-between'>
-                        <p className='font-semibold text-bms-gray-500'>Android App Token</p>
+                        <p className='font-semibold text-bms-gray-500'>Snapshot Retention (Days)</p>
                         <Button
                             type='button'
                             className='flex flex-row gap-2 -mt-3'
@@ -98,7 +84,7 @@ export const AndroidForm = () => {
                             {enabled ? <XIcon /> : <EditIcon />}
                         </Button>
                     </CardHeader>
-                    <CardContent className='flex flex-row items-center justify-center w-[100%]'>
+                    <CardContent className='flex flex-col gap-9 w-[100%]'>
                         <FormField
                             control={apiForm.control}
                             name='value'
@@ -107,8 +93,8 @@ export const AndroidForm = () => {
                                     <FormControl>
                                         <Input
                                             className='w-[30rem] bg-white h-11'
-                                            placeholder='Android App Token'
-                                            type='text'
+                                            placeholder='Snapshot Retention (Days)'
+                                            type='number'
                                             disabled={!enabled}
                                             {...field}
                                         />
