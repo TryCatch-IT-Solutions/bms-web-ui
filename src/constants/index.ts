@@ -60,6 +60,11 @@ export const USER_PROFILE_TABS = {
     PASSWORD: 'password',
 }
 
+export const DEVICE_TABS = {
+    INFO: 'deviceInfo',
+    SETTINGS: 'deviceSettings',
+}
+
 export const ROLE_VALUES = Object.entries(ROLE_LABELS).map(([key, label]) => ({
     value: key, // Use the key as the value
     label: label, // Use the value as the label

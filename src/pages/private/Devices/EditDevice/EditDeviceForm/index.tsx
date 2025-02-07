@@ -5,11 +5,12 @@ import { Card, CardContent, CardFooter } from '@/components/Card'
 import { Form, FormControl, FormField, FormItem, FormMessage } from '@/components/Form'
 import { Input } from '@/components/Input'
 import Spinner from '@/components/Spinner'
+import { Switch } from '@/components/Switch'
 import { useToast } from '@/hooks/useToast'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
-import { useEffect, useState } from 'react'
-import { useForm } from 'react-hook-form'
+import { useEffect } from 'react'
+import { Controller, useForm } from 'react-hook-form'
 import { useNavigate, useParams } from 'react-router-dom'
 
 export const EditDeviceForm: React.FC = () => {
@@ -18,12 +19,6 @@ export const EditDeviceForm: React.FC = () => {
     const { toast } = useToast()
 
     const { id } = useParams()
-
-    const [location, setLocation] = useState({
-        latitude: 0.0,
-        longitude: 0.0,
-        error: '',
-    })
 
     const { data: device, isLoading } = useQuery({
         queryKey: ['editDevice', id],
@@ -35,9 +30,7 @@ export const EditDeviceForm: React.FC = () => {
         mode: 'onChange',
         resolver: zodResolver(deviceSchema),
         defaultValues: {
-            id: device?.id,
-            model: device?.model,
-            serial_no: device?.serial_no,
+            ...device,
         },
     })
 
@@ -71,35 +64,6 @@ export const EditDeviceForm: React.FC = () => {
     }
 
     useEffect(() => {
-        // Check if geolocation is available
-        if ('geolocation' in navigator) {
-            // Get the current position
-            navigator.geolocation.getCurrentPosition(
-                (position) => {
-                    // Update state with latitude and longitude
-                    setLocation({
-                        latitude: position.coords.latitude ?? 0.0,
-                        longitude: position.coords.longitude ?? 0.0,
-                        error: '',
-                    })
-                },
-                (err) => {
-                    // Handle any errors
-                    setLocation({
-                        latitude: 0.0,
-                        longitude: 0.0,
-                        error: err.message,
-                    })
-                },
-            )
-        } else {
-            setLocation({
-                latitude: 0.0,
-                longitude: 0.0,
-                error: 'Geolocation is not supported by this browser.',
-            })
-        }
-
         if (device) {
             deviceForm.reset(device)
         }
@@ -107,8 +71,6 @@ export const EditDeviceForm: React.FC = () => {
 
     useEffect(() => {
         setValue('group_id', 1)
-        setValue('lat', location.latitude)
-        setValue('lon', location.longitude)
     }, [location])
 
     return (
@@ -124,42 +86,161 @@ export const EditDeviceForm: React.FC = () => {
                         {isLoading ? (
                             <Spinner variant='normal' className='h-[5rem] w-[5rem]' />
                         ) : (
-                            <div className='flex flex-row gap-5'>
-                                <FormField
-                                    control={deviceForm.control}
-                                    name='model'
-                                    render={({ field }) => (
-                                        <FormItem>
-                                            <FormControl>
-                                                <Input
-                                                    className='mt-[16px] w-[100%] bg-white'
-                                                    placeholder='Device Model'
-                                                    type='text'
-                                                    {...field}
-                                                />
-                                            </FormControl>
-                                            <FormMessage>{errors?.model?.message}</FormMessage>
-                                        </FormItem>
-                                    )}
-                                />
+                            <div className='flex flex-col gap-5'>
+                                <div className='flex flex-row gap-5'>
+                                    <FormField
+                                        control={deviceForm.control}
+                                        name='model'
+                                        render={({ field }) => (
+                                            <FormItem>
+                                                <FormControl>
+                                                    <Input
+                                                        className='mt-[16px] w-[100%] bg-white'
+                                                        placeholder='Device Model'
+                                                        type='text'
+                                                        {...field}
+                                                    />
+                                                </FormControl>
+                                                <FormMessage>{errors?.model?.message}</FormMessage>
+                                            </FormItem>
+                                        )}
+                                    />
 
-                                <FormField
-                                    control={deviceForm.control}
-                                    name='serial_no'
-                                    render={({ field }) => (
-                                        <FormItem>
-                                            <FormControl>
-                                                <Input
-                                                    className='mt-[16px] w-[100%] bg-white'
-                                                    placeholder='Serial Number'
-                                                    type='text'
-                                                    {...field}
+                                    <FormField
+                                        control={deviceForm.control}
+                                        name='serial_no'
+                                        render={({ field }) => (
+                                            <FormItem>
+                                                <FormControl>
+                                                    <Input
+                                                        className='mt-[16px] w-[100%] bg-white'
+                                                        placeholder='Serial Number'
+                                                        type='text'
+                                                        {...field}
+                                                    />
+                                                </FormControl>
+                                                <FormMessage>{errors?.model?.message}</FormMessage>
+                                            </FormItem>
+                                        )}
+                                    />
+                                </div>
+
+                                <div className='flex flex-row gap-5 items-center'>
+                                    <div className='w-full flex flex-row justify-between'>
+                                        <label>Check In</label>
+                                        <Controller
+                                            name='check_in'
+                                            control={deviceForm.control}
+                                            render={({ field }) => (
+                                                <Switch
+                                                    checked={field.value ?? false} // Pass the value as checked
+                                                    onCheckedChange={(checked: boolean) =>
+                                                        field.onChange(checked)
+                                                    }
                                                 />
-                                            </FormControl>
-                                            <FormMessage>{errors?.model?.message}</FormMessage>
-                                        </FormItem>
-                                    )}
-                                />
+                                            )}
+                                        />
+                                    </div>
+                                    <div className='w-full flex flex-row justify-between'>
+                                        <label>Check Out</label>
+                                        <Controller
+                                            name='check_out'
+                                            control={deviceForm.control}
+                                            render={({ field }) => (
+                                                <Switch
+                                                    checked={field.value ?? false} // Pass the value as checked
+                                                    onCheckedChange={(checked: boolean) =>
+                                                        field.onChange(checked)
+                                                    }
+                                                />
+                                            )}
+                                        />
+                                    </div>
+                                </div>
+
+                                <div className='flex flex-row gap-5 items-center'>
+                                    <div className='w-full flex flex-row justify-between'>
+                                        <label>Break In</label>
+                                        <Controller
+                                            name='break_in'
+                                            control={deviceForm.control}
+                                            render={({ field }) => (
+                                                <Switch
+                                                    checked={field.value ?? false} // Pass the value as checked
+                                                    onCheckedChange={(checked: boolean) =>
+                                                        field.onChange(checked)
+                                                    }
+                                                />
+                                            )}
+                                        />
+                                    </div>
+                                    <div className='w-full flex flex-row justify-between'>
+                                        <label>Break Out</label>
+                                        <Controller
+                                            name='break_out'
+                                            control={deviceForm.control}
+                                            render={({ field }) => (
+                                                <Switch
+                                                    checked={field.value ?? false} // Pass the value as checked
+                                                    onCheckedChange={(checked: boolean) =>
+                                                        field.onChange(checked)
+                                                    }
+                                                />
+                                            )}
+                                        />
+                                    </div>
+                                </div>
+
+                                <div className='flex flex-row gap-5 items-center'>
+                                    <div className='w-full flex flex-row justify-between'>
+                                        <label>Overtime In</label>
+                                        <Controller
+                                            name='overtime_in'
+                                            control={deviceForm.control}
+                                            render={({ field }) => (
+                                                <Switch
+                                                    checked={field.value ?? false} // Pass the value as checked
+                                                    onCheckedChange={(checked: boolean) =>
+                                                        field.onChange(checked)
+                                                    }
+                                                />
+                                            )}
+                                        />
+                                    </div>
+                                    <div className='w-full flex flex-row justify-between'>
+                                        <label>Overtime Out</label>
+                                        <Controller
+                                            name='overtime_out'
+                                            control={deviceForm.control}
+                                            render={({ field }) => (
+                                                <Switch
+                                                    checked={field.value ?? false} // Pass the value as checked
+                                                    onCheckedChange={(checked: boolean) =>
+                                                        field.onChange(checked)
+                                                    }
+                                                />
+                                            )}
+                                        />
+                                    </div>
+                                </div>
+
+                                <div className='flex flex-row gap-5 items-center'>
+                                    <div className='flex flex-row justify-between w-[47.7%]'>
+                                        <label>Manual Time Entry</label>
+                                        <Controller
+                                            name='manual_time_entry'
+                                            control={deviceForm.control}
+                                            render={({ field }) => (
+                                                <Switch
+                                                    checked={field.value ?? false} // Pass the value as checked
+                                                    onCheckedChange={(checked: boolean) =>
+                                                        field.onChange(checked)
+                                                    }
+                                                />
+                                            )}
+                                        />
+                                    </div>
+                                </div>
                             </div>
                         )}
                     </CardContent>
