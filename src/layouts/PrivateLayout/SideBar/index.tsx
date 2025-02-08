@@ -1,7 +1,7 @@
 import { atom, useAtomValue } from 'jotai'
 import { useState } from 'react'
 import { HiOutlineDocument, HiOutlineUsers } from 'react-icons/hi'
-import { HiOutlineHome, HiOutlineUserGroup } from 'react-icons/hi2'
+import { HiOutlineBellAlert, HiOutlineHome, HiOutlineUserGroup } from 'react-icons/hi2'
 import { HiOutlineClock } from 'react-icons/hi2'
 import { HiDevicePhoneMobile } from 'react-icons/hi2'
 import { HiUserGroup } from 'react-icons/hi2'
@@ -116,8 +116,26 @@ export const navigationItems: NavigationProps[] = [
         ],
     },
     {
+        name: 'Notifications',
+        icon: HiOutlineBellAlert,
+        href: '#',
+        allowedRoles: [ROLE.superadmin, ROLE.groupadmin],
+        children: [
+            {
+                name: 'Create Notification',
+                href: '/notification/create',
+                allowedRoles: [ROLE.superadmin],
+            },
+            {
+                name: 'Notifications',
+                href: '/notification/list',
+                allowedRoles: [ROLE.superadmin],
+            },
+        ],
+    },
+    {
         name: 'Time Entries',
-        icon: HiOutlineDocument,
+        icon: HiOutlineClock,
         href: '#',
         allowedRoles: [ROLE.superadmin, ROLE.groupadmin],
         children: [
@@ -130,7 +148,7 @@ export const navigationItems: NavigationProps[] = [
     },
     {
         name: 'Logs',
-        icon: HiOutlineClock,
+        icon: HiOutlineDocument,
         href: '#',
         allowedRoles: [ROLE.superadmin],
         children: [

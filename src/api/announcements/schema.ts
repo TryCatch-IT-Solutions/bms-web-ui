@@ -3,10 +3,13 @@ import { z } from 'zod'
 
 export const announcementSchema = z.object({
     id: z.number(),
-    user_id: z.number(),
+    user_id: z.number().optional(),
     title: z.string(),
     message: z.string(),
+    expiration: z.string(),
 })
+
+export const createAnnouncementSchema = announcementSchema.omit({ id: true })
 
 export const announcementList = z.object({
     content: z.array(announcementSchema),
