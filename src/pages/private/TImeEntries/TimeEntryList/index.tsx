@@ -20,9 +20,11 @@ import { useAtom } from 'jotai'
 import { MapIcon } from 'lucide-react'
 import { Button } from '@/components/Button'
 import { useNavigate } from 'react-router-dom'
+import { ImageIcon } from '@radix-ui/react-icons'
 ;``
 const tableHeader = [
     { name: 'Record ID' },
+    { name: 'Snapshot' },
     { name: 'First Name' },
     { name: 'Last Name' },
     { name: 'Type' },
@@ -187,6 +189,13 @@ export const TimeEntryList: React.FC = () => {
                                             className='-mt-[.5px]'
                                         />
                                         {t.id}
+                                    </TableCell>
+                                    <TableCell>
+                                        {t?.snapshot ? (
+                                            <img src={t?.snapshot} className='h-5 w-5' />
+                                        ) : (
+                                            <ImageIcon className='h-5 w-5' />
+                                        )}
                                     </TableCell>
                                     <TableCell>{t?.employee?.first_name}</TableCell>
                                     <TableCell>{t?.employee?.last_name}</TableCell>

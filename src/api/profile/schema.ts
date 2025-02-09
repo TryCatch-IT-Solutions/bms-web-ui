@@ -95,6 +95,7 @@ export const importUsersSchema = z.object({
 export const employeeTimeEntriesSchema = z.object({
     id: z.number(),
     user_id: z.number(),
+    snapshot: z.string(),
     type: z.enum(['time_in', 'time_out', 'other_type']),
     datetime: z.string(),
     metadata: z.array(z.unknown()),
