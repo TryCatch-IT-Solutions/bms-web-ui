@@ -12,6 +12,7 @@ import { CreateGroup } from '@/pages/private/Groups/CreateGroup'
 import { EditGroup } from '@/pages/private/Groups/EditGroup'
 import { GroupList } from '@/pages/private/Groups/GroupList'
 import { UserGroup } from '@/pages/private/Groups/UserGroup'
+import { NotificationList } from '@/pages/private/Notifications/NotificationList'
 import { APIKeys } from '@/pages/private/Settings/APIKeys'
 import { TimeEntryList } from '@/pages/private/TImeEntries/TimeEntryList'
 import { TimeEntryMapView } from '@/pages/private/TImeEntries/TimeEntryMapView'
@@ -105,6 +106,19 @@ const PrivateRoutes: RouteObject = {
                 {
                     path: 'time-entries/map-view',
                     element: <TimeEntryMapView />,
+                },
+            ],
+        },
+        {
+            path: '/notification',
+            children: [
+                {
+                    path: 'list',
+                    element: <NotificationList />,
+                },
+                {
+                    path: 'create',
+                    element: <CreateEmployee />,
                 },
             ],
         },

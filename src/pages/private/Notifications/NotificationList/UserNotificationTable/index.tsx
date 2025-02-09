@@ -11,20 +11,20 @@ import { useState } from 'react'
 
 const tableHeader = [{ name: 'Notification ID' }, { name: 'Message' }]
 
-export const GeneralNotificationTable: React.FC = () => {
+export const UserNotificationTable: React.FC = () => {
     const [pagination, setPagination] = useState<PaginationType>({
         current_page: 1,
         per_page: 10,
     })
 
     const { data: genNotifications, isLoading: getNotifLoading } = useQuery({
-        queryKey: ['userNotifications', pagination],
-        queryFn: () => getAnnouncement(pagination, 'general'),
+        queryKey: ['userNotification', pagination],
+        queryFn: () => getAnnouncement(pagination, 'user'),
     })
 
     return (
         <div className='mt-10'>
-            <p className='font-semibold text-2xl'>General Notification</p>
+            <p className='font-semibold text-2xl'>User Notifications</p>
             <Card className='mt-5'>
                 <CardContent>
                     <Table className='table-auto whitespace-normal w-full'>
@@ -70,6 +70,7 @@ export const GeneralNotificationTable: React.FC = () => {
                     </Table>
                 </CardContent>
             </Card>
+
             <div className='mt-5'>
                 <Pagination
                     pagination={pagination}
