@@ -23,7 +23,7 @@ export const UserAccountStatistics: React.FC<UserAccountStatisticsProps> = ({ st
                     <UserCog className='text-bms-primary h-14 w-14' />
 
                     <span className='flex flex-col gap-2'>
-                        <p className='font-semibold'>Group Admin</p>
+                        <p className='font-semibold text-left'>Group Admin</p>
                         <span className='flex flex-row gap-5 justify-between'>
                             <p>Assigned:</p>
                             <p>{stats?.group_admin?.assigned}</p>
@@ -45,7 +45,7 @@ export const UserAccountStatistics: React.FC<UserAccountStatisticsProps> = ({ st
                 >
                     <UsersIcon className='text-bms-primary h-14 w-14' />
                     <span className='flex flex-col gap-2'>
-                        <p className='font-semibold'>Employee</p>
+                        <p className='font-semibold text-left'>Employee</p>
                         <span className='flex flex-row gap-5 justify-between'>
                             <p>Assigned:</p>
                             <p>{stats?.employees?.assigned}</p>
@@ -67,7 +67,7 @@ export const UserAccountStatistics: React.FC<UserAccountStatisticsProps> = ({ st
                 >
                     <BellRingIcon className='text-bms-primary h-14 w-14' />
                     <span className='flex flex-col gap-2'>
-                        <p className='font-semibold'>Announcements</p>
+                        <p className='font-semibold text-left'>Announcements</p>
                         <span className='flex flex-row gap-5 justify-between'>
                             <p>General:</p>
                             <p>{stats?.announcements?.general}</p>
