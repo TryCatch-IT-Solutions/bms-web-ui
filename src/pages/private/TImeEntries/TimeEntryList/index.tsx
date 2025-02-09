@@ -192,9 +192,9 @@ export const TimeEntryList: React.FC = () => {
                                     </TableCell>
                                     <TableCell>
                                         {t?.snapshot ? (
-                                            <img src={t?.snapshot} className='h-5 w-5' />
+                                            <img src={t?.snapshot} className='h-12 w-10' />
                                         ) : (
-                                            <ImageIcon className='h-5 w-5' />
+                                            <ImageIcon className='h-12 w-10 text-gray-300' />
                                         )}
                                     </TableCell>
                                     <TableCell>{t?.employee?.first_name}</TableCell>
