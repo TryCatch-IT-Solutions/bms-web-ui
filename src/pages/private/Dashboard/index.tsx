@@ -6,6 +6,7 @@ import { useQuery } from '@tanstack/react-query'
 import { getDashboardStats } from '@/api/general'
 import { DashboardStatusType, DashDevicesType } from '@/api/general/schema'
 import AppSkeletonLoadingState from '@/components/TableLoadingState'
+import { TimeEntryTable } from './TimeEntriesTable'
 
 export const Dashboard: React.FC = () => {
     const { data, isLoading } = useQuery({
@@ -27,6 +28,7 @@ export const Dashboard: React.FC = () => {
                 )}
             </div>
             <DeviceTable />
+            <TimeEntryTable />
         </div>
     )
 }
