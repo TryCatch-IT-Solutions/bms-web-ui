@@ -63,7 +63,7 @@ const GroupListModal: React.FC<GroupListModalProps> = ({ open, setOpen, control 
             <div className='flex flex-col gap-5'>
                 <div className='flex gap-5 px-10'>
                     <h1 className='text-left font-semibold text-2xl text-gray-900 mt-2.5'>
-                        Select Group Admin
+                        Select Group
                     </h1>
                 </div>
 

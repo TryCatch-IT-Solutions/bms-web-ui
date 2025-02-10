@@ -1,5 +1,8 @@
 import { DashboardStatusType } from '@/api/general/schema'
 import { Card, CardContent, CardHeader } from '@/components/Card'
+import { ROLE } from '@/constants'
+import { userAtom } from '@/store/user'
+import { useAtomValue } from 'jotai'
 import { BellRingIcon, UserCog, UsersIcon, UsersRound } from 'lucide-react'
 import { useNavigate } from 'react-router-dom'
 
@@ -10,34 +13,43 @@ interface UserAccountStatisticsProps {
 export const UserAccountStatistics: React.FC<UserAccountStatisticsProps> = ({ stats }) => {
     const navigate = useNavigate()
 
+    const user = useAtomValue(userAtom)
+
+    const isAdmin = user?.role === ROLE.superadmin
+
     return (
         <Card className='w-fit'>
             <CardHeader>
                 <p className='font-bold text-bms-gray-500 text-lg'>User Account Statistics</p>
             </CardHeader>
             <CardContent className='flex flex-row'>
-                <button
-                    onClick={() => navigate('/user/list')}
-                    className='flex flex-row items-center gap-5 text-bms-gray-500 hover:rounded-md border border-1 border-y-0 border-l-0 border-bms-gray-300 p-5 hover:bg-gray-100'
-                >
-                    <UserCog className='text-bms-primary h-14 w-14' />
+                {isAdmin && (
+                    <button
+                        onClick={() => navigate('/user/list')}
+                        className='flex flex-row items-center gap-5 text-bms-gray-500 hover:rounded-md border border-1 border-y-0 border-l-0 border-bms-gray-300 p-5 hover:bg-gray-100'
+                    >
+                        <UserCog className='text-bms-primary h-14 w-14' />
 
-                    <span className='flex flex-col gap-2'>
-                        <p className='font-semibold text-left'>Group Admin</p>
-                        <span className='flex flex-row gap-5 justify-between'>
-                            <p>Assigned:</p>
-                            <p>{stats?.group_admin?.assigned}</p>
+                        <span className='flex flex-col gap-2'>
+                            <p className='font-semibold text-left'>Group Admin</p>
+                            <span className='flex flex-row gap-5 justify-between'>
+                                <p>Assigned:</p>
+                                <p>{stats?.group_admin?.assigned ?? 0}</p>
+                            </span>
+                            <span className='flex flex-row gap-5 justify-between'>
+                                <p>Unassigned:</p>
+                                <p>{stats?.group_admin?.unassigned ?? 0}</p>
+                            </span>
+                            <span className='flex flex-row gap-5 justify-between'>
+                                <p>Total:</p>
+                                <p>
+                                    {(stats?.group_admin?.assigned ?? 0) +
+                                        (stats.group_admin?.unassigned ?? 0)}
+                                </p>
+                            </span>
                         </span>
-                        <span className='flex flex-row gap-5 justify-between'>
-                            <p>Unassigned:</p>
-                            <p>{stats?.group_admin?.unassigned}</p>
-                        </span>
-                        <span className='flex flex-row gap-5 justify-between'>
-                            <p>Total:</p>
-                            <p>{stats?.group_admin?.assigned + stats.group_admin?.unassigned}</p>
-                        </span>
-                    </span>
-                </button>
+                    </button>
+                )}
 
                 <button
                     onClick={() => navigate('/employee/list')}
@@ -48,15 +60,18 @@ export const UserAccountStatistics: React.FC<UserAccountStatisticsProps> = ({ st
                         <p className='font-semibold text-left'>Employee</p>
                         <span className='flex flex-row gap-5 justify-between'>
                             <p>Assigned:</p>
-                            <p>{stats?.employees?.assigned}</p>
+                            <p>{stats?.employees?.assigned ?? 0}</p>
                         </span>
                         <span className='flex flex-row gap-5 justify-between'>
                             <p>Unassigned:</p>
-                            <p>{stats?.employees?.unassigned}</p>
+                            <p>{stats?.employees?.unassigned ?? 0}</p>
                         </span>
                         <span className='flex flex-row gap-5 justify-between'>
                             <p>Total:</p>
-                            <p>{stats?.employees?.assigned + stats?.employees?.unassigned}</p>
+                            <p>
+                                {(stats?.employees?.assigned ?? 0) +
+                                    (stats?.employees?.unassigned ?? 0)}
+                            </p>
                         </span>
                     </span>
                 </button>
@@ -70,34 +85,39 @@ export const UserAccountStatistics: React.FC<UserAccountStatisticsProps> = ({ st
                         <p className='font-semibold text-left'>Announcements</p>
                         <span className='flex flex-row gap-5 justify-between'>
                             <p>General:</p>
-                            <p>{stats?.announcements?.general}</p>
+                            <p>{stats?.announcements?.general ?? 0}</p>
                         </span>
                         <span className='flex flex-row gap-5 justify-between'>
                             <p>User:</p>
-                            <p>{stats?.announcements?.specific}</p>
+                            <p>{stats?.announcements?.specific ?? 0}</p>
                         </span>
                         <span className='flex flex-row gap-5 justify-between'>
                             <p>Total:</p>
-                            <p>{stats?.announcements?.general + stats?.announcements?.specific}</p>
+                            <p>
+                                {(stats?.announcements?.general ?? 0) +
+                                    (stats?.announcements?.specific ?? 0)}
+                            </p>
                         </span>
                     </span>
                 </button>
 
-                <button
-                    onClick={() => navigate('/group/list')}
-                    className='flex flex-row  gap-5 text-bms-gray-500 p-5 hover:bg-gray-100 hover:rounded-md'
-                >
-                    <div className='mt-[22%]'>
-                        <UsersRound className='text-bms-primary h-14 w-14' />
-                    </div>
-                    <span className='flex flex-col gap-2'>
-                        <p className='font-semibold text-left'>Groups</p>
-                        <span className='flex flex-row gap-5 justify-between'>
-                            <p>Total:</p>
-                            <p>{stats?.groups?.total}</p>
+                {isAdmin && (
+                    <button
+                        onClick={() => navigate('/group/list')}
+                        className='flex flex-row  gap-5 text-bms-gray-500 p-5 hover:bg-gray-100 hover:rounded-md'
+                    >
+                        <div className='mt-[22%]'>
+                            <UsersRound className='text-bms-primary h-14 w-14' />
+                        </div>
+                        <span className='flex flex-col gap-2'>
+                            <p className='font-semibold text-left'>Groups</p>
+                            <span className='flex flex-row gap-5 justify-between'>
+                                <p>Total:</p>
+                                <p>{stats?.groups?.total ?? 0}</p>
+                            </span>
                         </span>
-                    </span>
-                </button>
+                    </button>
+                )}
             </CardContent>
         </Card>
     )

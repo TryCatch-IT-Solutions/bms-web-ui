@@ -78,6 +78,7 @@ export const EDIT_ROLE_VALUES = Object.entries(EDIT_ROLE_LABELS).map(([key, labe
 export const GENDER_OPTIONS = [
     { value: 'male', label: 'Male' },
     { value: 'female', label: 'Female' },
+    { value: 'other', label: 'Other' },
 ]
 
 export const TEMP_GROUP = [
