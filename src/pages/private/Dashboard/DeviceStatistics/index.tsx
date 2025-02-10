@@ -20,7 +20,7 @@ export const DeviceStatistics: React.FC<DeviceStatisticsProps> = ({ device }) =>
 
     const handleNavigate = () => {
         if (isAdmin) {
-            handleNavigate
+            navigate('/device/list')
         }
     }
 
