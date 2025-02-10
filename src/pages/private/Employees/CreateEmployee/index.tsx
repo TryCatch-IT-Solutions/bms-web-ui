@@ -15,6 +15,7 @@ import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { createUser } from '@/api/profile'
 import { PasswordInput } from '@/components/PasswordInput'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { cn } from '@/utils/helper'
 
 export const CreateEmployee: React.FC = () => {
     const navigate = useNavigate()
@@ -29,8 +30,11 @@ export const CreateEmployee: React.FC = () => {
     const {
         setError,
         setValue,
+        watch,
         formState: { errors, isValid },
     } = userForm
+
+    const passwordVal = watch('password')
 
     const { mutate: createUserMu, isPending } = useMutation({
         mutationFn: createUser,
@@ -72,13 +76,13 @@ export const CreateEmployee: React.FC = () => {
                 <form
                     autoComplete='on'
                     noValidate
-                    className='w-full h-full max-w-[80%]'
+                    className='w-full h-full max-w-[80%] xs:max-w-full sm:max-w-full'
                     onSubmit={userForm.handleSubmit(onSubmit)}
                 >
                     <Card className=''>
                         <CardContent className='flex flex-col gap-5 pt-5'>
-                            <div className='flex flex-row gap-3 items-center justify-start'>
-                                <div className='w-1/3'>
+                            <div className='flex flex-row xs:flex-col sm:flex-col xs:gap-7 sm:gap-7 gap-3 items-center justify-start'>
+                                <div className='w-1/3 xs:w-full sm:w-full'>
                                     <FormField
                                         control={userForm.control}
                                         name='first_name'
@@ -100,7 +104,7 @@ export const CreateEmployee: React.FC = () => {
                                     />
                                 </div>
 
-                                <div className='w-1/3'>
+                                <div className='w-1/3 xs:w-full sm:w-full'>
                                     <FormField
                                         control={userForm.control}
                                         name='middle_name'
@@ -122,7 +126,7 @@ export const CreateEmployee: React.FC = () => {
                                         )}
                                     />
                                 </div>
-                                <div className='w-1/3'>
+                                <div className='w-1/3 xs:w-full sm:w-full'>
                                     <FormField
                                         control={userForm.control}
                                         name='last_name'
@@ -145,8 +149,8 @@ export const CreateEmployee: React.FC = () => {
                                 </div>
                             </div>
 
-                            <div className='flex flex-row gap-3 items-center justify-start'>
-                                <div className='w-1/3'>
+                            <div className='flex flex-row xs:flex-col sm:flex-col xs:gap-7 sm:gap-7 gap-3 items-center justify-start'>
+                                <div className='w-1/3 xs:w-full sm:w-full'>
                                     <FormField
                                         control={userForm.control}
                                         name='email'
@@ -166,7 +170,7 @@ export const CreateEmployee: React.FC = () => {
                                     />
                                 </div>
 
-                                <div className='w-1/3'>
+                                <div className='w-1/3 xs:w-full sm:w-full'>
                                     <FormField
                                         control={userForm.control}
                                         name='phone_number'
@@ -189,7 +193,7 @@ export const CreateEmployee: React.FC = () => {
                                         )}
                                     />
                                 </div>
-                                <div className='w-1/3'>
+                                <div className='w-1/3 xs:w-full sm:w-full'>
                                     <FormField
                                         control={userForm.control}
                                         name='gender'
@@ -210,8 +214,8 @@ export const CreateEmployee: React.FC = () => {
                                 </div>
                             </div>
 
-                            <div className='flex flex-row gap-3 items-center justify-start'>
-                                <div className='w-1/3 max-w-[32.5%]'>
+                            <div className='flex flex-row xs:flex-col sm:flex-col xs:gap-7 sm:gap-7 gap-3 items-center justify-start'>
+                                <div className='w-1/3 xs:w-full sm:w-full xs:max-w-full sm:max-w-full max-w-[32.5%] xs:max-w-full sm:max-w-full'>
                                     <FormField
                                         control={userForm.control}
                                         name='birth_date'
@@ -234,8 +238,8 @@ export const CreateEmployee: React.FC = () => {
                                 </div>
                             </div>
 
-                            <div className='flex flex-row gap-3 items-center justify-start'>
-                                <div className='w-1/3'>
+                            <div className='flex flex-row xs:flex-col sm:flex-col xs:gap-7 sm:gap-7 gap-3 items-center justify-start'>
+                                <div className='w-1/3 xs:w-full sm:w-full'>
                                     <FormField
                                         control={userForm.control}
                                         name='address1'
@@ -257,7 +261,7 @@ export const CreateEmployee: React.FC = () => {
                                     />
                                 </div>
 
-                                <div className='w-1/3'>
+                                <div className='w-1/3 xs:w-full sm:w-full'>
                                     <FormField
                                         control={userForm.control}
                                         name='address2'
@@ -280,7 +284,7 @@ export const CreateEmployee: React.FC = () => {
                                     />
                                 </div>
 
-                                <div className='w-1/3'>
+                                <div className='w-1/3 xs:w-full sm:w-full'>
                                     <FormField
                                         control={userForm.control}
                                         name='barangay'
@@ -303,8 +307,8 @@ export const CreateEmployee: React.FC = () => {
                                 </div>
                             </div>
 
-                            <div className='flex flex-row gap-3 items-center justify-start'>
-                                <div className='w-1/3'>
+                            <div className='flex flex-row xs:flex-col sm:flex-col xs:gap-7 sm:gap-7 gap-3 items-center justify-start'>
+                                <div className='w-1/3 xs:w-full sm:w-full'>
                                     <FormField
                                         control={userForm.control}
                                         name='municipality'
@@ -326,7 +330,7 @@ export const CreateEmployee: React.FC = () => {
                                     />
                                 </div>
 
-                                <div className='w-1/3'>
+                                <div className='w-1/3 xs:w-full sm:w-full'>
                                     <FormField
                                         control={userForm.control}
                                         name='province'
@@ -348,7 +352,7 @@ export const CreateEmployee: React.FC = () => {
                                     />
                                 </div>
 
-                                <div className='w-1/3'>
+                                <div className='w-1/3 xs:w-full sm:w-full'>
                                     <FormField
                                         control={userForm.control}
                                         name='zip_code'
@@ -381,8 +385,8 @@ export const CreateEmployee: React.FC = () => {
                                 </div>
                             </div>
 
-                            <div className='flex flex-row gap-3 items-center justify-start'>
-                                <div className='w-1/3 max-w-[32.5%]'>
+                            <div className='flex flex-row xs:flex-col sm:flex-col xs:gap-7 sm:gap-7 gap-3 items-center justify-start'>
+                                <div className='w-1/3 xs:w-full sm:w-full max-w-[32.5%] xs:max-w-full sm:max-w-full'>
                                     <FormField
                                         control={userForm.control}
                                         name='emergency_contact_name'
@@ -404,7 +408,7 @@ export const CreateEmployee: React.FC = () => {
                                     />
                                 </div>
 
-                                <div className='w-1/3 max-w-[32.5%]'>
+                                <div className='w-1/3 xs:w-full sm:w-full max-w-[32.5%] xs:max-w-full sm:max-w-full'>
                                     <FormField
                                         control={userForm.control}
                                         name='emergency_contact_no'
@@ -429,8 +433,8 @@ export const CreateEmployee: React.FC = () => {
                                 </div>
                             </div>
 
-                            <div className='flex flex-row gap-3 items-center justify-start'>
-                                <div className='w-1/3 max-w-[32.5%] mb-[12rem]'>
+                            <div className='flex flex-row xs:flex-col xs:gap-5 sm:flex-col sm:gap-5 gap-3 items-center justify-start'>
+                                <div className='w-1/3 xs:w-full sm:w-full max-w-[32.5%] xs:max-w-full sm:max-w-full mb-[12rem] xs:mb-0 sm:mb-0'>
                                     <FormField
                                         control={userForm.control}
                                         name='password'
@@ -452,7 +456,14 @@ export const CreateEmployee: React.FC = () => {
                                     />
                                 </div>
 
-                                <div className='w-1/3 max-w-[32.5%] mb-[12rem]'>
+                                <div
+                                    className={cn(
+                                        'w-1/3 xs:w-full sm:w-full max-w-[32.5%] xs:max-w-full sm:max-w-full mb-[12rem] xs:mb-0 sm:mb-0',
+                                        passwordVal !== undefined && passwordVal !== ''
+                                            ? 'xs:mt-48 sm:mt-48'
+                                            : 'xs:mt-4 sm:mt-4',
+                                    )}
+                                >
                                     <FormField
                                         control={userForm.control}
                                         name='confirmPassword'

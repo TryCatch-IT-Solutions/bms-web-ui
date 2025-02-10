@@ -120,8 +120,8 @@ export const EmployeeTable: React.FC = () => {
 
     return (
         <>
-            <div className='mb-5 flex flex-row justify-between'>
-                <div className='flex flex-row gap-1'>
+            <div className='mb-5 flex flex-row xs:gap-5 sm:gap-5 justify-between'>
+                <div className='flex flex-row xs:flex-col sm:flex-col xs:gap-5 sm:gap-5 gap-1'>
                     <SearchBar
                         placeHolder='Search Employee'
                         onSearchChange={(e) => onSearchChange(e?.target?.value)}
@@ -137,7 +137,7 @@ export const EmployeeTable: React.FC = () => {
                     </Button>
                 </div>
 
-                <div className='flex flex-row gap-5'>
+                <div className='flex flex-row xs:flex-col sm:flex-col gap-5'>
                     {employeesToExport && employeesToExport?.content?.length > 0 && (
                         <ExportCounter
                             selected={employeesToExport?.content?.length ?? 0}

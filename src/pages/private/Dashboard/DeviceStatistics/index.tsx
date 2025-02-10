@@ -29,7 +29,7 @@ export const DeviceStatistics: React.FC<DeviceStatisticsProps> = ({ device }) =>
             <CardHeader>
                 <p className='font-bold text-bms-gray-500 text-lg'>Devices</p>
             </CardHeader>
-            <CardContent className='flex flex-row gap-5'>
+            <CardContent className='flex flex-row xs:flex-col sm:flex-col gap-5'>
                 <button
                     onClick={() => handleNavigate}
                     className='flex flex-row gap-5 bg-blue-500 p-5 items-center rounded-md'

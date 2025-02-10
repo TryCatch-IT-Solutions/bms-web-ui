@@ -18,15 +18,15 @@ export const UserAccountStatistics: React.FC<UserAccountStatisticsProps> = ({ st
     const isAdmin = user?.role === ROLE.superadmin
 
     return (
-        <Card className='w-fit'>
+        <Card className='w-fit xs:w-full sm:w-full'>
             <CardHeader>
                 <p className='font-bold text-bms-gray-500 text-lg'>User Account Statistics</p>
             </CardHeader>
-            <CardContent className='flex flex-row'>
+            <CardContent className='flex flex-row xs:flex-col sm:flex-col md:flex-col'>
                 {isAdmin && (
                     <button
                         onClick={() => navigate('/user/list')}
-                        className='flex flex-row items-center gap-5 text-bms-gray-500 hover:rounded-md border border-1 border-y-0 border-l-0 border-bms-gray-300 p-5 hover:bg-gray-100'
+                        className='flex flex-row items-center gap-5 text-bms-gray-500 hover:rounded-md border xs:border-0 sm:border-0 md:border-0 border-1 border-y-0 border-l-0 border-bms-gray-300 p-5 hover:bg-gray-100'
                     >
                         <UserCog className='text-bms-primary h-14 w-14' />
 
@@ -53,7 +53,7 @@ export const UserAccountStatistics: React.FC<UserAccountStatisticsProps> = ({ st
 
                 <button
                     onClick={() => navigate('/employee/list')}
-                    className='flex flex-row items-center gap-5 text-bms-gray-500 hover:rounded-md border border-1 border-y-0 border-l-0 border-bms-gray-300 p-5 hover:bg-gray-100'
+                    className='flex flex-row items-center gap-5 text-bms-gray-500 hover:rounded-md border xs:border-0 sm:border-0 md:border-0 border-1 border-y-0 border-l-0 border-bms-gray-300 p-5 hover:bg-gray-100'
                 >
                     <UsersIcon className='text-bms-primary h-14 w-14' />
                     <span className='flex flex-col gap-2'>
@@ -78,7 +78,7 @@ export const UserAccountStatistics: React.FC<UserAccountStatisticsProps> = ({ st
 
                 <button
                     onClick={() => navigate('/notification/list')}
-                    className='flex flex-row items-center gap-5 text-bms-gray-500 hover:rounded-md border border-1 border-y-0 border-l-0 border-bms-gray-300 p-5 hover:bg-gray-100'
+                    className='flex flex-row items-center gap-5 text-bms-gray-500 hover:rounded-md border xs:border-0 sm:border-0 md:border-0 border-1 border-y-0 border-l-0 border-bms-gray-300 p-5 hover:bg-gray-100'
                 >
                     <BellRingIcon className='text-bms-primary h-14 w-14' />
                     <span className='flex flex-col gap-2'>

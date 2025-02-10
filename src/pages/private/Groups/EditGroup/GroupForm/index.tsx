@@ -95,7 +95,7 @@ export const GroupForm: React.FC = () => {
         <Spinner variant='normal' className='h-[8rem] w-[8rem]' />
     ) : (
         <div className='flex flex-col gap-10'>
-            <Card className='xs:flex xs:flex-col xs:items-center xs:justify-center'>
+            <Card className='xs:flex xs:flex-col xs:items-center xs:justify-center sm:items-center sm:justify-center'>
                 <CardHeader>
                     <p className='font-semibold text-xl text-bms-gray-medium'>Group Information</p>
                 </CardHeader>
@@ -104,10 +104,10 @@ export const GroupForm: React.FC = () => {
                         <form
                             autoComplete='on'
                             noValidate
-                            className='w-full h-full max-w-[50%] xs:mas-w-full'
+                            className='w-full h-full max-w-[50%] xs:max-w-full sm:max-w-full'
                             onSubmit={handleSubmit(onSubmit)}
                         >
-                            <div className='flex flex-col gap-5 items-start xs:items-center xs:justify-center'>
+                            <div className='flex flex-col gap-5 items-start'>
                                 <div className='w-[100%]'>
                                     <FormField
                                         control={groupForm.control}
@@ -143,7 +143,7 @@ export const GroupForm: React.FC = () => {
                                     </Button>
                                 </div>
 
-                                <div className='mt-3 w-full flex flex-row gap-5 items-end justify-end'>
+                                <div className='mt-3 w-full flex flex-row gap-5 items-end justify-end xs:items-center xs:justify-center'>
                                     <Button
                                         type='button'
                                         variant='outline'
@@ -166,9 +166,9 @@ export const GroupForm: React.FC = () => {
             <Card>
                 <CardContent>
                     <div className='flex flex-col gap-5'>
-                        <div className='flex flex-row items-center justify-between mt-5'>
+                        <div className='flex flex-row xs:flex-col sm:flex-col items-center justify-between mt-5'>
                             <p className='font-semibold text-xl text-bms-gray-medium'>Employees</p>
-                            <div className='flex flex-row gap-5 items-end justify-end'>
+                            <div className='flex flex-row gap-5 items-end justify-end xs:mt-5 sm:mt-5'>
                                 <Button
                                     onClick={() => setRemoveModal(true)}
                                     variant='outline'

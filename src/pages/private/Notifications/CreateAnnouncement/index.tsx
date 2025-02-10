@@ -67,12 +67,12 @@ export const CreateAnnouncement: React.FC = () => {
             <BreadCrumbs origin='Announcement' title='Create Announcement' />
 
             <Form {...announementForm}>
-                <form className='w-[60%]' onSubmit={handleSubmit(onSubmit)}>
+                <form className='w-[60%] xs:w-full sm:w-full' onSubmit={handleSubmit(onSubmit)}>
                     <Card>
                         <CardContent>
-                            <div className='flex flex-row gap-5 items-center mt-5'>
+                            <div className='flex flex-row xs:flex-col sm:flex-col xs:gap-7 sm:gap-7 gap-5 items-center mt-5'>
                                 <Button
-                                    className='gap-2'
+                                    className='gap-2 xs:w-full sm:w-full'
                                     type='button'
                                     onClick={() => setUsersModal(true)}
                                     disabled={isGeneral}
@@ -148,7 +148,7 @@ export const CreateAnnouncement: React.FC = () => {
                         <CardFooter className='flex flex-row gap-5 items-center justify-end'>
                             <Button
                                 variant='outline'
-                                className='w-1/5'
+                                className='w-1/5 xs:w-full sm:w-full'
                                 onClick={() => navigate('/notification/list')}
                                 disabled={isPending}
                             >
@@ -156,7 +156,7 @@ export const CreateAnnouncement: React.FC = () => {
                             </Button>
                             <Button
                                 type='submit'
-                                className='w-1/5'
+                                className='w-1/5 xs:w-full sm:w-full'
                                 disabled={!isValid || isPending}
                             >
                                 Submit

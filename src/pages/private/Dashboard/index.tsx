@@ -24,7 +24,7 @@ export const Dashboard: React.FC = () => {
     return (
         <div className='content flex flex-col gap-5'>
             <BreadCrumbs title='Dashboard' />
-            <div className='flex flex-row gap-5'>
+            <div className='flex flex-row xs:flex-col sm:flex-col md:flex-col gap-5'>
                 {isLoading ? (
                     <AppSkeletonLoadingState />
                 ) : (

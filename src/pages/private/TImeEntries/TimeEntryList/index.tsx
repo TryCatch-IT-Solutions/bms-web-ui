@@ -83,7 +83,7 @@ export const TimeEntryList: React.FC = () => {
         <div className='content'>
             <BreadCrumbs title='Time Entries' origin='Employees' />
             <div className='mb-5 flex flex-row gap-5 justify-between'>
-                <div className='flex flex-row gap-5'>
+                <div className='flex flex-row xs:flex-col sm:flex-col gap-5'>
                     <SearchBar
                         placeHolder='Search User'
                         onSearchChange={(e) => onSearchChange(e?.target?.value)}
@@ -133,7 +133,7 @@ export const TimeEntryList: React.FC = () => {
                                     <TableHead
                                         key={index}
                                         className={cn(
-                                            'font-semibold text-bms-gray-medium text-base whitespace-nowrap',
+                                            'font-semibold text-bms-gray-medium text-base xs:text-sm sm:text-sm whitespace-nowrap',
                                         )}
                                     >
                                         <span className='flex flex-row gap-2'>
@@ -173,7 +173,7 @@ export const TimeEntryList: React.FC = () => {
                             {users?.content?.map((t: TimeEntryType) => (
                                 <TableRow
                                     key={t?.id}
-                                    className='text-start text-base text-bms-gray-dark cursor-pointer'
+                                    className='text-start text-base xs:text-sm sm:text-sm text-bms-gray-dark cursor-pointer xs:flex xs:items-center sm:flex sm:items-center'
                                 >
                                     <TableCell className='font-semibold text-bms-link flex flex-row items-center gap-2'>
                                         <Checkbox
