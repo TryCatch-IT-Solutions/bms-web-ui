@@ -22,7 +22,7 @@ export const UserAccountStatistics: React.FC<UserAccountStatisticsProps> = ({ st
             <CardHeader>
                 <p className='font-bold text-bms-gray-500 text-lg'>User Account Statistics</p>
             </CardHeader>
-            <CardContent className='flex flex-row xs:flex-col sm:flex-col md:flex-col'>
+            <CardContent className='flex flex-row xs:flex-col sm:flex-col'>
                 {isAdmin && (
                     <button
                         onClick={() => navigate('/user/list')}

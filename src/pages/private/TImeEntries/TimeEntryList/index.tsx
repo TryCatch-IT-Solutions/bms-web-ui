@@ -173,7 +173,7 @@ export const TimeEntryList: React.FC = () => {
                             {users?.content?.map((t: TimeEntryType) => (
                                 <TableRow
                                     key={t?.id}
-                                    className='text-start text-base xs:text-sm sm:text-sm text-bms-gray-dark cursor-pointer xs:flex xs:items-center sm:flex sm:items-center'
+                                    className='text-start text-base xs:text-sm sm:text-sm text-bms-gray-dark cursor-pointer'
                                 >
                                     <TableCell className='font-semibold text-bms-link flex flex-row items-center gap-2'>
                                         <Checkbox
