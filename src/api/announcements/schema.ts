@@ -18,3 +18,4 @@ export const announcementList = z.object({
 
 export type AnnountmentType = z.infer<typeof announcementSchema>
 export type AnnouncementListType = z.infer<typeof announcementList>
+export type CreateAnnouncementType = z.infer<typeof createAnnouncementSchema>

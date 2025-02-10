@@ -18,7 +18,7 @@ export const GeneralNotificationTable: React.FC = () => {
     })
 
     const { data: genNotifications, isLoading: getNotifLoading } = useQuery({
-        queryKey: ['userNotifications', pagination],
+        queryKey: ['generalNotifications', pagination],
         queryFn: () => getAnnouncement(pagination, 'general'),
     })
 
