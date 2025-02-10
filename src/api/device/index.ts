@@ -1,5 +1,11 @@
 import { axiosInstance } from '@/api/axiosInstance'
-import { CreateDeviceType, DeleteDeviceType, DeviceListType, DeviceType } from '@/api/device/schema'
+import {
+    BulkSettingsUpdateType,
+    CreateDeviceType,
+    DeleteDeviceType,
+    DeviceListType,
+    DeviceType,
+} from '@/api/device/schema'
 import { PaginationType } from '@/components/Pagination/schema'
 
 export const createDevice = async (data: CreateDeviceType) => {
@@ -53,6 +59,12 @@ export const updateDevice = async (data: DeviceType): Promise<DeviceType> => {
 
 export const deleteDevices = async (data: DeleteDeviceType) => {
     const response = await axiosInstance.post(`/api/devices/delete`, data)
+
+    return response.data
+}
+
+export const bulkDeviceSettingsUpdate = async (data: BulkSettingsUpdateType) => {
+    const response = await axiosInstance.post('/api/bulk/devices', data)
 
     return response.data
 }
