@@ -1,5 +1,5 @@
 import { PaginationType } from '@/components/Pagination/schema'
-import { AnnouncementListType } from './schema'
+import { AnnouncementListType, CreateAnnouncementType } from './schema'
 import { axiosInstance } from '../axiosInstance'
 
 export const getAnnouncement = async (
@@ -22,6 +22,12 @@ export const getAnnouncement = async (
     }
 
     const response = await axiosInstance.get('/api/announcements', params)
+
+    return response.data
+}
+
+export const creteAnnouncement = async (data: CreateAnnouncementType) => {
+    const response = await axiosInstance.post('/api/announcements', data)
 
     return response.data
 }

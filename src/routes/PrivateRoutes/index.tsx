@@ -12,6 +12,7 @@ import { CreateGroup } from '@/pages/private/Groups/CreateGroup'
 import { EditGroup } from '@/pages/private/Groups/EditGroup'
 import { GroupList } from '@/pages/private/Groups/GroupList'
 import { UserGroup } from '@/pages/private/Groups/UserGroup'
+import { CreateAnnouncement } from '@/pages/private/Notifications/CreateAnnouncement'
 import { NotificationList } from '@/pages/private/Notifications/NotificationList'
 import { APIKeys } from '@/pages/private/Settings/APIKeys'
 import { TimeEntryList } from '@/pages/private/TImeEntries/TimeEntryList'
@@ -118,7 +119,7 @@ const PrivateRoutes: RouteObject = {
                 },
                 {
                     path: 'create',
-                    element: <CreateEmployee />,
+                    element: <CreateAnnouncement />,
                 },
             ],
         },

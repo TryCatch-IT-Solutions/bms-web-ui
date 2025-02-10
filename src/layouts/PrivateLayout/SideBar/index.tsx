@@ -116,18 +116,18 @@ export const navigationItems: NavigationProps[] = [
         ],
     },
     {
-        name: 'Notifications',
+        name: 'Announcements',
         icon: HiOutlineBellAlert,
         href: '#',
         allowedRoles: [ROLE.superadmin, ROLE.groupadmin],
         children: [
             {
-                name: 'Create Notification',
+                name: 'Create Announcement',
                 href: '/notification/create',
                 allowedRoles: [ROLE.superadmin],
             },
             {
-                name: 'Notifications',
+                name: 'Announcements List',
                 href: '/notification/list',
                 allowedRoles: [ROLE.superadmin],
             },
