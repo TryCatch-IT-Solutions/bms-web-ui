@@ -1,6 +1,9 @@
 import { DashDevicesType } from '@/api/general/schema'
 import { Card, CardContent, CardHeader } from '@/components/Card'
+import { ROLE } from '@/constants'
+import { userAtom } from '@/store/user'
 import { MobileIcon } from '@radix-ui/react-icons'
+import { useAtomValue } from 'jotai'
 import { WifiIcon, WifiOff } from 'lucide-react'
 import { useNavigate } from 'react-router-dom'
 
@@ -11,6 +14,16 @@ interface DeviceStatisticsProps {
 export const DeviceStatistics: React.FC<DeviceStatisticsProps> = ({ device }) => {
     const navigate = useNavigate()
 
+    const user = useAtomValue(userAtom)
+
+    const isAdmin = user?.role === ROLE.superadmin
+
+    const handleNavigate = () => {
+        if (isAdmin) {
+            handleNavigate
+        }
+    }
+
     return (
         <Card>
             <CardHeader>
@@ -18,7 +31,7 @@ export const DeviceStatistics: React.FC<DeviceStatisticsProps> = ({ device }) =>
             </CardHeader>
             <CardContent className='flex flex-row gap-5'>
                 <button
-                    onClick={() => navigate('/device/list')}
+                    onClick={() => handleNavigate}
                     className='flex flex-row gap-5 bg-blue-500 p-5 items-center rounded-md'
                 >
                     <div className='flex flex-col gap-5 text-white'>
@@ -32,7 +45,7 @@ export const DeviceStatistics: React.FC<DeviceStatisticsProps> = ({ device }) =>
                 </button>
 
                 <button
-                    onClick={() => navigate('/device/list')}
+                    onClick={() => handleNavigate}
                     className='flex flex-row gap-5 bg-bms-primary p-5 items-center rounded-md'
                 >
                     <div className='flex flex-col gap-5 text-white'>
@@ -46,7 +59,7 @@ export const DeviceStatistics: React.FC<DeviceStatisticsProps> = ({ device }) =>
                 </button>
 
                 <button
-                    onClick={() => navigate('/device/list')}
+                    onClick={() => handleNavigate}
                     className='flex flex-row gap-5 bg-bms-gray-500 p-5 items-center rounded-md'
                 >
                     <div className='flex flex-col gap-5 text-white'>
