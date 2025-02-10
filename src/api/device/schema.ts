@@ -26,6 +26,22 @@ export const deviceSchema = z.object({
     last_activity: z.string().optional(),
 })
 
+export const bulkSettingsUpdateSchema = deviceSchema
+    .pick({
+        manual_time_entry: true,
+        check_in: true,
+        check_out: true,
+        break_in: true,
+        break_out: true,
+        overtime_in: true,
+        overtime_out: true,
+    })
+    .merge(
+        z.object({
+            ids: z.array(z.number()),
+        }),
+    )
+
 export const deviceListSchema = z.object({
     content: z.array(deviceSchema),
     meta: paginationSchema,
@@ -41,3 +57,4 @@ export type DeviceType = z.infer<typeof deviceSchema>
 export type CreateDeviceType = z.infer<typeof createDeviceSchema>
 export type DeviceListType = z.infer<typeof deviceListSchema>
 export type DeleteDeviceType = z.infer<typeof deleteDeviceSchema>
+export type BulkSettingsUpdateType = z.infer<typeof bulkSettingsUpdateSchema>

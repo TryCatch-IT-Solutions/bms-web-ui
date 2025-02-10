@@ -18,6 +18,8 @@ import { useNavigate } from 'react-router-dom'
 import DeleteDeviceModal from '../DeleteDeviceModal'
 import { DeviceFilterByGroupModal } from './DeviceFilterByGroupModal'
 import { SyncNotificationBar } from '@/components/SyncNofificationBar'
+import { GearIcon } from '@radix-ui/react-icons'
+import BulkSettingsUpdateModal from '../BulkSettingsUpdateModal'
 
 const tableHeader = [
     { name: 'Device ID' },
@@ -33,6 +35,8 @@ export const DeviceTable: React.FC = () => {
         current_page: 1,
         per_page: 10,
     })
+
+    const [settingsModal, setSettingsModal] = useState<boolean>(false)
 
     const [devicesToDelete, setDevicesToDelete] = useAtom(deleteDeviceAtom)
     const [groupFilter, setGroupFilter] = useState<boolean>(false)
@@ -71,15 +75,27 @@ export const DeviceTable: React.FC = () => {
                     placeHolder='Search Device'
                     onSearchChange={(e) => onSearchChange(e?.target?.value)}
                 />
-                <SyncNotificationBar />
                 <div className='flex flex-row gap-5'>
+                    <Button
+                        className='bg-bms-gray-500 flex flex-row gap-1'
+                        onClick={() => setSettingsModal(true)}
+                        disabled={
+                            devicesToDelete?.devices?.length === 0 || devicesToDelete === null
+                        }
+                    >
+                        Update Settings
+                        <GearIcon className='h-5 w-5' />
+                    </Button>
                     <Button
                         variant='outline'
                         className='flex flex-row gap-1'
                         onClick={() => setOpen(true)}
+                        disabled={
+                            devicesToDelete?.devices?.length === 0 || devicesToDelete === null
+                        }
                     >
                         Delete
-                        <Trash2Icon className='h-4' />
+                        <Trash2Icon className='h-5 w-5' />
                     </Button>
                     <Button type='button' onClick={() => setGroupFilter(true)}>
                         Filter By Group
@@ -88,7 +104,11 @@ export const DeviceTable: React.FC = () => {
             </div>
 
             <Card>
-                <CardContent>
+                <CardContent className='flex flex-col items-center justify-center'>
+                    <div className='py-5'>
+                        <SyncNotificationBar />
+                    </div>
+
                     <Table className='table-auto whitespace-normal w-full'>
                         <TableHeader style={{ marginBottom: '10px' }}>
                             <TableRow>
@@ -187,6 +207,7 @@ export const DeviceTable: React.FC = () => {
             </Card>
             <DeleteDeviceModal open={open} setOpen={setOpen} />
             <DeviceFilterByGroupModal open={groupFilter} setOpen={setGroupFilter} />
+            <BulkSettingsUpdateModal open={settingsModal} setOpen={setSettingsModal} />
             <div className='mt-5'>
                 <Pagination
                     pagination={pagination}
