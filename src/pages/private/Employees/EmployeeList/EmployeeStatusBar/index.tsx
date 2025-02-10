@@ -77,7 +77,7 @@ export const EmployeeStatusBar: React.FC<UserTabsProps> = ({ search, roles, sear
                         onClick={() => onSwitchTab(EMP_ASSIGN_STATUS_TABS.assigned)}
                         value={EMP_ASSIGN_STATUS_TABS.assigned}
                         className={
-                            'w-1/2 h-[54px] text-lg text-bms-gray-dark data-[state=active]:text-bms-link data-[state=active]: border-bms-link data-[state=active]:font-bold data-[state=active]:border-b-4 data-[state=active]:bg-white sm:truncate ...'
+                            'w-1/2 h-[54px] text-lg xs:text-sm sm:text-sm text-bms-gray-dark data-[state=active]:text-bms-link data-[state=active]: border-bms-link data-[state=active]:font-bold data-[state=active]:border-b-4 data-[state=active]:bg-white sm:truncate ...'
                         }
                     >
                         {`Assigned (${assignedCount?.active ?? 0})`}
@@ -86,7 +86,7 @@ export const EmployeeStatusBar: React.FC<UserTabsProps> = ({ search, roles, sear
                         onClick={() => onSwitchTab(EMP_ASSIGN_STATUS_TABS.unassigned)}
                         value={EMP_ASSIGN_STATUS_TABS.unassigned}
                         className={
-                            'w-1/2 h-[54px] text-lg text-bms-gray-dark data-[state=active]:text-bms-link data-[state=active]: border-bms-link data-[state=active]:font-bold data-[state=active]:border-b-4 data-[state=active]:bg-white sm:truncate ...'
+                            'w-1/2 h-[54px] text-lg xs:text-sm sm:text-sm text-bms-gray-dark data-[state=active]:text-bms-link data-[state=active]: border-bms-link data-[state=active]:font-bold data-[state=active]:border-b-4 data-[state=active]:bg-white sm:truncate ...'
                         }
                     >
                         {`Unassigned (${unassignedCount?.active ?? 0})`}
@@ -95,7 +95,7 @@ export const EmployeeStatusBar: React.FC<UserTabsProps> = ({ search, roles, sear
                         onClick={() => onSwitchTab(EMP_ASSIGN_STATUS_TABS.archive)}
                         value={EMP_ASSIGN_STATUS_TABS.archive}
                         className={
-                            'w-1/2 h-[54px] text-lg text-bms-gray-dark data-[state=active]:text-bms-link data-[state=active]: border-bms-link data-[state=active]:font-bold data-[state=active]:border-b-4 data-[state=active]:bg-white sm:truncate ...'
+                            'w-1/2 h-[54px] text-lg xs:text-sm sm:text-sm text-bms-gray-dark data-[state=active]:text-bms-link data-[state=active]: border-bms-link data-[state=active]:font-bold data-[state=active]:border-b-4 data-[state=active]:bg-white sm:truncate ...'
                         }
                     >
                         {`Archived (${archivedCount?.inactive ?? 0})`}

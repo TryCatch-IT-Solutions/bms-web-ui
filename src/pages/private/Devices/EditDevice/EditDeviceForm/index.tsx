@@ -78,7 +78,7 @@ export const EditDeviceForm: React.FC = () => {
             <form
                 autoComplete='on'
                 noValidate
-                className='w-full h-full max-w-[80%]'
+                className='w-full h-full max-w-[80%] xs:max-w-full sm:max-w-full'
                 onSubmit={handleSubmit(onSubmit)}
             >
                 <Card>
@@ -87,7 +87,7 @@ export const EditDeviceForm: React.FC = () => {
                             <Spinner variant='normal' className='h-[5rem] w-[5rem]' />
                         ) : (
                             <div className='flex flex-col gap-5'>
-                                <div className='flex flex-row gap-5'>
+                                <div className='flex flex-row xs:flex-col sm:flex-col gap-5'>
                                     <FormField
                                         control={deviceForm.control}
                                         name='model'
@@ -250,14 +250,14 @@ export const EditDeviceForm: React.FC = () => {
                             <>
                                 <Button
                                     variant='outline'
-                                    className='w-1/5'
+                                    className='w-1/5 xs:w-full sm:w-full'
                                     onClick={() => navigate('/device/list')}
                                 >
                                     Cancel
                                 </Button>
                                 <Button
                                     type='submit'
-                                    className='w-1/5'
+                                    className='w-1/5 xs:w-full sm:w-full'
                                     disabled={!isValid || !isDirty}
                                 >
                                     Submit
