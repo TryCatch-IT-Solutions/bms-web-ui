@@ -92,7 +92,7 @@ export const StragerDetectionForm = () => {
                             {enabled ? <XIcon /> : <EditIcon />}
                         </Button>
                     </CardHeader>
-                    <CardContent className='flex flex-row justify-between items-center gap-9 w-[100%]'>
+                    <CardContent className='flex flex-row justify-between items-center gap-9 w-[33rem] xs:w-full sm:w-full'>
                         <p>Strager Detection</p>
                         <Controller
                             name='value'
