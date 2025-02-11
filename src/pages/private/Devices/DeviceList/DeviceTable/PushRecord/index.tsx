@@ -18,7 +18,7 @@ export const PushRecord: React.FC<PullRecordProps> = ({ id }) => {
         mutationFn: pushPullRecordToDevice,
         onSuccess: () => {
             toast({
-                description: `Pushed Record Successfully to device ${id}`,
+                description: `Pushed Records Successfully to device ${id}`,
             })
         },
     })
