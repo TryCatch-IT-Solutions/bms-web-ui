@@ -41,6 +41,7 @@ export const SecondaryLogoForm = () => {
         mutationFn: uploadLogo,
         onSuccess: () => {
             queryKey.invalidateQueries({ queryKey: ['dynamicSecondaryLogo'] })
+            queryKey.invalidateQueries({ queryKey: ['footerLogo'] })
             toast({
                 description: 'Logo Updated Successfully',
             })
@@ -103,9 +104,9 @@ export const SecondaryLogoForm = () => {
                             )}
                         />
                         {apiKey?.value !== undefined && apiKey?.value !== '' ? (
-                            <img src={LOGO_URL + apiKey?.value} />
+                            <img src={LOGO_URL + apiKey?.value} className='h-[5rem] w-[15rem]' />
                         ) : (
-                            <img src={daiLogo} className='w-[50%]' />
+                            <img src={daiLogo} className='h-[5rem] w-[15rem]' />
                         )}
                     </CardContent>
                     <CardFooter className='justify-end'>
