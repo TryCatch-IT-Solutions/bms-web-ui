@@ -34,4 +34,8 @@ export const apiResponseSchema = z.object({
     errors: z.record(z.array(z.string())).optional(),
 })
 
+export const LOGO_URL = import.meta.env.PROD
+    ? import.meta.env.VITE_PROD_LOGO_PREFIX_URL
+    : import.meta.env.VITE_DEV_LOGO_PREFIX_URL
+
 export type APIResponseType = z.infer<typeof apiResponseSchema>
