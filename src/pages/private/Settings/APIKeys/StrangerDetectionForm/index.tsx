@@ -84,7 +84,8 @@ export const StragerDetectionForm = () => {
                             {enabled ? <XIcon /> : <EditIcon />}
                         </Button>
                     </CardHeader>
-                    <CardContent className='flex flex-col gap-9 w-[100%]'>
+                    <CardContent className='flex flex-row gap-9 w-[100%]'>
+                        <p>Strager Detection</p>
                         <Controller
                             name='value'
                             control={apiForm.control}

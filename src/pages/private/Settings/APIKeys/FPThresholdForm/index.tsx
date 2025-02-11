@@ -94,7 +94,7 @@ export const FPTresholdForm = () => {
                                 <FormItem>
                                     <FormControl>
                                         <Input
-                                            className='w-[30rem] bg-white h-11'
+                                            className='w-[30rem] xs:w-full sm:w-full bg-white h-11'
                                             placeholder='Snapshot Retention (Days)'
                                             type='number'
                                             disabled={!enabled}

@@ -106,7 +106,7 @@ export const AndroidForm = () => {
                                 <FormItem>
                                     <FormControl>
                                         <Input
-                                            className='w-[30rem] bg-white h-11'
+                                            className='w-[30rem] xs:w-full sm:w-full bg-white h-11'
                                             placeholder='Android App Token'
                                             type='text'
                                             disabled={!enabled}
