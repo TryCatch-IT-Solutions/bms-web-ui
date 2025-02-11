@@ -78,7 +78,7 @@ export const DeviceTable: React.FC = () => {
                     placeHolder='Search Device'
                     onSearchChange={(e) => onSearchChange(e?.target?.value)}
                 />
-                <div className='flex flex-row gap-5'>
+                <div className='flex flex-row xs:flex-col sm:flex-col gap-5'>
                     <Button
                         className='bg-bms-gray-500 flex flex-row gap-1'
                         onClick={() => setSettingsModal(true)}

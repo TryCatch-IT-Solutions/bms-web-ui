@@ -25,17 +25,17 @@ export const DeviceStatistics: React.FC<DeviceStatisticsProps> = ({ device }) =>
     }
 
     return (
-        <Card>
+        <Card className='w-fit xs:w-full sm:w-full items-center justify-center'>
             <CardHeader>
                 <p className='font-bold text-bms-gray-500 text-lg'>Devices</p>
             </CardHeader>
-            <CardContent className='flex flex-row xs:flex-col sm:flex-col gap-5'>
+            <CardContent className='flex flex-col items-center gap-5'>
                 <button
                     onClick={() => handleNavigate}
-                    className='flex flex-row gap-5 bg-blue-500 p-5 items-center rounded-md'
+                    className='flex flex-row gap-5 bg-blue-500 p-5 items-center rounded-md w-[15rem]'
                 >
                     <div className='flex flex-col gap-5 text-white'>
-                        <WifiIcon className='h-14 w-14' />
+                        <WifiIcon className='h-10 w-10' />
                     </div>
 
                     <span className='flex flex-row gap-2 text-white'>
@@ -46,10 +46,10 @@ export const DeviceStatistics: React.FC<DeviceStatisticsProps> = ({ device }) =>
 
                 <button
                     onClick={() => handleNavigate}
-                    className='flex flex-row gap-5 bg-bms-primary p-5 items-center rounded-md'
+                    className='flex flex-row gap-5 bg-bms-primary p-5 items-center rounded-md w-[15rem]'
                 >
                     <div className='flex flex-col gap-5 text-white'>
-                        <WifiOff className='h-14 w-14' />
+                        <WifiOff className='h-10 w-10' />
                     </div>
 
                     <span className='flex flex-row gap-2 text-white'>
@@ -60,10 +60,10 @@ export const DeviceStatistics: React.FC<DeviceStatisticsProps> = ({ device }) =>
 
                 <button
                     onClick={() => handleNavigate}
-                    className='flex flex-row gap-5 bg-bms-gray-500 p-5 items-center rounded-md'
+                    className='flex flex-row gap-5 bg-bms-gray-500 p-5 items-center rounded-md w-[15rem]'
                 >
                     <div className='flex flex-col gap-5 text-white'>
-                        <MobileIcon className='h-14 w-14' />
+                        <MobileIcon className='h-10 w-10' />
                     </div>
 
                     <span className='flex flex-row gap-2 text-white'>
