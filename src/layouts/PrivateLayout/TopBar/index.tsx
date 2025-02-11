@@ -27,7 +27,7 @@ export const Topbar = () => {
     const [sidebarOpen, setSidebarOpen] = useAtom(navAtom)
     const { pathname } = useLocation()
 
-    const { signOut } = useAuth()
+    const { signOut, isPending } = useAuth()
 
     const xl_vw_already = useMediaQuery({ maxWidth: 1425 })
 
@@ -41,6 +41,7 @@ export const Topbar = () => {
             {xl_vw_already && pathname !== '/customer-portal/create-password' && (
                 <button
                     type='button'
+                    disabled={isPending}
                     className='-m-2.5 p-2.5 text-gray-700 flex'
                     onClick={() => setSidebarOpen(!sidebarOpen)}
                 >
@@ -105,6 +106,7 @@ export const Topbar = () => {
                                 <div className='flex font-[400] flex-col'>
                                     <button
                                         type='button'
+                                        disabled={isPending}
                                         className='border-b-2 border-zentive-gray-bg'
                                         onClick={() => navigate('/user/my-profile')}
                                     >
@@ -118,6 +120,7 @@ export const Topbar = () => {
 
                                     <button
                                         type='button'
+                                        disabled={isPending}
                                         className='border-b-2 border-zentive-gray-bg'
                                         onClick={() => navigate('/settings/api-keys')}
                                     >
@@ -129,7 +132,11 @@ export const Topbar = () => {
                                         </div>
                                     </button>
 
-                                    <button onClick={() => signOut()} type='button'>
+                                    <button
+                                        onClick={() => signOut()}
+                                        type='button'
+                                        disabled={isPending}
+                                    >
                                         <div className='p-3 flex items-center cursor-pointer text-sm rounded-b-md bg-zentive-gray-bg hover:bg-gray-300 hover:text-black hover:font-semibold transition-all'>
                                             <FiLogOut className='mr-3 w-5 h-5 text-zentive-red-dark' />
                                             <p className='flex-1 text-left'> Logout </p>
