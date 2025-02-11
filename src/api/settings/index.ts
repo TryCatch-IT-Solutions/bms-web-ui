@@ -12,6 +12,7 @@ export const uploadLogo = async (data: UploadLogoType) => {
 
     if (data.value) {
         formData.append('value', data.value)
+        formData.append('key', data.key)
     }
     const response = await axiosInstance.post('/api/settings', formData, {
         headers: {
