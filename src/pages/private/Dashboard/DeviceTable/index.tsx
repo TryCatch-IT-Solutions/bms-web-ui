@@ -11,6 +11,8 @@ import { useQuery } from '@tanstack/react-query'
 import { useAtomValue } from 'jotai'
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { PushRecord } from '../../Devices/DeviceList/DeviceTable/PushRecord'
+import { PullRecord } from '../../Devices/DeviceList/DeviceTable/PullRecord'
 
 const tableHeader = [
     { name: 'Device ID' },
@@ -19,6 +21,7 @@ const tableHeader = [
     { name: 'Serial Number' },
     { name: 'Status' },
     { name: 'Last Sync' },
+    { name: 'Dashboard' },
 ]
 
 export const DeviceTable: React.FC = () => {
@@ -101,6 +104,9 @@ export const DeviceTable: React.FC = () => {
                                     </TableCell>
                                     <TableCell onClick={() => handleRowClick(d?.id)}>
                                         {d?.last_sync}
+                                    </TableCell>
+                                    <TableCell className='flex flex-row gap-5'>
+                                        <PushRecord id={d?.id} /> <PullRecord id={d?.id} />
                                     </TableCell>
                                 </TableRow>
                             ))}

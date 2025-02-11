@@ -20,6 +20,8 @@ import { DeviceFilterByGroupModal } from './DeviceFilterByGroupModal'
 import { SyncNotificationBar } from '@/components/SyncNofificationBar'
 import { GearIcon } from '@radix-ui/react-icons'
 import BulkSettingsUpdateModal from '../BulkSettingsUpdateModal'
+import { PushRecord } from './PushRecord'
+import { PullRecord } from './PullRecord'
 
 const tableHeader = [
     { name: 'Device ID' },
@@ -28,6 +30,7 @@ const tableHeader = [
     { name: 'Serial Number' },
     { name: 'Status' },
     { name: 'Last Sync' },
+    { name: 'Action' },
 ]
 
 export const DeviceTable: React.FC = () => {
@@ -198,6 +201,9 @@ export const DeviceTable: React.FC = () => {
                                     </TableCell>
                                     <TableCell onClick={() => handleRowClick(d?.id)}>
                                         {d?.last_sync}
+                                    </TableCell>
+                                    <TableCell className='flex flex-rowe gap-4'>
+                                        <PushRecord id={d?.id} /> <PullRecord id={d?.id} />
                                     </TableCell>
                                 </TableRow>
                             ))}
