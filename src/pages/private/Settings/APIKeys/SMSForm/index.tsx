@@ -117,7 +117,7 @@ export const SMSForm = () => {
                                 <FormItem>
                                     <FormControl>
                                         <Input
-                                            className='w-[30rem] bg-white h-11'
+                                            className='w-[30rem] xs:w-full sm:w-full bg-white h-11'
                                             placeholder='Email API Key'
                                             type='text'
                                             disabled={!enabled}
@@ -155,7 +155,7 @@ export const SMSForm = () => {
                                 <FormItem>
                                     <FormControl>
                                         <PasswordInput
-                                            className='w-[30rem] bg-white h-11'
+                                            className='w-[30rem] xs:w-full sm:w-full bg-white h-11'
                                             placeholder='Password'
                                             type='text'
                                             disabled={!enabled}

@@ -53,6 +53,14 @@ export const StragerDetectionForm = () => {
         enabled && createAPIKeyMu(data)
     }
 
+    const handleCheckChange = (checked: boolean) => {
+        if (checked) {
+            setValue('value', '1')
+        } else {
+            setValue('value', '0')
+        }
+    }
+
     useEffect(() => {
         if (apiForm.getValues('key') !== API_KEY_LABELS.STRANGER_DETECTION) {
             setValue('key', API_KEY_LABELS.STRANGER_DETECTION)
@@ -84,14 +92,18 @@ export const StragerDetectionForm = () => {
                             {enabled ? <XIcon /> : <EditIcon />}
                         </Button>
                     </CardHeader>
-                    <CardContent className='flex flex-col gap-9 w-[100%]'>
+                    <CardContent className='flex flex-row justify-between items-center gap-9 w-[100%]'>
+                        <p>Strager Detection</p>
                         <Controller
                             name='value'
                             control={apiForm.control}
                             render={({ field }) => (
                                 <Switch
-                                    checked={field.value === 'true'} // Pass the value as checked
-                                    onCheckedChange={(checked: boolean) => field.onChange(checked)}
+                                    checked={field.value === '1'} // Pass the value as checked
+                                    onCheckedChange={(checked: boolean) =>
+                                        handleCheckChange(checked)
+                                    }
+                                    disabled={!enabled}
                                 />
                             )}
                         />
