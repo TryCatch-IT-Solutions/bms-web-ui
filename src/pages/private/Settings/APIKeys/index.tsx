@@ -7,6 +7,7 @@ import { SnapshotRetentionForm } from './SnapshotRetentionForm'
 import { FPTresholdForm } from './FPThresholdForm'
 import { StragerDetectionForm } from './StrangerDetectionForm'
 import { LogoForm } from './LogoForm'
+import { SecondaryLogoForm } from './SecondaryLogoForm'
 
 export const APIKeys = () => {
     return (
@@ -26,8 +27,11 @@ export const APIKeys = () => {
                     <FPTresholdForm />
                 </div>
                 <div className='flex flex-row gap-5 xs:flex-col sm:flex-col xs:gap-5 sm:gap-5'>
-                    <StragerDetectionForm />
+                    <SecondaryLogoForm />
                     <LogoForm />
+                </div>
+                <div className='flex flex-row gap-5 xs:flex-col sm:flex-col xs:gap-5 sm:gap-5'>
+                    <StragerDetectionForm />
                 </div>
             </div>
         </div>

@@ -15,7 +15,7 @@ import daiLogo from '@/assets/dai-logo.png'
 import ImageUploader from '@/components/ImageUploader'
 import { zodResolver } from '@hookform/resolvers/zod'
 
-export const LogoForm = () => {
+export const SecondaryLogoForm = () => {
     const [enabled, setEnabled] = useState<boolean>(false)
     const { toast } = useToast()
     const apiForm = useForm<UploadLogoType>({
@@ -26,8 +26,8 @@ export const LogoForm = () => {
     const queryKey = useQueryClient()
 
     const { data: apiKey, isLoading } = useQuery({
-        queryKey: ['dynamicLogo'],
-        queryFn: () => getAPIKey(API_KEY_LABELS.PRIMARY_LOGO, 0),
+        queryKey: ['dynamicSecondaryLogo'],
+        queryFn: () => getAPIKey(API_KEY_LABELS.SECONDARY_LOGO, 0),
     })
 
     const {
@@ -39,7 +39,7 @@ export const LogoForm = () => {
     const { mutate: createAPIKeyMu, isPending } = useMutation<unknown, AxiosError, UploadLogoType>({
         mutationFn: uploadLogo,
         onSuccess: () => {
-            queryKey.invalidateQueries({ queryKey: ['dynamicLogo'] })
+            queryKey.invalidateQueries({ queryKey: ['dynamicSecondaryLogo'] })
             toast({
                 description: 'Logo Updated Successfully',
             })
@@ -53,8 +53,8 @@ export const LogoForm = () => {
     }
 
     useEffect(() => {
-        if (apiForm.getValues('key') !== API_KEY_LABELS.PRIMARY_LOGO) {
-            setValue('key', API_KEY_LABELS.PRIMARY_LOGO)
+        if (apiForm.getValues('key') !== API_KEY_LABELS.SECONDARY_LOGO) {
+            setValue('key', API_KEY_LABELS.SECONDARY_LOGO)
         }
     }, [isLoading])
 
@@ -68,7 +68,7 @@ export const LogoForm = () => {
                     onSubmit={handleSubmit(onSubmit)}
                 >
                     <CardHeader className='flex flex-row justify-between'>
-                        <p className='font-semibold text-bms-gray-500'>Primary Logo</p>
+                        <p className='font-semibold text-bms-gray-500'>Secondary Logo</p>
                         <Button
                             type='button'
                             className='flex flex-row gap-2 -mt-3'
