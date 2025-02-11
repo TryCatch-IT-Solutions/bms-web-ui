@@ -22,3 +22,8 @@ export const employeeAssignStatusFilterAtom = atom<boolean | null>(null)
 export const userProfileTabsAtom = atom<string>(USER_PROFILE_TABS.PROFILE)
 export const timeEntriesToExportAtom = atom<TimeEntriesListType | null>(null)
 export const userProfileNotificationAtom = atom<ProfileType | null>(null)
+export const imageUploadErrorAtom = atom<string | null>(null)
+
+imageUploadErrorAtom.onMount = (setAtom) => {
+    return setAtom(null)
+}
