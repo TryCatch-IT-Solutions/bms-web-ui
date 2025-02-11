@@ -53,8 +53,14 @@ export const deleteDeviceSchema = z.object({
 
 export const createDeviceSchema = deviceSchema.omit({ id: true })
 
+export const pushPullRecordSchema = z.object({
+    id: z.number(),
+    action: z.string(),
+})
+
 export type DeviceType = z.infer<typeof deviceSchema>
 export type CreateDeviceType = z.infer<typeof createDeviceSchema>
 export type DeviceListType = z.infer<typeof deviceListSchema>
 export type DeleteDeviceType = z.infer<typeof deleteDeviceSchema>
 export type BulkSettingsUpdateType = z.infer<typeof bulkSettingsUpdateSchema>
+export type PushPullRecordType = z.infer<typeof pushPullRecordSchema>

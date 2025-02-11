@@ -5,6 +5,7 @@ import {
     DeleteDeviceType,
     DeviceListType,
     DeviceType,
+    PushPullRecordType,
 } from '@/api/device/schema'
 import { PaginationType } from '@/components/Pagination/schema'
 
@@ -65,6 +66,12 @@ export const deleteDevices = async (data: DeleteDeviceType) => {
 
 export const bulkDeviceSettingsUpdate = async (data: BulkSettingsUpdateType) => {
     const response = await axiosInstance.post('/api/bulk/devices', data)
+
+    return response.data
+}
+
+export const pushPullRecordToDevice = async (data: PushPullRecordType) => {
+    const response = await axiosInstance.post(`/api/device/${data?.id}/${data?.action}`)
 
     return response.data
 }
