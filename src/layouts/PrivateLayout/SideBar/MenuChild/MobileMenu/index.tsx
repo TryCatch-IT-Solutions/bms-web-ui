@@ -10,6 +10,7 @@ import { useMediaQuery } from 'react-responsive'
 import { cn } from '@/utils/helper'
 import { getAllowedNavigationItems } from '@/utils/navigation'
 import { userAtom } from '@/store/user'
+import { Footer } from '@/layouts/PrivateLayout/Footer'
 
 const MobileMenu = () => {
     const [sidebarOpen, setSidebarOpen] = useAtom(navAtom)
@@ -77,7 +78,7 @@ const MobileMenu = () => {
                                 </Transition.Child>
                                 <div
                                     className={
-                                        'flex grow flex-col gap-y-5 overflow-y-auto px-3 pb-4 border-gray-200 bg-white'
+                                        'flex grow flex-col gap-y-5 overflow-y-auto px-3 pb-4 border-gray-200 bg-white xs:px-0 sm:px-0'
                                     }
                                 >
                                     <div className='flex item-center justify-center mt-3'>
@@ -89,7 +90,7 @@ const MobileMenu = () => {
                                             }}
                                             src={daiLogo}
                                             alt='Zentive Logo'
-                                            className='h-[44px] w-[125px]'
+                                            className='h-14 w-54 cursor-pointer'
                                         />
                                     </div>
                                     <nav
@@ -106,6 +107,7 @@ const MobileMenu = () => {
                                                 />
                                             </div>
                                         ))}
+                                        <Footer />
                                     </nav>
                                 </div>
                             </Dialog.Panel>

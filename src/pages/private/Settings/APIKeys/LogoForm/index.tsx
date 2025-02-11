@@ -41,6 +41,7 @@ export const LogoForm = () => {
         mutationFn: uploadLogo,
         onSuccess: () => {
             queryKey.invalidateQueries({ queryKey: ['dynamicLogo'] })
+            queryKey.invalidateQueries({ queryKey: ['topBarLogo'] })
             toast({
                 description: 'Logo Updated Successfully',
             })
@@ -95,7 +96,7 @@ export const LogoForm = () => {
                                             accept='.png,.jpeg,.jpg'
                                             label='Change Logo'
                                             isDisabled={!enabled}
-                                            labelClassname='text-zentive-blue-dark text-decoration-line: underline'
+                                            labelClassname='text-bms-blue-500 text-decoration-line: underline'
                                         />
                                     </FormControl>
                                     <FormMessage>{errors?.value?.message}</FormMessage>
@@ -103,9 +104,9 @@ export const LogoForm = () => {
                             )}
                         />
                         {apiKey?.value !== undefined && apiKey?.value !== '' ? (
-                            <img src={LOGO_URL + apiKey?.value} />
+                            <img src={LOGO_URL + apiKey?.value} className='h-[5rem] w-[15rem]' />
                         ) : (
-                            <img src={daiLogo} className='w-[50%]' />
+                            <img src={daiLogo} className='h-[5rem] w-[15rem]' />
                         )}
                     </CardContent>
                     <CardFooter className='justify-end'>

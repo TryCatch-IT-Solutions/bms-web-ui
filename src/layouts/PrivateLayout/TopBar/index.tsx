@@ -15,7 +15,11 @@ import { useAuth } from '@/hooks/useAuth'
 import { useAtom, useAtomValue } from 'jotai'
 import { userAtom } from '@/store/user'
 import { navAtom } from '../SideBar'
-import { ROLE_VALUES } from '@/constants'
+import { API_KEY_LABELS, ROLE_VALUES } from '@/constants'
+import { getAPIKey } from '@/api/settings'
+import { useQuery } from '@tanstack/react-query'
+import Spinner from '@/components/Spinner'
+import { LOGO_URL } from '@/api/axiosInstance'
 
 export const Topbar = () => {
     const navigate = useNavigate()
@@ -26,6 +30,11 @@ export const Topbar = () => {
     const { signOut } = useAuth()
 
     const xl_vw_already = useMediaQuery({ maxWidth: 1425 })
+
+    const { data: logo, isLoading } = useQuery({
+        queryKey: ['topBarLogo'],
+        queryFn: () => getAPIKey(API_KEY_LABELS.PRIMARY_LOGO, 0),
+    })
 
     return (
         <div className='sticky text-zentive-gray-semi-medium top-0 z-40 flex h-16 shrink-0 items-center gap-x-4 border-b border-gray-200 bg-white px-4 shadow-sm sm:gap-x-6 sm:px-6 lg:px-8'>
@@ -49,7 +58,15 @@ export const Topbar = () => {
                             navigate('/dashboard')
                         }}
                     >
-                        <img src={daiLogo} alt='BMS Logo' className='h-14 w-54 cursor-pointer' />
+                        {isLoading ? (
+                            <Spinner variant='normal' />
+                        ) : (
+                            <img
+                                src={logo?.value ? LOGO_URL + logo?.value : daiLogo}
+                                alt='BMS Logo'
+                                className='h-14 w-54 cursor-pointer'
+                            />
+                        )}
                     </button>
                 </div>
 

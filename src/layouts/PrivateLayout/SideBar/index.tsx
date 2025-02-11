@@ -11,6 +11,7 @@ import { IconType } from 'react-icons/lib/cjs/iconBase'
 import { ROLE } from '@/constants'
 import { userAtom } from '@/store/user'
 import { getAllowedNavigationItems } from '@/utils/navigation'
+import { Footer } from '../Footer'
 
 export type NavigationProps = {
     name: string
@@ -187,6 +188,7 @@ export const Sidebar = () => {
                                 />
                             </div>
                         ))}
+                        <Footer />
                     </nav>
                 </div>
             )}
