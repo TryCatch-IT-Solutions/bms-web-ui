@@ -84,7 +84,7 @@ const PrivateLayout = () => {
             <Topbar />
             <MobileMenu />
             <Sidebar />
-            <main className={cn('bg-zentive-gray-bg relative', !xl_vw_already ? 'lg:pl-72' : '')}>
+            <main className={cn('bg-zentive-gray-bg', !xl_vw_already ? 'lg:pl-72' : '')}>
                 <div className='px-4 sm:px-6 lg:px-8'>
                     <Outlet />
                 </div>
