@@ -72,7 +72,7 @@ export const SignInForm: FC = () => {
             <form
                 autoComplete='on'
                 noValidate
-                className='w-full h-full flex flex-col items-center'
+                className='w-full h-full flex flex-col items-center overflow-y-hidden'
                 onSubmit={signInForm.handleSubmit(handleSubmit)}
             >
                 <FormTitle
