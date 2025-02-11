@@ -14,6 +14,7 @@ import { XIcon, EditIcon } from 'lucide-react'
 import daiLogo from '@/assets/dai-logo.png'
 import ImageUploader from '@/components/ImageUploader'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { LOGO_URL } from '@/api/axiosInstance'
 
 export const SecondaryLogoForm = () => {
     const [enabled, setEnabled] = useState<boolean>(false)
@@ -102,7 +103,7 @@ export const SecondaryLogoForm = () => {
                             )}
                         />
                         {apiKey?.value !== undefined && apiKey?.value !== '' ? (
-                            <img src={apiKey?.value} />
+                            <img src={LOGO_URL + apiKey?.value} />
                         ) : (
                             <img src={daiLogo} className='w-[50%]' />
                         )}
