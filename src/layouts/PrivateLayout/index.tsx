@@ -12,7 +12,6 @@ import { useEffect } from 'react'
 import { useAuth } from '@/hooks/useAuth'
 import { verifyToken } from '@/api/auth'
 import MobileMenu from './SideBar/MenuChild/MobileMenu'
-import { Footer } from './Footer'
 
 const PrivateLayout = () => {
     const xl_vw_already = useMediaQuery({ maxWidth: LAPTOP_MAX_WIDTH })
