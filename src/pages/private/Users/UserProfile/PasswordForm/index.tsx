@@ -12,6 +12,7 @@ import { PasswordInput } from '@/components/PasswordInput'
 import { useEffect } from 'react'
 import { useAtomValue } from 'jotai'
 import { userAtom } from '@/store/user'
+import { cn } from '@/utils/helper'
 
 export const PasswordForm: React.FC = () => {
     const navigate = useNavigate()
@@ -26,8 +27,11 @@ export const PasswordForm: React.FC = () => {
 
     const {
         setValue,
+        watch,
         formState: { errors, isValid },
     } = userForm
+
+    const newPass = watch('new_password')
 
     const { mutate: updateUserPasswordMu, isPending } = useMutation({
         mutationFn: updateUserPassword,
@@ -61,34 +65,13 @@ export const PasswordForm: React.FC = () => {
                 <form
                     autoComplete='on'
                     noValidate
-                    className='w-full h-full max-w-[80%]'
+                    className='w-full h-full max-w-[80%] xs:max-w-full sm:max-w-full md:max-w-full'
                     onSubmit={userForm.handleSubmit(onSubmit)}
                 >
-                    <Card className=''>
-                        <CardContent className='min-w-[64.59rem] min-h-[37.125rem] flex flex-col gap-5 pt-5'>
-                            <div className='flex flex-row gap-3 items-center justify-start'>
-                                <div className='w-1/3'>
-                                    <FormField
-                                        control={userForm.control}
-                                        name='password'
-                                        render={({ field }) => (
-                                            <FormItem>
-                                                <FormControl>
-                                                    <PasswordInput
-                                                        className='mt-[16px] w-[100%] bg-white'
-                                                        placeholder='Current Password'
-                                                        {...field}
-                                                    />
-                                                </FormControl>
-                                                <FormMessage>
-                                                    {errors?.password?.message}
-                                                </FormMessage>
-                                            </FormItem>
-                                        )}
-                                    />
-                                </div>
-
-                                <div className='w-1/3'>
+                    <Card>
+                        <CardContent className='min-w-[64.59rem] xs:min-w-full sm:min-w-full min-h-[37.125rem] xs:min-h-full sm:min-h-full flex flex-col gap-5 pt-5'>
+                            <div className='flex flex-row xs:flex-col sm:flex-col gap-3 items-center justify-start'>
+                                <div className='w-1/3 xs:w-full sm:w-full'>
                                     <FormField
                                         control={userForm.control}
                                         name='new_password'
@@ -109,7 +92,14 @@ export const PasswordForm: React.FC = () => {
                                         )}
                                     />
                                 </div>
-                                <div className='w-1/3'>
+                                <div
+                                    className={cn(
+                                        'w-1/3 xs:w-full sm:w-full',
+                                        newPass !== undefined && newPass !== ''
+                                            ? 'xs:mt-48 sm:mt-48'
+                                            : 'xs:mt-4 sm:mt-4',
+                                    )}
+                                >
                                     <FormField
                                         control={userForm.control}
                                         name='new_password_confirmation'
@@ -135,14 +125,14 @@ export const PasswordForm: React.FC = () => {
                         <CardFooter className='flex flex-row gap-5 items-center justify-end'>
                             <Button
                                 variant='outline'
-                                className='w-1/5'
+                                className='w-1/5 xs:w-full sm:w-full'
                                 onClick={() => navigate('/user/list')}
                             >
                                 Cancel
                             </Button>
                             <Button
                                 type='submit'
-                                className='w-1/5'
+                                className='w-1/5 xs:w-full sm:w-full'
                                 disabled={!isValid || isPending}
                             >
                                 Submit
