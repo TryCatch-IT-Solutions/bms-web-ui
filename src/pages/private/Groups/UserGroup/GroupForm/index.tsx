@@ -104,7 +104,7 @@ export const GroupForm: React.FC = () => {
                         <form
                             autoComplete='on'
                             noValidate
-                            className='w-full h-full max-w-[50%]'
+                            className='w-full h-full max-w-[50%] xs:max-w-full sm:max-w-full'
                             onSubmit={handleSubmit(onSubmit)}
                         >
                             <div className='flex flex-col gap-5 items-start'>
@@ -154,7 +154,7 @@ export const GroupForm: React.FC = () => {
             <Card>
                 <CardContent>
                     <div className='flex flex-col gap-5'>
-                        <div className='flex flex-row items-cenrer justify-between mt-5'>
+                        <div className='flex flex-row gap-5 xs:flex-col sm:flex-col items-cenrer justify-between mt-5'>
                             <p className='font-semibold text-xl text-bms-gray-medium'>Employees</p>
                             <SyncNotificationBar />
                             <div className='flex flex-row gap-5'>
@@ -164,20 +164,22 @@ export const GroupForm: React.FC = () => {
                                         limit={group?.employees?.length ?? 0}
                                     />
                                 )}
-                                <Button
-                                    onClick={() => setRemoveModal(true)}
-                                    variant='outline'
-                                    type='button'
-                                    className='flex flex-row gap-2'
-                                    disabled={
-                                        emptToRemove === null ||
-                                        emptToRemove?.employees?.length === 0
-                                    }
-                                >
-                                    Remove
-                                    <Trash2Icon className='w-5' />
-                                </Button>
-                                <ImportDropdown />
+                                <div className='flex flex-row xs:flex-col sm:flex-col gap-5'>
+                                    <Button
+                                        onClick={() => setRemoveModal(true)}
+                                        variant='outline'
+                                        type='button'
+                                        className='flex flex-row gap-2'
+                                        disabled={
+                                            emptToRemove === null ||
+                                            emptToRemove?.employees?.length === 0
+                                        }
+                                    >
+                                        Remove
+                                        <Trash2Icon className='w-5' />
+                                    </Button>
+                                    <ImportDropdown />
+                                </div>
                                 <Button
                                     onClick={() => setOpen(true)}
                                     variant='outline'
