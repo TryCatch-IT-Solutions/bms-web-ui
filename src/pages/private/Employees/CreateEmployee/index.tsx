@@ -488,14 +488,14 @@ export const CreateEmployee: React.FC = () => {
                         <CardFooter className='flex flex-row gap-5 items-center justify-end'>
                             <Button
                                 variant='outline'
-                                className='w-1/5'
+                                className='w-1/5 xs:w-full sm:w-ful'
                                 onClick={() => navigate('/employee/list')}
                             >
                                 Cancel
                             </Button>
                             <Button
                                 type='submit'
-                                className='w-1/5'
+                                className='w-1/5 xs:w-full sm:w-ful'
                                 disabled={!isValid || isPending}
                             >
                                 Submit
