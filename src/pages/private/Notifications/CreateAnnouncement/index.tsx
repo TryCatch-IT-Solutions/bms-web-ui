@@ -33,8 +33,11 @@ export const CreateAnnouncement: React.FC = () => {
         handleSubmit,
         setValue,
         getValues,
+        watch,
         formState: { errors, isValid },
     } = announementForm
+
+    const selectedIds = watch('user_id')
 
     const navigate = useNavigate()
 
@@ -80,7 +83,9 @@ export const CreateAnnouncement: React.FC = () => {
                                     Select Users
                                     <Users2Icon />
                                 </Button>
-                                {getValues('user_id') && <p>1 User Selected</p>}
+                                {getValues('user_id') && (
+                                    <p>{selectedIds?.length} Users Selected</p>
+                                )}
                                 <FormField
                                     control={announementForm.control}
                                     name='expiration'

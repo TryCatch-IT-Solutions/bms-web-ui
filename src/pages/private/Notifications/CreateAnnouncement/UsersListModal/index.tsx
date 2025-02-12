@@ -26,18 +26,27 @@ const EmployeeListModal: React.FC<EmployeeListModalProps> = ({ open, setOpen }) 
     })
 
     const [searchVal, setSearchVal] = useState<string>('')
-    const [empIds, setEmpIds] = useState<number>(0)
+    const [empIds, setEmpIds] = useState<number[]>([])
     const [searchType, setSearchType] = useState<string>('full_name')
 
     const { setValue } = useFormContext<CreateAnnouncementType>() // Ensure FormProvider is wrapping this component
 
+    // Toggle employee ID in the empIds array
     const handleCheckboxChange = (emp: ProfileType) => {
-        setEmpIds(emp.id)
+        setEmpIds((prevEmpIds) => {
+            if (prevEmpIds.includes(emp.id)) {
+                // Remove emp.id if it's already in the array
+                return prevEmpIds.filter((id) => id !== emp.id)
+            } else {
+                // Add emp.id if it's not in the array
+                return [...prevEmpIds, emp.id]
+            }
+        })
     }
 
     const handleSave = () => {
-        setValue('user_id', empIds as number)
-        setOpen(false)
+        setValue('user_id', empIds) // Set the user_id value in the form
+        setOpen(false) // Close the modal
     }
 
     const { data: employees, isLoading } = useQuery({
@@ -54,7 +63,8 @@ const EmployeeListModal: React.FC<EmployeeListModalProps> = ({ open, setOpen }) 
     })
 
     useEffect(() => {
-        setSearchVal('')
+        setSearchVal('') // Reset search value when modal opens
+        setEmpIds([])
     }, [open])
 
     return (
@@ -98,7 +108,10 @@ const EmployeeListModal: React.FC<EmployeeListModalProps> = ({ open, setOpen }) 
                         <ul className='flex flex-col gap-3'>
                             {employees?.content?.map((emp) => (
                                 <li className='flex flex-row gap-2 items-center' key={emp.id}>
-                                    <Checkbox onClick={() => handleCheckboxChange(emp)} />
+                                    <Checkbox
+                                        onClick={() => handleCheckboxChange(emp)}
+                                        checked={empIds.includes(emp.id)} // Set the checkbox state based on empIds
+                                    />
                                     {emp.first_name} {emp.last_name}
                                 </li>
                             ))}
@@ -128,7 +141,7 @@ const EmployeeListModal: React.FC<EmployeeListModalProps> = ({ open, setOpen }) 
                         onClick={handleSave}
                         className='w-97 h-11 text-base font-semibold bg-bms-primary'
                         type='button'
-                        disabled={empIds === 0}
+                        disabled={empIds.length === 0} // Disable if no employee is selected
                     >
                         Assign Employee(s)
                     </Button>
