@@ -3,7 +3,7 @@ import { z } from 'zod'
 
 export const announcementSchema = z.object({
     id: z.number(),
-    user_id: z.number().optional(),
+    user_id: z.array(z.number()).optional(),
     title: z.string(),
     message: z.string(),
     expiration: z.string(),
