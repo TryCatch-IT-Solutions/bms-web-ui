@@ -15,7 +15,7 @@ export const Footer: React.FC = () => {
         <div className='flex flex-row gap-5 bg-gray-300 text-white h-5 absolute w-full text-xs pl-5 mt-5 absolute bottom-0'>
             <p className='mt-[3px]'>Powered By:</p>
             {isLoading ? (
-                <Spinner variant='normal' />
+                <Spinner variant='normal' className='h-3 w-3' />
             ) : (
                 <img src={logo?.value ? LOGO_URL + logo?.value : daiLogo} />
             )}

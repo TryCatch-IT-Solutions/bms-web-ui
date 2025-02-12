@@ -60,7 +60,7 @@ export const Topbar = () => {
                         }}
                     >
                         {isLoading ? (
-                            <Spinner variant='normal' />
+                            <Spinner variant='normal' className='h-5 w-5' />
                         ) : (
                             <img
                                 src={logo?.value ? LOGO_URL + logo?.value : daiLogo}
