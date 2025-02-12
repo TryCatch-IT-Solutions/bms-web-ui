@@ -95,7 +95,7 @@ export const FPTresholdForm = () => {
                                     <FormControl>
                                         <Input
                                             className='w-[30rem] xs:w-full sm:w-full bg-white h-11'
-                                            placeholder='Snapshot Retention (Days)'
+                                            placeholder='Fingerprint Score Threshold'
                                             type='number'
                                             disabled={!enabled}
                                             {...field}
