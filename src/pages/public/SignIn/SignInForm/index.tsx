@@ -8,10 +8,11 @@ import { Input } from '@/components/Input'
 import { PasswordInput } from '@/components/PasswordInput'
 import { Button } from '@/components/Button'
 import { useMutation } from '@tanstack/react-query'
-import { signIn } from '@/api/auth'
+import { signIn, signOut } from '@/api/auth'
 import { useSetAtom } from 'jotai'
 import { tokenAtom, userAtom } from '@/store/user'
 import { axiosInstance } from '@/api/axiosInstance'
+import { ROLE } from '@/constants'
 
 export const SignInForm: FC = () => {
     const setUser = useSetAtom(userAtom)
@@ -45,7 +46,11 @@ export const SignInForm: FC = () => {
                     return config
                 })
 
-                navigate('/dashboard')
+                if (res?.user?.role !== ROLE.groupadmin && res?.user?.role !== ROLE.superadmin) {
+                    signOut()
+                } else {
+                    navigate('/dashboard')
+                }
             } else {
                 setError('password', {
                     message: 'Invalid Login Credentials',

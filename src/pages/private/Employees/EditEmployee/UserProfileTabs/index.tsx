@@ -23,7 +23,7 @@ export const UserProfileTabs: React.FC = () => {
                     onClick={() => onSwitchTab(USER_PROFILE_TABS.PROFILE)}
                     value={USER_PROFILE_TABS.PROFILE}
                     className={
-                        'w-1/2 h-[54px] text-lg text-bms-gray-dark data-[state=active]:text-bms-link data-[state=active]: border-bms-link data-[state=active]:font-bold data-[state=active]:border-b-4 data-[state=active]:bg-white sm:truncate ...'
+                        'w-1/2 h-[54px] text-lg xs:text-sm sm:text-sm text-bms-gray-dark data-[state=active]:text-bms-link data-[state=active]: border-bms-link data-[state=active]:font-bold data-[state=active]:border-b-4 data-[state=active]:bg-white sm:truncate ...'
                     }
                 >
                     Profile Information
@@ -33,7 +33,7 @@ export const UserProfileTabs: React.FC = () => {
                         onClick={() => onSwitchTab(USER_PROFILE_TABS.PASSWORD)}
                         value={USER_PROFILE_TABS.PASSWORD}
                         className={
-                            'w-1/2 h-[54px] text-lg text-bms-gray-dark data-[state=active]:text-bms-link data-[state=active]: border-bms-link data-[state=active]:font-bold data-[state=active]:border-b-4 data-[state=active]:bg-white sm:truncate ...'
+                            'w-1/2 h-[54px] text-lg xs:text-sm sm:text-sm text-bms-gray-dark data-[state=active]:text-bms-link data-[state=active]: border-bms-link data-[state=active]:font-bold data-[state=active]:border-b-4 data-[state=active]:bg-white sm:truncate ...'
                         }
                     >
                         Password

@@ -6,13 +6,11 @@ import { useNavigate, useParams } from 'react-router-dom'
 import { useToast } from '@/hooks/useToast'
 import { useMutation } from '@tanstack/react-query'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { overridePasswordSChema, OverridePasswordType } from '@/api/auth/schema'
+import { OverridePasswordType, overridePasswordSChema } from '@/api/auth/schema'
 import { overridePassowrd } from '@/api/auth'
 import { PasswordInput } from '@/components/PasswordInput'
 import { useEffect } from 'react'
-import { ROLE } from '@/constants'
-import { useAtomValue } from 'jotai'
-import { userAtom } from '@/store/user'
+import { cn } from '@/utils/helper'
 
 export const PasswordForm: React.FC = () => {
     const navigate = useNavigate()
@@ -27,15 +25,13 @@ export const PasswordForm: React.FC = () => {
 
     const numericId = Number(id)
 
-    const userProfile = useAtomValue(userAtom)
-
-    const successUrl =
-        userProfile?.role === ROLE.superadmin ? '/employee/list' : '/group/user-group'
-
     const {
         setValue,
+        watch,
         formState: { errors, isValid },
     } = userForm
+
+    const newPass = watch('new_password')
 
     const { mutate: updateUserPasswordMu, isPending } = useMutation({
         mutationFn: overridePassowrd,
@@ -44,7 +40,7 @@ export const PasswordForm: React.FC = () => {
                 description: 'Password updated successfully',
                 duration: 2000,
             })
-            navigate(successUrl)
+            navigate(-1)
         },
         onError: () => {
             toast({
@@ -69,13 +65,13 @@ export const PasswordForm: React.FC = () => {
                 <form
                     autoComplete='on'
                     noValidate
-                    className='w-full h-full max-w-[80%]'
+                    className='w-full h-full max-w-[80%] xs:max-w-full sm:max-w-full md:max-w-full'
                     onSubmit={userForm.handleSubmit(onSubmit)}
                 >
-                    <Card className=''>
-                        <CardContent className='min-w-[64.59rem] min-h-[37.125rem] flex flex-col gap-5 pt-5'>
-                            <div className='flex flex-row gap-3 items-center justify-start'>
-                                <div className='w-1/3'>
+                    <Card>
+                        <CardContent className='min-w-[64.59rem] xs:min-w-full sm:min-w-full min-h-[37.125rem] xs:min-h-full sm:min-h-full flex flex-col gap-5 pt-5'>
+                            <div className='flex flex-row xs:flex-col sm:flex-col gap-3 items-center justify-start'>
+                                <div className='w-1/3 xs:w-full sm:w-full'>
                                     <FormField
                                         control={userForm.control}
                                         name='new_password'
@@ -96,7 +92,14 @@ export const PasswordForm: React.FC = () => {
                                         )}
                                     />
                                 </div>
-                                <div className='w-1/3'>
+                                <div
+                                    className={cn(
+                                        'w-1/3 xs:w-full sm:w-full',
+                                        newPass !== undefined && newPass !== ''
+                                            ? 'xs:mt-48 sm:mt-48'
+                                            : 'xs:mt-4 sm:mt-4',
+                                    )}
+                                >
                                     <FormField
                                         control={userForm.control}
                                         name='new_password_confirmation'
@@ -122,14 +125,14 @@ export const PasswordForm: React.FC = () => {
                         <CardFooter className='flex flex-row gap-5 items-center justify-end'>
                             <Button
                                 variant='outline'
-                                className='w-1/5'
+                                className='w-1/5 xs:w-full sm:w-full'
                                 onClick={() => navigate('/user/list')}
                             >
                                 Cancel
                             </Button>
                             <Button
                                 type='submit'
-                                className='w-1/5'
+                                className='w-1/5 xs:w-full sm:w-full'
                                 disabled={!isValid || isPending}
                             >
                                 Submit
