@@ -182,3 +182,5 @@ export const API_KEY_LABELS = {
     PRIMARY_LOGO: 'PRIMARY_LOGO',
     SECONDARY_LOGO: 'SECONDARY_LOGO',
 }
+
+export const EMAIL_CONFLICT_LABEL = '+conflict'

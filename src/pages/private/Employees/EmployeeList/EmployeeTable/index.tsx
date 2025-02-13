@@ -7,7 +7,13 @@ import { PaginationType } from '@/components/Pagination/schema'
 import SearchBar from '@/components/SearchBar'
 import { TableHeader, TableRow, TableHead, TableBody, TableCell, Table } from '@/components/Table'
 import AppSkeletonLoadingState from '@/components/TableLoadingState'
-import { ROLE, TIME_DATE_FORMAT, USER_SEARCH_TYPE_OPTIONS, USER_STATUS } from '@/constants'
+import {
+    EMAIL_CONFLICT_LABEL,
+    ROLE,
+    TIME_DATE_FORMAT,
+    USER_SEARCH_TYPE_OPTIONS,
+    USER_STATUS,
+} from '@/constants'
 import {
     employeeExportAtom,
     employeeSelectedStatusAtom,
@@ -18,7 +24,7 @@ import {
 import { cn } from '@/utils/helper'
 import { useQuery } from '@tanstack/react-query'
 import { useAtom, useAtomValue } from 'jotai'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import ImportDropdown from '../ImportDropdown'
 import ExportDropdown from '../ExportDropdown'
@@ -31,6 +37,7 @@ import { ArchiveIcon, ResetIcon } from '@radix-ui/react-icons'
 import { ExportCounter } from '@/components/ExportCounter'
 import { SearchBarDropdown } from '@/components/SearchbarDropdown'
 import PermanentDeleteModal from '../PermanentDeleteModal'
+import { MergeLabel } from '@/components/MergeLabel'
 
 const tableHeader = [
     { name: 'Account Number' },
@@ -51,6 +58,8 @@ export const EmployeeTable: React.FC = () => {
     const [userIdsToDelete, setUserIdsToDelete] = useAtom(employeesToDeleteAtom)
     const [userStatusFilter, setUserStatusFilter] = useAtom(employeeAssignStatusFilterAtom)
     const [searchType, setSearchType] = useState<string>('full_name')
+    const [selectAllChecked, setSelectAllChecked] = useState<boolean>(false)
+    const [selectedOnPage, setSelectedOnPage] = useState<number[]>([])
 
     const user = useAtomValue(userAtom)
 
@@ -85,30 +94,61 @@ export const EmployeeTable: React.FC = () => {
     const handleCheckboxChange = (userId: number, isChecked: boolean) => {
         setUserIdsToDelete((prev) => {
             const updatedUserIds = isChecked
-                ? [...(prev?.users ?? []), userId] // Add userId if checked
-                : (prev?.users ?? []).filter((id) => id !== userId) // Remove userId if unchecked
-            return { users: updatedUserIds } // Return updated object with 'user' key
+                ? [...(prev?.users ?? []), userId]
+                : (prev?.users ?? []).filter((id) => id !== userId)
+            return { users: updatedUserIds }
+        })
+
+        setSelectedOnPage((prev) => {
+            const updatedUserIds = isChecked
+                ? [...prev, userId]
+                : prev.filter((id) => id !== userId)
+
+            // Check if all users on the page are selected
+            const currentPageUserIds = users?.content?.map((u: ProfileType) => u.id) ?? []
+            setSelectAllChecked(updatedUserIds.length === currentPageUserIds.length)
+
+            return updatedUserIds
         })
 
         const userToAddOrRemove = users?.content?.find((user) => user.id === userId)
 
         setEmployeeExportAtom((prevExportData: any) => {
             const updatedContent = isChecked
-                ? [...(prevExportData?.content ?? []), userToAddOrRemove] // Add the full user profile to export data
-                : (prevExportData?.content ?? []).filter((user: ProfileType) => user.id !== userId) // Remove user profile from export data
+                ? [...(prevExportData?.content ?? []), userToAddOrRemove]
+                : (prevExportData?.content ?? []).filter((user: ProfileType) => user.id !== userId)
 
             return {
                 ...prevExportData,
-                content: updatedContent, // Update content with the new list of users
+                content: updatedContent,
             }
         })
     }
 
     const handleCheckAll = (isChecked: boolean) => {
-        const updatedUserIds = isChecked ? users?.content?.map((u: ProfileType) => u.id) : [] // Add all userIds if checked, else empty array
-        setUserIdsToDelete({ users: updatedUserIds ?? [] }) // Set the updated userIds
+        setSelectAllChecked(isChecked)
+
+        const currentPageUserIds =
+            users?.content?.filter((u: ProfileType) => u.id !== 1).map((u: ProfileType) => u.id) ??
+            []
+
+        const updatedUserIds = isChecked
+            ? [...new Set([...(userIdsToDelete?.users ?? []), ...currentPageUserIds])] // Ensure it's always an array
+            : (userIdsToDelete?.users ?? []).filter((id) => !currentPageUserIds.includes(id)) // Remove only current page users
+
+        setUserIdsToDelete({ users: updatedUserIds })
+
         setEmployeeExportAtom({
-            content: isChecked ? users?.content ?? [] : [],
+            content: isChecked
+                ? [
+                      ...new Set([
+                          ...(employeesToExport?.content ?? []),
+                          ...(users?.content?.filter((u: ProfileType) => u.id !== 1) ?? []),
+                      ]),
+                  ]
+                : (employeesToExport?.content ?? []).filter(
+                      (u) => !currentPageUserIds.includes(u.id),
+                  ), // Remove only current page users
             meta: users?.meta as PaginationType,
         })
     }
@@ -117,6 +157,11 @@ export const EmployeeTable: React.FC = () => {
         setUserStatusFilter(null)
         setSearchVal('')
     }
+
+    useEffect(() => {
+        setSelectAllChecked(false) // Uncheck "Select All" when navigating pages
+        setSelectedOnPage([])
+    }, [pagination, selectedStatus, searchVal, userStatusFilter])
 
     return (
         <>
@@ -141,7 +186,7 @@ export const EmployeeTable: React.FC = () => {
                     {employeesToExport && employeesToExport?.content?.length > 0 && (
                         <ExportCounter
                             selected={employeesToExport?.content?.length ?? 0}
-                            limit={users?.content?.length ?? 0}
+                            limit={users?.meta?.total ?? 0}
                         />
                     )}
                     <ImportDropdown />
@@ -204,20 +249,13 @@ export const EmployeeTable: React.FC = () => {
                                             {index === 0 && (
                                                 <Checkbox
                                                     checked={
-                                                        (employeesToExport?.content?.length ===
+                                                        selectAllChecked ||
+                                                        ((selectedOnPage?.length ?? 0) ===
                                                             users?.content?.length &&
-                                                            employeesToExport !== null) ||
-                                                        (userIdsToDelete?.users?.length ===
-                                                            users?.content?.length &&
-                                                            userIdsToDelete !== null)
+                                                            users?.content?.length > 0)
                                                     }
-                                                    onCheckedChange={() =>
-                                                        handleCheckAll(
-                                                            employeesToExport?.content?.length !==
-                                                                users?.content?.length ||
-                                                                userIdsToDelete?.users?.length !==
-                                                                    users?.content?.length,
-                                                        )
+                                                    onCheckedChange={(checked) =>
+                                                        handleCheckAll(checked as boolean)
                                                     }
                                                     className='mt-[3px]'
                                                 />
@@ -242,7 +280,10 @@ export const EmployeeTable: React.FC = () => {
                             {users?.content?.map((u: ProfileType) => (
                                 <TableRow
                                     key={u?.id}
-                                    className='text-start text-base text-bms-gray-dark cursor-pointer'
+                                    className={cn(
+                                        'text-start text-base text-bms-gray-dark cursor-pointer',
+                                        u?.email.includes(EMAIL_CONFLICT_LABEL) && 'bg-red-100',
+                                    )}
                                 >
                                     <TableCell className='font-semibold text-bms-link flex flex-row items-center gap-2'>
                                         <Checkbox
@@ -250,12 +291,11 @@ export const EmployeeTable: React.FC = () => {
                                                 userIdsToDelete?.users?.includes(u.id) ||
                                                 employeesToExport?.content?.includes(u)
                                             } // Check if the user ID is selected// Check if the user ID is selected
-                                            onClick={
-                                                () =>
-                                                    handleCheckboxChange(
-                                                        u.id,
-                                                        !userIdsToDelete?.users?.includes(u.id),
-                                                    ) // Toggle user ID selection
+                                            onClick={() =>
+                                                handleCheckboxChange(
+                                                    u.id,
+                                                    !userIdsToDelete?.users?.includes(u.id),
+                                                )
                                             }
                                             className='-mt-[.5px]'
                                         />
@@ -267,8 +307,12 @@ export const EmployeeTable: React.FC = () => {
                                     <TableCell onClick={() => handleRowClick(u?.id)}>
                                         {u.last_name}
                                     </TableCell>
-                                    <TableCell onClick={() => handleRowClick(u?.id)}>
+                                    <TableCell
+                                        onClick={() => handleRowClick(u?.id)}
+                                        className='flex flex-row gap-2 items-center'
+                                    >
                                         {u.email}
+                                        {u?.email.includes(EMAIL_CONFLICT_LABEL) && <MergeLabel />}
                                     </TableCell>
                                     <TableCell onClick={() => handleRowClick(u?.id)}>
                                         {u.phone_number}

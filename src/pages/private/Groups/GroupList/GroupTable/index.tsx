@@ -17,6 +17,7 @@ import { groupsToDeleteAtom } from '@/store/groups'
 import { useAtom } from 'jotai'
 import { GroupType } from '@/api/group/schema'
 import { SyncNotificationBar } from '@/components/SyncNofificationBar'
+import { ExportCounter } from '@/components/ExportCounter'
 
 const tableHeader = [
     { name: 'Group ID' },
@@ -29,6 +30,9 @@ export const GroupTable: React.FC = () => {
     const [open, setOpen] = useState<boolean>(false)
     const [groupsToRemove, setGroupsToRemove] = useAtom(groupsToDeleteAtom)
     const [searchVal, setSearchVal] = useState<string>('')
+
+    const [selectAllChecked, setSelectAllChecked] = useState<boolean>(false)
+    const [selectedOnPage, setSelectedOnPage] = useState<number[]>([])
 
     const navigate = useNavigate()
     const [pagination, setPagination] = useState<PaginationType>({
@@ -44,6 +48,13 @@ export const GroupTable: React.FC = () => {
 
             return { groups: updatedGroups }
         })
+
+        setSelectedOnPage((prev) => {
+            const updatedSelected = checked
+                ? prev.filter((gId) => gId !== id) // Remove if unchecked
+                : [...prev, id] // Add if checked
+            return updatedSelected
+        })
     }
 
     const handleRowClick = (id: number) => {
@@ -55,9 +66,16 @@ export const GroupTable: React.FC = () => {
         queryFn: () => getGroups(pagination, searchVal),
     })
 
-    const handleCheckAll = (checked: boolean) => {
-        const updatedGroupIds = checked ? groups?.content?.map((u: GroupType) => u.id) : []
-        setGroupsToRemove({ groups: updatedGroupIds ?? [] })
+    const handleCheckAll = (isChecked: boolean) => {
+        setSelectAllChecked(isChecked)
+
+        const currentPageGroupIds = groups?.content?.map((g: GroupType) => g.id) ?? []
+
+        const updatedGroupIds = isChecked
+            ? [...new Set([...(groupsToRemove?.groups ?? []), ...currentPageGroupIds])] // Ensure unique selection
+            : (groupsToRemove?.groups ?? []).filter((id) => !currentPageGroupIds.includes(id)) // Remove only current page groups
+
+        setGroupsToRemove({ groups: updatedGroupIds })
     }
 
     const onSearchChange = (val: string) => {
@@ -70,6 +88,11 @@ export const GroupTable: React.FC = () => {
         setGroupsToRemove(null)
     }, [])
 
+    useEffect(() => {
+        setSelectAllChecked(false) // Uncheck "Select All" when navigating pages
+        setSelectedOnPage([])
+    }, [pagination])
+
     return (
         <>
             <div className='mb-5 flex flex-row justify-between xs:mt-1'>
@@ -78,6 +101,12 @@ export const GroupTable: React.FC = () => {
                     onSearchChange={(e) => onSearchChange(e?.target?.value)}
                 />
                 <div className='flex flex-row gap-5'>
+                    {groupsToRemove && groupsToRemove?.groups.length > 0 && (
+                        <ExportCounter
+                            selected={groupsToRemove?.groups?.length}
+                            limit={groups?.meta?.total ?? 0}
+                        />
+                    )}
                     <Button
                         variant='outline'
                         className='flex flex-row gap-1'
@@ -108,14 +137,13 @@ export const GroupTable: React.FC = () => {
                                             {index === 0 && (
                                                 <Checkbox
                                                     checked={
-                                                        groupsToRemove?.groups?.length ===
-                                                        groups?.content?.length
+                                                        selectAllChecked ||
+                                                        ((selectedOnPage?.length ?? 0) ===
+                                                            groups?.content?.length &&
+                                                            groups?.content?.length > 0)
                                                     }
-                                                    onCheckedChange={() => {
-                                                        handleCheckAll(
-                                                            groupsToRemove?.groups?.length !==
-                                                                groups?.content?.length,
-                                                        )
+                                                    onCheckedChange={(checked) => {
+                                                        handleCheckAll(checked as boolean)
                                                     }}
                                                     className='-mt-[2px]'
                                                 />
@@ -141,9 +169,7 @@ export const GroupTable: React.FC = () => {
                                     >
                                         <TableCell className='font-semibold text-bms-link flex flex-row items-center gap-2'>
                                             <Checkbox
-                                                checked={
-                                                    groupsToRemove?.groups?.includes(g.id) ?? false
-                                                }
+                                                checked={groupsToRemove?.groups?.includes(g.id)}
                                                 onClick={() =>
                                                     handleCheckBoxClick(
                                                         g.id,

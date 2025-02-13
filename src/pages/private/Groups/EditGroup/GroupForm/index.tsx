@@ -21,6 +21,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import RemoveEmpToGroupModal from './RemoveEmpToGroupModal'
 import { useAtomValue } from 'jotai'
 import { employeeGroupToRemoveAtom } from '@/store/groups'
+import { ExportCounter } from '@/components/ExportCounter'
 
 export const GroupForm: React.FC = () => {
     const [open, setOpen] = useState<boolean>(false)
@@ -169,6 +170,12 @@ export const GroupForm: React.FC = () => {
                         <div className='flex flex-row xs:flex-col sm:flex-col items-center justify-between mt-5'>
                             <p className='font-semibold text-xl text-bms-gray-medium'>Employees</p>
                             <div className='flex flex-row gap-5 items-end justify-end xs:mt-5 sm:mt-5'>
+                                {empToRemove && empToRemove?.employees?.length > 0 && (
+                                    <ExportCounter
+                                        selected={empToRemove?.employees?.length}
+                                        limit={group?.employees?.length ?? 0}
+                                    />
+                                )}
                                 <Button
                                     onClick={() => setRemoveModal(true)}
                                     variant='outline'
