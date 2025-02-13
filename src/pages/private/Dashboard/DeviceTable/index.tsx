@@ -16,6 +16,7 @@ import { PullRecord } from '../../Devices/DeviceList/DeviceTable/PullRecord'
 
 const tableHeader = [
     { name: 'Device ID' },
+    { name: 'Device Name' },
     { name: 'Group' },
     { name: 'Model' },
     { name: 'Serial Number' },
@@ -85,6 +86,9 @@ export const DeviceTable: React.FC = () => {
                                 >
                                     <TableCell className='font-semibold text-bms-link flex flex-row items-center gap-2'>
                                         {d.id}
+                                    </TableCell>
+                                    <TableCell onClick={() => handleRowClick(d?.id)}>
+                                        {d?.nickname ?? '--'}
                                     </TableCell>
                                     <TableCell onClick={() => handleRowClick(d?.id)}>
                                         {d?.group?.name ?? '--'}
