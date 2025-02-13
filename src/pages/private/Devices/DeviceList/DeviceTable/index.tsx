@@ -13,7 +13,7 @@ import { cn } from '@/utils/helper'
 import { useQuery } from '@tanstack/react-query'
 import { useAtom, useAtomValue } from 'jotai'
 import { Trash2Icon } from 'lucide-react'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import DeleteDeviceModal from '../DeleteDeviceModal'
 import { DeviceFilterByGroupModal } from './DeviceFilterByGroupModal'
@@ -22,6 +22,7 @@ import { GearIcon } from '@radix-ui/react-icons'
 import BulkSettingsUpdateModal from '../BulkSettingsUpdateModal'
 import { PushRecord } from './PushRecord'
 import { PullRecord } from './PullRecord'
+import { ExportCounter } from '@/components/ExportCounter'
 
 const tableHeader = [
     { name: 'Device ID' },
@@ -40,6 +41,9 @@ export const DeviceTable: React.FC = () => {
     })
 
     const [settingsModal, setSettingsModal] = useState<boolean>(false)
+
+    const [selectAllChecked, setSelectAllChecked] = useState<boolean>(false)
+    const [selectedOnPage, setSelectedOnPage] = useState<number[]>([])
 
     const [devicesToDelete, setDevicesToDelete] = useAtom(deleteDeviceAtom)
     const [groupFilter, setGroupFilter] = useState<boolean>(false)
@@ -69,7 +73,31 @@ export const DeviceTable: React.FC = () => {
                 : (prev?.devices ?? []).filter((id) => id !== deviceId) // Remove userId if unchecked
             return { devices: updatedDeviceIds } // Return updated object with 'user' key
         })
+
+        setSelectedOnPage((prev) => {
+            const updatedDeviceIds = isChecked
+                ? [...prev, deviceId] // Add userId if checked
+                : prev.filter((id) => id !== deviceId) // Remove userId if unchecked
+            return updatedDeviceIds // Return updated array
+        })
     }
+
+    const handleCheckAll = (isChecked: boolean) => {
+        setSelectAllChecked(isChecked)
+
+        const currentPageDeviceIds = devices?.content?.map((d: DeviceType) => d.id) ?? []
+
+        const updatedDeviceIds = isChecked
+            ? [...new Set([...(devicesToDelete?.devices ?? []), ...currentPageDeviceIds])] // Ensure it's always an array
+            : (devicesToDelete?.devices ?? []).filter((id) => !currentPageDeviceIds.includes(id)) // Remove only current page devices
+
+        setDevicesToDelete({ devices: updatedDeviceIds })
+    }
+
+    useEffect(() => {
+        setSelectAllChecked(false) // Uncheck "Select All" when navigating pages
+        setSelectedOnPage([])
+    }, [pagination])
 
     return (
         <>
@@ -79,6 +107,13 @@ export const DeviceTable: React.FC = () => {
                     onSearchChange={(e) => onSearchChange(e?.target?.value)}
                 />
                 <div className='flex flex-row xs:flex-col sm:flex-col gap-5'>
+                    {devicesToDelete?.devices && devicesToDelete?.devices?.length > 0 && (
+                        <ExportCounter
+                            selected={devicesToDelete?.devices?.length ?? 0}
+                            limit={devices?.meta?.total ?? 0}
+                        />
+                    )}
+
                     <Button
                         className='bg-bms-gray-500 flex flex-row gap-1'
                         onClick={() => setSettingsModal(true)}
@@ -126,24 +161,14 @@ export const DeviceTable: React.FC = () => {
                                             {index === 0 && (
                                                 <Checkbox
                                                     checked={
-                                                        devicesToDelete?.devices?.length ===
-                                                        devices?.content?.length
+                                                        selectAllChecked ||
+                                                        ((selectedOnPage?.length ?? 0) ===
+                                                            devices?.content?.length &&
+                                                            devices?.content?.length > 0)
                                                     }
-                                                    onClick={() => {
-                                                        if (
-                                                            devicesToDelete?.devices?.length ===
-                                                            devices?.content?.length
-                                                        ) {
-                                                            setDevicesToDelete({ devices: [] })
-                                                        } else {
-                                                            setDevicesToDelete({
-                                                                devices:
-                                                                    devices?.content?.map(
-                                                                        (d: DeviceType) => d.id,
-                                                                    ) ?? [],
-                                                            })
-                                                        }
-                                                    }}
+                                                    onCheckedChange={(checked) =>
+                                                        handleCheckAll(checked as boolean)
+                                                    }
                                                     className='-mt-[2px]'
                                                 />
                                             )}

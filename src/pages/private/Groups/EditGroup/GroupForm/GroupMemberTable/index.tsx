@@ -51,7 +51,9 @@ export const GroupMemberTable: React.FC<EditGroupMemberTableProps> = ({ employee
     return (
         <Card>
             <CardContent className='flex flex-col gap-5 mt-5'>
-                <SyncNotificationBar />
+                <div className='flex flex-col items-center'>
+                    <SyncNotificationBar />
+                </div>
                 <Table className='table-auto whitespace-normal w-full'>
                     <TableHeader style={{ marginBottom: '10px' }}>
                         <TableRow>

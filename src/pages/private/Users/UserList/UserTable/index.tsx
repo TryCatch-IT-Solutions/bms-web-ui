@@ -16,7 +16,7 @@ import { userSelectedStatusAtom } from '@/store/user'
 import { cn } from '@/utils/helper'
 import { useQuery } from '@tanstack/react-query'
 import { useAtom, useAtomValue, useSetAtom } from 'jotai'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Card, CardContent } from '@/components/Card'
 import DeleteUserModal from '../DeleteUserModal'
@@ -51,6 +51,8 @@ export const UserTable: React.FC = () => {
     const [userIdsToDelete, setUserIdsToDelete] = useAtom(userIdsToDeleteAtom)
     const [userRoleFilter, setUserRoleFilter] = useAtom(userRoleFilterAtom)
     const [userStatusFilter, setUserStatusFilter] = useAtom(userAssignStatusFilterAtom)
+    const [selectAllChecked, setSelectAllChecked] = useState<boolean>(false)
+    const [selectedOnPage, setSelectedOnPage] = useState<number[]>([])
 
     const [searchType, setSearchType] = useState<string>('full_name')
 
@@ -104,6 +106,13 @@ export const UserTable: React.FC = () => {
             return { users: updatedUserIds } // Return updated object with 'user' key
         })
 
+        setSelectedOnPage((prev) => {
+            const updatedUserIds = isChecked
+                ? [...prev, user.id] // Add userId if checked
+                : prev.filter((id) => id !== user.id) // Remove userId if unchecked
+            return updatedUserIds // Return updated array
+        })
+
         const userToAddOrRemove = users?.content?.find((prevuser) => prevuser.id === user?.id)
 
         setUsersToExport((prevExportData: any) => {
@@ -121,15 +130,27 @@ export const UserTable: React.FC = () => {
     }
 
     const handleCheckAll = (isChecked: boolean) => {
-        const updatedUserIds = isChecked
-            ? users?.content?.filter((u: ProfileType) => u.id !== 1).map((u: ProfileType) => u.id) // Exclude user with ID 1
-            : [] // Empty array if unchecked
+        setSelectAllChecked(isChecked)
 
-        setUserIdsToDelete({ users: updatedUserIds ?? [] }) // Set the updated userIds
+        const currentPageUserIds =
+            users?.content?.filter((u: ProfileType) => u.id !== 1).map((u: ProfileType) => u.id) ??
+            []
+
+        const updatedUserIds = isChecked
+            ? [...new Set([...(userIdsToDelete?.users ?? []), ...currentPageUserIds])] // Ensure it's always an array
+            : (userIdsToDelete?.users ?? []).filter((id) => !currentPageUserIds.includes(id)) // Remove only current page users
+
+        setUserIdsToDelete({ users: updatedUserIds })
+
         setUsersToExport({
             content: isChecked
-                ? users?.content?.filter((u: ProfileType) => u.id !== 1) ?? [] // Exclude user with ID 1
-                : [],
+                ? [
+                      ...new Set([
+                          ...(usersToExport?.content ?? []),
+                          ...(users?.content?.filter((u: ProfileType) => u.id !== 1) ?? []),
+                      ]),
+                  ]
+                : (usersToExport?.content ?? []).filter((u) => !currentPageUserIds.includes(u.id)), // Remove only current page users
             meta: users?.meta as PaginationType,
         })
     }
@@ -139,6 +160,11 @@ export const UserTable: React.FC = () => {
         setUserStatusFilter(null)
         setSearchVal('')
     }
+
+    useEffect(() => {
+        setSelectAllChecked(false) // Uncheck "Select All" when navigating pages
+        setSelectedOnPage([])
+    }, [pagination, selectedStatus, searchVal, userRoleFilter, userStatusFilter])
 
     return (
         <>
@@ -165,7 +191,7 @@ export const UserTable: React.FC = () => {
                     {usersToExport && usersToExport?.content?.length > 0 && (
                         <ExportCounter
                             selected={usersToExport?.content?.length ?? 0}
-                            limit={users?.content?.length ?? 0}
+                            limit={users?.meta?.total ?? 0}
                         />
                     )}
 
@@ -224,20 +250,13 @@ export const UserTable: React.FC = () => {
                                             {index === 0 && (
                                                 <Checkbox
                                                     checked={
-                                                        (usersToExport?.content?.length ===
+                                                        selectAllChecked ||
+                                                        ((selectedOnPage?.length ?? 0) ===
                                                             users?.content?.length &&
-                                                            usersToExport !== null) ||
-                                                        (userIdsToDelete?.users?.length ===
-                                                            users?.content?.length &&
-                                                            userIdsToDelete !== null)
+                                                            users?.content?.length > 0)
                                                     }
-                                                    onCheckedChange={() =>
-                                                        handleCheckAll(
-                                                            usersToExport?.content?.length !==
-                                                                users?.content?.length ||
-                                                                userIdsToDelete?.users?.length !==
-                                                                    users?.content?.length,
-                                                        )
+                                                    onCheckedChange={(checked) =>
+                                                        handleCheckAll(checked as boolean)
                                                     }
                                                     className='mt-[3px] xs:mt-1 sm:mt-1'
                                                 />

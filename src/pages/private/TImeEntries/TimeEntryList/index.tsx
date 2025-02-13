@@ -9,7 +9,7 @@ import AppSkeletonLoadingState from '@/components/TableLoadingState'
 import { TIME_DATE_FORMAT } from '@/constants'
 import { cn, formatUnderscoreString } from '@/utils/helper'
 import { useQuery } from '@tanstack/react-query'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import dayjs from 'dayjs'
 import { BreadCrumbs } from '@/components/BreadCrumbs'
 import ExportDropdown from './ExportDropdown'
@@ -38,6 +38,9 @@ export const TimeEntryList: React.FC = () => {
     const [start, setStart] = useState<string>('')
     const [end, setEnd] = useState<string>('')
     const [toExport, setToExport] = useAtom(timeEntriesToExportAtom)
+    const [selectAllChecked, setSelectAllChecked] = useState<boolean>(false)
+    const [selectedOnPage, setSelectedOnPage] = useState<number[]>([])
+
     const onSearchChange = (val: string) => {
         setTimeout(() => {
             setSearchVal(val)
@@ -59,6 +62,13 @@ export const TimeEntryList: React.FC = () => {
     const handleCheckboxChange = (user: TimeEntryType, isChecked: boolean) => {
         const userToAddOrRemove = users?.content?.find((prevuser) => prevuser.id === user?.id)
 
+        setSelectedOnPage((prev) => {
+            const updatedUserIds = isChecked
+                ? [...prev, user.id] // Add userId if checked
+                : prev.filter((id) => id !== user.id) // Remove userId if unchecked
+            return updatedUserIds // Return updated array
+        })
+
         setToExport((prevExportData: any) => {
             const updatedContent = isChecked
                 ? [...(prevExportData?.content ?? []), userToAddOrRemove] // Add the full user profile to export data
@@ -74,11 +84,33 @@ export const TimeEntryList: React.FC = () => {
     }
 
     const handleCheckAll = (isChecked: boolean) => {
+        setSelectAllChecked(isChecked)
+        const currentPageUserIds =
+            users?.content
+                ?.filter((u: TimeEntryType) => u.id !== 0)
+                .map((u: TimeEntryType) => u.id) ?? []
+
+        const updatedUserIds = isChecked
+            ? [
+                  ...(toExport?.content ?? []),
+                  ...(users?.content?.filter((u: TimeEntryType) =>
+                      currentPageUserIds.includes(u.id),
+                  ) ?? []),
+              ] // Ensure it's always an array of correct type
+            : (toExport?.content ?? []).filter(
+                  (user: TimeEntryType) => !currentPageUserIds.includes(user.id),
+              ) // Remove only current page users
+
         setToExport({
-            content: isChecked ? users?.content ?? [] : [],
+            content: updatedUserIds,
             meta: users?.meta as PaginationType,
         })
     }
+
+    useEffect(() => {
+        setSelectAllChecked(false) // Uncheck "Select All" when navigating pages
+        setSelectedOnPage([])
+    }, [pagination, searchVal, start, end])
 
     return (
         <div className='content'>
@@ -116,7 +148,7 @@ export const TimeEntryList: React.FC = () => {
                     {toExport && toExport?.content?.length > 0 && (
                         <ExportCounter
                             selected={toExport?.content?.length ?? 0}
-                            limit={users?.content?.length ?? 0}
+                            limit={users?.meta?.total ?? 0}
                         />
                     )}
                     <ExportDropdown
@@ -141,15 +173,13 @@ export const TimeEntryList: React.FC = () => {
                                             {index === 0 && (
                                                 <Checkbox
                                                     checked={
-                                                        toExport?.content?.length ===
+                                                        selectAllChecked ||
+                                                        ((selectedOnPage?.length ?? 0) ===
                                                             users?.content?.length &&
-                                                        toExport !== null
+                                                            users?.content?.length > 0)
                                                     }
-                                                    onCheckedChange={() =>
-                                                        handleCheckAll(
-                                                            toExport?.content?.length !==
-                                                                users?.content?.length,
-                                                        )
+                                                    onCheckedChange={(checked) =>
+                                                        handleCheckAll(checked as boolean)
                                                     }
                                                     className='mt-[3px]'
                                                 />

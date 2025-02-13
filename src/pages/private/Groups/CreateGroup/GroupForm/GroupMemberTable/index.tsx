@@ -10,6 +10,7 @@ import AdminListModal from '../AdminListModal'
 import { useState } from 'react'
 import EmployeeListModal from '../EmployeeListModal'
 import { ProfileType } from '@/api/profile/schema'
+import { ExportCounter } from '@/components/ExportCounter'
 
 const tableHeader = [
     { name: 'Account Number' },
@@ -65,6 +66,12 @@ export const GroupMemberTable: React.FC = () => {
                     </Button>
                 </div>
                 <div className='flex flex-row xs:flex-col gap-5 mt-5 xs:w-full sm:w-full'>
+                    {empToRemove && empToRemove?.length > 0 && (
+                        <ExportCounter
+                            selected={empToRemove?.length ?? 0}
+                            limit={emps?.length ?? 0}
+                        />
+                    )}
                     <Button
                         variant='outline'
                         className='flex flex-row gap-2'
