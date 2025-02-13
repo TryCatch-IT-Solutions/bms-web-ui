@@ -26,6 +26,7 @@ import { ExportCounter } from '@/components/ExportCounter'
 
 const tableHeader = [
     { name: 'Device ID' },
+    { name: 'Device Name' },
     { name: 'Group' },
     { name: 'Model' },
     { name: 'Serial Number' },
@@ -207,6 +208,9 @@ export const DeviceTable: React.FC = () => {
                                             className='-mt-[2px]'
                                         />
                                         {d.id}
+                                    </TableCell>
+                                    <TableCell onClick={() => handleRowClick(d?.id)}>
+                                        {d?.nickname ?? '--'}
                                     </TableCell>
                                     <TableCell onClick={() => handleRowClick(d?.id)}>
                                         {d?.group?.name ?? '--'}

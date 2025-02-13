@@ -134,22 +134,41 @@ export const CreateDeviceForm: React.FC = () => {
 
                                 <FormField
                                     control={deviceForm.control}
-                                    name='serial_no'
+                                    name='nickname'
                                     render={({ field }) => (
                                         <FormItem>
                                             <FormControl>
                                                 <Input
                                                     className='mt-[16px] w-[100%] bg-white'
-                                                    placeholder='Serial Number'
+                                                    placeholder='Device Name'
                                                     type='text'
                                                     {...field}
                                                 />
                                             </FormControl>
-                                            <FormMessage>{errors?.model?.message}</FormMessage>
+                                            <FormMessage>{errors?.nickname?.message}</FormMessage>
                                         </FormItem>
                                     )}
                                 />
                             </div>
+
+                            <FormField
+                                control={deviceForm.control}
+                                name='serial_no'
+                                render={({ field }) => (
+                                    <FormItem>
+                                        <FormControl>
+                                            <Input
+                                                className='mt-[16px] w-[100%] bg-white'
+                                                placeholder='Serial Number'
+                                                type='text'
+                                                {...field}
+                                            />
+                                        </FormControl>
+                                        <FormMessage>{errors?.model?.message}</FormMessage>
+                                    </FormItem>
+                                )}
+                            />
+
                             <div className='flex flex-row gap-5 items-center w-full justify-start w-full'>
                                 <p>Group: </p>
                                 <Button
