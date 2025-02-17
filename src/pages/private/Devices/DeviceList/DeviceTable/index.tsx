@@ -232,7 +232,8 @@ export const DeviceTable: React.FC = () => {
                                         {d?.last_sync}
                                     </TableCell>
                                     <TableCell className='flex flex-rowe gap-4'>
-                                        <PushRecord id={d?.id} /> <PullRecord id={d?.id} />
+                                        <PushRecord id={d?.id} disabled={d?.is_online === 0} />{' '}
+                                        <PullRecord id={d?.id} disabled={d?.is_online === 0} />
                                     </TableCell>
                                 </TableRow>
                             ))}
