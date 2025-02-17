@@ -22,7 +22,7 @@ const tableHeader = [
     { name: 'Serial Number' },
     { name: 'Status' },
     { name: 'Last Sync' },
-    { name: 'Dashboard' },
+    { name: 'Action' },
 ]
 
 export const DeviceTable: React.FC = () => {
