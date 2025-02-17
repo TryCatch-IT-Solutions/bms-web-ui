@@ -6,7 +6,7 @@ import { Form, FormControl, FormField, FormItem, FormMessage } from '@/component
 import { Input } from '@/components/Input'
 import { API_KEY_LABELS } from '@/constants'
 
-import { useMutation, useQuery } from '@tanstack/react-query'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { AxiosError } from 'axios'
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
@@ -19,6 +19,9 @@ import { maskApiKey } from '@/utils/crypto'
 export const MapsForm = () => {
     const [enabled, setEnabled] = useState<boolean>(false)
     const { toast } = useToast()
+
+    const queryClient = useQueryClient()
+
     const apiForm = useForm<CreateAPIKeyType>({
         mode: 'all',
         resolver: zodResolver(createAPIKeySchema),
@@ -43,6 +46,7 @@ export const MapsForm = () => {
     >({
         mutationFn: createAPIkey,
         onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: ['mapsAPIKey'] })
             toast({
                 description: 'Google Maps API Key Updated',
             })
@@ -75,7 +79,7 @@ export const MapsForm = () => {
                 setValue('value', maskApiKey(apiKey.value))
             }
         }
-    }, [isLoading, enabled])
+    }, [isLoading, enabled, apiKey])
 
     return (
         <Card>

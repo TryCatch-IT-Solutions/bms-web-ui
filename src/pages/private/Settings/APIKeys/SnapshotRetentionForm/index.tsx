@@ -6,27 +6,29 @@ import { Form, FormControl, FormField, FormItem, FormMessage } from '@/component
 import { Input } from '@/components/Input'
 import { API_KEY_LABELS } from '@/constants'
 
-import { useMutation, useQuery } from '@tanstack/react-query'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { AxiosError } from 'axios'
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { useEffect } from 'react'
 import { useToast } from '@/hooks/useToast'
 import { XIcon, EditIcon } from 'lucide-react'
-import { logZodResolver } from '@/utils/helper'
+import { zodResolver } from '@hookform/resolvers/zod'
 
 export const SnapshotRetentionForm = () => {
     const [enabled, setEnabled] = useState<boolean>(false)
     const { toast } = useToast()
     const apiForm = useForm<CreateAPIKeyType>({
         mode: 'all',
-        resolver: logZodResolver(createAPIKeySchema),
+        resolver: zodResolver(createAPIKeySchema),
     })
 
     const { data: apiKey, isLoading } = useQuery({
         queryKey: ['snapshotRetentionSettings'],
         queryFn: () => getAPIKey(API_KEY_LABELS.SNAPSHOT_RETENTION, 0),
     })
+
+    const queryClient = useQueryClient()
 
     const {
         handleSubmit,
@@ -41,6 +43,7 @@ export const SnapshotRetentionForm = () => {
     >({
         mutationFn: createAPIkey,
         onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: ['snapshotRetentionSettings'] })
             toast({
                 description: 'Snapshot Retention Days Updated',
             })
@@ -61,7 +64,7 @@ export const SnapshotRetentionForm = () => {
         if (!isLoading && apiKey !== undefined) {
             setValue('value', apiKey.value)
         }
-    }, [isLoading])
+    }, [isLoading, apiKey])
 
     return (
         <Card>

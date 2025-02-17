@@ -5,23 +5,25 @@ import { Card, CardContent, CardFooter, CardHeader } from '@/components/Card'
 import { Form } from '@/components/Form'
 import { API_KEY_LABELS } from '@/constants'
 
-import { useMutation, useQuery } from '@tanstack/react-query'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { AxiosError } from 'axios'
 import { useState } from 'react'
 import { Controller, useForm } from 'react-hook-form'
 import { useEffect } from 'react'
 import { useToast } from '@/hooks/useToast'
 import { XIcon, EditIcon } from 'lucide-react'
-import { logZodResolver } from '@/utils/helper'
 import { Switch } from '@/components/Switch'
+import { zodResolver } from '@hookform/resolvers/zod'
 
 export const StragerDetectionForm = () => {
     const [enabled, setEnabled] = useState<boolean>(false)
     const { toast } = useToast()
     const apiForm = useForm<CreateAPIKeyType>({
         mode: 'all',
-        resolver: logZodResolver(createAPIKeySchema),
+        resolver: zodResolver(createAPIKeySchema),
     })
+
+    const queryClient = useQueryClient()
 
     const { data: apiKey, isLoading } = useQuery({
         queryKey: ['strangerDetectionSettings'],
@@ -41,6 +43,7 @@ export const StragerDetectionForm = () => {
     >({
         mutationFn: createAPIkey,
         onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: ['strangerDetectionSettings'] })
             toast({
                 description: 'Snapshot Retention Days Updated',
             })
@@ -69,7 +72,7 @@ export const StragerDetectionForm = () => {
         if (!isLoading && apiKey !== undefined) {
             setValue('value', apiKey.value)
         }
-    }, [isLoading])
+    }, [isLoading, apiKey])
 
     return (
         <Card>

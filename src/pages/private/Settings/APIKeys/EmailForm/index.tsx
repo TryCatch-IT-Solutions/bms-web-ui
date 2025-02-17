@@ -5,7 +5,7 @@ import { Card, CardContent, CardFooter, CardHeader } from '@/components/Card'
 import { Form, FormControl, FormField, FormItem, FormMessage } from '@/components/Form'
 import { Input } from '@/components/Input'
 import { API_KEY_LABELS } from '@/constants'
-import { useMutation, useQuery } from '@tanstack/react-query'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { AxiosError } from 'axios'
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
@@ -23,6 +23,8 @@ export const EmailForm = () => {
         mode: 'all',
         resolver: zodResolver(createAPIKeySchema),
     })
+
+    const queryClient = useQueryClient()
 
     const { data: apiKey, isLoading } = useQuery({
         queryKey: ['emailAPIkey'],
@@ -43,6 +45,7 @@ export const EmailForm = () => {
     >({
         mutationFn: createAPIkey,
         onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: ['emailAPIkey'] })
             toast({
                 description: 'Google Maps API Key Updated',
             })
@@ -85,7 +88,7 @@ export const EmailForm = () => {
 
             setValue('fields.EMAIL', apiKey?.fields?.EMAIL ?? '')
         }
-    }, [isLoading, enabled])
+    }, [isLoading, enabled, apiKey])
 
     return (
         <Card>
@@ -154,11 +157,12 @@ export const EmailForm = () => {
                                 <FormItem>
                                     <FormControl>
                                         <PasswordInput
+                                            criteria={false}
                                             className='w-[30rem] xs:w-full sm:w-full bg-white h-11'
-                                            placeholder='Password'
-                                            type='text'
                                             disabled={!enabled}
+                                            placeholder='Password'
                                             {...field}
+                                            onInput={handleInputChange}
                                         />
                                     </FormControl>
                                     <FormMessage>{errors?.key?.message}</FormMessage>

@@ -6,7 +6,7 @@ import { Form, FormControl, FormField, FormItem, FormMessage } from '@/component
 import { Input } from '@/components/Input'
 import { API_KEY_LABELS } from '@/constants'
 
-import { useMutation, useQuery } from '@tanstack/react-query'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { AxiosError } from 'axios'
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
@@ -24,6 +24,8 @@ export const SMSForm = () => {
         mode: 'all',
         resolver: zodResolver(createAPIKeySchema),
     })
+
+    const queryClient = useQueryClient()
 
     const { data: apiKey, isLoading } = useQuery({
         queryKey: ['smsAPIKey'],
@@ -44,6 +46,7 @@ export const SMSForm = () => {
     >({
         mutationFn: createAPIkey,
         onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: ['smsAPIKey'] })
             toast({
                 description: 'Google Maps API Key Updated',
             })
@@ -86,7 +89,7 @@ export const SMSForm = () => {
 
             setValue('fields.EMAIL', apiKey?.fields?.EMAIL ?? '')
         }
-    }, [isLoading])
+    }, [isLoading, enabled, apiKey])
 
     return (
         <Card>
@@ -155,11 +158,12 @@ export const SMSForm = () => {
                                 <FormItem>
                                     <FormControl>
                                         <PasswordInput
+                                            criteria={false}
                                             className='w-[30rem] xs:w-full sm:w-full bg-white h-11'
-                                            placeholder='Password'
-                                            type='text'
                                             disabled={!enabled}
+                                            placeholder='Password'
                                             {...field}
+                                            onInput={handleInputChange}
                                         />
                                     </FormControl>
                                     <FormMessage>{errors?.key?.message}</FormMessage>
