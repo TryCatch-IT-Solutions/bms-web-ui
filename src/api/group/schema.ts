@@ -77,6 +77,11 @@ export const groupsToDeleteSchema = z.object({
     groups: z.array(z.number()),
 })
 
+export const mergeConflictingAccountSchema = z.object({
+    id: z.number(),
+    merge_to: z.number(),
+})
+
 export type GroupType = z.infer<typeof groupSchema>
 export type CreateGroupType = z.infer<typeof createGroupSchema>
 export type GroupListType = z.infer<typeof gorupListSchema>
@@ -85,3 +90,4 @@ export type ViewGroupType = z.infer<typeof viewGroupSchema>
 export type EditGroupType = z.infer<typeof editGroupSchema>
 export type AddEmpToGroupType = z.infer<typeof addEmployeeToGroupSchema>
 export type DeleteGroupType = z.infer<typeof groupsToDeleteSchema>
+export type MergeConflictingAccountType = z.infer<typeof mergeConflictingAccountSchema>

@@ -509,6 +509,7 @@ export const ProfileForm: React.FC = () => {
                             <CardFooter className='flex flex-row gap-5 items-center justify-end'>
                                 <Button
                                     variant='outline'
+                                    type='button'
                                     className='w-1/5 xs:w-full sm:w-full'
                                     onClick={() => {
                                         navigate(-1)
