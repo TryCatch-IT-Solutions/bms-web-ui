@@ -65,12 +65,33 @@ export const PasswordForm: React.FC = () => {
                 <form
                     autoComplete='on'
                     noValidate
-                    className='w-full h-full max-w-[80%] xs:max-w-full sm:max-w-full md:max-w-full'
+                    className='w-full h-full max-w-[80%] xs:max-w-full sm:max-w-full'
                     onSubmit={userForm.handleSubmit(onSubmit)}
                 >
-                    <Card>
-                        <CardContent className='min-w-[64.59rem] xs:min-w-full sm:min-w-full min-h-[37.125rem] xs:min-h-full sm:min-h-full flex flex-col gap-5 pt-5'>
+                    <Card className=''>
+                        <CardContent className='min-w-[64.59rem] min-h-[37.125rem] xs:min-w-full sm:min-w-full flex flex-col gap-5 pt-5'>
                             <div className='flex flex-row xs:flex-col sm:flex-col gap-3 items-center justify-start'>
+                                <div className='w-1/3 xs:w-full sm:w-full'>
+                                    <FormField
+                                        control={userForm.control}
+                                        name='password'
+                                        render={({ field }) => (
+                                            <FormItem>
+                                                <FormControl>
+                                                    <PasswordInput
+                                                        className='mt-[16px] w-[100%] bg-white'
+                                                        placeholder='Current Password'
+                                                        {...field}
+                                                    />
+                                                </FormControl>
+                                                <FormMessage>
+                                                    {errors?.password?.message}
+                                                </FormMessage>
+                                            </FormItem>
+                                        )}
+                                    />
+                                </div>
+
                                 <div className='w-1/3 xs:w-full sm:w-full'>
                                     <FormField
                                         control={userForm.control}
@@ -95,9 +116,7 @@ export const PasswordForm: React.FC = () => {
                                 <div
                                     className={cn(
                                         'w-1/3 xs:w-full sm:w-full',
-                                        newPass !== undefined && newPass !== ''
-                                            ? 'xs:mt-48 sm:mt-48'
-                                            : 'xs:mt-4 sm:mt-4',
+                                        newPass ? 'mt-[14rem]' : 'mt-5',
                                     )}
                                 >
                                     <FormField
@@ -125,14 +144,14 @@ export const PasswordForm: React.FC = () => {
                         <CardFooter className='flex flex-row gap-5 items-center justify-end'>
                             <Button
                                 variant='outline'
-                                className='w-1/5 xs:w-full sm:w-full'
+                                className='w-1/5'
                                 onClick={() => navigate('/user/list')}
                             >
                                 Cancel
                             </Button>
                             <Button
                                 type='submit'
-                                className='w-1/5 xs:w-full sm:w-full'
+                                className='w-1/5'
                                 disabled={!isValid || isPending}
                             >
                                 Submit
