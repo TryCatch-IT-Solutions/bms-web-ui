@@ -6,7 +6,7 @@ import { Form, FormControl, FormField, FormItem, FormMessage } from '@/component
 import { Input } from '@/components/Input'
 import { API_KEY_LABELS } from '@/constants'
 
-import { useMutation, useQuery } from '@tanstack/react-query'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { AxiosError } from 'axios'
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
@@ -23,6 +23,8 @@ export const AndroidForm = () => {
         mode: 'all',
         resolver: zodResolver(createAPIKeySchema),
     })
+
+    const queryClient = useQueryClient()
 
     const { data: apiKey, isLoading } = useQuery({
         queryKey: ['appToken'],
@@ -43,6 +45,7 @@ export const AndroidForm = () => {
     >({
         mutationFn: createAPIkey,
         onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: ['appToken'] })
             toast({
                 description: 'App Token Updated',
             })
@@ -75,7 +78,7 @@ export const AndroidForm = () => {
                 setValue('value', maskApiKey(apiKey.value))
             }
         }
-    }, [isLoading, enabled])
+    }, [isLoading, enabled, apiKey])
 
     return (
         <Card>
