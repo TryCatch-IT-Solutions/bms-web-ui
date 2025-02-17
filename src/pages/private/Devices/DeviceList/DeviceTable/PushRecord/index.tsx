@@ -9,9 +9,10 @@ import { AxiosError } from 'axios'
 
 interface PullRecordProps {
     id: number
+    disabled: boolean
 }
 
-export const PushRecord: React.FC<PullRecordProps> = ({ id }) => {
+export const PushRecord: React.FC<PullRecordProps> = ({ id, disabled }) => {
     const { toast } = useToast()
 
     const { mutate: pushMu, isPending } = useMutation<unknown, AxiosError, PushPullRecordType>({
@@ -35,6 +36,7 @@ export const PushRecord: React.FC<PullRecordProps> = ({ id }) => {
                     action: 'push',
                 })
             }
+            disabled={disabled}
         >
             {isPending ? (
                 <Spinner variant={'normal'} className='w-4 h-4 border-color-white' />
