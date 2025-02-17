@@ -7,6 +7,7 @@ import {
     EditGroupType,
     AddEmpToGroupType,
     DeleteGroupType,
+    MergeConflictingAccountType,
 } from './schema'
 
 export const createGroup = async (data: CreateGroupType) => {
@@ -54,6 +55,12 @@ export const removeGroupEmployee = async (data: AddEmpToGroupType, groupId: numb
 
 export const removeGroup = async (data: DeleteGroupType) => {
     const response = await axiosInstance.post(`/api/groups/delete`, data)
+
+    return response.data
+}
+
+export const mergeConflictingUser = async (data: MergeConflictingAccountType) => {
+    const response = await axiosInstance.post('/api/users/merge', data)
 
     return response.data
 }

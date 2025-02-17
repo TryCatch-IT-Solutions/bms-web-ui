@@ -38,6 +38,7 @@ import { ExportCounter } from '@/components/ExportCounter'
 import { SearchBarDropdown } from '@/components/SearchbarDropdown'
 import PermanentDeleteModal from '../PermanentDeleteModal'
 import { MergeLabel } from '@/components/MergeLabel'
+import EmployeeListModal from '../EmployeeListModal'
 
 const tableHeader = [
     { name: 'Account Number' },
@@ -60,6 +61,8 @@ export const EmployeeTable: React.FC = () => {
     const [searchType, setSearchType] = useState<string>('full_name')
     const [selectAllChecked, setSelectAllChecked] = useState<boolean>(false)
     const [selectedOnPage, setSelectedOnPage] = useState<number[]>([])
+    const [mergeModal, setMergeModal] = useState<boolean>(false)
+    const [mergeId, setMergeId] = useState<ProfileType | null>(null)
 
     const user = useAtomValue(userAtom)
 
@@ -87,8 +90,15 @@ export const EmployeeTable: React.FC = () => {
             ),
     })
 
-    const handleRowClick = (id: number) => {
-        selectedStatus === USER_STATUS.ACTIVATED ? navigate(`/employee/edit/${id}`) : null
+    const handleRowClick = (profile: ProfileType) => {
+        if (profile.email.includes(EMAIL_CONFLICT_LABEL)) {
+            setMergeId(profile)
+            setMergeModal(true)
+        } else {
+            selectedStatus === USER_STATUS.ACTIVATED
+                ? navigate(`/employee/edit/${profile.id}`)
+                : null
+        }
     }
 
     const handleCheckboxChange = (userId: number, isChecked: boolean) => {
@@ -301,30 +311,30 @@ export const EmployeeTable: React.FC = () => {
                                         />
                                         {u.id}
                                     </TableCell>
-                                    <TableCell onClick={() => handleRowClick(u?.id)}>
+                                    <TableCell onClick={() => handleRowClick(u)}>
                                         {u.first_name}
                                     </TableCell>
-                                    <TableCell onClick={() => handleRowClick(u?.id)}>
+                                    <TableCell onClick={() => handleRowClick(u)}>
                                         {u.last_name}
                                     </TableCell>
                                     <TableCell
-                                        onClick={() => handleRowClick(u?.id)}
+                                        onClick={() => handleRowClick(u)}
                                         className='flex flex-row gap-2 items-center'
                                     >
                                         {u.email}
                                         {u?.email.includes(EMAIL_CONFLICT_LABEL) && <MergeLabel />}
                                     </TableCell>
-                                    <TableCell onClick={() => handleRowClick(u?.id)}>
+                                    <TableCell onClick={() => handleRowClick(u)}>
                                         {u.phone_number}
                                     </TableCell>
-                                    <TableCell onClick={() => handleRowClick(u?.id)}>
+                                    <TableCell onClick={() => handleRowClick(u)}>
                                         <p className='w-40 truncate'>
                                             {u.address1}
                                             {u.address2 ? u.address2 + ', ' : ', '}
                                             {u.barangay}, {u.municipality}, {u.province}
                                         </p>
                                     </TableCell>
-                                    <TableCell onClick={() => handleRowClick(u?.id)}>
+                                    <TableCell onClick={() => handleRowClick(u)}>
                                         {dayjs(u.birth_date).format(TIME_DATE_FORMAT.DATE)}
                                     </TableCell>
                                 </TableRow>
@@ -343,6 +353,7 @@ export const EmployeeTable: React.FC = () => {
             </div>
             <DeleteEmployeeModal open={open} setOpen={setOpen} />
             <PermanentDeleteModal setOpen={setDeleteModal} open={deleteModal} />
+            <EmployeeListModal open={mergeModal} setOpen={setMergeModal} profile={mergeId} />
         </>
     )
 }
