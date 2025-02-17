@@ -66,7 +66,7 @@ export const SecondaryLogoForm = () => {
                 <form
                     autoComplete='on'
                     noValidate
-                    className='w-full h-full w-[33rem]'
+                    className='h-full w-[33rem] xs:w-full sm:w-full'
                     onSubmit={handleSubmit(onSubmit)}
                 >
                     <CardHeader className='flex flex-row justify-between'>
@@ -104,9 +104,15 @@ export const SecondaryLogoForm = () => {
                             )}
                         />
                         {apiKey?.value !== undefined && apiKey?.value !== '' ? (
-                            <img src={LOGO_URL + apiKey?.value} className='h-[5rem] w-[15rem]' />
+                            <img
+                                src={LOGO_URL + apiKey?.value}
+                                className='h-[5rem] w-[15rem] xs:w-[10rem] sm:w-[10rem]'
+                            />
                         ) : (
-                            <img src={daiLogo} className='h-[5rem] w-[15rem]' />
+                            <img
+                                src={daiLogo}
+                                className='h-[5rem] w-[15rem] xs:w-[10rem] sm:w-[10rem]'
+                            />
                         )}
                     </CardContent>
                     <CardFooter className='justify-end'>
