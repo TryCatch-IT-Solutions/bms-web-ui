@@ -18,6 +18,7 @@ const MapView: FC<MapViewProps> = ({ isLoaded, loadError }) => {
     const { data, isLoading, isError } = useQuery<DeviceType[]>({
         queryKey: ['deviceMapView'],
         queryFn: getDeviceMapView,
+        staleTime: Infinity, // Ensure it doesn't refetch unnecessarily
     })
 
     const mapContent = useMemo(() => {
@@ -46,6 +47,7 @@ export const TimeEntryMapView: FC = () => {
     const { data: apiKey, isLoading } = useQuery({
         queryKey: ['googleMapsAPIKey'],
         queryFn: () => getAPIKey(API_KEY_LABELS.MAPS, 0),
+        staleTime: Infinity, // Ensure it doesn't refetch unnecessarily
     })
 
     if (isLoading) {
