@@ -79,7 +79,7 @@ export const ProfileForm: React.FC = () => {
     }
 
     useEffect(() => {
-        setValue('is_synced', user?.is_synced ?? 0)
+        setValue('is_synced', user?.is_synced ? 1 : 0)
     }, [])
 
     useEffect(() => {
