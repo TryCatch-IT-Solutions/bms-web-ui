@@ -223,10 +223,7 @@ export const TimeEntryList: React.FC = () => {
                                     </TableCell>
                                     <TableCell>
                                         {t?.snapshot ? (
-                                            <img
-                                                src={LOGO_URL + t?.snapshot}
-                                                className='h-12 w-10'
-                                            />
+                                            <img src={t?.snapshot} className='h-12 w-10' />
                                         ) : (
                                             <ImageIcon className='h-12 w-10 text-gray-300' />
                                         )}

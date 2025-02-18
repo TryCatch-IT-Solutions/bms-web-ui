@@ -17,7 +17,7 @@ export const Footer: React.FC = () => {
             {isLoading ? (
                 <Spinner variant='normal' className='h-3 w-3' />
             ) : (
-                <img src={logo?.value ? LOGO_URL + logo?.value : daiLogo} />
+                <img src={logo?.value ? logo?.value : daiLogo} />
             )}
         </div>
     )

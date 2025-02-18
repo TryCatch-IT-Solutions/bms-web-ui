@@ -63,7 +63,7 @@ export const Topbar = () => {
                             <Spinner variant='normal' className='h-5 w-5' />
                         ) : (
                             <img
-                                src={logo?.value ? LOGO_URL + logo?.value : daiLogo}
+                                src={logo?.value ? logo?.value : daiLogo}
                                 alt='BMS Logo'
                                 className='h-14 w-54 cursor-pointer'
                             />
