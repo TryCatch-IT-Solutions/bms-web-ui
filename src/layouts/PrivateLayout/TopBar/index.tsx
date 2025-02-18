@@ -19,7 +19,6 @@ import { API_KEY_LABELS, ROLE_VALUES } from '@/constants'
 import { getAPIKey } from '@/api/settings'
 import { useQuery } from '@tanstack/react-query'
 import Spinner from '@/components/Spinner'
-import { LOGO_URL } from '@/api/axiosInstance'
 
 export const Topbar = () => {
     const navigate = useNavigate()

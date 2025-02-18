@@ -21,8 +21,7 @@ import { MapIcon } from 'lucide-react'
 import { Button } from '@/components/Button'
 import { useNavigate } from 'react-router-dom'
 import { ImageIcon } from '@radix-ui/react-icons'
-import { LOGO_URL } from '@/api/axiosInstance'
-;``
+
 const tableHeader = [
     { name: 'Record ID' },
     { name: 'Snapshot' },

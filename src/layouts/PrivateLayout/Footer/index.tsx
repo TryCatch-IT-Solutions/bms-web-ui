@@ -1,4 +1,3 @@
-import { LOGO_URL } from '@/api/axiosInstance'
 import { getAPIKey } from '@/api/settings'
 import Spinner from '@/components/Spinner'
 import { API_KEY_LABELS } from '@/constants'
