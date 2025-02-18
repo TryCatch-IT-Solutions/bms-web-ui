@@ -30,11 +30,7 @@ export const StragerDetectionForm = () => {
         queryFn: () => getAPIKey(API_KEY_LABELS.STRANGER_DETECTION, 0),
     })
 
-    const {
-        handleSubmit,
-        setValue,
-        formState: { isDirty },
-    } = apiForm
+    const { handleSubmit, setValue } = apiForm
 
     const { mutate: createAPIKeyMu, isPending } = useMutation<
         unknown,
@@ -112,7 +108,7 @@ export const StragerDetectionForm = () => {
                         />
                     </CardContent>
                     <CardFooter className='justify-end'>
-                        <Button type='submit' disabled={isPending || !isDirty || !enabled}>
+                        <Button type='submit' disabled={isPending || !enabled}>
                             Update
                         </Button>
                     </CardFooter>
