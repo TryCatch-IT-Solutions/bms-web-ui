@@ -48,7 +48,7 @@ const ExportEmployeePDF = ({ employeeListData }: IExportEmployeePDFProps) => {
                     email: employee.email,
                     phone_number: `${
                         employee.phone_number.startsWith('+6')
-                            ? `(+63)-${formatPhoneNumber(
+                            ? `+6${formatPhoneNumber(
                                   ('+63' + employee.phone_number.substring(2)) as E164Number,
                               )
                                   .replace('0', '')
@@ -71,7 +71,7 @@ const ExportEmployeePDF = ({ employeeListData }: IExportEmployeePDFProps) => {
                     emergency_contact_name: employee.emergency_contact_name,
                     emergency_contact_number: `${
                         employee.emergency_contact_no?.startsWith('+6')
-                            ? `(+63)-${formatPhoneNumber(
+                            ? `+6${formatPhoneNumber(
                                   ('+63' +
                                       employee.emergency_contact_no.substring(2)) as E164Number,
                               )
