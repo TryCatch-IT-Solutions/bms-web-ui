@@ -116,7 +116,7 @@ export const PasswordForm: React.FC = () => {
                                 <div
                                     className={cn(
                                         'w-1/3 xs:w-full sm:w-full',
-                                        newPass ? 'mt-[14rem]' : 'mt-5',
+                                        newPass ? 'xs:mt-[14rem] sm:mt-[14rem]' : 'xs:mt-5 sm:mt-5',
                                     )}
                                 >
                                     <FormField
