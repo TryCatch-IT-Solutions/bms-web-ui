@@ -3,7 +3,7 @@ import { z } from 'zod'
 
 export const deviceSchema = z.object({
     id: z.number(),
-    nickname: z.string(),
+    nickname: z.string().optional(),
     group_id: z.number(),
     group: z
         .object({
