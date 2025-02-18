@@ -24,6 +24,8 @@ const PublicHeader = () => {
                     Sign In
                 </Link>
             )}
+
+            <p className='text-bms-gray-400'>v1.0.0</p>
         </header>
     )
 }
