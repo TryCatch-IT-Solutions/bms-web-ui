@@ -171,6 +171,8 @@ export const EmployeeTable: React.FC = () => {
     useEffect(() => {
         setSelectAllChecked(false) // Uncheck "Select All" when navigating pages
         setSelectedOnPage([])
+        setEmployeeExportAtom(null)
+        setUserIdsToDelete(null)
     }, [pagination, selectedStatus, searchVal, userStatusFilter])
 
     return (
