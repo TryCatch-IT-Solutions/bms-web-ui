@@ -164,6 +164,8 @@ export const UserTable: React.FC = () => {
     useEffect(() => {
         setSelectAllChecked(false) // Uncheck "Select All" when navigating pages
         setSelectedOnPage([])
+        setUsersToExport(null)
+        setUserIdsToDelete(null)
     }, [pagination, selectedStatus, searchVal, userRoleFilter, userStatusFilter])
 
     return (
