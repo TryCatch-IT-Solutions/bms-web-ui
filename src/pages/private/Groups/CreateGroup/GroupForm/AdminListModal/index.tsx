@@ -34,6 +34,7 @@ const AdminListModal: React.FC<AdminListModalProps> = ({ open, setOpen }) => {
 
     const handleSave = () => {
         setValue('admin_profile', adminProfile as ProfileType)
+        setValue('admin_profile.is_synced', adminProfile?.is_synced ? 1 : 0)
         setValue('group_admin', adminId as number)
         setOpen(false)
     }
