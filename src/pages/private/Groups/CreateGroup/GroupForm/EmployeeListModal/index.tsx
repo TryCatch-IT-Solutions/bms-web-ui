@@ -40,7 +40,11 @@ const EmployeeListModal: React.FC<EmployeeListModalProps> = ({ open, setOpen }) 
         setEmpIds((prev) =>
             checked ? [...prev, emp.id] : prev.filter((empId) => empId !== emp.id),
         )
-        setEmpProfiles((prev) => (checked ? [...prev, emp] : prev.filter((emp) => emp !== emp)))
+        setEmpProfiles((prev) =>
+            checked
+                ? [...prev, { ...emp, is_synced: emp?.is_synced ? 1 : 0 }]
+                : prev.filter((emp) => emp !== emp),
+        )
     }
 
     const handleSave = () => {

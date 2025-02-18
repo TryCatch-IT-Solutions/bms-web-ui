@@ -13,8 +13,7 @@ import { editUser, getUserById } from '@/api/profile'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { useEffect } from 'react'
 import Spinner from '@/components/Spinner'
-// import { zodResolver } from '@hookform/resolvers/zod'
-import { logZodResolver } from '@/utils/helper'
+import { zodResolver } from '@hookform/resolvers/zod'
 
 export const ProfileForm: React.FC = () => {
     const navigate = useNavigate()
@@ -33,7 +32,7 @@ export const ProfileForm: React.FC = () => {
 
     const userForm = useForm<EditUserType>({
         mode: 'onChange',
-        resolver: logZodResolver(profileSchema),
+        resolver: zodResolver(profileSchema),
         defaultValues: {
             email: '',
             first_name: '',
@@ -57,10 +56,10 @@ export const ProfileForm: React.FC = () => {
     const {
         setValue,
         setError,
-        formState: { errors },
+        formState: { errors, isValid, isDirty },
     } = userForm
 
-    const { mutate: updateUserMu } = useMutation({
+    const { mutate: updateUserMu, isPending } = useMutation({
         mutationFn: editUser,
         onSuccess: () => {
             toast({
@@ -91,7 +90,7 @@ export const ProfileForm: React.FC = () => {
     }
 
     useEffect(() => {
-        setValue('is_synced', user?.is_synced ?? 0)
+        setValue('is_synced', user?.is_synced ? 1 : 0)
     }, [])
 
     useEffect(() => {
@@ -516,7 +515,7 @@ export const ProfileForm: React.FC = () => {
                                 <Button
                                     type='submit'
                                     className='w-1/5 xs:w-full sm:w-full'
-                                    // disabled={!isValid || !isDirty || isPending}
+                                    disabled={!isValid || !isDirty || isPending}
                                 >
                                     Submit
                                 </Button>

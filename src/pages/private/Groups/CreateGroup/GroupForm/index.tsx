@@ -8,8 +8,7 @@ import { useNavigate } from 'react-router-dom'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { createGroup } from '@/api/group'
 import { useToast } from '@/hooks/useToast'
-// import { zodResolver } from '@hookform/resolvers/zod'
-import { logZodResolver } from '@/utils/helper'
+import { zodResolver } from '@hookform/resolvers/zod'
 
 export const GroupForm: React.FC = () => {
     const navigate = useNavigate()
@@ -17,22 +16,22 @@ export const GroupForm: React.FC = () => {
 
     const groupForm = useForm<CreateGroupType>({
         mode: 'onChange',
-        resolver: logZodResolver(createGroupSchema),
+        resolver: zodResolver(createGroupSchema),
     })
 
     const { toast } = useToast()
 
     const {
         handleSubmit,
-        // watch,
+        watch,
         formState: { errors },
     } = groupForm
 
-    // const groupName = watch('name')
-    // const empIds = watch('employees')
-    // const adminId = watch('group_admin')
+    const groupName = watch('name')
+    const empIds = watch('employees')
+    const adminId = watch('group_admin')
 
-    const { mutate: createGroupMu } = useMutation({
+    const { mutate: createGroupMu, isPending } = useMutation({
         mutationFn: createGroup,
         onSuccess: () => {
             toast({
@@ -48,12 +47,12 @@ export const GroupForm: React.FC = () => {
         createGroupMu(data)
     }
 
-    // const isValid =
-    //     groupName !== '' &&
-    //     groupName !== undefined &&
-    //     adminId !== undefined &&
-    //     adminId > 0 &&
-    //     empIds?.length > 0
+    const isValid =
+        groupName !== '' &&
+        groupName !== undefined &&
+        adminId !== undefined &&
+        adminId > 0 &&
+        empIds?.length > 0
 
     return (
         <Form {...groupForm}>
@@ -101,7 +100,7 @@ export const GroupForm: React.FC = () => {
                     <Button
                         className='xs:w-full sm:w-full'
                         type='submit'
-                        // disabled={!isValid || isPending}
+                        disabled={!isValid || isPending}
                     >
                         Create Group
                     </Button>
