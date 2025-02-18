@@ -89,13 +89,13 @@ const Map = ({ coordinates }: MapProps) => {
                                             activeMarker={activeMarker}
                                             clusterer={clusterer}
                                             coordinate={coord}
-                                            key={coord.id}
+                                            key={coord?.id}
                                             position={{
-                                                lat: Number(coord.lat),
-                                                lng: Number(coord.lon),
+                                                lat: Number(coord?.lat),
+                                                lng: Number(coord?.lon),
                                             }}
                                             setMarker={setMarker}
-                                            text={`D-${coord.id}`}
+                                            text={`D-${coord?.id}`}
                                         />
                                     )
                                 })}

@@ -18,6 +18,7 @@ const MapView: FC<MapViewProps> = ({ isLoaded, loadError }) => {
     const { data, isLoading, isError } = useQuery<DeviceType[]>({
         queryKey: ['deviceMapView'],
         queryFn: getDeviceMapView,
+        staleTime: Infinity,
     })
 
     const mapContent = useMemo(() => {
@@ -46,19 +47,24 @@ const DeviceMapView: FC = () => {
     const { data: apiKey, isLoading } = useQuery({
         queryKey: ['googleMapsAPIKey'],
         queryFn: () => getAPIKey(API_KEY_LABELS.MAPS, 0),
+        staleTime: Infinity, // Ensure it doesn't refetch unnecessarily
     })
 
     if (isLoading) {
         return <Spinner variant='normal' />
     } else {
-        return (
-            <GoogleMapsApiWrapper
-                render={(isLoaded: boolean, loadError?: Error) => (
-                    <MapView isLoaded={isLoaded} loadError={loadError} />
-                )}
-                apiKey={apiKey?.value ?? ''}
-            />
-        )
+        try {
+            return (
+                <GoogleMapsApiWrapper
+                    render={(isLoaded: boolean, loadError?: Error) => (
+                        <MapView isLoaded={isLoaded} loadError={loadError} />
+                    )}
+                    apiKey={apiKey?.value ?? ''}
+                />
+            )
+        } catch {
+            return <></>
+        }
     }
 }
 

@@ -11,7 +11,11 @@ const libraries: Libraries = ['maps', 'places']
 const GoogleMapsApiWrapper: FC<GoogleMapsApiWrapperProps> = ({ render, apiKey }) => {
     const { isLoaded, loadError } = useJsApiLoader({ googleMapsApiKey: apiKey, libraries })
 
-    return <>{render(isLoaded, loadError)}</>
+    try {
+        return <>{render(isLoaded, loadError)}</>
+    } catch {
+        return <></>
+    }
 }
 
 export default GoogleMapsApiWrapper
