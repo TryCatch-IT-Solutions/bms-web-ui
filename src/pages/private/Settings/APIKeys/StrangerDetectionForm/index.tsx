@@ -102,7 +102,7 @@ export const StragerDetectionForm = () => {
                             control={apiForm.control}
                             render={({ field }) => (
                                 <Switch
-                                    checked={field.value === '1'} // Pass the value as checked
+                                    checked={field.value === '1' ? true : false} // Pass the value as checked
                                     onCheckedChange={(checked: boolean) =>
                                         handleCheckChange(checked)
                                     }
