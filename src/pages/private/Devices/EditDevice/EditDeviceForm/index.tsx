@@ -138,6 +138,7 @@ export const EditDeviceForm: React.FC = () => {
                                                     className='mt-[16px] w-[100%] bg-white'
                                                     placeholder='Serial Number'
                                                     type='text'
+                                                    disabled
                                                     {...field}
                                                 />
                                             </FormControl>
