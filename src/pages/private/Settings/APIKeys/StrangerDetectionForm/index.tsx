@@ -58,9 +58,9 @@ export const StragerDetectionForm = () => {
 
     const handleCheckChange = (checked: boolean) => {
         if (checked) {
-            setValue('value', '1')
+            setValue('value', 'on')
         } else {
-            setValue('value', '0')
+            setValue('value', 'off')
         }
     }
 
@@ -102,7 +102,7 @@ export const StragerDetectionForm = () => {
                             control={apiForm.control}
                             render={({ field }) => (
                                 <Switch
-                                    checked={field.value === '1' ? true : false} // Pass the value as checked
+                                    checked={field.value === 'on' ? true : false} // Pass the value as checked
                                     onCheckedChange={(checked: boolean) =>
                                         handleCheckChange(checked)
                                     }
