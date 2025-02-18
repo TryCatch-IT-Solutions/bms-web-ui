@@ -96,7 +96,10 @@ export const ProfileForm: React.FC = () => {
 
     useEffect(() => {
         if (user) {
-            userForm.reset(user)
+            userForm.reset({
+                ...user,
+                is_synced: user?.is_synced ? 1 : 0,
+            })
         }
     }, [user])
 
