@@ -34,12 +34,8 @@ export const Dashboard: React.FC = () => {
                     </>
                 )}
             </div>
-            {isAdmin && (
-                <>
-                    <DeviceTable />
-                    <TimeEntryTable />
-                </>
-            )}
+            {isAdmin && <DeviceTable />}
+            <TimeEntryTable />
         </div>
     )
 }

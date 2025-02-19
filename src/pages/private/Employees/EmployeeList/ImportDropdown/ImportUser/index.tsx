@@ -21,9 +21,9 @@ const ImportUsers = () => {
             })
             queryClient.invalidateQueries({ queryKey: ['userList'] })
             queryClient.invalidateQueries({ queryKey: ['employeeList'] })
-            queryClient.invalidateQueries({ queryKey: ['archivedUsersCount'] })
-            queryClient.invalidateQueries({ queryKey: ['assignedUsersCount'] })
-            queryClient.invalidateQueries({ queryKey: ['unassignedUsersCount'] })
+            queryClient.invalidateQueries({ queryKey: ['assignedEmpCount'] })
+            queryClient.invalidateQueries({ queryKey: ['unassignedEmpCount'] })
+            queryClient.invalidateQueries({ queryKey: ['archivedCount'] })
         },
         onError: (err: AxiosError) => {
             console.log('Create Employee Error: ', err.message)
