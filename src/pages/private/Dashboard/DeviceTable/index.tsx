@@ -100,7 +100,7 @@ export const DeviceTable: React.FC = () => {
                                         {d?.serial_no}
                                     </TableCell>
                                     <TableCell onClick={() => handleRowClick(d?.id)}>
-                                        {d?.is_online === 1 ? (
+                                        {d?.is_online === 1 || d?.is_online === true ? (
                                             <span className='text-blue-500'>Online</span>
                                         ) : (
                                             <span className='text-red-500'>Offline</span>

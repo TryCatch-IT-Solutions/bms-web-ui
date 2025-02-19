@@ -83,11 +83,8 @@ export const EditDeviceForm: React.FC = () => {
     }, [device])
 
     useEffect(() => {
-        setValue('group_id', 1)
-    }, [location])
-
-    useEffect(() => {
         setEnable(device?.manual_time_entry ?? false)
+        setValue('group_id', device?.group_id as number)
     }, [device])
 
     return (
