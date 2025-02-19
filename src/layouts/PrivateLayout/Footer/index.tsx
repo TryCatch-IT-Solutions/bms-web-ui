@@ -7,7 +7,7 @@ import { LOGO_URL } from '@/api/axiosInstance'
 
 export const Footer: React.FC = () => {
     const { data: logo, isLoading } = useQuery({
-        queryKey: ['topBarLogo'],
+        queryKey: ['footerLogo'],
         queryFn: () => getAPIKey(API_KEY_LABELS.SECONDARY_LOGO, 0),
     })
 
