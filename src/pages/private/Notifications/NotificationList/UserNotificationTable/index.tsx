@@ -9,7 +9,7 @@ import { cn } from '@/utils/helper'
 import { useQuery } from '@tanstack/react-query'
 import { useState } from 'react'
 
-const tableHeader = [{ name: 'Notification ID' }, { name: 'Message' }]
+const tableHeader = [{ name: 'Notification ID' }, { name: 'Title' }, { name: 'Message' }]
 
 export const UserNotificationTable: React.FC = () => {
     const [pagination, setPagination] = useState<PaginationType>({
@@ -63,6 +63,7 @@ export const UserNotificationTable: React.FC = () => {
                                     <TableCell className='font-semibold text-bms-link flex flex-row items-center gap-2'>
                                         {d.id}
                                     </TableCell>
+                                    <TableCell>{d.title}</TableCell>
                                     <TableCell>{d.message}</TableCell>
                                 </TableRow>
                             ))}
