@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction, useEffect } from 'react'
+import { Dispatch, SetStateAction, useEffect, useState } from 'react'
 import { Modal } from '@/components/Modal'
 import { bulkSettingsUpdateSchema, BulkSettingsUpdateType } from '@/api/device/schema'
 import { Controller, useForm } from 'react-hook-form'
@@ -20,6 +20,8 @@ interface BulkSettingsUpdateModalProps {
 
 const BulkSettingsUpdateModal: React.FC<BulkSettingsUpdateModalProps> = ({ open, setOpen }) => {
     const [selectedDevices, setSelectedDevices] = useAtom(deleteDeviceAtom)
+
+    const [enable, setEnable] = useState<boolean>(false)
 
     const deviceForm = useForm<BulkSettingsUpdateType>({
         mode: 'onChange',
@@ -58,6 +60,17 @@ const BulkSettingsUpdateModal: React.FC<BulkSettingsUpdateModalProps> = ({ open,
         updateDevicesMu(data)
     }
 
+    const handleManualTimeEntry = (checked: boolean) => {
+        if (!checked) {
+            setValue('check_in', false)
+            setValue('check_out', false)
+            setValue('break_in', false)
+            setValue('break_out', false)
+            setValue('overtime_in', false)
+            setValue('overtime_out', false)
+        }
+    }
+
     useEffect(() => {
         if (selectedDevices?.devices !== undefined) {
             setValue('ids', selectedDevices?.devices)
@@ -85,7 +98,25 @@ const BulkSettingsUpdateModal: React.FC<BulkSettingsUpdateModalProps> = ({ open,
                     <p className='text-center font-semibold text-bms-gray-500 text-lg'>
                         Update Device Settings
                     </p>
+
                     <div className='flex flex-col gap-5 items-center justify-center p-5'>
+                        <div className='w-full flex flex-row justify-between'>
+                            <label>Manual Time Entry</label>
+                            <Controller
+                                name='manual_time_entry'
+                                control={deviceForm.control}
+                                render={({ field }) => (
+                                    <Switch
+                                        checked={field.value ?? false} // Pass the value as checked
+                                        onCheckedChange={(checked: boolean) => {
+                                            field.onChange(checked)
+                                            setEnable(!enable)
+                                            handleManualTimeEntry(checked)
+                                        }}
+                                    />
+                                )}
+                            />
+                        </div>
                         <div className='w-full flex flex-row justify-between'>
                             <label>Check In</label>
                             <Controller
@@ -97,6 +128,7 @@ const BulkSettingsUpdateModal: React.FC<BulkSettingsUpdateModalProps> = ({ open,
                                         onCheckedChange={(checked: boolean) =>
                                             field.onChange(checked)
                                         }
+                                        disabled={!enable}
                                     />
                                 )}
                             />
@@ -112,6 +144,7 @@ const BulkSettingsUpdateModal: React.FC<BulkSettingsUpdateModalProps> = ({ open,
                                         onCheckedChange={(checked: boolean) =>
                                             field.onChange(checked)
                                         }
+                                        disabled={!enable}
                                     />
                                 )}
                             />
@@ -128,6 +161,7 @@ const BulkSettingsUpdateModal: React.FC<BulkSettingsUpdateModalProps> = ({ open,
                                         onCheckedChange={(checked: boolean) =>
                                             field.onChange(checked)
                                         }
+                                        disabled={!enable}
                                     />
                                 )}
                             />
@@ -143,6 +177,7 @@ const BulkSettingsUpdateModal: React.FC<BulkSettingsUpdateModalProps> = ({ open,
                                         onCheckedChange={(checked: boolean) =>
                                             field.onChange(checked)
                                         }
+                                        disabled={!enable}
                                     />
                                 )}
                             />
@@ -159,6 +194,7 @@ const BulkSettingsUpdateModal: React.FC<BulkSettingsUpdateModalProps> = ({ open,
                                         onCheckedChange={(checked: boolean) =>
                                             field.onChange(checked)
                                         }
+                                        disabled={!enable}
                                     />
                                 )}
                             />
@@ -175,22 +211,7 @@ const BulkSettingsUpdateModal: React.FC<BulkSettingsUpdateModalProps> = ({ open,
                                         onCheckedChange={(checked: boolean) =>
                                             field.onChange(checked)
                                         }
-                                    />
-                                )}
-                            />
-                        </div>
-
-                        <div className='w-full flex flex-row justify-between'>
-                            <label>Manual Time Entry</label>
-                            <Controller
-                                name='manual_time_entry'
-                                control={deviceForm.control}
-                                render={({ field }) => (
-                                    <Switch
-                                        checked={field.value ?? false} // Pass the value as checked
-                                        onCheckedChange={(checked: boolean) =>
-                                            field.onChange(checked)
-                                        }
+                                        disabled={!enable}
                                     />
                                 )}
                             />
@@ -210,7 +231,9 @@ const BulkSettingsUpdateModal: React.FC<BulkSettingsUpdateModalProps> = ({ open,
                         <Button
                             type='submit'
                             className='w-full'
-                            disabled={isPending || selectedDevices?.devices?.length === 0}
+                            disabled={
+                                isPending || selectedDevices?.devices?.length === 0 || !enable
+                            }
                         >
                             Submit
                         </Button>

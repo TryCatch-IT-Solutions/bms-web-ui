@@ -9,7 +9,7 @@ import { Switch } from '@/components/Switch'
 import { useToast } from '@/hooks/useToast'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { Controller, useForm } from 'react-hook-form'
 import { useNavigate, useParams } from 'react-router-dom'
 
@@ -17,6 +17,8 @@ export const EditDeviceForm: React.FC = () => {
     const navigate = useNavigate()
     const queryClient = useQueryClient()
     const { toast } = useToast()
+
+    const [enable, setEnable] = useState<boolean>(false)
 
     const { id } = useParams()
 
@@ -63,6 +65,17 @@ export const EditDeviceForm: React.FC = () => {
         updateDeviceMu(data)
     }
 
+    const handleManualTimeEntry = (checked: boolean) => {
+        if (!checked) {
+            setValue('check_in', false)
+            setValue('check_out', false)
+            setValue('break_in', false)
+            setValue('break_out', false)
+            setValue('overtime_in', false)
+            setValue('overtime_out', false)
+        }
+    }
+
     useEffect(() => {
         if (device) {
             deviceForm.reset(device)
@@ -72,6 +85,10 @@ export const EditDeviceForm: React.FC = () => {
     useEffect(() => {
         setValue('group_id', 1)
     }, [location])
+
+    useEffect(() => {
+        setEnable(device?.manual_time_entry ?? false)
+    }, [device])
 
     return (
         <Form {...deviceForm}>
@@ -148,6 +165,26 @@ export const EditDeviceForm: React.FC = () => {
                                 />
 
                                 <div className='flex flex-row gap-5 items-center'>
+                                    <div className='flex flex-row justify-between w-[47.7%]'>
+                                        <label>Manual Time Entry</label>
+                                        <Controller
+                                            name='manual_time_entry'
+                                            control={deviceForm.control}
+                                            render={({ field }) => (
+                                                <Switch
+                                                    checked={field.value ?? false} // Pass the value as checked
+                                                    onCheckedChange={(checked: boolean) => {
+                                                        field.onChange(checked)
+                                                        setEnable(!enable)
+                                                        handleManualTimeEntry(checked)
+                                                    }}
+                                                />
+                                            )}
+                                        />
+                                    </div>
+                                </div>
+
+                                <div className='flex flex-row gap-5 items-center'>
                                     <div className='w-full flex flex-row justify-between'>
                                         <label>Check In</label>
                                         <Controller
@@ -159,6 +196,7 @@ export const EditDeviceForm: React.FC = () => {
                                                     onCheckedChange={(checked: boolean) =>
                                                         field.onChange(checked)
                                                     }
+                                                    disabled={!enable}
                                                 />
                                             )}
                                         />
@@ -174,6 +212,7 @@ export const EditDeviceForm: React.FC = () => {
                                                     onCheckedChange={(checked: boolean) =>
                                                         field.onChange(checked)
                                                     }
+                                                    disabled={!enable}
                                                 />
                                             )}
                                         />
@@ -192,6 +231,7 @@ export const EditDeviceForm: React.FC = () => {
                                                     onCheckedChange={(checked: boolean) =>
                                                         field.onChange(checked)
                                                     }
+                                                    disabled={!enable}
                                                 />
                                             )}
                                         />
@@ -207,6 +247,7 @@ export const EditDeviceForm: React.FC = () => {
                                                     onCheckedChange={(checked: boolean) =>
                                                         field.onChange(checked)
                                                     }
+                                                    disabled={!enable}
                                                 />
                                             )}
                                         />
@@ -225,6 +266,7 @@ export const EditDeviceForm: React.FC = () => {
                                                     onCheckedChange={(checked: boolean) =>
                                                         field.onChange(checked)
                                                     }
+                                                    disabled={!enable}
                                                 />
                                             )}
                                         />
@@ -240,24 +282,7 @@ export const EditDeviceForm: React.FC = () => {
                                                     onCheckedChange={(checked: boolean) =>
                                                         field.onChange(checked)
                                                     }
-                                                />
-                                            )}
-                                        />
-                                    </div>
-                                </div>
-
-                                <div className='flex flex-row gap-5 items-center'>
-                                    <div className='flex flex-row justify-between w-[47.7%]'>
-                                        <label>Manual Time Entry</label>
-                                        <Controller
-                                            name='manual_time_entry'
-                                            control={deviceForm.control}
-                                            render={({ field }) => (
-                                                <Switch
-                                                    checked={field.value ?? false} // Pass the value as checked
-                                                    onCheckedChange={(checked: boolean) =>
-                                                        field.onChange(checked)
-                                                    }
+                                                    disabled={!enable}
                                                 />
                                             )}
                                         />

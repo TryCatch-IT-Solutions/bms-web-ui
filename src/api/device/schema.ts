@@ -10,7 +10,8 @@ export const deviceSchema = z.object({
             id: z.number(),
             name: z.string(),
         })
-        .optional(),
+        .optional()
+        .nullish(),
     model: z.string(),
     serial_no: z.string(),
     manual_time_entry: z.boolean().optional(),
