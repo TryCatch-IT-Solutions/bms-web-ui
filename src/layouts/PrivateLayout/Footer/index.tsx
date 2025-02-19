@@ -3,6 +3,7 @@ import Spinner from '@/components/Spinner'
 import { API_KEY_LABELS } from '@/constants'
 import { useQuery } from '@tanstack/react-query'
 import daiLogo from '@/assets/dai-logo.png'
+import { LOGO_URL } from '@/api/axiosInstance'
 
 export const Footer: React.FC = () => {
     const { data: logo, isLoading } = useQuery({
@@ -16,7 +17,7 @@ export const Footer: React.FC = () => {
             {isLoading ? (
                 <Spinner variant='normal' className='h-3 w-3' />
             ) : (
-                <img src={logo?.value ? logo?.value : daiLogo} />
+                <img src={logo?.value ? LOGO_URL + logo?.value : daiLogo} />
             )}
         </div>
     )

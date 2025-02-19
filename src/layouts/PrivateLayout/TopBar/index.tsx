@@ -19,6 +19,7 @@ import { API_KEY_LABELS, ROLE_VALUES } from '@/constants'
 import { getAPIKey } from '@/api/settings'
 import { useQuery } from '@tanstack/react-query'
 import Spinner from '@/components/Spinner'
+import { LOGO_URL } from '@/api/axiosInstance'
 
 export const Topbar = () => {
     const navigate = useNavigate()
@@ -62,7 +63,7 @@ export const Topbar = () => {
                             <Spinner variant='normal' className='h-5 w-5' />
                         ) : (
                             <img
-                                src={logo?.value ? logo?.value : daiLogo}
+                                src={logo?.value ? LOGO_URL + logo?.value : daiLogo}
                                 alt='BMS Logo'
                                 className='h-14 w-54 cursor-pointer'
                             />
