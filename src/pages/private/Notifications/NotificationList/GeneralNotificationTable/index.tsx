@@ -63,6 +63,7 @@ export const GeneralNotificationTable: React.FC = () => {
                                     <TableCell className='font-semibold text-bms-link flex flex-row items-center gap-2'>
                                         {d.id}
                                     </TableCell>
+                                    <TableCell>{d.title}</TableCell>
                                     <TableCell>{d.message}</TableCell>
                                 </TableRow>
                             ))}
