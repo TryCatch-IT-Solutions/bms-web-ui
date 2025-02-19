@@ -123,14 +123,14 @@ export const navigationItems: NavigationProps[] = [
         allowedRoles: [ROLE.superadmin, ROLE.groupadmin],
         children: [
             {
+                name: 'Announcements',
+                href: '/notification/list',
+                allowedRoles: [ROLE.superadmin, ROLE.groupadmin],
+            },
+            {
                 name: 'Create Announcement',
                 href: '/notification/create',
                 allowedRoles: [ROLE.superadmin],
-            },
-            {
-                name: 'Announcements List',
-                href: '/notification/list',
-                allowedRoles: [ROLE.superadmin, ROLE.groupadmin],
             },
         ],
     },
