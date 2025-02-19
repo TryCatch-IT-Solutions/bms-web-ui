@@ -33,7 +33,7 @@ export const LogoForm = () => {
     const {
         handleSubmit,
         setValue,
-        formState: { errors, isDirty },
+        formState: { errors },
     } = apiForm
 
     const { mutate: createAPIKeyMu, isPending } = useMutation<unknown, AxiosError, UploadLogoType>({
@@ -115,7 +115,7 @@ export const LogoForm = () => {
                         )}
                     </CardContent>
                     <CardFooter className='justify-end'>
-                        <Button type='submit' disabled={isPending || !isDirty || !enabled}>
+                        <Button type='submit' disabled={isPending || !enabled}>
                             Update
                         </Button>
                     </CardFooter>
