@@ -27,8 +27,8 @@ export const APIKeys = () => {
                     <FPTresholdForm />
                 </div>
                 <div className='flex flex-row xs:flex-col sm:flex-col gap-5'>
-                    <SecondaryLogoForm />
                     <LogoForm />
+                    <SecondaryLogoForm />
                 </div>
                 <div className='flex flex-row gap-5 xs:flex-col sm:flex-col gap-5'>
                     <StragerDetectionForm />

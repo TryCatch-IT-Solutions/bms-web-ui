@@ -11,7 +11,6 @@ import { useForm } from 'react-hook-form'
 import { useEffect } from 'react'
 import { useToast } from '@/hooks/useToast'
 import { XIcon, EditIcon } from 'lucide-react'
-import daiLogo from '@/assets/dai-logo.png'
 import ImageUploader from '@/components/ImageUploader'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { LOGO_URL } from '@/api/axiosInstance'
@@ -23,6 +22,9 @@ export const LogoForm = () => {
         mode: 'all',
         resolver: zodResolver(uploadLogoSchema),
     })
+
+    const [selectedImage, setSelectedImage] = useState<File | null>(null)
+    const [previewImage, setPreviewImage] = useState<string | null>(null)
 
     const queryKey = useQueryClient()
 
@@ -60,6 +62,19 @@ export const LogoForm = () => {
         }
     }, [isLoading])
 
+    useEffect(() => {
+        if (selectedImage) {
+            const objectUrl = URL.createObjectURL(selectedImage)
+            setPreviewImage(objectUrl)
+
+            return () => URL.revokeObjectURL(objectUrl) // Clean up
+        }
+    }, [selectedImage])
+
+    useEffect(() => {
+        !enabled && setPreviewImage(null)
+    }, [enabled])
+
     return (
         <Card className='w-full'>
             <Form {...apiForm}>
@@ -91,6 +106,7 @@ export const LogoForm = () => {
                                         <ImageUploader
                                             onFilesChange={(data) => {
                                                 setValue('value', data[0]?.file)
+                                                setSelectedImage(data[0]?.file)
                                             }}
                                             maxSize={4.9}
                                             accept='.png,.jpeg,.jpg'
@@ -103,17 +119,11 @@ export const LogoForm = () => {
                                 </FormItem>
                             )}
                         />
-                        {apiKey?.value !== undefined && apiKey?.value !== '' ? (
-                            <img
-                                src={LOGO_URL + apiKey?.value}
-                                className='h-[5rem] w-[15rem] xs:w-[10rem] sm:w-[10rem]'
-                            />
-                        ) : (
-                            <img
-                                src={daiLogo}
-                                className='h-[5rem] w-[15rem] xs:w-[10rem] sm:w-[10rem]'
-                            />
-                        )}
+
+                        <img
+                            src={previewImage || LOGO_URL + apiKey?.value}
+                            className='h-[5rem] w-[15rem] xs:w-[10rem] sm:w-[10rem]'
+                        />
                     </CardContent>
                     <CardFooter className='justify-end'>
                         <Button type='submit' disabled={isPending || !enabled}>
