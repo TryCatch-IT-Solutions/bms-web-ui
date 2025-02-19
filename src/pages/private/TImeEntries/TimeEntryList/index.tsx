@@ -110,6 +110,7 @@ export const TimeEntryList: React.FC = () => {
     useEffect(() => {
         setSelectAllChecked(false) // Uncheck "Select All" when navigating pages
         setSelectedOnPage([])
+        setToExport(null)
     }, [pagination, searchVal, start, end])
 
     return (
