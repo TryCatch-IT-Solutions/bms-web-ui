@@ -23,7 +23,7 @@ export const deviceSchema = z.object({
     overtime_out: z.boolean().optional(),
     lat: z.number(),
     lon: z.number(),
-    is_online: z.number().optional(),
+    is_online: z.union([z.number(), z.boolean()]).optional(),
     last_sync: z.string().optional(),
     last_activity: z.string().optional(),
 })
