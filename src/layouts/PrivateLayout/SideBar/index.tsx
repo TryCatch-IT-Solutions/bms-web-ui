@@ -105,14 +105,14 @@ export const navigationItems: NavigationProps[] = [
         allowedRoles: [ROLE.superadmin, ROLE.groupadmin],
         children: [
             {
+                name: 'Employees',
+                href: '/employee/list',
+                allowedRoles: [ROLE.superadmin],
+            },
+            {
                 name: 'Create Employee',
                 href: '/employee/create',
                 allowedRoles: [ROLE.groupadmin, ROLE.superadmin],
-            },
-            {
-                name: 'Employee List',
-                href: '/employee/list',
-                allowedRoles: [ROLE.superadmin],
             },
         ],
     },
