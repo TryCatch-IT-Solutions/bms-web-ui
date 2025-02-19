@@ -16,6 +16,8 @@ import { createUser } from '@/api/profile'
 import { PasswordInput } from '@/components/PasswordInput'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { cn } from '@/utils/helper'
+import { useAtomValue } from 'jotai'
+import { userAtom } from '@/store/user'
 
 export const CreateEmployee: React.FC = () => {
     const navigate = useNavigate()
@@ -26,6 +28,8 @@ export const CreateEmployee: React.FC = () => {
         mode: 'onChange',
         resolver: zodResolver(createUserSchema),
     })
+
+    const user = useAtomValue(userAtom)
 
     const {
         setError,
@@ -44,7 +48,11 @@ export const CreateEmployee: React.FC = () => {
             })
             queryClient.invalidateQueries({ queryKey: ['employeeList'] })
             queryClient.invalidateQueries({ queryKey: ['unassignedEmpCount'] })
-            navigate(`/employee/list`)
+            if (user?.role === ROLE.superadmin) {
+                navigate(`/employee/list`)
+            } else {
+                navigate(`/group/user-group`)
+            }
         },
         onError: (err: any) => {
             toast({
@@ -489,7 +497,13 @@ export const CreateEmployee: React.FC = () => {
                             <Button
                                 variant='outline'
                                 className='w-1/5 xs:w-full sm:w-ful'
-                                onClick={() => navigate('/employee/list')}
+                                onClick={() => {
+                                    if (user?.role === ROLE.superadmin) {
+                                        navigate(`/employee/list`)
+                                    } else {
+                                        navigate(-1)
+                                    }
+                                }}
                             >
                                 Cancel
                             </Button>
