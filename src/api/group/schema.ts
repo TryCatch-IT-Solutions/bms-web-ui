@@ -69,6 +69,7 @@ export const editGroupSchema = groupSchema.pick({ name: true, id: true }).merge(
             last_name: z.string(),
         }),
         group_admin: z.number(),
+        selectAll: z.boolean().default(false),
     }),
 )
 

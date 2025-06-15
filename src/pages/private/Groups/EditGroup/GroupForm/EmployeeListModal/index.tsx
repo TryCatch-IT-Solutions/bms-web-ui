@@ -4,7 +4,7 @@ import { Modal } from '@/components/Modal'
 import SearchBar from '@/components/SearchBar'
 import { Checkbox } from '@/components/Checkbox'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
-import { getUsers } from '@/api/profile'
+import { getAllUsers, getUsers } from '@/api/profile'
 import { ROLE, USER_SEARCH_TYPE_OPTIONS } from '@/constants'
 import { PaginationType } from '@/components/Pagination/schema'
 import { Pagination } from '@/components/Pagination'
@@ -30,12 +30,37 @@ const EmployeeListModal: React.FC<EmployeeListModalProps> = ({ open, setOpen }) 
 
     const { toast } = useToast()
     const queryClient = useQueryClient()
+    const [selectAll, setSelectAll] = useState<boolean>(false)
 
     const { id } = useParams()
 
     const [empIds, setEmpIds] = useState<AddEmpToGroupType>({ employees: [] })
     const [searchVal, setSearchVal] = useState<string>('')
     const [searchType, setSearchType] = useState<string>('full_name')
+
+    const { data: allEmps } = useQuery({
+        queryKey: ['mergeEmployeeAccounts', { current_page: 1, per_page: 10 }],
+        queryFn: () =>
+            getAllUsers(
+                { current_page: 1, per_page: 10 },
+                ['active'],
+                [ROLE.employee],
+                true,
+                null,
+                'email',
+            ),
+    })
+
+    const handleSelectAll = (checked: boolean) => {
+        if (checked) {
+            setSelectAll(true)
+            const allEmpIds = allEmps?.content?.map((emp) => emp.id) || []
+            setEmpIds({ employees: allEmpIds })
+        } else {
+            setSelectAll(false)
+            setEmpIds({ employees: [] })
+        }
+    }
 
     const handleCheckboxChange = (emp: ProfileType, checked: boolean) => {
         setEmpIds((prev) => {
@@ -113,6 +138,13 @@ const EmployeeListModal: React.FC<EmployeeListModalProps> = ({ open, setOpen }) 
                         onChange={(e) => setSearchType(e)}
                         value={searchType ?? ''}
                     />
+                    <span className='flex flex-row items-center gap-2'>
+                        <Checkbox
+                            checked={selectAll}
+                            onCheckedChange={() => handleSelectAll(!selectAll)}
+                        />
+                        <span>Select All</span>
+                    </span>
                 </div>
 
                 <div className='overflow-y-auto px-10 max-h-[10rem]'>
