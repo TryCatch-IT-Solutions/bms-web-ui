@@ -59,7 +59,7 @@ const AdminListModal: React.FC<AdminListModalProps> = ({ open, setOpen }) => {
             isOpen={open}
             isHideCloseButton
             onClose={() => {
-                console.log('close')
+                return
             }}
             title=''
             titleClassName=''

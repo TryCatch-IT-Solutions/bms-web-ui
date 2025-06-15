@@ -72,7 +72,7 @@ const EmployeeListModal: React.FC<EmployeeListModalProps> = ({ open, setOpen }) 
             isOpen={open}
             isHideCloseButton
             onClose={() => {
-                console.log('close')
+                return
             }}
             title=''
             titleClassName=''
