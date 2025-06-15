@@ -71,7 +71,11 @@ export const editGroupSchema = groupSchema.pick({ name: true, id: true }).merge(
     }),
 )
 
-export const addEmployeeToGroupSchema = createGroupSchema.pick({ employees: true })
+export const addEmployeeToGroupSchema = createGroupSchema.pick({ employees: true }).merge(
+    z.object({
+        selectall: z.boolean().optional(),
+    }),
+)
 
 export const groupsToDeleteSchema = z.object({
     groups: z.array(z.number()),
