@@ -5,10 +5,13 @@ import { Input } from '@/components/Input'
 import { useForm } from 'react-hook-form'
 import { GroupMemberTable } from './GroupMemberTable'
 import { useNavigate } from 'react-router-dom'
-import { useMutation, useQueryClient } from '@tanstack/react-query'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { createGroup } from '@/api/group'
 import { useToast } from '@/hooks/useToast'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { getAllUsers } from '@/api/profile'
+import { useEffect } from 'react'
+import { ROLE } from '@/constants'
 
 export const GroupForm: React.FC = () => {
     const navigate = useNavigate()
@@ -24,8 +27,11 @@ export const GroupForm: React.FC = () => {
     const {
         handleSubmit,
         watch,
+        setValue,
         formState: { errors },
     } = groupForm
+
+    const isSelectAll = watch('selectAll')
 
     const groupName = watch('name')
     const empIds = watch('employees')
@@ -43,9 +49,33 @@ export const GroupForm: React.FC = () => {
         },
     })
 
+    const { data: employees } = useQuery({
+        queryKey: ['mergeEmployeeAccounts', { current_page: 1, per_page: 10 }, isSelectAll],
+        queryFn: () =>
+            getAllUsers(
+                { current_page: 1, per_page: 10 },
+                ['active'],
+                [ROLE.employee],
+                true,
+                null,
+                'email',
+            ),
+    })
+
     const onSubmit = (data: CreateGroupType) => {
         createGroupMu(data)
     }
+
+    useEffect(() => {
+        if (isSelectAll && employees?.content) {
+            setValue('employees', employees?.content?.map((emp) => emp.id) || [])
+            setValue(
+                'employee_profiles',
+                employees?.content?.map((emp) => ({ ...emp, is_synced: emp?.is_synced ? 1 : 0 })) ||
+                    [],
+            )
+        }
+    }, [isSelectAll, employees?.content])
 
     const isValid =
         groupName !== '' &&

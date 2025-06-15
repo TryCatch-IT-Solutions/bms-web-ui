@@ -24,6 +24,7 @@ export const createGroupSchema = groupSchema
             admin_profile: profileSchema.optional(),
             employees: z.array(z.number()),
             group_admin: z.number(),
+            selectAll: z.boolean().default(false),
         }),
     )
 

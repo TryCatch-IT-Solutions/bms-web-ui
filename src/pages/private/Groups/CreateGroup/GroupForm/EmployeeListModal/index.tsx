@@ -26,13 +26,14 @@ const EmployeeListModal: React.FC<EmployeeListModalProps> = ({ open, setOpen }) 
     })
 
     const [searchVal, setSearchVal] = useState<string>('')
+    const [selectAll, setSelectAll] = useState<boolean>(false)
     const [empIds, setEmpIds] = useState<number[]>([])
     const [empProfiles, setEmpProfiles] = useState<ProfileType[]>([])
     const [searchType, setSearchType] = useState<string>('full_name')
 
     const { watch } = useFormContext<CreateGroupType>()
 
-    const emps = watch('employee_profiles') // Array of employee profiles
+    const emps = watch('employee_profiles')
 
     const { setValue } = useFormContext()
 
@@ -47,7 +48,24 @@ const EmployeeListModal: React.FC<EmployeeListModalProps> = ({ open, setOpen }) 
         )
     }
 
+    const handleSelectAll = (checked: boolean) => {
+        if (checked) {
+            setSelectAll(true)
+            const allEmpIds = employees?.content?.map((emp) => emp.id) || []
+            setEmpIds(allEmpIds)
+            setEmpProfiles(
+                employees?.content?.map((emp) => ({ ...emp, is_synced: emp?.is_synced ? 1 : 0 })) ||
+                    [],
+            )
+        } else {
+            setSelectAll(false)
+            setEmpIds([])
+            setEmpProfiles([])
+        }
+    }
+
     const handleSave = () => {
+        setValue('selectAll', selectAll)
         setValue('employees', empIds as number[])
         setValue('employee_profiles', empProfiles as ProfileType[])
         setOpen(false)
@@ -103,6 +121,13 @@ const EmployeeListModal: React.FC<EmployeeListModalProps> = ({ open, setOpen }) 
                         onChange={(e) => setSearchType(e)}
                         value={searchType ?? ''}
                     />
+                    <span className='flex flex-row items-center gap-2'>
+                        <Checkbox
+                            checked={selectAll}
+                            onCheckedChange={() => handleSelectAll(!selectAll)}
+                        />
+                        <span>Select All</span>
+                    </span>
                 </div>
 
                 <div className='overflow-y-auto px-10 max-h-[10rem]'>
@@ -113,7 +138,7 @@ const EmployeeListModal: React.FC<EmployeeListModalProps> = ({ open, setOpen }) 
                             {employees?.content?.map((emp) => (
                                 <li className='flex flex-row gap-2 items-center' key={emp.id}>
                                     <Checkbox
-                                        checked={empIds.includes(emp.id)}
+                                        checked={empIds.includes(emp.id) || selectAll}
                                         onClick={() =>
                                             handleCheckboxChange(emp, !empIds?.includes(emp.id))
                                         }

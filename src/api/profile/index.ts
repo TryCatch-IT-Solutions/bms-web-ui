@@ -35,6 +35,30 @@ export const getUsers = async (
     return response.data
 }
 
+export const getAllUsers = async (
+    p: PaginationType,
+    status: string[],
+    role: string[],
+    available: boolean | null,
+    search: string | null,
+    search_type?: string | null,
+): Promise<UserListType> => {
+    const params = {
+        page: search === null || search === '' ? p.current_page : 1,
+        limit: p.per_page,
+        selectall: true,
+        roles: role,
+        status: status,
+        search_value: search ?? null,
+        ...(search !== null && { search_type }),
+        ...(available !== null && { available: available ? 1 : 0 }),
+    }
+
+    const response = await axiosInstance.get(`/api/users`, { params })
+
+    return response.data
+}
+
 export const createUser = async (data: CreateUserType) => {
     const response = await axiosInstance.post('/api/register', data)
 
