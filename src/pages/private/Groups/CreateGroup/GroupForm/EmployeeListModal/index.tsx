@@ -101,10 +101,11 @@ const EmployeeListModal: React.FC<EmployeeListModalProps> = ({ open, setOpen }) 
             containerClassName='max-w-[600px]'
         >
             <div className='flex flex-col gap-5'>
-                <div className='flex gap-5 px-10'>
+                <div className='flex flex-col gap-5 px-10'>
                     <h1 className='text-left font-semibold text-2xl xs:text-lg text-gray-900 mt-2.5'>
                         Assign Employee(s) to Group
                     </h1>
+                    <p>You can assign up to 5,000 employees to a group at once.</p>
                 </div>
 
                 <div className='px-10 flex flex-row gap-3'>
