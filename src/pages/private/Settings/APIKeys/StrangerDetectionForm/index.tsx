@@ -92,7 +92,7 @@ export const StragerDetectionForm = () => {
                         </Button>
                     </CardHeader>
                     <CardContent className='flex flex-row justify-between items-center gap-9 w-[33rem] xs:w-full sm:w-full'>
-                        <p>Strager Detection</p>
+                        <p>Stranger Detection</p>
                         <Controller
                             name='value'
                             control={apiForm.control}
